@@ -1,4 +1,4 @@
-const VkIcon = () => (
+export const VkIcon = () => (
 	<svg
 		width='17'
 		height='16'
@@ -12,5 +12,3 @@ const VkIcon = () => (
 		/>
 	</svg>
 );
-
-export default VkIcon;

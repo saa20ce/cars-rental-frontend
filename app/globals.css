@@ -2,20 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+/* DARK THEME BY DEFAULT */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #142632;
+	--foreground: #ededed;
+	--text-dark-base: #f6f6f6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* DARK THEME AUTO */
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+} */
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--text-dark-base);
+	background: var(--background);
+	font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+}
+
+svg {
+	display: inline-block;
+}
+
+.ant-breadcrumb ol {
+	overflow: auto;
+	white-space: nowrap;
+	flex-wrap: nowrap;
+}
+
+.ant-switch,
+.ant-switch:hover:not(.ant-switch-disabled) {
+	background-color: #f6f6f675;
+}
+
+.ant-switch.ant-switch-checked,
+.ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled) {
+	background-color: #3c6e71;
+}
+
+.ant-picker-input > input::placeholder {
+	color: #f6f6f666 !important;
 }

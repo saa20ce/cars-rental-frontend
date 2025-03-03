@@ -1,0 +1,15 @@
+export { VkIcon } from './VkIcon';
+export { WhatsappLogo } from './WhatsappLogo';
+export { LogoFull } from './LogoFull';
+export { TelegramLogo } from './TelegramLogo';
+export { PhoneIcon } from './PhoneIcon';
+export { MenuIcon } from './MenuIcon';
+export { DotIcon } from './DotIcon';
+export { LineHorizIcon } from './LineHorizIcon';
+export { ChevronRightIcon } from './ChevronRightIcon';
+export { ArrowLeftIcon } from './ArrowLeftIcon';
+export { ArrowRightIcon } from './ArrowRightIcon';
+export { LineIcon } from './LineIcon';
+export { InfoIcon } from './InfoIcon';
+export { CalendarIcon } from './CalendarIcon';
+export { ChevronDownIcon } from './ChevronDownIcon';

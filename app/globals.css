@@ -46,3 +46,26 @@ svg {
 .ant-picker-input > input::placeholder {
 	color: #f6f6f666 !important;
 }
+
+.ant-select {
+	position: relative;
+}
+
+.ant-select .ant-select-arrow {
+	height: 21px;
+	right: 20px;
+}
+
+.ant-select-selector {
+	padding-left: 16px !important;
+}
+
+.ant-checkbox .ant-checkbox-inner {
+	background-color: #f6f6f675 !important;
+	border-color: #f6f6f675 !important;
+}
+
+.ant-checkbox-wrapper,
+.ant-picker-input-placeholder > input {
+	color: #f6f6f6 !important;
+}

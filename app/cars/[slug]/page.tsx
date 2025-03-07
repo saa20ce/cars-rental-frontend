@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation';
-import { ConfigProvider, Carousel, Switch, DatePicker, TimePicker } from 'antd';
-import locale from 'antd/locale/ru_RU';
+import { ConfigProvider, Carousel } from 'antd';
+import { RentalCost } from '@/components/common/Cars/[slug]/RentalCost';
 import {
 	ArrowLeftIcon,
 	ArrowRightIcon,
-	LineIcon,
-	InfoIcon,
-	CalendarIcon,
-	ChevronDownIcon,
+	DocumentsIcon,
+	CarIcon,
+	AgeIcon,
 } from '@/shared/icons';
+import { PriceCards } from '@/components/common/Cars/';
 
 type Car = {
 	id: number;
@@ -20,9 +20,16 @@ type Car = {
 		nazvanie_avto?: string;
 		white_gallery?: string[];
 		black_gallery?: string[];
-		[key: string]: any;
+		[key: string]: string | string[] | undefined;
 	};
 };
+
+export interface SeasonData {
+	'season-summer-start': string;
+	'season-summer-end': string;
+	'season-winter-start': string;
+	'season-winter-end': string;
+}
 
 async function getCarBySlug(slug: string): Promise<Car | null> {
 	const res = await fetch(
@@ -40,8 +47,62 @@ async function getCarBySlug(slug: string): Promise<Car | null> {
 	return data && data.length > 0 ? data[0] : null;
 }
 
+async function getSeasonDates(): Promise<SeasonData | null> {
+	const res = await fetch(
+		'https://demo.rentasib.ru/wp-json/acf/v3/options/options',
+		{
+			next: { revalidate: 60 },
+		},
+	);
+
+	if (!res.ok) {
+		return null;
+	}
+
+	const json = await res.json();
+	return json?.acf || null;
+}
+
 interface SingleCarPageProps {
 	params: { slug: string };
+}
+
+const PRICE_CONFIG = [
+	{ baseKey: '1-3_dnya', minDays: 1, maxDays: 3, label: '1-3 суток' },
+	{ baseKey: '4-9_dnej', minDays: 4, maxDays: 9, label: '4-9 суток' },
+	{ baseKey: '10-18_dnej', minDays: 10, maxDays: 18, label: '10-18 суток' },
+	{ baseKey: '19-29_dnej', minDays: 19, maxDays: 29, label: '19-29 суток' },
+	{ baseKey: '30_dnej', minDays: 30, maxDays: 9999, label: '30+ суток' },
+];
+
+const ADDITIONAL_OPTIONS = [
+	{ label: 'Бустер', value: 'buster' },
+	{ label: 'Бокс на крышу (+300 р)', value: 'box' },
+	{ label: 'Детское кресло', value: 'seat' },
+];
+
+function buildPriceRangesFromACF(acf: Record<string, any>): {
+	baseKey: string;
+	minDays: number;
+	maxDays: number;
+	label: string;
+	price: number;
+	seasonPrice: number;
+}[] {
+	return PRICE_CONFIG.map((cfg) => {
+		const baseKey = cfg.baseKey;
+		const normalKey = baseKey;
+		const seasonKey = baseKey + '_S';
+
+		const normalValue = acf[normalKey] ?? '0';
+		const seasonValue = acf[seasonKey] ?? '0';
+
+		return {
+			...cfg,
+			price: parseInt(normalValue, 10) || 0,
+			seasonPrice: parseInt(seasonValue, 10) || 0,
+		};
+	});
 }
 
 export const dynamic = 'force-dynamic';
@@ -60,170 +121,84 @@ export default async function SingleCarPage(props: SingleCarPageProps) {
 			? car.acf.white_gallery
 			: car.acf?.black_gallery || [];
 
-	const dayRanges = [
-		{ key: '1-3_dnya', label: '1-3 суток' },
-		{ key: '4-9_dnej', label: '4-9 суток' },
-		{ key: '10-18_dnej', label: '10-18 суток' },
-		{ key: '14-28_dnej', label: '19-29 суток' },
-		{ key: '28_dnej', label: '30+ суток' },
-	];
+	const seasonDates = await getSeasonDates();
+
+	const priceRanges = buildPriceRangesFromACF(car.acf || {});
 
 	return (
-		<div>
-			{/* <h1 className='text-2xl font-bold mb-4'>
-				{car.title.rendered || 'Без заголовка'}
-			</h1> */}
+		<>
+			<div>
+				{car.acf?.nazvanie_avto && (
+					<div className='text-2xl uppercase font-bold mb-[12px] ml-3'>
+						{car.acf.nazvanie_avto}
+					</div>
+				)}
 
-			{car.acf?.nazvanie_avto && (
-				<div className='text-2xl uppercase font-bold mb-[12px] ml-3'>
-					{car.acf.nazvanie_avto}
-				</div>
-			)}
-
-			{gallery.length > 0 && (
-				<ConfigProvider
-					theme={{
-						components: {
-							Carousel: {
-								arrowSize: 30,
+				{gallery.length > 0 && (
+					<ConfigProvider
+						theme={{
+							components: {
+								Carousel: {
+									arrowSize: 30,
+								},
 							},
-						},
-					}}
-				>
-					<Carousel
-						arrows
-						prevArrow={<ArrowLeftIcon />}
-						nextArrow={<ArrowRightIcon />}
-						dots={false}
+						}}
 					>
-						{gallery.map((imgUrl) => (
-							<div key={imgUrl}>
-								<img
-									src={imgUrl}
-									alt={imgUrl}
-									className='w-full h-[225px] rounded-2xl object-cover'
-								/>
-							</div>
-						))}
-					</Carousel>
-				</ConfigProvider>
-			)}
+						<Carousel
+							arrows
+							prevArrow={<ArrowLeftIcon />}
+							nextArrow={<ArrowRightIcon />}
+							dots={false}
+						>
+							{gallery.map((imgUrl) => (
+								<div key={imgUrl}>
+									<img
+										src={imgUrl}
+										alt={imgUrl}
+										className='w-full h-[225px] rounded-2xl object-cover'
+									/>
+								</div>
+							))}
+						</Carousel>
+					</ConfigProvider>
+				)}
 
-			<div className='flex items-center gap-2 mt-4'>
-				<ConfigProvider
-					theme={{
-						components: {
-							Switch: {
-								trackPadding: 4,
-								trackMinWidth: 52,
-								trackHeight: 26,
-							},
-						},
-					}}
-				>
-					<Switch /> Сезон <LineIcon /> <InfoIcon />
-				</ConfigProvider>
-			</div>
+				{priceRanges.length > 0 && (
+					<PriceCards priceRanges={priceRanges} />
+				)}
 
-			{/* <div className='relative overflow-hidden h-[88px]'> */}
-			<div className=' flex overflow-auto whitespace-nowrap gap-[6px] mt-4 mr-[-16px]'>
-				{dayRanges.map(({ key, label }) => (
-					<div
-						key={key}
-						className='flex flex-col min-w-[118px] bg-[#f6f6f60e] rounded-lg px-3 py-2 justify-between mb-2'
-					>
-						<div className='text-[#f6f6f666]'>{label}</div>
-						<div className='font-bold'>
-							{car.acf?.[key] ?? '—'} ₽/сут.
+				<RentalCost
+					additionalOptions={ADDITIONAL_OPTIONS}
+					seasonDates={seasonDates}
+					priceRanges={priceRanges}
+				/>
+
+				<div className='flex justify-between mt-4 space-y-1 text-[#f6f6f666] border-[#f6f6f638] border-y py-3'>
+					<div className='flex flex-wrap justify-between w-[116px] h-[32px]'>
+						<DocumentsIcon />
+						<div className='mt-[-2px]'>
+							<div className='text-sm font-bold'>Документы</div>
+							<div className='text-xs'>Паспорт и ВУ</div>
 						</div>
 					</div>
-				))}
-			</div>
-			{/* </div> */}
 
-			<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4'>
-				<div className='mb-3'>Период аренды:</div>
-				<ConfigProvider
-					locale={locale}
-					theme={{
-						components: {
-							DatePicker: {},
-						},
-					}}
-				>
-					<DatePicker
-						placeholder='Дата аренды'
-						suffixIcon={<CalendarIcon />}
-						style={{
-							width: '60%',
-							backgroundColor: '#f6f6f638',
-							border: '1px solid #f6f6f647',
-							borderTopLeftRadius: 10,
-							borderTopRightRadius: 0,
-							borderBottomLeftRadius: 10,
-							borderBottomRightRadius: 0,
-						}}
-					/>
+					<div className='flex flex-wrap justify-between w-[97px] mt-[0!important]'>
+						<CarIcon />
+						<div className='h-[32px] w-[59px] mt-[-2px]'>
+							<div className='text-sm font-bold'>Стаж</div>
+							<div className='text-xs'>От 2-х лет</div>
+						</div>
+					</div>
 
-					<TimePicker
-						placeholder='18:00'
-						suffixIcon={<ChevronDownIcon />}
-						style={{
-							width: '40%',
-							backgroundColor: '#f6f6f638',
-							border: '1px solid #f6f6f647',
-							marginBottom: 8,
-							borderLeft: 0,
-							borderTopLeftRadius: 0,
-							borderTopRightRadius: 10,
-							borderBottomLeftRadius: 0,
-							borderBottomRightRadius: 10,
-						}}
-					/>
-
-					<DatePicker
-						placeholder='Дата возврата'
-						suffixIcon={<CalendarIcon />}
-						style={{
-							width: '60%',
-							backgroundColor: '#f6f6f638',
-							border: '1px solid #f6f6f647',
-							borderTopLeftRadius: 10,
-							borderTopRightRadius: 0,
-							borderBottomLeftRadius: 10,
-							borderBottomRightRadius: 0,
-						}}
-					/>
-
-					<TimePicker
-						placeholder='18:00'
-						suffixIcon={<ChevronDownIcon />}
-						style={{
-							width: '40%',
-							backgroundColor: '#f6f6f638',
-							border: '1px solid #f6f6f647',
-							marginBottom: 8,
-							borderLeft: 0,
-							borderTopLeftRadius: 0,
-							borderTopRightRadius: 10,
-							borderBottomLeftRadius: 0,
-							borderBottomRightRadius: 10,
-						}}
-					/>
-				</ConfigProvider>
-
-				<div className='mb-3'>
-					Дополнительные услуги <ChevronDownIcon fillOpacity={1} />
+					<div className='flex flex-wrap justify-between w-[104px] mt-[0!important]'>
+						<AgeIcon />
+						<div className='h-[32px] w-[66px] mt-[-2px]'>
+							<div className='text-sm font-bold'>Возраст</div>
+							<div className='text-xs'>От 22-х лет</div>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<div className='mt-4 space-y-1'>
-				<p>Год выпуска: {car.acf?.year ?? '—'}</p>
-				<p>Объём двигателя: {car.acf?.engine_volume ?? '—'}</p>
-				<p>Расход топлива: {car.acf?.fuel_flow ?? '—'}</p>
-				<p>Пассажиров: {car.acf?.passengers ?? '—'}</p>
-				<p>Цена от: {car.acf?.czena_ot ?? '—'}</p>
-			</div>
-		</div>
+		</>
 	);
 }

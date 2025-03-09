@@ -5,7 +5,7 @@ import {
 	WhatsappLogo,
 	DotIcon,
 	LineHorizIcon,
-} from '@/shared/icons/';
+} from '@/lib/ui/icons';
 
 export const TopHeader: React.FC = () => {
 	return (

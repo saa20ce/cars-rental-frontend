@@ -1,26 +1,8 @@
+import type { PriceRange, SeasonData } from '../types/Car';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-export interface PriceRange {
-	baseKey: string;
-	minDays: number;
-	maxDays: number;
-	label: string;
-	price: number;
-	seasonPrice: number;
-}
-
-export interface SeasonData {
-	'season-winter-start': string;
-	'season-winter-end': string;
-	'season-summer-start': string;
-	'season-summer-end': string;
-}
-
-/**
- * Рассчитывает стоимость аренды по блокам, используя заданные диапазоны цен и сезонность.
- */
 export function computeCostsChunked(
 	startFull: Dayjs,
 	endFull: Dayjs,
@@ -58,9 +40,6 @@ export function computeCostsChunked(
 	return costs;
 }
 
-/**
- * Возвращает диапазон цены, подходящий для заданного количества дней.
- */
 export function findPriceRange(
 	days: number,
 	arr: PriceRange[],
@@ -73,9 +52,6 @@ export function findPriceRange(
 	return null;
 }
 
-/**
- * Определяет, является ли день сезонным, исходя из переданных дат сезона.
- */
 export function isDaySeason(
 	day: Dayjs,
 	seasonDates: SeasonData | null,
@@ -92,17 +68,11 @@ export function isDaySeason(
 	);
 }
 
-/**
- * Парсит дату сезона в формате "DD/MM" в объект с числовыми значениями.
- */
 export function parseSeasonDate(dateStr: string) {
 	const [dd, mm] = dateStr.split('/');
 	return { day: +dd, month: +mm };
 }
 
-/**
- * Проверяет, попадает ли переданный день в диапазон дат сезона.
- */
 export function isDayjsInSeason(
 	day: Dayjs,
 	start: { day: number; month: number },

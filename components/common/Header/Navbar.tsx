@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoFull, PhoneIcon, MenuIcon } from '@/shared/icons';
+import { LogoFull, PhoneIcon, MenuIcon } from '@/lib/ui/icons';
 
 export const Navbar: React.FC = () => {
 	return (

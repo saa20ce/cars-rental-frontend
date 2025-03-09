@@ -3,7 +3,7 @@
 import React from 'react';
 import { ConfigProvider, DatePicker, TimePicker } from 'antd';
 import locale from 'antd/locale/ru_RU';
-import { CalendarIcon, ChevronDownIcon } from '@/shared/icons';
+import { CalendarIcon, ChevronDownIcon } from '@/lib/ui/icons';
 import { Dayjs } from 'dayjs';
 import { AdditionalServices } from './AdditionalServices';
 

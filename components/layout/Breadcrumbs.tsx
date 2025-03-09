@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { ConfigProvider, Breadcrumb } from 'antd';
 import Link from 'next/link';
-import { ChevronRightIcon } from '@/shared/icons';
+import { ChevronRightIcon } from '@/lib/ui/icons';
 
-const WP_BASE_URL = 'https://demo.rentasib.ru';
+const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export const Breadcrumbs: React.FC = () => {
 	const pathname = usePathname();

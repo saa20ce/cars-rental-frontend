@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ConfigProvider, Select } from 'antd';
 import CheckboxGroup from 'antd/lib/checkbox/Group';
-import { ChevronDownIcon } from '@/shared/icons';
+import { ChevronDownIcon } from '@/lib/ui/icons';
 
 interface AdditionalServicesProps {
 	options: { label: string; value: string }[];

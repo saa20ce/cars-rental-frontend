@@ -69,3 +69,25 @@ svg {
 .ant-picker-input-placeholder > input {
 	color: #f6f6f6 !important;
 }
+
+.slick-next::after,
+.slick-prev::after {
+	width: 0 !important;
+	height: 0 !important;
+	border-radius: 0 !important;
+	border-block-width: 0 !important;
+}
+
+.slick-next,
+.slick-prev {
+	width: auto !important;
+}
+
+.ant-tabs-tab {
+	height: 40px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active {
+	background: #3c6e71;
+	border-radius: 8px;
+}

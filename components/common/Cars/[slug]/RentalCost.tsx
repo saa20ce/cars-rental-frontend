@@ -1,42 +1,30 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import type { PriceRange, SeasonData } from '@/lib/types/Car';
 import { ConfigProvider, Button, Input } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-import { computeCostsChunked } from '@/shared/helpers/rentalCostHelper';
+import { computeCostsChunked } from '@/lib/helpers/rentalCostHelper';
 
-import { ChevronDownIcon, InfoIcon, LineIcon } from '@/shared/icons';
+import { ChevronDownIcon, InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
-import { SeasonData } from '@/app/cars/[slug]/page';
-
-interface PriceRange {
-	baseKey: string;
-	minDays: number;
-	maxDays: number;
-	label: string;
-	price: number;
-	seasonPrice: number;
-}
+import { isDaySeason } from '@/lib/helpers/rentalCostHelper';
 
 interface RentalCostProps {
 	additionalOptions: { label: string; value: string }[];
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
+	setSeasonModeSwitch: (mode: boolean) => void;
 }
 
-/**
- * Реализует "кусковый" расчёт: период аренды может разбиваться
- * на несколько блоков, каждый блок использует ровно `minDays` (если хватит),
- * либо больше — но не более `maxDays`.
- * Для каждого "куска" мы идём по дням и проверяем сезонность (зима/лето).
- */
 export const RentalCost: React.FC<RentalCostProps> = ({
 	additionalOptions,
 	seasonDates,
 	priceRanges = [],
+	setSeasonModeSwitch,
 }) => {
 	const [startDate, setStartDate] = useState<Dayjs | null>(null);
 	const [startTime, setStartTime] = useState<Dayjs | null>(null);
@@ -49,10 +37,6 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	const [showCost, setShowCost] = useState(false);
 	const [visible, setVisible] = useState(true);
 
-	function toggleVisible() {
-		setVisible((v) => !v);
-	}
-
 	useEffect(() => {
 		if (
 			startDate &&
@@ -61,9 +45,6 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			returnTime &&
 			priceRanges.length > 0
 		) {
-			setShowCost(true);
-			setVisible(true);
-
 			const startFull = startDate
 				.hour(startTime.hour())
 				.minute(startTime.minute());
@@ -77,6 +58,26 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			const totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
 			setDaysCount(totalDays);
 
+			let isSeasonal = false;
+			if (seasonDates) {
+				let allDaysSeason = true;
+				let currentDay = startFull.startOf('day');
+				const endDay = endFull.startOf('day');
+
+				while (
+					currentDay.isBefore(endDay) ||
+					currentDay.isSame(endDay)
+				) {
+					if (!isDaySeason(currentDay, seasonDates)) {
+						allDaysSeason = false;
+						break;
+					}
+					currentDay = currentDay.add(1, 'day');
+				}
+				isSeasonal = allDaysSeason;
+			}
+			setSeasonModeSwitch(isSeasonal);
+
 			const costs = computeCostsChunked(
 				startFull,
 				endFull,
@@ -84,11 +85,15 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 				seasonDates,
 			);
 			setDailyCosts(costs);
+
+			setShowCost(true);
+			setVisible(true);
 		} else {
 			setShowCost(false);
 			setVisible(false);
 			setDaysCount(0);
 			setDailyCosts([]);
+			setSeasonModeSwitch(false);
 		}
 	}, [
 		startDate,
@@ -97,9 +102,9 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 		returnTime,
 		priceRanges,
 		seasonDates,
+		setSeasonModeSwitch,
 	]);
 
-	// Сумма
 	const total = dailyCosts.reduce((acc, val) => acc + val, 0);
 	const pricePerDay = dailyCosts[0] || 0;
 	const hasSeasonDays = dailyCosts.some((c) => c !== pricePerDay);
@@ -225,10 +230,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 									)}
 								</div>
 								<div className='font-bold text-2xl'>
-									{dailyCosts
-										.reduce((acc, val) => acc + val, 0)
-										.toLocaleString()}{' '}
-									₽
+									{total} ₽
 								</div>
 							</div>
 

@@ -3,7 +3,11 @@
 import React, { useState } from 'react';
 import { ConfigProvider, Carousel, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import { PriceCards, RentalCost } from '@/components/common/Cars/';
+import {
+	PriceCards,
+	RentalCost,
+	CarCharacteristics,
+} from '@/components/common/Cars/';
 import {
 	ArrowLeftIcon,
 	ArrowRightIcon,
@@ -20,75 +24,6 @@ interface SingleCarPageClientProps {
 	priceRanges: PriceRange[];
 }
 
-const TAB_ITEMS: TabsProps['items'] = [
-	{
-		key: '1',
-		label: 'Характеристики',
-		children: (
-			<div className='px-3'>
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Двигатель</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Объем двигателя</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Мощность двигателя</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Расход топлива</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Тип привода</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Количество пассажиров</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-
-				<div className='text-sm border-b border-[#f6f6f638]'>
-					<div className='flex justify-between my-[6px]'>
-						<div>Коробка передач</div>
-						<div className='font-bold'>Бензин</div>
-					</div>
-				</div>
-			</div>
-		),
-	},
-	{
-		key: '2',
-		label: 'Комплектация',
-		children: 'Content of Tab Pane 2',
-	},
-	{
-		key: '3',
-		label: 'F.A.Q',
-		children: 'Content of Tab Pane 3',
-	},
-];
-
 export default function SingleCarPageClient({
 	car,
 	gallery,
@@ -96,6 +31,24 @@ export default function SingleCarPageClient({
 	priceRanges,
 }: SingleCarPageClientProps) {
 	const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
+
+	const TAB_ITEMS: TabsProps['items'] = [
+		{
+			key: '1',
+			label: 'Характеристики',
+			children: <CarCharacteristics car={car} />,
+		},
+		{
+			key: '2',
+			label: 'Комплектация',
+			children: 'Content of Tab Pane 2',
+		},
+		{
+			key: '3',
+			label: 'F.A.Q',
+			children: 'Content of Tab Pane 3',
+		},
+	];
 
 	return (
 		<div>

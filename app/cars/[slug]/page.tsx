@@ -4,7 +4,7 @@ import {
 	getSeasonDates,
 	buildPriceRangesFromACF,
 } from '@/lib/api/CarSlugApi';
-import SingleCarPageClient from '../../../client/cars/[slug]/SingleCarPageClient';
+import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
 interface SingleCarPageProps {
 	params: { slug: string };

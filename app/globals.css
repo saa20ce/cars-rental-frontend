@@ -91,3 +91,23 @@ svg {
 	background: #3c6e71;
 	border-radius: 8px;
 }
+
+.ant-menu-horizontal .ant-menu-submenu-arrow {
+	display: initial;
+}
+
+.ant-menu .ant-menu-submenu-arrow {
+	position: relative;
+	display: inline-block;
+	inset-inline-end: auto;
+	background: url('/chevron.svg') no-repeat center center;
+	width: 16px;
+	height: 16px;
+	margin-bottom: -11px;
+	margin-left: 7px;
+}
+
+.ant-menu .ant-menu-submenu-arrow::before,
+.ant-menu .ant-menu-submenu-arrow::after {
+	display: none;
+}

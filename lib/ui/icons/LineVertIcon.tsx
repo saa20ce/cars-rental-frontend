@@ -1,4 +1,4 @@
-export const LineHorizIcon = () => (
+export const LineVertIcon = () => (
 	<svg
 		width='2'
 		height='12'

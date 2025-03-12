@@ -3,7 +3,7 @@ import {
 	getCarBySlug,
 	getSeasonDates,
 	buildPriceRangesFromACF,
-} from '@/lib/api/CarSlugApi';
+} from '@/lib/api/fetchCarData';
 import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
 interface SingleCarPageProps {

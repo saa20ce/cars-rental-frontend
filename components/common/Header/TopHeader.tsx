@@ -4,7 +4,8 @@ import {
 	TelegramLogo,
 	WhatsappLogo,
 	DotIcon,
-	LineHorizIcon,
+	LineVertIcon,
+	LineVertHeaderDesktop,
 } from '@/lib/ui/icons';
 
 export const TopHeader: React.FC = () => {
@@ -31,9 +32,14 @@ export const TopHeader: React.FC = () => {
 				<div className='flex items-center gap-2 text-sm lg:text-base'>
 					<span>Красный пр-т., 2/1</span>
 					<span className='mb-[1px] ml-1 mr-[2px]'>
-						<LineHorizIcon />
+						<span className='lg:hidden block'>
+							<LineVertIcon />
+						</span>
+						<span className='lg:block hidden'>
+							<LineVertHeaderDesktop />
+						</span>
 					</span>
-					<span className='mb-[1px] mr-[-3px]'>
+					<span className='mb-[1px] mr-[-3px] lg:mb-0 lg:mt-[-2px]'>
 						<DotIcon />
 					</span>
 					<span>Сейчас открыто</span>

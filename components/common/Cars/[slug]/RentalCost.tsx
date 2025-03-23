@@ -33,6 +33,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 
 	const [daysCount, setDaysCount] = useState(0);
 	const [dailyCosts, setDailyCosts] = useState<number[]>([]);
+	const [hasSeasonDays, setHasSeasonDays] = useState(false);
 
 	const [showCost, setShowCost] = useState(false);
 	const [visible, setVisible] = useState(true);
@@ -59,6 +60,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			setDaysCount(totalDays);
 
 			let isSeasonal = false;
+			setHasSeasonDays(true);
 			if (seasonDates) {
 				let allDaysSeason = true;
 				let currentDay = startFull.startOf('day');
@@ -70,6 +72,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 				) {
 					if (!isDaySeason(currentDay, seasonDates)) {
 						allDaysSeason = false;
+						setHasSeasonDays(false);
 						break;
 					}
 					currentDay = currentDay.add(1, 'day');
@@ -94,6 +97,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			setDaysCount(0);
 			setDailyCosts([]);
 			setSeasonModeSwitch(false);
+			setHasSeasonDays(false);
 		}
 	}, [
 		startDate,
@@ -107,7 +111,6 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 
 	const total = dailyCosts.reduce((acc, val) => acc + val, 0);
 	const pricePerDay = dailyCosts[0] || 0;
-	const hasSeasonDays = dailyCosts.some((c) => c !== pricePerDay);
 
 	return (
 		<div className='lg:w-full'>
@@ -221,7 +224,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 								<div className='font-bold lg:text-2xl'>
 									Итоговая стоимость:
 									{hasSeasonDays && (
-										<div className='flex font-semibold items-center gap-2'>
+										<div className='flex font-semibold items-center gap-2 lg:text-lg'>
 											с учетом сезонности <LineIcon />{' '}
 											<InfoIcon width={20} height={20} />
 										</div>

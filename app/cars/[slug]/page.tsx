@@ -6,14 +6,15 @@ import {
 } from '@/lib/api/fetchCarData';
 import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
-interface SingleCarPageProps {
-	params: { slug: string };
-}
-
 export const dynamic = 'force-dynamic';
 
-export default async function SingleCarPage(props: SingleCarPageProps) {
-	const { slug } = props.params;
+interface SingleCarPageProps {
+	params: Promise<{ slug: string }>;
+}
+
+
+export default async function SingleCarPage({ params }: SingleCarPageProps) {
+	const { slug } = await params;
 	const car = await getCarBySlug(slug);
 	console.log('car', car);
 

@@ -13,7 +13,7 @@ interface SingleCarPageProps {
 export const dynamic = 'force-dynamic';
 
 export default async function SingleCarPage(props: SingleCarPageProps) {
-	const { slug } = await props.params;
+	const { slug } = props.params;
 	const car = await getCarBySlug(slug);
 	console.log('car', car);
 

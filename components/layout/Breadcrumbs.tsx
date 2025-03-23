@@ -78,8 +78,8 @@ export const Breadcrumbs: React.FC = () => {
 	}, [segments, titles]);
 	const homeItem =
 		segments.length === 0
-			? { title: <span className='font-bold'>{homeTitle}</span> }
-			: { title: <Link href='/'>{homeTitle}</Link> };
+			? { title: <span className='font-bold' style={{ fontFamily: '"lato", "lato Fallback"' }}>{homeTitle}</span> }
+			: { title: <Link href='/' style={{ fontFamily: '"lato", "lato Fallback"' }}>{homeTitle}</Link> };
 
 	const segmentItems = segments.map((segment, index) => {
 		const href = '/' + segments.slice(0, index + 1).join('/');
@@ -88,10 +88,10 @@ export const Breadcrumbs: React.FC = () => {
 			segment.charAt(0).toUpperCase() + segment.slice(1);
 		if (index === segments.length - 1) {
 			return {
-				title: <span className='font-semibold'>{displayTitle}</span>,
+				title: <span className='font-semibold' style={{ fontFamily: '"lato", "lato Fallback"' }}>{displayTitle}</span>,
 			};
 		}
-		return { title: <Link href={href}>{displayTitle}</Link> };
+		return { title: <Link href={href} style={{ fontFamily: '"lato", "lato Fallback"' }}>{displayTitle}</Link> };
 	});
 
 	const items = [homeItem, ...segmentItems];
@@ -105,7 +105,7 @@ export const Breadcrumbs: React.FC = () => {
 						lastItemColor: '#f6f6f6',
 						linkColor: '#f6f6f6',
 						linkHoverColor: '#f6f6f6',
-						fontSize: 14,
+						// fontSize: 14,
 						colorBgTextHover: '#1e384a',
 					},
 				},
@@ -113,7 +113,7 @@ export const Breadcrumbs: React.FC = () => {
 		>
 			<Breadcrumb
 				items={items}
-				className='bg-[#1e384a] pt-[7px] pb-[8px] px-5 rounded-full mb-4'
+				className='bg-[#1e384a] pt-[7px] pb-[8px] px-5 rounded-full mb-4 text-sm lg:pt-[14px] lg:pb-[16px] lg:px-6 lg:text-base lg:mb-9'
 				separator={<ChevronRightIcon />}
 			/>
 		</ConfigProvider>

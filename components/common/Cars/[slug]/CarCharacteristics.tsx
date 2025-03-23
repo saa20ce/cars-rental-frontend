@@ -26,8 +26,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 
 	return (
 		<div className='px-3'>
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Двигатель</div>
 					<div className='font-bold'>
 						{taxonomyValues.dvigatel || '—'}
@@ -35,8 +35,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Объем двигателя</div>
 					<div className='font-bold'>
 						{car.acf?.engine_volume || '—'}
@@ -44,8 +44,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Мощность двигателя</div>
 					<div className='font-bold'>
 						{taxonomyValues.moschnost || '—'}
@@ -53,8 +53,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Расход топлива</div>
 					<div className='font-bold'>
 						{' '}
@@ -63,8 +63,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Тип привода</div>
 					<div className='font-bold'>
 						{taxonomyValues.privod || '—'}
@@ -72,8 +72,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm border-b border-[#f6f6f638]'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Количество пассажиров</div>
 					<div className='font-bold'>
 						{' '}
@@ -82,8 +82,8 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 				</div>
 			</div>
 
-			<div className='text-sm'>
-				<div className='flex justify-between my-[6px]'>
+			<div className='text-sm lg:text-lg'>
+				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Коробка передач</div>
 					<div className='font-bold'>
 						{taxonomyValues.korobka || '—'}

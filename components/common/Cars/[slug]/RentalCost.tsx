@@ -110,7 +110,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	const hasSeasonDays = dailyCosts.some((c) => c !== pricePerDay);
 
 	return (
-		<div>
+		<div className='lg:w-full'>
 			<RentalPeriod
 				additionalOptions={additionalOptions}
 				startDate={startDate}
@@ -124,13 +124,13 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			/>
 
 			{showCost && (
-				<div className='p-[18px] pt-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all'>
+				<div className='p-[18px] pt-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all lg:px-7 lg:py-8'>
 					<div
 						className='flex items-center cursor-pointer transition-all'
 						style={{ marginBottom: visible ? 12 : 0 }}
 						onClick={() => setVisible(!visible)}
 					>
-						<span>Расчет стоимости</span>
+						<span className='lg:text-2xl'>Расчет стоимости</span>
 						<span
 							style={{
 								transform: visible
@@ -146,8 +146,8 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 
 					{visible && (
 						<>
-							<div className='mb-3 text-sm border-b border-[#f6f6f638]'>
-								<div className='flex justify-between mb-[6px]'>
+							<div className='mb-3 text-sm border-b border-[#f6f6f638] lg:text-lg'>
+								<div className='flex justify-between mb-[6px] lg:mb-[10px]'>
 									<div>Продолжительность</div>
 									<div className='font-bold'>
 										{daysCount}{' '}
@@ -156,8 +156,8 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 								</div>
 							</div>
 
-							<div className='text-sm border-b border-[#f6f6f638]'>
-								<div className='flex justify-between my-[6px]'>
+							<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+								<div className='flex justify-between my-[6px] lg:my-[10px]'>
 									<div>
 										Цена за сутки
 										{hasSeasonDays && (
@@ -173,36 +173,38 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 								</div>
 							</div>
 
-							<div className='text-sm border-b border-[#f6f6f638]'>
-								<div className='flex justify-between my-[6px]'>
+							<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+								<div className='flex justify-between my-[6px] lg:my-[10px]'>
 									<div>Залог</div>
 									<div className='font-bold'>10 000 ₽</div>
 								</div>
 							</div>
-							<div className='text-sm border-b border-[#f6f6f638]'>
-								<div className='flex justify-between my-[6px]'>
+
+							<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
+								<div className='flex justify-between my-[6px] lg:my-[10px]'>
 									<div>Пробег</div>
 									<div className='font-bold'>6 км.</div>
 								</div>
 							</div>
-							<div className='text-sm border-b border-[#f6f6f638] mb-3'>
-								<div className='flex justify-between my-[6px]'>
+
+							<div className='text-sm border-b border-[#f6f6f638] mb-3 lg:text-lg'>
+								<div className='flex justify-between my-[6px] lg:my-[10px]'>
 									<div>Перепробег за 1 км</div>
 									<div className='font-bold'>6 ₽/км.</div>
 								</div>
 							</div>
 
-							<div className='font-semibold mb-2'>Промокод</div>
+							<div className='font-semibold mb-2 lg:text-lg'>Промокод</div>
 							<div className='mb-5'>
 								<ConfigProvider
 									theme={{
 										components: {
 											Input: {
-												colorTextPlaceholder:
-													'#f6f6f666',
+												colorTextPlaceholder: '#f6f6f666',
 												hoverBorderColor: '#f6f6f638',
 												activeBg: '#f6f6f638',
 												addonBg: '#f6f6f638',
+												hoverBg: '#f6f6f638',
 											},
 										},
 									}}
@@ -210,17 +212,13 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 									<Input
 										placeholder='Введите промокод'
 										allowClear
-										className='bg-[#f6f6f638] border-0 rounded-xl'
-										style={{
-											height: 36,
-											color: '#f6f6f666',
-										}}
+										className='bg-[#f6f6f638] text-[#f6f6f6] border-0 rounded-xl h-9 lg:h-12 lg:text-base'
 									/>
 								</ConfigProvider>
 							</div>
 
 							<div className='flex items-center justify-between mb-7'>
-								<div className='font-bold'>
+								<div className='font-bold lg:text-2xl'>
 									Итоговая стоимость:
 									{hasSeasonDays && (
 										<div className='flex font-semibold items-center gap-2'>
@@ -229,7 +227,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 										</div>
 									)}
 								</div>
-								<div className='font-bold text-2xl'>
+								<div className='font-bold text-2xl lg:text-4xl'>
 									{total} ₽
 								</div>
 							</div>
@@ -243,11 +241,22 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 											defaultColor: '#f6f6f6',
 											contentFontSize: 16,
 											controlHeight: 42,
+											textHoverBg: '#f6f6f6',
+											colorPrimaryHover: '#f6f6f6',
+											colorBorderSecondary: '#3c6e71',
+											colorBorderBg: '#3c6e71',
+											colorBgContainer: '#3c6e71',
+											colorPrimaryBorderHover: '#3c6e71',
+											defaultHoverBorderColor: '#3c6e71',
+											defaultActiveBorderColor: '#3c6e71',
+											defaultActiveColor: '#f6f6f6',
+											colorBorder: '#3c6e71',
+											colorBgTextActive: '#3c6e71',
 										},
 									},
 								}}
 							>
-								<Button block>Оставить заявку</Button>
+								<Button className='lg:text-xl lg:h-[60px] lg:rounded-xl' block>Оставить заявку</Button>
 							</ConfigProvider>
 						</>
 					)}

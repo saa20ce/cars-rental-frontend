@@ -27,11 +27,14 @@ svg {
 	display: inline-block;
 }
 
+/* Mobile Breadcrumbs */
 .ant-breadcrumb ol {
 	overflow: auto;
 	white-space: nowrap;
 	flex-wrap: nowrap;
 }
+
+/* Mobile Car single switch */
 
 .ant-switch,
 .ant-switch:hover:not(.ant-switch-disabled) {
@@ -43,10 +46,12 @@ svg {
 	background-color: #3c6e71;
 }
 
+/* Mobile Car single picker */
 .ant-picker-input > input::placeholder {
 	color: #f6f6f666 !important;
 }
 
+/* Mobile Car single select */
 .ant-select {
 	position: relative;
 }
@@ -60,6 +65,11 @@ svg {
 	padding-left: 16px !important;
 }
 
+/* Mobile Car single checkbox mobile */
+span.ant-checkbox-label {
+	font-family: 'lato', 'lato Fallback';
+}
+
 .ant-checkbox .ant-checkbox-inner {
 	background-color: #f6f6f675 !important;
 	border-color: #f6f6f675 !important;
@@ -68,6 +78,12 @@ svg {
 .ant-checkbox-wrapper,
 .ant-picker-input-placeholder > input {
 	color: #f6f6f6 !important;
+}
+
+/* Mobile Car single image slider */
+.ant-carousel .slick-prev,
+.ant-carousel .slick-next {
+	opacity: 1 !important;
 }
 
 .slick-next::after,
@@ -83,15 +99,15 @@ svg {
 	width: auto !important;
 }
 
-.ant-tabs-tab {
-	height: 40px;
+.ant-carousel .slick-prev {
+	inset-inline-start: 18px;
 }
 
-.ant-tabs-tab.ant-tabs-tab-active {
-	background: #3c6e71;
-	border-radius: 8px;
+.ant-carousel .slick-next {
+	inset-inline-end: 18px;
 }
 
+/* Mobile Menu */
 .ant-menu-horizontal .ant-menu-submenu-arrow {
 	display: initial;
 }
@@ -107,7 +123,112 @@ svg {
 	margin-left: 7px;
 }
 
+.ant-menu-submenu-title {
+	height: 30px;
+}
+
 .ant-menu .ant-menu-submenu-arrow::before,
 .ant-menu .ant-menu-submenu-arrow::after {
 	display: none;
+}
+
+/* Mobile Tabs */
+.ant-tabs-tab {
+	height: 40px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active {
+	background: #3c6e71;
+	border-radius: 8px;
+}
+
+/* Desktop Tabs */
+@media (width >= 64rem) {
+	.ant-tabs .ant-tabs-tab {
+		font-size: 18px;
+		padding: 9px 35px;
+		height: 44px;
+	}
+
+	.ant-tabs .ant-tabs-tab-btn {
+		height: 23px;
+	}
+}
+
+/* Desktop Checkbox */
+@media (width >= 64rem) {
+	span.ant-checkbox-label {
+		font-size: 16px;
+		height: 22px;
+	}
+
+	.ant-checkbox-inner,
+	.ant-checkbox-input {
+		transform: scale(1.01) !important;
+	}
+}
+
+/* Desktop Picker */
+@media (width >= 64rem) {
+	.ant-picker {
+		height: 44px;
+	}
+
+	.ant-picker .ant-picker-input > input {
+		font-size: 16px;
+	}
+}
+
+/* Desktop Menu */
+@media (width >= 64rem) {
+	.ant-menu .ant-menu-submenu-arrow {
+		height: 17px;
+		margin-bottom: 3px;
+	}
+
+	ul.ant-menu-sub {
+		padding: 2px 1px !important;
+		border-radius: 8px !important;
+		gap: 3px;
+		display: flex;
+		flex-direction: column;
+		min-width: 139px;
+	}
+
+	li.ant-menu-item {
+		border-radius: 8px !important;
+		padding-inline: 8px !important;
+	}
+}
+
+/* Desktop Car single select */
+@media (width >= 64rem) {
+	span.ant-select-selection-placeholder {
+		height: 25px;
+		font-size: 16px;
+	}
+
+	.ant-select-selector {
+		padding-left: 12px !important;
+	}
+
+	.ant-select .ant-select-arrow {
+		right: 15px;
+	}
+
+	.ant-checkbox .ant-checkbox-inner {
+		width: 22px;
+		height: 22px;
+	}
+
+	.ant-checkbox .ant-checkbox-inner:after {
+		width: 5.714286px;
+		height: 14.142857px;
+		top: 42%;
+	}
+
+	.ant-select-focused .ant-select-selector {
+		box-shadow: none !important;
+		border: 1px solid #f6f6f6 !important;
+	}
 }

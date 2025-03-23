@@ -2,6 +2,10 @@ export const CarIcon = () => (
 	<svg
 		width='33'
 		height='32'
+		className='
+		w-8 h-8
+		lg:w-[52px] lg:h-[52px]
+		fill-current'
 		viewBox='0 0 33 32'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'

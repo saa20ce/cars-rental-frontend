@@ -51,115 +51,165 @@ export default function SingleCarPageClient({
 	];
 
 	return (
-		<div>
-			{car.acf?.nazvanie_avto && (
-				<div className='text-2xl uppercase font-bold mb-[12px] ml-3'>
-					{car.acf.nazvanie_avto}
+		<div className='lg:flex lg:w-full lg:gap-6'>
+			<div className='lg:w-1/2 lg:max-w-[618px]'>
+				{car.acf?.nazvanie_avto && (
+					<div className='text-2xl uppercase font-bold mb-[12px] ml-3 lg:text-4xl lg:ml-0'>
+						{car.acf.nazvanie_avto}
+					</div>
+				)}
+
+
+				<div className=''>
+					{gallery.length > 0 && (
+						<ConfigProvider
+							theme={{
+								components: {
+									Carousel: { arrowSize: 30 },
+								},
+							}}
+						>
+							<Carousel
+								arrows
+								prevArrow={
+									<div>
+										<ArrowLeftIcon />
+									</div>
+								}
+								nextArrow={
+									<div>
+										<ArrowRightIcon />
+									</div>
+								}
+								dots={false}
+							>
+								{gallery.map((imgUrl) => (
+									<div key={imgUrl}>
+										<img
+											src={imgUrl}
+											alt={imgUrl}
+											className='w-full h-[225px] rounded-2xl object-cover lg:h-[385px]'
+										/>
+									</div>
+								))}
+							</Carousel>
+						</ConfigProvider>
+					)}
 				</div>
-			)}
-			{gallery.length > 0 && (
-				<ConfigProvider
-					theme={{
-						components: {
-							Carousel: { arrowSize: 30 },
-						},
-					}}
-				>
-					<Carousel
-						arrows
-						prevArrow={
-							<div>
-								<ArrowLeftIcon />
-							</div>
-						}
-						nextArrow={
-							<div>
-								<ArrowRightIcon />
-							</div>
-						}
-						dots={false}
+
+				{priceRanges.length > 0 && (
+					<PriceCards
+						priceRanges={priceRanges}
+						seasonModeSwitch={seasonModeSwitch}
+						setSeasonModeSwitch={setSeasonModeSwitch}
+					/>
+				)}
+
+				<div className='mt-6 hidden lg:block lg:text-[18px] lg:border lg:border-solid lg:border-[#f6f6f638] lg:rounded-[32px] lg:p-7'>
+					<div className='lg:text-2xl lg:font-bold lg:mb-6'>Информация</div>
+					<ConfigProvider
+						theme={{
+							token: {
+								colorBorder: 'transparent',
+								colorText: '#f6f6f6',
+								lineWidthFocus: 0,
+								lineWidth: 0,
+								fontSize: 16,
+							},
+							components: {
+								Tabs: {
+									cardBg: '#f6f6f60e',
+									itemColor: '#f6f6f666',
+									itemSelectedColor: '#f6f6f6',
+									inkBarColor: 'transparent',
+									itemActiveColor: '#f6f6f6',
+									itemHoverColor: '#f6f6f638',
+									horizontalItemPadding: '8px 14px',
+									horizontalItemGutter: 6,
+									fontFamily: '"lato", "lato Fallback"',
+								},
+							},
+						}}
 					>
-						{gallery.map((imgUrl) => (
-							<div key={imgUrl}>
-								<img
-									src={imgUrl}
-									alt={imgUrl}
-									className='w-full h-[225px] rounded-2xl object-cover'
-								/>
-							</div>
-						))}
-					</Carousel>
-				</ConfigProvider>
-			)}
-			{priceRanges.length > 0 && (
-				<PriceCards
-					priceRanges={priceRanges}
-					seasonModeSwitch={seasonModeSwitch}
-					setSeasonModeSwitch={setSeasonModeSwitch}
-				/>
-			)}
-			<RentalCost
-				additionalOptions={[
-					{ label: 'Бустер', value: 'buster' },
-					{ label: 'Бокс на крышу (+300 р)', value: 'box' },
-					{ label: 'Детское кресло', value: 'seat' },
-				]}
-				seasonDates={seasonDates}
-				priceRanges={priceRanges}
-				setSeasonModeSwitch={setSeasonModeSwitch}
-			/>
-			<div className='flex justify-between mt-6 space-y-1 text-[#f6f6f666] border-[#f6f6f638] border-y py-3'>
-				<div className='flex flex-wrap justify-between w-[116px] h-[32px]'>
-					<DocumentsIcon />
-					<div className='mt-[-2px]'>
-						<div className='text-sm font-bold'>Документы</div>
-						<div className='text-xs'>Паспорт и ВУ</div>
-					</div>
-				</div>
-
-				<div className='flex flex-wrap justify-between w-[97px] mt-[0!important]'>
-					<CarIcon />
-					<div className='h-[32px] w-[59px] mt-[-2px]'>
-						<div className='text-sm font-bold'>Стаж</div>
-						<div className='text-xs'>От 2-х лет</div>
-					</div>
-				</div>
-
-				<div className='flex flex-wrap justify-between w-[104px] mt-[0!important]'>
-					<AgeIcon />
-					<div className='h-[32px] w-[66px] mt-[-2px]'>
-						<div className='text-sm font-bold'>Возраст</div>
-						<div className='text-xs'>От 22-х лет</div>
-					</div>
+						<Tabs defaultActiveKey='1' items={TAB_ITEMS} />
+					</ConfigProvider>
 				</div>
 			</div>
 
-			<div className='mt-6'>
-				<ConfigProvider
-					theme={{
-						token: {
-							colorBorder: 'transparent',
-							colorText: '#f6f6f6',
-							lineWidthFocus: 0,
-							lineWidth: 0,
-							fontSize: 16,
-						},
-						components: {
-							Tabs: {
-								cardBg: '#f6f6f60e',
-								itemColor: '#f6f6f666',
-								itemSelectedColor: '#f6f6f6',
-								inkBarColor: 'transparent',
-								itemActiveColor: '#f6f6f6',
-								itemHoverColor: '#f6f6f638',
-								horizontalItemPadding: '8px 14px',
-								horizontalItemGutter: 6,
+			<div className='lg:w-1/2'>
+				<RentalCost
+					additionalOptions={[
+						{ label: 'Бустер', value: 'buster' },
+						{ label: 'Бокс на крышу (+300 р)', value: 'box' },
+						{ label: 'Детское кресло', value: 'seat' },
+					]}
+					seasonDates={seasonDates}
+					priceRanges={priceRanges}
+					setSeasonModeSwitch={setSeasonModeSwitch}
+				/>
+				<div className='hidden lg:block lg:text-2xl lg:mt-8'>
+					Условия аренды
+				</div>
+				<div className='flex justify-between mt-6 space-y-1 text-[#f6f6f666] border-[#f6f6f638] border-y py-3 lg:mt-5 lg:border-0 lg:py-0'>
+					<div className='flex flex-wrap justify-between w-[116px] h-[32px] lg:w-[175px]'>
+						<DocumentsIcon />
+						<div className='mt-[-2px]'>
+							<div className='text-sm font-bold lg:text-lg'>Документы</div>
+							<div className='text-xs lg:text-lg'>Паспорт и ВУ</div>
+						</div>
+					</div>
+
+					<div className='flex flex-wrap justify-between w-[97px] mt-[0!important] lg:w-[150px]'>
+						<CarIcon />
+						<div className='h-[32px] w-[59px] mt-[-2px] lg:w-auto'>
+							<div className='text-sm font-bold lg:text-lg'>Стаж</div>
+							<div className='text-xs lg:text-lg'>От 2-х лет</div>
+						</div>
+					</div>
+
+					<div className='flex flex-wrap justify-between w-[104px] mt-[0!important] lg:w-[160px]'>
+						<AgeIcon />
+						<div className='h-[32px] w-[66px] mt-[-2px] lg:w-auto'>
+							<div className='text-sm font-bold lg:text-lg'>Возраст</div>
+							<div className='text-xs lg:text-lg'>От 22-х лет</div>
+						</div>
+					</div>
+				</div>
+
+				<div className='hidden lg:block'>
+					<ul className='lg:list-disc lg:pl-5 lg:text-lg lg:mt-[18px]'>
+						<li>Полные условия аренды вы можете прочитать <span className='font-semibold underline underline-offset-4'>ЗДЕСЬ</span></li>
+					</ul>
+				</div>
+
+				<div className='mt-6 block lg:hidden'>
+					<ConfigProvider
+						theme={{
+							token: {
+								colorBorder: 'transparent',
+								colorText: '#f6f6f6',
+								lineWidthFocus: 0,
+								lineWidth: 0,
+								fontSize: 16,
 							},
-						},
-					}}
-				>
-					<Tabs defaultActiveKey='1' items={TAB_ITEMS} />
-				</ConfigProvider>
+							components: {
+								Tabs: {
+									cardBg: '#f6f6f60e',
+									itemColor: '#f6f6f666',
+									itemSelectedColor: '#f6f6f6',
+									inkBarColor: 'transparent',
+									itemActiveColor: '#f6f6f6',
+									itemHoverColor: '#f6f6f638',
+									horizontalItemPadding: '8px 14px',
+									horizontalItemGutter: 6,
+								},
+							},
+						}}
+					>
+						<Tabs defaultActiveKey='1' items={TAB_ITEMS} />
+					</ConfigProvider>
+				</div>
+
 			</div>
 		</div>
 	);

@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
 	}, []);
 
 	return (
-		<div className='flex justify-between items-center bg-[#284b63] py-4 px-5 rounded-full'>
+		<div className='flex justify-between items-center bg-[#284b63] py-4 px-5 rounded-full lg:py-[7px] lg:px-6 lg:rounded-3xl'>
 			<LogoFull />
 
 			<div className='flex items-center gap-6 lg:hidden'>
@@ -89,8 +89,14 @@ export const Navbar: React.FC = () => {
 								lineWidth: 0,
 								lineHeight: 0,
 								groupTitleColor: '#fff',
-								popupBg: '#f6f6f666',
+								popupBg: '#284152',
 								horizontalItemSelectedColor: '#f6f6f666',
+								itemHoverBg: '#516573',
+								itemActiveBg: '#516573',
+								fontFamily: '"lato", "lato Fallback"',
+								itemMarginBlock: 0,
+								itemHeight: 36,
+								itemBorderRadius: 8,
 							},
 						},
 						token: {
@@ -103,7 +109,7 @@ export const Navbar: React.FC = () => {
 						mode='horizontal'
 						items={menuItems}
 						expandIcon={<ChevronDownIcon />}
-						style={{ flex: 'auto', minWidth: 0 }}
+						style={{ flex: 'auto', minWidth: 0, justifyContent: 'center' }}
 					/>
 				</ConfigProvider>
 			</div>
@@ -118,6 +124,8 @@ export const Navbar: React.FC = () => {
 								defaultHoverColor: '#fff',
 								paddingInline: 12,
 								paddingBlock: 8,
+								lineHeight: 0,
+								fontFamily: '"lato", "lato Fallback"',
 							},
 						},
 					}}
@@ -125,6 +133,7 @@ export const Navbar: React.FC = () => {
 					<Button
 						variant='outlined'
 						icon={<PhoneIconDefault />}
+						style={{ height: 40, width: 169 }}
 						ghost
 					>
 						Заказать звонок

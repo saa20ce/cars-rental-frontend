@@ -27,7 +27,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 				}}
 				onClick={toggleVisible}
 			>
-				Дополнительные услуги{' '}
+				<div className='lg:text-xl'>Дополнительные услуги{' '}</div>
 				<span
 					style={{
 						transform: visible ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -40,10 +40,14 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 			</div>
 			{visible && (
 				<div>
-					<div>Место подачи и возврата</div>
+					<div className='lg:text-lg'>Место подачи и возврата</div>
 					<div className='flex gap-2 w-full mt-2'>
 						<ConfigProvider
 							theme={{
+								token: {
+									colorBgBase: '#284152',
+
+								},
 								components: {
 									Select: {
 										selectorBg: '#f6f6f638',
@@ -53,6 +57,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 										colorTextPlaceholder: '#f6f6f666',
 										borderRadius: 10,
 										fontSizeIcon: 18,
+										fontFamily: '"lato", "lato Fallback"',
 									},
 								},
 							}}
@@ -76,7 +81,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 							/>
 						</ConfigProvider>
 					</div>
-					<div className='mt-[10px]'>
+					<div className='mt-[10px] lg:flex lg:flex-col lg:gap-2 lg:text-lg'>
 						Опции:
 						<CheckboxGroup options={options} />
 					</div>

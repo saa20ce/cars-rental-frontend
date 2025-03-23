@@ -44,7 +44,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body
-				className={`px-4 py-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-2 lg:py-5`}
+				className={`px-4 py-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5`}
 			>
 				<Header />
 				<Breadcrumbs />

@@ -1,11 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ConfigProvider, DatePicker, TimePicker } from 'antd';
+import type { GetProps } from 'antd';
 import locale from 'antd/locale/ru_RU';
+import dayjs from 'dayjs';
 import { CalendarIcon, ChevronDownIcon } from '@/lib/ui/icons';
 import { Dayjs } from 'dayjs';
 import { AdditionalServices } from './AdditionalServices';
+
+type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+
 
 interface RentalPeriodProps {
 	additionalOptions: { label: string; value: string }[];
@@ -19,6 +24,14 @@ interface RentalPeriodProps {
 	onReturnTimeChange: (time: Dayjs | null) => void;
 }
 
+const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
+	return current && current < dayjs().startOf('day');
+};
+
+const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
+	return current && current < dayjs().endOf('day');
+};
+
 export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	additionalOptions,
 	startDate,
@@ -30,18 +43,50 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	returnTime,
 	onReturnTimeChange,
 }) => {
+	const [isChainActive, setIsChainActive] = useState(false);
+	const [isStartTimeOpen, setIsStartTimeOpen] = useState(false);
+	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
+	const [isReturnTimeOpen, setIsReturnTimeOpen] = useState(false);
+
 	return (
 		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-7 lg:mt-[52px]'>
 			<div className='hidden lg:block lg:text-3xl lg:mb-6' >Форма бронирования</div>
 			<div className='mb-3 lg:text-xl'>Период аренды:</div>
 			<div className='lg:flex lg:gap-[10px]'>
-				<ConfigProvider locale={locale}>
+				<ConfigProvider
+					locale={locale}
+					theme={{
+						token: {
+							colorBgElevated: '#284152',
+							colorText: '#f6f6f6',
+							colorTextDisabled: '#f6f6f675',
+							colorIcon: '#f6f6f6',
+							colorPrimary: '#142632',
+							controlItemBgActive: '#f6f6f60e',
+
+						},
+						components: {
+							DatePicker: {
+								cellHoverBg: '#284b63',
+								activeBorderColor: '#f6f6f675',
+								cellActiveWithRangeBg: '#284b63',
+							},
+
+						},
+					}}>
 					<div>
 						<DatePicker
 							placeholder='Дата аренды'
 							suffixIcon={<CalendarIcon />}
+							disabledDate={disabledDateStart}
 							allowClear={false}
-							onChange={onStartDateChange}
+							onChange={(date) => {
+								onStartDateChange(date);
+								if (date) {
+									setIsChainActive(true);
+									setIsStartTimeOpen(true);
+								}
+							}}
 							value={startDate}
 							style={{
 								width: '60%',
@@ -58,9 +103,18 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						/>
 						<TimePicker
 							placeholder='18:00'
+							format='HH:mm'
+							defaultValue={dayjs('12:00', 'HH:mm')}
 							suffixIcon={<ChevronDownIcon />}
 							allowClear={false}
-							onChange={onStartTimeChange}
+							onChange={(time) => {
+								onStartTimeChange(time);
+								if (isChainActive) {
+									setIsReturnDateOpen(true);
+								}
+							}}
+							open={isChainActive ? isStartTimeOpen : undefined}
+							onOpenChange={(open) => setIsStartTimeOpen(open)}
 							value={startTime}
 							style={{
 								width: '40%',
@@ -84,8 +138,16 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						<DatePicker
 							placeholder='Дата возврата'
 							suffixIcon={<CalendarIcon />}
+							disabledDate={disabledDateFinish}
 							allowClear={false}
-							onChange={onReturnDateChange}
+							onChange={(date) => {
+								onReturnDateChange(date);
+								if (isChainActive) {
+									setIsReturnTimeOpen(true);
+								}
+							}}
+							open={isChainActive ? isReturnDateOpen : undefined}
+							onOpenChange={(open) => setIsReturnDateOpen(open)}
 							value={returnDate}
 							style={{
 								width: '60%',
@@ -102,9 +164,15 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						/>
 						<TimePicker
 							placeholder='18:00'
+							format='HH:mm'
+							defaultValue={dayjs('12:00', 'HH:mm')}
 							suffixIcon={<ChevronDownIcon />}
 							allowClear={false}
-							onChange={onReturnTimeChange}
+							onChange={(time) => {
+								onReturnTimeChange(time);
+							}}
+							open={isChainActive ? isReturnTimeOpen : undefined}
+							onOpenChange={(open) => setIsReturnTimeOpen(open)}
 							value={returnTime}
 							style={{
 								width: '40%',

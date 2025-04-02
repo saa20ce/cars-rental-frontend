@@ -40,46 +40,49 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 			</div>
 			{visible && (
 				<div>
-					<div className='lg:text-lg'>Место подачи и возврата</div>
-					<div className='flex gap-2 w-full mt-2'>
-						<ConfigProvider
-							theme={{
-								token: {
-									colorBgBase: '#284152',
+					<div>
+						<div className='lg:text-lg'>Место подачи и возврата</div>
+						<div className='flex gap-2 w-full mt-2'>
+							<ConfigProvider
+								theme={{
+									token: {
+										colorBgBase: '#284152',
 
-								},
-								components: {
-									Select: {
-										selectorBg: '#f6f6f638',
-										activeBorderColor: '#f6f6f647',
-										hoverBorderColor: '#f6f6f647',
-										colorBorder: '#f6f6f647',
-										colorTextPlaceholder: '#f6f6f666',
-										borderRadius: 10,
-										fontSizeIcon: 18,
-										fontFamily: '"lato", "lato Fallback"',
 									},
-								},
-							}}
-						>
-							<Select
-								className='flex items-center'
-								placeholder='Место подачи'
-								suffixIcon={<ChevronDownIcon />}
-								style={{
-									width: '50%',
-									height: 36,
+									components: {
+										Select: {
+											selectorBg: '#f6f6f638',
+											activeBorderColor: '#f6f6f647',
+											hoverBorderColor: '#f6f6f647',
+											colorBorder: '#f6f6f647',
+											colorTextPlaceholder: '#f6f6f666',
+											borderRadius: 10,
+											fontSizeIcon: 18,
+											fontFamily: '"lato", "lato Fallback"',
+										},
+									},
 								}}
-							/>
-							<Select
-								placeholder='Место возврата'
-								suffixIcon={<ChevronDownIcon />}
-								style={{
-									width: '50%',
-									height: 36,
-								}}
-							/>
-						</ConfigProvider>
+							>
+								<Select
+									className='flex items-center lg:h-[44px!important]'
+									placeholder='Место подачи'
+									suffixIcon={<ChevronDownIcon />}
+									style={{
+										width: '50%',
+										height: 36,
+									}}
+								/>
+								<Select
+									className='lg:h-[44px!important]'
+									placeholder='Место возврата'
+									suffixIcon={<ChevronDownIcon />}
+									style={{
+										width: '50%',
+										height: 36,
+									}}
+								/>
+							</ConfigProvider>
+						</div>
 					</div>
 					<div className='mt-[10px] lg:flex lg:flex-col lg:gap-2 lg:text-lg'>
 						Опции:

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { PriceRange } from '@/lib/types/Car';
-import { Switch } from 'antd';
+import { Switch, Tooltip } from 'antd';
 import { LineIcon, InfoIcon } from '@/lib/ui/icons';
 
 interface PriceCardsProps {
@@ -10,6 +10,15 @@ interface PriceCardsProps {
 	seasonModeSwitch: boolean;
 	setSeasonModeSwitch: (mode: boolean) => void;
 }
+
+const tooltipText =
+	<div className='text-xs lg:text-sm'>
+		Сезонные тарифы (высокий спрос)
+		<ul className='list-decimal list-inside pl-1 font-bold'>
+			<li>10 декабря - 20 января</li>
+			<li>1 мая - 15 сентября</li>
+		</ul>
+	</div>;
 
 export const PriceCards: React.FC<PriceCardsProps> = ({
 	priceRanges,
@@ -23,7 +32,13 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
 					checked={seasonModeSwitch}
 					onChange={(checked) => setSeasonModeSwitch(checked)}
 				/>
-				<span className='lg:mt-[4px]'>Сезон</span> <LineIcon /> <InfoIcon />
+				<span className='lg:mt-[4px]'>Сезон</span>
+				<LineIcon />
+				<Tooltip placement="right" title={tooltipText} color='#4b5563' arrow={false}>
+					<div>
+						<InfoIcon />
+					</div>
+				</Tooltip>
 			</div>
 			<div className='flex overflow-auto whitespace-nowrap gap-[6px] mt-4 mr-[-16px] lg:flex-wrap lg:gap-3 lg:w-full'>
 				{priceRanges.map(({ baseKey, label, price, seasonPrice }) => {

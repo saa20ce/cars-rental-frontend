@@ -65,6 +65,20 @@ svg {
 	padding-left: 16px !important;
 }
 
+/* Mobile Tooltip */
+.ant-tooltip .ant-tooltip-inner {
+	padding: 8px 10px;
+}
+
+/* Mobile Datepicker */
+.ant-picker-time-panel-column:nth-child(2) li.ant-picker-time-panel-cell {
+	display: none !important;
+}
+
+.ant-picker-now-btn {
+	display: none;
+}
+
 /* Mobile Car single checkbox mobile */
 span.ant-checkbox-label {
 	font-family: 'lato', 'lato Fallback';
@@ -171,7 +185,15 @@ span.ant-checkbox-label {
 /* Desktop Picker */
 @media (width >= 64rem) {
 	.ant-picker {
-		height: 44px;
+		height: 44px !important;
+	}
+
+	.ant-picker.datePicker {
+		width: 176px !important;
+	}
+
+	.ant-picker.timePicker {
+		width: 100px !important;
 	}
 
 	.ant-picker .ant-picker-input > input {

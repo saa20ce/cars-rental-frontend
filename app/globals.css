@@ -196,6 +196,10 @@ span.ant-checkbox-label {
 		width: 100px !important;
 	}
 
+	.ant-picker-dropdown .ant-picker-time-panel-column:not(:first-child) {
+		display: none !important;
+	}
+
 	.ant-picker .ant-picker-input > input {
 		font-size: 16px;
 	}

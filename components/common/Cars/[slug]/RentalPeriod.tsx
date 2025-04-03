@@ -52,13 +52,26 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	onReturnTimeChange,
 }) => {
 	const [isChainActive, setIsChainActive] = useState(false);
+	const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
 	const [isStartTimeOpen, setIsStartTimeOpen] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 	const [isReturnTimeOpen, setIsReturnTimeOpen] = useState(false);
 
 	const today = useMemo(() => dayjs(), []);
+	const defaultTime = useMemo(() => {
+		const now = dayjs();
+		return now.minute() >= 30 ? now.add(1, 'hour').startOf('hour') : now.startOf('hour');
+	}, []);
 
 	const [isMobile, setIsMobile] = useState(false);
+
+	const [isStartDateFocused, setIsStartDateFocused] = useState(false);
+	const [isStartTimeFocused, setIsStartTimeFocused] = useState(false);
+	const [isReturnDateFocused, setIsReturnDateFocused] = useState(false);
+	const [isReturnTimeFocused, setIsReturnTimeFocused] = useState(false);
+
+	const getBorderStyle = (focused: boolean) => focused ? '1px solid #f6f6f6' : '1px solid #f6f6f647';
+
 	useEffect(() => {
 		const mediaQuery = window.matchMedia('(max-width: 768px)');
 		setIsMobile(mediaQuery.matches);
@@ -68,6 +81,12 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 		mediaQuery.addEventListener('change', handleChange);
 		return () => mediaQuery.removeEventListener('change', handleChange);
 	}, []);
+
+	useEffect(() => {
+		if (startTime) {
+			setIsStartTimeOpen(false);
+		}
+	}, [startTime]);
 
 	return (
 		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-7 lg:mt-[52px]'>
@@ -99,8 +118,9 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 					<div>
 						<DatePicker
 							placeholder='Дата аренды'
-							format={'Выдача ' + (isMobile ? 'D MMMM' : 'D MMM')}
-							suffixIcon={<CalendarIcon />}
+							format={'Выдача: ' + (isMobile ? 'D MMMM' : 'D MMM')}
+							suffixIcon={<CalendarIcon active={isStartCalendarOpen} />}
+							inputReadOnly
 							disabledDate={disabledDateStart}
 							allowClear={false}
 							onChange={(date) => {
@@ -110,13 +130,16 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 									setIsStartTimeOpen(true);
 								}
 							}}
+							onOpenChange={(open) => setIsStartCalendarOpen(open)}
+							onFocus={() => setIsStartDateFocused(true)}
+							onBlur={() => setIsStartDateFocused(false)}
 							defaultValue={today}
 							value={startDate || today}
 							className='datePicker'
 							style={{
 								width: '60%',
 								backgroundColor: '#f6f6f638',
-								border: '1px solid #f6f6f647',
+								border: getBorderStyle(isStartDateFocused),
 								borderTopLeftRadius: 10,
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 10,
@@ -129,24 +152,32 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						<TimePicker
 							placeholder='18:00'
 							format='HH:mm'
+							inputReadOnly
+							changeOnScroll
+							needConfirm={false}
+							addon={() => null}
 							minuteStep={30}
-							defaultValue={dayjs('12:00', 'HH:mm')}
+							defaultValue={defaultTime}
 							suffixIcon={<ChevronDownIcon />}
 							allowClear={false}
 							onChange={(time) => {
-								onStartTimeChange(time);
+								const normalizedTime = time ? time.startOf('hour') : null;
+								onStartTimeChange(normalizedTime);
+								setIsStartTimeOpen(false)
 								if (isChainActive) {
 									setIsReturnDateOpen(true);
 								}
 							}}
 							open={isChainActive ? isStartTimeOpen : undefined}
 							onOpenChange={(open) => setIsStartTimeOpen(open)}
-							value={startTime}
+							onFocus={() => setIsStartTimeFocused(true)}
+							onBlur={() => setIsStartTimeFocused(false)}
+							value={startTime || defaultTime}
 							className='timePicker'
 							style={{
 								width: '40%',
 								backgroundColor: '#f6f6f638',
-								border: '1px solid #f6f6f647',
+								border: getBorderStyle(isStartTimeFocused),
 								marginBottom: 8,
 								borderLeft: 0,
 								borderTopLeftRadius: 0,
@@ -164,8 +195,9 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 					<div>
 						<DatePicker
 							placeholder='Дата возврата'
-							format={'Возврат ' + (isMobile ? 'D MMMM' : 'D MMM')}
-							suffixIcon={<CalendarIcon />}
+							format={'Возврат: ' + (isMobile ? 'D MMMM' : 'D MMM')}
+							suffixIcon={<CalendarIcon active={isReturnDateOpen} />}
+							inputReadOnly
 							disabledDate={disabledDateFinish}
 							allowClear={false}
 							onChange={(date) => {
@@ -176,12 +208,14 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							}}
 							open={isChainActive ? isReturnDateOpen : undefined}
 							onOpenChange={(open) => setIsReturnDateOpen(open)}
+							onFocus={() => setIsReturnDateFocused(true)}
+							onBlur={() => setIsReturnDateFocused(false)}
 							value={returnDate}
 							className='datePicker'
 							style={{
 								width: '60%',
 								backgroundColor: '#f6f6f638',
-								border: '1px solid #f6f6f647',
+								border: getBorderStyle(isReturnDateFocused),
 								borderTopLeftRadius: 10,
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 10,
@@ -194,6 +228,10 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						<TimePicker
 							placeholder='18:00'
 							format='HH:mm'
+							inputReadOnly
+							changeOnScroll
+							needConfirm={false}
+							addon={() => null}
 							minuteStep={30}
 							defaultValue={dayjs('12:00', 'HH:mm')}
 							suffixIcon={<ChevronDownIcon />}
@@ -203,12 +241,14 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							}}
 							open={isChainActive ? isReturnTimeOpen : undefined}
 							onOpenChange={(open) => setIsReturnTimeOpen(open)}
+							onFocus={() => setIsReturnTimeFocused(true)}
+							onBlur={() => setIsReturnTimeFocused(false)}
 							value={returnTime}
 							className='timePicker'
 							style={{
 								width: '40%',
 								backgroundColor: '#f6f6f638',
-								border: '1px solid #f6f6f647',
+								border: getBorderStyle(isReturnTimeFocused),
 								marginBottom: 8,
 								borderLeft: 0,
 								borderTopLeftRadius: 0,

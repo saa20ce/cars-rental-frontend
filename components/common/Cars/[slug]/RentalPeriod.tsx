@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { ConfigProvider, DatePicker, TimePicker } from 'antd';
+import { ConfigProvider, DatePicker, TimePicker, Select } from 'antd';
 import type { GetProps } from 'antd';
 import { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -24,12 +24,8 @@ interface RentalPeriodProps {
 	additionalOptions: { label: string; value: string }[];
 	startDate: Dayjs | null;
 	onStartDateChange: (date: Dayjs | null) => void;
-	startTime: Dayjs | null;
-	onStartTimeChange: (time: Dayjs | null) => void;
 	returnDate: Dayjs | null;
 	onReturnDateChange: (date: Dayjs | null) => void;
-	returnTime: Dayjs | null;
-	onReturnTimeChange: (time: Dayjs | null) => void;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -44,18 +40,12 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	additionalOptions,
 	startDate,
 	onStartDateChange,
-	startTime,
-	onStartTimeChange,
 	returnDate,
 	onReturnDateChange,
-	returnTime,
-	onReturnTimeChange,
 }) => {
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
-	const [isStartTimeOpen, setIsStartTimeOpen] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
-	const [isReturnTimeOpen, setIsReturnTimeOpen] = useState(false);
 
 	const today = useMemo(() => dayjs(), []);
 	const defaultTime = useMemo(() => {
@@ -72,6 +62,17 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
 	const getBorderStyle = (focused: boolean) => focused ? '1px solid #f6f6f6' : '1px solid #f6f6f647';
 
+	const timeOptions = Array.from({ length: 24 }, (_, i) => {
+		const hour = i.toString().padStart(2, '0');
+		return { value: `${hour}:00`, label: `${hour}:00` };
+	});
+
+	const defaultTimeValue = useMemo(() => {
+		const now = dayjs();
+		const hour = now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
+		return `${hour.toString().padStart(2, '0')}:00`;
+	}, []);
+
 	useEffect(() => {
 		const mediaQuery = window.matchMedia('(max-width: 768px)');
 		setIsMobile(mediaQuery.matches);
@@ -81,12 +82,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 		mediaQuery.addEventListener('change', handleChange);
 		return () => mediaQuery.removeEventListener('change', handleChange);
 	}, []);
-
-	useEffect(() => {
-		if (startTime) {
-			setIsStartTimeOpen(false);
-		}
-	}, [startTime]);
 
 	return (
 		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-7 lg:mt-[52px]'>
@@ -112,10 +107,13 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								activeBorderColor: '#f6f6f675',
 								cellActiveWithRangeBg: '#284b63',
 							},
-
+							Select: {
+								colorTextPlaceholder: '#f6f6f6',
+							}
 						},
 					}}>
-					<div>
+
+					<div className='flex'>
 						<DatePicker
 							placeholder='Дата аренды'
 							format={'Выдача: ' + (isMobile ? 'D MMMM' : 'D MMM')}
@@ -127,7 +125,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								onStartDateChange(date);
 								if (date) {
 									setIsChainActive(true);
-									setIsStartTimeOpen(true);
 								}
 							}}
 							onOpenChange={(open) => setIsStartCalendarOpen(open)}
@@ -149,50 +146,17 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								color: '#f6f6f6',
 							}}
 						/>
-						<TimePicker
+
+						<Select
 							placeholder='18:00'
-							format='HH:mm'
-							inputReadOnly
-							changeOnScroll
-							needConfirm={false}
-							addon={() => null}
-							minuteStep={30}
-							defaultValue={defaultTime}
-							suffixIcon={<ChevronDownIcon />}
-							allowClear={false}
-							onChange={(time) => {
-								const normalizedTime = time ? time.startOf('hour') : null;
-								onStartTimeChange(normalizedTime);
-								setIsStartTimeOpen(false)
-								if (isChainActive) {
-									setIsReturnDateOpen(true);
-								}
-							}}
-							open={isChainActive ? isStartTimeOpen : undefined}
-							onOpenChange={(open) => setIsStartTimeOpen(open)}
-							onFocus={() => setIsStartTimeFocused(true)}
-							onBlur={() => setIsStartTimeFocused(false)}
-							value={startTime || defaultTime}
+							options={timeOptions}
 							className='timePicker'
-							style={{
-								width: '40%',
-								backgroundColor: '#f6f6f638',
-								border: getBorderStyle(isStartTimeFocused),
-								marginBottom: 8,
-								borderLeft: 0,
-								borderTopLeftRadius: 0,
-								borderTopRightRadius: 10,
-								borderBottomLeftRadius: 0,
-								borderBottomRightRadius: 10,
-								paddingLeft: 16,
-								paddingRight: 20,
-								height: 36,
-								color: '#f6f6f6',
-							}}
+							defaultValue={defaultTimeValue}
+							suffixIcon={<ChevronDownIcon />}
 						/>
 					</div>
 
-					<div>
+					<div className='flex'>
 						<DatePicker
 							placeholder='Дата возврата'
 							format={'Возврат: ' + (isMobile ? 'D MMMM' : 'D MMM')}
@@ -202,9 +166,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							allowClear={false}
 							onChange={(date) => {
 								onReturnDateChange(date);
-								if (isChainActive) {
-									setIsReturnTimeOpen(true);
-								}
 							}}
 							open={isChainActive ? isReturnDateOpen : undefined}
 							onOpenChange={(open) => setIsReturnDateOpen(open)}
@@ -225,41 +186,13 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								color: '#f6f6f6',
 							}}
 						/>
-						<TimePicker
+
+						<Select
 							placeholder='18:00'
-							format='HH:mm'
-							inputReadOnly
-							changeOnScroll
-							needConfirm={false}
-							addon={() => null}
-							minuteStep={30}
-							defaultValue={dayjs('12:00', 'HH:mm')}
-							suffixIcon={<ChevronDownIcon />}
-							allowClear={false}
-							onChange={(time) => {
-								onReturnTimeChange(time);
-							}}
-							open={isChainActive ? isReturnTimeOpen : undefined}
-							onOpenChange={(open) => setIsReturnTimeOpen(open)}
-							onFocus={() => setIsReturnTimeFocused(true)}
-							onBlur={() => setIsReturnTimeFocused(false)}
-							value={returnTime}
+							options={timeOptions}
 							className='timePicker'
-							style={{
-								width: '40%',
-								backgroundColor: '#f6f6f638',
-								border: getBorderStyle(isReturnTimeFocused),
-								marginBottom: 8,
-								borderLeft: 0,
-								borderTopLeftRadius: 0,
-								borderTopRightRadius: 10,
-								borderBottomLeftRadius: 0,
-								borderBottomRightRadius: 10,
-								paddingLeft: 16,
-								paddingRight: 20,
-								height: 36,
-								color: '#f6f6f6',
-							}}
+							defaultValue={defaultTimeValue}
+							suffixIcon={<ChevronDownIcon />}
 						/>
 					</div>
 				</ConfigProvider>

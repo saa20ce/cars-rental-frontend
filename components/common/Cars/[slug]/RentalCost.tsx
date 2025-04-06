@@ -27,9 +27,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	setSeasonModeSwitch,
 }) => {
 	const [startDate, setStartDate] = useState<Dayjs | null>(null);
-	const [startTime, setStartTime] = useState<Dayjs | null>(null);
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
-	const [returnTime, setReturnTime] = useState<Dayjs | null>(null);
 
 	const [daysCount, setDaysCount] = useState(0);
 	const [dailyCosts, setDailyCosts] = useState<number[]>([]);
@@ -41,17 +39,11 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	useEffect(() => {
 		if (
 			startDate &&
-			startTime &&
 			returnDate &&
-			returnTime &&
 			priceRanges.length > 0
 		) {
 			const startFull = startDate
-				.hour(startTime.hour())
-				.minute(startTime.minute());
-			const endFull = returnDate
-				.hour(returnTime.hour())
-				.minute(returnTime.minute());
+			const endFull = returnDate;
 
 			// const diffDays = endFull.diff(startFull, 'day');
 			// const totalDays = diffDays > 0 ? diffDays : 0;
@@ -101,9 +93,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 		}
 	}, [
 		startDate,
-		startTime,
 		returnDate,
-		returnTime,
 		priceRanges,
 		seasonDates,
 		setSeasonModeSwitch,
@@ -118,12 +108,8 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 				additionalOptions={additionalOptions}
 				startDate={startDate}
 				onStartDateChange={setStartDate}
-				startTime={startTime}
-				onStartTimeChange={setStartTime}
 				returnDate={returnDate}
 				onReturnDateChange={setReturnDate}
-				returnTime={returnTime}
-				onReturnTimeChange={setReturnTime}
 			/>
 
 			{showCost && (

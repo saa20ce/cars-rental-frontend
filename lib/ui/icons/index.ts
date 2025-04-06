@@ -18,3 +18,5 @@ export * from './CarIcon';
 export * from './AgeIcon';
 export * from './LineVertHeaderDesktop';
 export * from './PhoneIconDefault';
+export * from './CheckRound';
+export * from './FiltersIcon';

@@ -1,10 +1,11 @@
 'use client';
 
-import { ConfigProvider, Select, SelectProps } from 'antd';
+import type { SelectProps } from 'antd';
+import { ConfigProvider, Select } from 'antd';
 import { ChevronDownIcon } from '@/lib/ui/icons';
 import './styles.css'
 
-export interface CustomSelectProps extends SelectProps<any> { }
+export type CustomSelectProps = SelectProps<unknown>;
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
 	return (

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { ConfigProvider, DatePicker, TimePicker, Select } from 'antd';
+import { ConfigProvider, DatePicker, Select } from 'antd';
 import type { GetProps } from 'antd';
 import { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -48,17 +48,11 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
 	const today = useMemo(() => dayjs(), []);
-	const defaultTime = useMemo(() => {
-		const now = dayjs();
-		return now.minute() >= 30 ? now.add(1, 'hour').startOf('hour') : now.startOf('hour');
-	}, []);
 
 	const [isMobile, setIsMobile] = useState(false);
 
 	const [isStartDateFocused, setIsStartDateFocused] = useState(false);
-	const [isStartTimeFocused, setIsStartTimeFocused] = useState(false);
 	const [isReturnDateFocused, setIsReturnDateFocused] = useState(false);
-	const [isReturnTimeFocused, setIsReturnTimeFocused] = useState(false);
 
 	const getBorderStyle = (focused: boolean) => focused ? '1px solid #f6f6f6' : '1px solid #f6f6f647';
 

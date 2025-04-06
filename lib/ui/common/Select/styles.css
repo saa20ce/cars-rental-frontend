@@ -32,3 +32,47 @@
 		border: 1px solid #f6f6f6 !important;
 	}
 }
+
+/* Mobile Car single Timepicker */
+.timePicker.ant-select {
+	width: 42% !important;
+}
+
+.timePicker .ant-select-selector {
+	background-color: #f6f6f638 !important;
+	border-top: 1px solid #f6f6f647 !important;
+	border-right: 1px solid #f6f6f647 !important;
+	border-bottom: 1px solid #f6f6f647 !important;
+	border-left: 0 !important;
+	border-top-left-radius: 0;
+	border-top-right-radius: 10;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 10;
+	margin-bottom: 8;
+	padding-left: 16;
+	padding-right: 20;
+	height: 36 !important;
+	color: #f6f6f6;
+}
+
+.timePicker.ant-select .ant-select-arrow {
+	height: 14px !important;
+}
+
+/* Car single Timepicker */
+@media (width >= 64rem) {
+	.ant-picker,
+	.timePicker .ant-select-selector,
+	.ant-select {
+		height: 44px !important;
+	}
+
+	.timePicker .ant-select-selector,
+	.timePicker.ant-select {
+		width: 100px !important;
+	}
+
+	.ant-picker .ant-picker-input > input {
+		font-size: 16px;
+	}
+}

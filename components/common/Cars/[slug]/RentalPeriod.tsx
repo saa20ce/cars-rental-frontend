@@ -81,7 +81,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-7 lg:mt-[52px]'>
 			<div className='hidden lg:block lg:text-3xl lg:mb-6' >Форма бронирования</div>
 			<div className='mb-3 lg:text-xl'>Период аренды:</div>
-			<div className='lg:flex lg:gap-[10px]'>
+			<div className='flex flex-col gap-2 lg:flex-row lg:gap-[10px]'>
 				<ConfigProvider
 					locale={locale}
 					theme={{
@@ -128,7 +128,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							value={startDate || today}
 							className='datePicker'
 							style={{
-								width: '60%',
+								width: '58%',
 								backgroundColor: '#f6f6f638',
 								border: getBorderStyle(isStartDateFocused),
 								borderTopLeftRadius: 10,
@@ -168,7 +168,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							value={returnDate}
 							className='datePicker'
 							style={{
-								width: '60%',
+								width: '58%',
 								backgroundColor: '#f6f6f638',
 								border: getBorderStyle(isReturnDateFocused),
 								borderTopLeftRadius: 10,

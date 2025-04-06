@@ -55,46 +55,9 @@ svg {
 	color: #f6f6f666 !important;
 }
 
-.ant-picker-dropdown .ant-picker-time-panel-column:not(:first-child) {
-	display: none !important;
-}
-
-/* Mobile Car single Timepicker */
-
-.timePicker .ant-select-selector {
-	width: 100px !important;
-	background-color: #f6f6f638 !important;
-	border-top: 1px solid #f6f6f647 !important;
-	border-right: 1px solid #f6f6f647 !important;
-	border-bottom: 1px solid #f6f6f647 !important;
-	border-left: 0 !important;
-	border-top-left-radius: 0;
-	border-top-right-radius: 10;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 10;
-	margin-bottom: 8;
-	padding-left: 16;
-	padding-right: 20;
-	height: 36 !important;
-	color: #f6f6f6;
-}
-
-.timePicker.ant-select .ant-select-arrow {
-	height: 14px !important;
-}
-
 /* Mobile Tooltip */
 .ant-tooltip .ant-tooltip-inner {
 	padding: 8px 10px;
-}
-
-/* Mobile Datepicker */
-.ant-picker-time-panel-column:nth-child(2) li.ant-picker-time-panel-cell {
-	display: none !important;
-}
-
-.ant-picker-now-btn {
-	display: none;
 }
 
 /* Mobile Car single checkbox mobile */

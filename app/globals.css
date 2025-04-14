@@ -55,6 +55,11 @@ svg {
 	color: #f6f6f666 !important;
 }
 
+/* Mobile Car single DatePicker */
+.datePicker.ant-picker .ant-picker-input > input {
+	margin-bottom: 2px;
+}
+
 /* Mobile Tooltip */
 .ant-tooltip .ant-tooltip-inner {
 	padding: 8px 10px;

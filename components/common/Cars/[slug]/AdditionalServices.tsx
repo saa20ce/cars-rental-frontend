@@ -9,6 +9,43 @@ interface AdditionalServicesProps {
 	options: { label: string; value: string }[];
 }
 
+const optionsDelivery = [
+	{
+		value: 'List Item 1', label: 'List Item 1',
+	},
+	{
+		value: 'List Item 2', label: 'List Item 2',
+	},
+	{
+		value: 'List Item 3', label: 'List Item 3',
+	},
+	{
+		value: 'List Item 4', label: 'List Item 4',
+	},
+	{
+		value: 'List Item 5', label: 'List Item 5',
+	},
+];
+
+const optionsReturn = [
+	{
+		value: 'List Item 1', label: 'List Item 1',
+	},
+	{
+		value: 'List Item 2', label: 'List Item 2',
+	},
+	{
+		value: 'List Item 3', label: 'List Item 3',
+	},
+	{
+		value: 'List Item 4', label: 'List Item 4',
+	},
+	{
+		value: 'List Item 5', label: 'List Item 5',
+	},
+];
+
+
 export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	options,
 }) => {
@@ -27,7 +64,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 				}}
 				onClick={toggleVisible}
 			>
-				<div className='lg:text-xl'>Дополнительные услуги{' '}</div>
+				<div className='lg:text-xl'>Доставка{' '}</div>
 				<span
 					style={{
 						transform: visible ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -43,8 +80,8 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 					<div className='additional-service-block'>
 						<div className='lg:text-lg'>Место подачи и возврата</div>
 						<div className='flex gap-2 w-full mt-2'>
-							<CustomSelect placeholder='Место подачи' />
-							<CustomSelect placeholder='Место возврата' />
+							<CustomSelect options={optionsDelivery} placeholder='Место подачи' listHeight={232} />
+							<CustomSelect options={optionsReturn} placeholder='Место возврата' listHeight={232} />
 						</div>
 					</div>
 					<div className='mt-[10px] lg:flex lg:flex-col lg:gap-2 lg:text-lg'>

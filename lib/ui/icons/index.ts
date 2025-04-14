@@ -20,3 +20,4 @@ export * from './LineVertHeaderDesktop';
 export * from './PhoneIconDefault';
 export * from './CheckRound';
 export * from './FiltersIcon';
+export * from './SmallCross';

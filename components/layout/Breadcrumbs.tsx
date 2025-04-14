@@ -16,7 +16,7 @@ export const Breadcrumbs: React.FC = () => {
 	const [titles, setTitles] = useState<Record<string, string>>({});
 
 	useEffect(() => {
-		fetch(`${WP_BASE_URL}/wp-json/wp/v2/pages?slug=home`)
+		fetch(`${WP_BASE_URL}/pages?slug=home`)
 			.then((res) => res.json())
 			.then((data) => {
 				if (
@@ -41,10 +41,10 @@ export const Breadcrumbs: React.FC = () => {
 				return;
 			}
 
-			let endpoint = `${WP_BASE_URL}/wp-json/wp/v2/pages?slug=${segment}`;
+			let endpoint = `${WP_BASE_URL}/pages?slug=${segment}`;
 
 			if (segments[0] === 'cars' && index === 1) {
-				endpoint = `${WP_BASE_URL}/wp-json/wp/v2/cars?slug=${segment}`;
+				endpoint = `${WP_BASE_URL}/cars?slug=${segment}`;
 			}
 
 			fetch(endpoint)

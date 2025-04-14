@@ -100,6 +100,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								cellHoverBg: '#284b63',
 								activeBorderColor: '#f6f6f675',
 								cellActiveWithRangeBg: '#284b63',
+								paddingInline: 16,
 							},
 							Select: {
 								colorTextPlaceholder: '#f6f6f6',
@@ -135,7 +136,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 10,
 								borderBottomRightRadius: 0,
-								paddingLeft: 16,
+								// paddingLeft: 16,
 								height: 36,
 								color: '#f6f6f6',
 							}}
@@ -175,7 +176,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 10,
 								borderBottomRightRadius: 0,
-								paddingLeft: 16,
+								// paddingLeft: 16,
 								height: 36,
 								color: '#f6f6f6',
 							}}

@@ -12,8 +12,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
 		<ConfigProvider
 			theme={{
 				token: {
-					colorBgBase: '#284152',
-
+					colorBgElevated: '#284152',
 				},
 				components: {
 					Select: {
@@ -22,9 +21,15 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
 						hoverBorderColor: '#f6f6f647',
 						colorBorder: '#f6f6f647',
 						colorTextPlaceholder: '#f6f6f666',
-						borderRadius: 10,
+						borderRadius: 12,
 						fontSizeIcon: 18,
 						fontFamily: '"lato", "lato Fallback"',
+						colorText: '#f6f6f6',
+						optionActiveBg: '#516573',
+						optionPadding: '8px 16px',
+						optionFontSize: 18,
+						borderRadiusSM: 8,
+						optionSelectedBg: '#516573',
 					},
 				},
 			}}

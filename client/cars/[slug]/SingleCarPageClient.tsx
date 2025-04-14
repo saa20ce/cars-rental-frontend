@@ -140,7 +140,7 @@ export default function SingleCarPageClient({
 				<RentalCost
 					additionalOptions={[
 						{ label: 'Бустер', value: 'buster' },
-						{ label: 'Бокс на крышу (+300 р)', value: 'box' },
+						{ label: 'Бокс на крышу (+500 р./сут.)', value: 'box' },
 						{ label: 'Детское кресло', value: 'seat' },
 					]}
 					seasonDates={seasonDates}

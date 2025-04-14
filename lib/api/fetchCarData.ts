@@ -9,7 +9,7 @@ import type {
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export async function getCarBySlug(slug: string): Promise<Car | null> {
-	const res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/cars?slug=${slug}`, {
+	const res = await fetch(`${WP_BASE_URL}/cars?slug=${slug}`, {
 		next: { revalidate: 60 },
 	});
 

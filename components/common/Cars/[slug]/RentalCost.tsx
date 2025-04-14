@@ -26,7 +26,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	priceRanges = [],
 	setSeasonModeSwitch,
 }) => {
-	const [startDate, setStartDate] = useState<Dayjs | null>(null);
+	const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
 
 	const [daysCount, setDaysCount] = useState(0);
@@ -37,11 +37,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		if (
-			startDate &&
-			returnDate &&
-			priceRanges.length > 0
-		) {
+		if (startDate && returnDate) {
 			const startFull = startDate
 			const endFull = returnDate;
 

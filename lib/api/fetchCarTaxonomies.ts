@@ -78,7 +78,7 @@ export async function fetchTaxonomyOptions(
 		}
 		const data: WpTerm[] = await res.json();
 		return data.map(term => ({
-			value: term.slug,
+			value: term.id.toString(), // используем ID таксономии, а не slug
 			label: term.name,
 		}));
 	} catch (err) {

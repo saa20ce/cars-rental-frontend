@@ -10,6 +10,7 @@ import { Menu, ConfigProvider, Button } from 'antd';
 import type { WPMenuType } from '@/lib/types/Menu';
 import { fetchMenuItems } from '@/lib/api/fetchCarMenu';
 import { ChevronDownIcon } from '@/lib/ui/icons';
+import Link from 'next/link';
 
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
@@ -46,7 +47,11 @@ const convertToAntdMenuItems = (
 ): AntdMenuItem[] => {
 	return menuTree.map((item) => ({
 		key: item.ID.toString(),
-		label: item.title,
+		label: (
+			<Link href={item.url} passHref>
+				<span className="no-underline text-inherit hover:text-inherit">{item.title}</span>
+			</Link>
+		),
 		children:
 			item.children && item.children.length > 0
 				? convertToAntdMenuItems(item.children)
@@ -73,7 +78,9 @@ export const Navbar: React.FC = () => {
 
 	return (
 		<div className='flex justify-between items-center bg-[#284b63] py-4 px-5 rounded-full lg:py-[7px] lg:px-6 lg:rounded-3xl'>
-			<LogoFull />
+			<Link href='/' >
+				<LogoFull />
+			</Link>
 
 			<div className='flex items-center gap-6 lg:hidden'>
 				<PhoneIcon />

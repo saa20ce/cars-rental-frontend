@@ -31,7 +31,7 @@
 		right: 15px;
 	}
 
-	.additional-service-block .ant-select-focused .ant-select-selector {
+	.ant-select-focused .ant-select-selector {
 		box-shadow: none !important;
 		border: 1px solid #f6f6f6 !important;
 	}
@@ -40,19 +40,15 @@
 /* Mobile Car single Timepicker */
 .timePicker.ant-select {
 	width: 42% !important;
-	height: 36px !important;
+	/* height: 36px !important; */
 }
 
 .timePicker .ant-select-selector {
-	background-color: #f6f6f638 !important;
-	border-top: 1px solid #f6f6f647 !important;
-	border-right: 1px solid #f6f6f647 !important;
-	border-bottom: 1px solid #f6f6f647 !important;
-	border-left: 0 !important;
+	/* background-color: #f6f6f638 !important; */
 	border-top-left-radius: 0;
-	border-top-right-radius: 10px !important;
+	border-top-right-radius: 12px !important;
 	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 10px !important;
+	border-bottom-right-radius: 12px !important;
 	margin-bottom: 8;
 	padding: 0px 16px 0px 16px !important;
 	padding-right: 20;
@@ -74,7 +70,11 @@
 
 	.timePicker .ant-select-selector,
 	.timePicker.ant-select {
-		width: 100px !important;
+		/* width: 100px !important; */
+	}
+
+	.ant-select-selection-item {
+		padding-top: 4px !important;
 	}
 
 	.ant-picker .ant-picker-input > input,
@@ -89,4 +89,25 @@
 
 .filters-select .ant-select-selector {
 	padding: 0 12px !important;
+}
+
+/* Desktop select group */
+@media (width >= 64rem) {
+	.select-group .ant-select:first-child .ant-select-selector {
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+
+	.select-group
+		.ant-select:not(:first-child):not(:last-child)
+		.ant-select-selector {
+		border-radius: 0px;
+	}
+
+	.select-group .ant-select:last-child .ant-select-selector {
+		border-top-right-radius: 12px;
+		border-bottom-right-radius: 12px;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+	}
 }

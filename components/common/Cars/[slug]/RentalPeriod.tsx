@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
+import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CalendarIcon, ChevronDownIcon } from '@/lib/ui/icons';
 import { AdditionalServices } from './AdditionalServices';
 
@@ -78,7 +79,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	}, []);
 
 	return (
-		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-7 lg:mt-[52px]'>
+		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
 			<div className='hidden lg:block lg:text-3xl lg:mb-6' >Форма бронирования</div>
 			<div className='mb-3 lg:text-xl'>Период аренды:</div>
 			<div className='flex flex-col gap-2 lg:flex-row lg:gap-[10px]'>
@@ -102,16 +103,17 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								cellActiveWithRangeBg: '#284b63',
 								paddingInline: 16,
 							},
-							Select: {
-								colorTextPlaceholder: '#f6f6f6',
-							}
+							// Select: {
+							// 	colorTextPlaceholder: '#f6f6f6',
+							// 	activeBorderColor: '#f6f6f6',
+							// }
 						},
 					}}>
 
 					<div className='flex'>
 						<DatePicker
 							placeholder='Дата аренды'
-							format={'Выдача: ' + (isMobile ? 'D MMMM' : 'D MMM')}
+							format={(isMobile ? 'D MMMM' : 'D MMM')}
 							suffixIcon={<CalendarIcon active={isStartCalendarOpen} />}
 							inputReadOnly
 							disabledDate={disabledDateStart}
@@ -132,9 +134,9 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								width: '58%',
 								backgroundColor: '#f6f6f638',
 								border: getBorderStyle(isStartDateFocused),
-								borderTopLeftRadius: 10,
+								borderTopLeftRadius: 12,
 								borderTopRightRadius: 0,
-								borderBottomLeftRadius: 10,
+								borderBottomLeftRadius: 12,
 								borderBottomRightRadius: 0,
 								// paddingLeft: 16,
 								height: 36,
@@ -142,7 +144,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							}}
 						/>
 
-						<Select
+						<CustomSelect
 							placeholder='18:00'
 							options={timeOptions}
 							className='timePicker'
@@ -153,8 +155,8 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
 					<div className='flex'>
 						<DatePicker
-							placeholder='Дата возврата'
-							format={'Возврат: ' + (isMobile ? 'D MMMM' : 'D MMM')}
+							placeholder='Возврат'
+							format={(isMobile ? 'D MMMM' : 'D MMM')}
 							suffixIcon={<CalendarIcon active={isReturnDateOpen} />}
 							inputReadOnly
 							disabledDate={disabledDateFinish}
@@ -182,7 +184,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							}}
 						/>
 
-						<Select
+						<CustomSelect
 							placeholder='18:00'
 							options={timeOptions}
 							className='timePicker'

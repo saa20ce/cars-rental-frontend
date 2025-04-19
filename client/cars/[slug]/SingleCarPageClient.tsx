@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ConfigProvider, Carousel, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import {
@@ -32,6 +32,14 @@ export default function SingleCarPageClient({
 }: SingleCarPageClientProps) {
 	const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
+	const galleryImages = useMemo(() => [
+		...(car.acf?.white_gallery || []),
+		...(car.acf?.black_gallery || []),
+		...(car.acf?.gray_gallery || []),
+		...(car.acf?.blue_gallery || []),
+		...(car.acf?.red_gallery || []),
+	], [car.acf]);
+
 	const TAB_ITEMS: TabsProps['items'] = [
 		{
 			key: '1',
@@ -60,8 +68,16 @@ export default function SingleCarPageClient({
 				)}
 
 
-				<div className=''>
-					{gallery.length > 0 && (
+				<div className='фыв'>
+					{galleryImages.length === 1 && (
+						<img
+							src={galleryImages[0]}
+							alt={car.acf?.nazvanie_avto || 'car image'}
+							className='w-full h-[225px] rounded-2xl object-cover lg:h-[385px]'
+						/>
+					)}
+
+					{galleryImages.length > 1 && (
 						<ConfigProvider
 							theme={{
 								components: {
@@ -71,19 +87,11 @@ export default function SingleCarPageClient({
 						>
 							<Carousel
 								arrows
-								prevArrow={
-									<div>
-										<ArrowLeftIcon />
-									</div>
-								}
-								nextArrow={
-									<div>
-										<ArrowRightIcon />
-									</div>
-								}
+								prevArrow={<div><ArrowLeftIcon /></div>}
+								nextArrow={<div><ArrowRightIcon /></div>}
 								dots={false}
 							>
-								{gallery.map((imgUrl) => (
+								{galleryImages.map((imgUrl) => (
 									<div key={imgUrl}>
 										<img
 											src={imgUrl}
@@ -136,7 +144,7 @@ export default function SingleCarPageClient({
 				</div>
 			</div>
 
-			<div className='lg:w-1/2'>
+			<div className='lg:w-1/2 lg:max-w-[618px]'>
 				<RentalCost
 					additionalOptions={[
 						{ label: 'Бустер', value: 'buster' },

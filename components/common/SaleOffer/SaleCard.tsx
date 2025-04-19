@@ -1,0 +1,35 @@
+import React from 'react';
+import Link from 'next/link';
+
+interface SaleCardProps {
+	title?: string;
+	description?: string;
+	imageUrl?: string;
+	link?: string;
+}
+
+const SaleCard: React.FC<SaleCardProps> = ({
+	title = 'Скидка 20%',
+	description = 'При аренде кроссоверов',
+	imageUrl = 'https://demo.rentasib.ru/wp-content/uploads/2025/04/223_rectangle.png',
+	link = '/sale'
+}) => {
+	return (
+		<div className="sale-card bg-[#3c6e71] bg-[url('https://demo.rentasib.ru/wp-content/uploads/2025/04/223_rectangle.png')] bg-right bg-no-repeat bg-contain text-white rounded-3xl overflow-hidden shadow-lg px-4 pt-2 pb-3 flex flex-col">
+			<div>
+				<div className="text-lg font-bold">{title}</div>
+				<p className="text-sm mb-1">{description}</p>
+				<span className='bg-[#F6EBD5] text-black px-2 py-1 rounded-xl font-extrabold relative text-sm'>От 3-х суток</span><span className='bg-[#00000064] text-white px-2 py-1 rounded-xl font-semibold ml-[-11px] z-0 inline pl-[16px] rounded-l-none text-sm'>До 31.01</span>
+			</div>
+			{/* {imageUrl && (
+				<img
+					src={imageUrl}
+					alt={title}
+					className="w-full h-40 object-cover rounded-xl mb-4"
+				/>
+			)} */}
+		</div>
+	);
+};
+
+export default SaleCard;

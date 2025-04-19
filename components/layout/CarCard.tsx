@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Button, ConfigProvider } from "antd";
 
 export interface Car {
@@ -28,19 +29,25 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 		car.acf.red_gallery?.[0] ||
 		"";
 
+	const carLink = `/cars/${car.slug}`;
+
 	return (
 		<div className="car-card flex flex-col">
-			<img
-				src={imageUrl}
-				alt={car.acf.nazvanie_avto}
-				className="w-full h-3/4 object-cover mb-[6px] rounded-3xl"
-			/>
+			<Link href={carLink} passHref className="contents">
+				<img
+					src={imageUrl}
+					alt={car.acf.nazvanie_avto}
+					className="w-full h-3/4 object-cover mb-[6px] rounded-3xl"
+				/>
+			</Link>
 
 			<div className="flex justify-between">
 				<div className="w-full">
-					<div className="text-lg font-semibold">
-						{car.acf.nazvanie_avto}
-					</div>
+					<Link href={carLink} passHref>
+						<div className="text-lg font-semibold">
+							{car.acf.nazvanie_avto}
+						</div>
+					</Link>
 					<div className="text-xl font-semibold text-[#f6f6f6] ">
 						{car.acf["30_dnej"]} ₽/сут.
 					</div>

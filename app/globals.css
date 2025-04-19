@@ -177,11 +177,11 @@ span.ant-checkbox-label {
 	}
 
 	.ant-picker.datePicker {
-		width: 176px !important;
+		/* width: 176px !important; */
 	}
 
 	.ant-picker.timePicker {
-		width: 100px !important;
+		/* width: 100px !important; */
 	}
 
 	.ant-picker .ant-picker-input > input {

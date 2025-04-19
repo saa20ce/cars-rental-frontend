@@ -17,7 +17,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
 				components: {
 					Select: {
 						selectorBg: '#f6f6f638',
-						activeBorderColor: '#f6f6f647',
+						activeBorderColor: '#f6f6f6',
 						hoverBorderColor: '#f6f6f647',
 						colorBorder: '#f6f6f647',
 						colorTextPlaceholder: '#f6f6f666',

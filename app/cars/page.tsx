@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Car, CarCard } from '@/components/layout/CarCard';
+import SaleCard from '@/components/common/SaleOffer/SaleCard';
 import { Button, ConfigProvider } from 'antd';
 import {
 	CheckRound,
@@ -78,6 +79,8 @@ export default function CarsPage() {
 			if (selectedDvigatel) queryParams.append('dvigatel', selectedDvigatel);
 			if (selectedColor) queryParams.append('color', selectedColor);
 
+			queryParams.append('per_page', '100');
+
 			const url = `${WP_BASE_URL}/cars${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 			const res = await fetch(url);
 			if (!res.ok) {
@@ -113,110 +116,144 @@ export default function CarsPage() {
 
 	return (
 		<>
-			<div className="bg-[#f6f6f60e] rounded-3xl p-[18px]">
-				<h1 className="text-2xl mb-3">Автопарк</h1>
-				<div className="grid grid-cols-2 gap-x-[10px] gap-y-[6px] text-sm pb-[14px] border-b-[1px] border-[#f6f6f638]">
+			<div className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7">
+				<h1 className="text-2xl mb-3 lg:text-4xl lg:font-bold lg:mb-6">Автопарк</h1>
+				<div className='hide lg:block text-xl max-w-[810px] mb-5'>Мы гордимся своим обновляемым автопарком, который всегда находится в  отличном состоянии и готов предоставить вам максимальный комфорт во  время поездки.</div>
+				<div className="grid grid-cols-2 gap-x-[10px] gap-y-[6px] text-sm pb-[14px] border-b-[1px] border-[#f6f6f638] lg:flex lg:justify-between lg:text-xl">
 					<div className="flex">
 						<div className="mr-[7px] mt-[-1px]">
 							<CheckRound />
 						</div>{" "}
-						<b>КАСКО</b>&nbsp;и&nbsp;<b>ОСАГО</b>
+						<span className="hidden lg:block">Страховка&nbsp;</span><b>КАСКО</b>&nbsp;и&nbsp;<b>ОСАГО</b>
 					</div>
+
 					<div className="flex">
 						<div className="mr-[7px] mt-[-1px]">
 							<CheckRound />
 						</div>{" "}
 						Обслуженные авто
 					</div>
+
 					<div className="flex">
 						<div className="mr-[7px] mt-[-1px]">
 							<CheckRound />
 						</div>{" "}
 						Большой выбор
 					</div>
+
 					<div className="flex">
 						<div className="mr-[7px] mt-[-1px]">
 							<CheckRound />
 						</div>{" "}
 						Доступные цены
 					</div>
+
+					<div className="flex">
+						<div className="mr-[7px] mt-[-1px]">
+							<CheckRound />
+						</div>{" "}
+						Без скрытых платежей
+					</div>
 				</div>
 
-				<div className="flex flex-col mt-[14px] mb-3 gap-[10px]">
-					<CustomSelect
-						placeholder="Класс"
-						options={klassOptions}
-						className="filters-select"
-						style={{ width: '100%', height: '44px' }}
-						onChange={(value) => setSelectedKlass(value as string)}
-						value={selectedKlass || undefined}
-					/>
+				<div className='mb-4'>
+					<div className="flex flex-col mt-[14px] mb-3 gap-[10px] lg:flex-row lg:gap-0">
+						<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0'>
+							<CustomSelect
+								placeholder="Класс"
+								options={klassOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedKlass(value as string)}
+								value={selectedKlass || undefined}
+							/>
 
-					<CustomSelect
-						placeholder="Марка"
-						options={markaOptions}
-						className="filters-select"
-						style={{ width: '100%', height: '44px' }}
-						onChange={(value) => setSelectedMarka(value as string)}
-						value={selectedMarka || undefined}
-					/>
+							<CustomSelect
+								placeholder="Марка"
+								options={markaOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedMarka(value as string)}
+								value={selectedMarka || undefined}
+							/>
 
-					<CustomSelect
-						placeholder="Цена"
-						// Если нужен фильтр по цене, можно добавить состояние и обработчик
-						className="filters-select"
-						style={{ width: '100%', height: '44px' }}
-					/>
+							<CustomSelect
+								placeholder="Цена"
+								// Если нужен фильтр по цене, можно добавить состояние и обработчик
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+							/>
+						</div>
+
+
+						<div className='hidden lg:flex lg:w-2/5 lg:pl-3'>
+							<Button
+								style={{
+									color: '#f6f6f6',
+									height: '44px',
+									width: '100%',
+									background: '#3c6e71',
+									border: 'none',
+									borderRadius: '12px',
+								}}
+								onClick={loadCars}
+							>
+								Показать
+							</Button>
+						</div>
+					</div>
 
 					{advancedVisible && (
 						<>
-							<CustomSelect
-								placeholder="Кузов"
-								options={kuzovOptions}
-								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedKuzov(value as string)}
-								value={selectedKuzov || undefined}
-							/>
+							<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0'>
+								<CustomSelect
+									placeholder="Кузов"
+									options={kuzovOptions}
+									className="filters-select"
+									style={{ width: '100%', height: '44px' }}
+									onChange={(value) => setSelectedKuzov(value as string)}
+									value={selectedKuzov || undefined}
+								/>
 
-							<CustomSelect
-								placeholder="Привод"
-								options={privodOptions}
-								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedPrivod(value as string)}
-								value={selectedPrivod || undefined}
-							/>
+								<CustomSelect
+									placeholder="Привод"
+									options={privodOptions}
+									className="filters-select"
+									style={{ width: '100%', height: '44px' }}
+									onChange={(value) => setSelectedPrivod(value as string)}
+									value={selectedPrivod || undefined}
+								/>
 
-							<CustomSelect
-								placeholder="Вместимость"
-								// Добавьте состояние, если потребуется
-								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-							/>
+								<CustomSelect
+									placeholder="Вместимость"
+									// Добавьте состояние, если потребуется
+									className="filters-select"
+									style={{ width: '100%', height: '44px' }}
+								/>
 
-							<CustomSelect
-								placeholder="Двигатель"
-								options={dvigatelOptions}
-								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedDvigatel(value as string)}
-								value={selectedDvigatel || undefined}
-							/>
+								<CustomSelect
+									placeholder="Двигатель"
+									options={dvigatelOptions}
+									className="filters-select"
+									style={{ width: '100%', height: '44px' }}
+									onChange={(value) => setSelectedDvigatel(value as string)}
+									value={selectedDvigatel || undefined}
+								/>
 
-							<CustomSelect
-								placeholder="Цвет"
-								options={colorOptions}
-								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedColor(value as string)}
-								value={selectedColor || undefined}
-							/>
+								<CustomSelect
+									placeholder="Цвет"
+									options={colorOptions}
+									className="filters-select"
+									style={{ width: '100%', height: '44px' }}
+									onChange={(value) => setSelectedColor(value as string)}
+									value={selectedColor || undefined}
+								/>
+							</div>
 						</>
 					)}
 				</div>
 
-				<div className="flex justify-between flex-wrap">
+				<div className="flex justify-between flex-wrap lg:justify-start lg:gap-3">
 					<ConfigProvider
 						theme={{
 							components: {
@@ -227,6 +264,7 @@ export default function CarsPage() {
 									defaultHoverColor: '#f6f6f6',
 									defaultActiveBorderColor: '#f6f6f6',
 									defaultActiveColor: '#f6f6f6',
+									borderRadius: 8,
 								},
 							},
 						}}
@@ -265,37 +303,48 @@ export default function CarsPage() {
 						</Button>
 
 						{/* При нажатии на кнопку "Показать" запускается функция загрузки постов с фильтрами */}
-						<Button
-							style={{
-								color: '#f6f6f6',
-								height: '40px',
-								width: '100%',
-								marginTop: '20px',
-								background: '#3c6e71',
-								border: 'none',
-							}}
-							onClick={loadCars}
-						>
-							Показать
-						</Button>
+						<div className='block lg:hidden w-full'>
+							<Button
+								style={{
+									color: '#f6f6f6',
+									height: '40px',
+									width: '100%',
+									marginTop: '20px',
+									background: '#3c6e71',
+									border: 'none',
+								}}
+								onClick={loadCars}
+							>
+								Показать
+							</Button>
+						</div>
 					</ConfigProvider>
 				</div>
 			</div>
 
 			<div className="flex justify-between mt-6">
-				<span>Показано: {cars.length}</span>
-				<div className="flex items-center text-sm gap-[14px]">
-					<div className="w-[55px]">Сначала дороже</div>
-					<div className="w-[59px]">Сначала дешевле</div>
-					<div className="w-[73px]">Сначала со скидкой</div>
+				<span className="lg:text-xl font-bold tracking-wide">Показано: {cars.length}</span>
+				<div className="flex items-center text-sm gap-[14px] lg:text-nowrap lg:text-lg lg:font-bold">
+					<div className="w-[55px] lg:w-full">Сначала дороже</div>
+					<div className="w-[59px] lg:w-full">Сначала дешевле</div>
+					<div className="w-[73px] lg:w-full">Сначала со скидкой</div>
 				</div>
 			</div>
 
-			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
 				{loading ? (
 					<p>Загрузка...</p>
 				) : cars.length > 0 ? (
-					cars.map((car) => <CarCard key={car.id} car={car} />)
+					cars.map((car, index) => (
+						<React.Fragment key={car.id}>
+							{index === 3 && (
+								<div className="block lg:hidden">
+									<SaleCard />
+								</div>
+							)}
+							<CarCard car={car} />
+						</React.Fragment>
+					))
 				) : (
 					<p>Ничего не найдено</p>
 				)}

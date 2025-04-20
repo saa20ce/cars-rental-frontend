@@ -27,6 +27,10 @@ svg {
 	display: inline-block;
 }
 
+a:hover {
+	color: #f6f6f675;
+}
+
 /* Mobile Breadcrumbs */
 .ant-breadcrumb ol {
 	overflow: auto;
@@ -165,27 +169,6 @@ span.ant-checkbox-label {
 	.ant-checkbox-inner,
 	.ant-checkbox-input {
 		transform: scale(1.01) !important;
-	}
-}
-
-/* Desktop Picker */
-@media (width >= 64rem) {
-	.ant-picker,
-	.timePicker .ant-select-selector,
-	.ant-select {
-		height: 44px !important;
-	}
-
-	.ant-picker.datePicker {
-		/* width: 176px !important; */
-	}
-
-	.ant-picker.timePicker {
-		/* width: 100px !important; */
-	}
-
-	.ant-picker .ant-picker-input > input {
-		font-size: 16px;
 	}
 }
 

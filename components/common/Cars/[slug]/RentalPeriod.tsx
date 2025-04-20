@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { ConfigProvider, DatePicker, Select } from 'antd';
+import { ConfigProvider, DatePicker } from 'antd';
 import type { GetProps } from 'antd';
 import { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -9,7 +9,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
-import { CalendarIcon, ChevronDownIcon } from '@/lib/ui/icons';
+import { CalendarIcon } from '@/lib/ui/icons';
 import { AdditionalServices } from './AdditionalServices';
 
 dayjs.locale('ru');
@@ -103,10 +103,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								cellActiveWithRangeBg: '#284b63',
 								paddingInline: 16,
 							},
-							// Select: {
-							// 	colorTextPlaceholder: '#f6f6f6',
-							// 	activeBorderColor: '#f6f6f6',
-							// }
 						},
 					}}>
 
@@ -138,7 +134,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 12,
 								borderBottomRightRadius: 0,
-								// paddingLeft: 16,
 								height: 36,
 								color: '#f6f6f6',
 							}}
@@ -149,7 +144,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							options={timeOptions}
 							className='timePicker'
 							defaultValue={defaultTimeValue}
-							suffixIcon={<ChevronDownIcon />}
 						/>
 					</div>
 
@@ -178,7 +172,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 								borderTopRightRadius: 0,
 								borderBottomLeftRadius: 10,
 								borderBottomRightRadius: 0,
-								// paddingLeft: 16,
 								height: 36,
 								color: '#f6f6f6',
 							}}
@@ -189,7 +182,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							options={timeOptions}
 							className='timePicker'
 							defaultValue={defaultTimeValue}
-							suffixIcon={<ChevronDownIcon />}
 						/>
 					</div>
 				</ConfigProvider>

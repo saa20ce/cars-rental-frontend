@@ -109,7 +109,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 			/>
 
 			{showCost && (
-				<div className='p-[18px] pt-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all lg:px-7 lg:py-8'>
+				<div className='p-[18px] pt-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all lg:px-7 lg:pb-8 lg:pt-11 lg:mt-[-28]'>
 					<div
 						className='flex items-center cursor-pointer transition-all'
 						style={{ marginBottom: visible ? 12 : 0 }}
@@ -125,7 +125,7 @@ export const RentalCost: React.FC<RentalCostProps> = ({
 								marginLeft: 8,
 							}}
 						>
-							<ChevronDownIcon fillOpacity={1} />
+							<ChevronDownIcon active={true} />
 						</span>
 					</div>
 

@@ -25,7 +25,7 @@ export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 	}, [car]);
 
 	return (
-		<div className='px-3'>
+		<div className='px-3 lg:px-0'>
 			<div className='text-sm border-b border-[#f6f6f638] lg:text-lg'>
 				<div className='flex justify-between my-[6px] lg:my-[10px]'>
 					<div>Двигатель</div>

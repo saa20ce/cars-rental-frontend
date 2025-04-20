@@ -2,18 +2,12 @@ import React from 'react';
 
 export interface CalendarIconProps {
 	active?: boolean;
-	// width?: number;
-	// height?: number;
 }
 
 export const CalendarIcon: React.FC<CalendarIconProps> = ({
 	active = false,
-	// width = 14,
-	// height = 15,
 }) => (
 	<svg
-		// width={width}
-		// height={height}
 		className='
 		w-[14px] h-[15px]
 		lg:w-[16px] lg:h-[24px]

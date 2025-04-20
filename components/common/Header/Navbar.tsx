@@ -49,7 +49,7 @@ const convertToAntdMenuItems = (
 		key: item.ID.toString(),
 		label: (
 			<Link href={item.url} passHref>
-				<span className="no-underline text-inherit hover:text-inherit">{item.title}</span>
+				<span >{item.title}</span>
 			</Link>
 		),
 		children:

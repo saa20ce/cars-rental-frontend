@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Car, CarCard } from '@/components/layout/CarCard';
 import SaleCard from '@/components/common/SaleOffer/SaleCard';
 import { Button, ConfigProvider } from 'antd';
@@ -68,7 +68,7 @@ export default function CarsPage() {
 		loadOptions();
 	}, []);
 
-	async function loadCars() {
+	const loadCars = useCallback(async () => {
 		try {
 			setLoading(true);
 			const queryParams = new URLSearchParams();
@@ -93,12 +93,12 @@ export default function CarsPage() {
 		} finally {
 			setLoading(false);
 		}
-	}
+	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor, WP_BASE_URL]);
 
 	// Начальная загрузка автомобилей без фильтров
 	useEffect(() => {
 		loadCars();
-	}, []);
+	}, [loadCars]);
 
 	useEffect(() => {
 		if (
@@ -111,14 +111,14 @@ export default function CarsPage() {
 		) {
 			loadCars();
 		}
-	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor]);
+	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor, loadCars]);
 
 
 	return (
 		<>
 			<div className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7">
 				<h1 className="text-2xl mb-3 lg:text-4xl lg:font-bold lg:mb-6">Автопарк</h1>
-				<div className='hide lg:block text-xl max-w-[810px] mb-5'>Мы гордимся своим обновляемым автопарком, который всегда находится в  отличном состоянии и готов предоставить вам максимальный комфорт во  время поездки.</div>
+				<div className='hidden lg:block text-xl max-w-[810px] mb-5'>Мы гордимся своим обновляемым автопарком, который всегда находится в  отличном состоянии и готов предоставить вам максимальный комфорт во  время поездки.</div>
 				<div className="grid grid-cols-2 gap-x-[10px] gap-y-[6px] text-sm pb-[14px] border-b-[1px] border-[#f6f6f638] lg:flex lg:justify-between lg:text-xl">
 					<div className="flex">
 						<div className="mr-[7px] mt-[-1px]">
@@ -148,7 +148,7 @@ export default function CarsPage() {
 						Доступные цены
 					</div>
 
-					<div className="flex">
+					<div className="hidden lg:flex">
 						<div className="mr-[7px] mt-[-1px]">
 							<CheckRound />
 						</div>{" "}

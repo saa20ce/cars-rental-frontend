@@ -20,7 +20,7 @@
 @media (width >= 64rem) {
 	span.ant-select-selection-placeholder {
 		height: 25px;
-		font-size: 16px;
+		font-size: 18px;
 	}
 
 	.ant-select-selector {
@@ -28,7 +28,7 @@
 	}
 
 	.ant-select .ant-select-arrow {
-		right: 15px;
+		right: 22px;
 	}
 
 	.ant-select-focused .ant-select-selector {
@@ -39,12 +39,10 @@
 
 /* Mobile Car single Timepicker */
 .timePicker.ant-select {
-	width: 42% !important;
-	/* height: 36px !important; */
+	width: 44% !important;
 }
 
 .timePicker .ant-select-selector {
-	/* background-color: #f6f6f638 !important; */
 	border-top-left-radius: 0;
 	border-top-right-radius: 12px !important;
 	border-bottom-left-radius: 0;
@@ -60,7 +58,14 @@
 	height: 14px !important;
 }
 
-/* Car single Timepicker */
+/* Desktop Car single Datepicker */
+@media (width >= 64rem) {
+	.ant-picker.datePicker {
+		padding: 0px 20px 0px 20px !important;
+	}
+}
+
+/* Desktop Car single Timepicker */
 @media (width >= 64rem) {
 	.ant-picker,
 	.timePicker .ant-select-selector,
@@ -68,13 +73,16 @@
 		height: 44px !important;
 	}
 
-	.timePicker .ant-select-selector,
-	.timePicker.ant-select {
-		/* width: 100px !important; */
+	.timePicker .ant-select-selector {
+		padding: 0px 20px 0px 20px !important;
+	}
+
+	.ant-select-single.ant-select-open .ant-select-arrow svg {
+		fill-opacity: 1 !important;
 	}
 
 	.ant-select-selection-item {
-		padding-top: 4px !important;
+		padding-top: 3px !important;
 	}
 
 	.ant-picker .ant-picker-input > input,
@@ -83,7 +91,7 @@
 	}
 
 	.timePicker.ant-select .ant-select-arrow {
-		height: 21px !important;
+		height: 18px !important;
 	}
 }
 

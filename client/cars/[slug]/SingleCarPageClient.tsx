@@ -127,7 +127,7 @@ export default function SingleCarPageClient({
 							components: {
 								Tabs: {
 									cardBg: '#f6f6f60e',
-									itemColor: '#f6f6f666',
+									itemColor: '#f6f6f6',
 									itemSelectedColor: '#f6f6f6',
 									inkBarColor: 'transparent',
 									itemActiveColor: '#f6f6f6',

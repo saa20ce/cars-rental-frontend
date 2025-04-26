@@ -31,6 +31,17 @@ a:hover {
 	color: #f6f6f675;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
 /* Mobile Breadcrumbs */
 .ant-breadcrumb ol {
 	overflow: auto;
@@ -77,11 +88,17 @@ span.ant-checkbox-label {
 .ant-checkbox .ant-checkbox-inner {
 	background-color: #f6f6f675 !important;
 	border-color: #f6f6f675 !important;
+	width: 20px !important;
+	height: 20px !important;
 }
 
 .ant-checkbox-wrapper,
 .ant-picker-input-placeholder > input {
 	color: #f6f6f6 !important;
+}
+
+.ant-checkbox + span {
+	padding-inline-end: 0px;
 }
 
 /* Mobile Car single image slider */

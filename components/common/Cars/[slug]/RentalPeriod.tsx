@@ -79,9 +79,9 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	}, []);
 
 	return (
-		<div className='w-full bg-[#284b63] rounded-2xl p-[18px] mt-4 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
-			<div className='hidden lg:block lg:text-3xl lg:mb-6' >Форма бронирования</div>
-			<div className='mb-3 lg:text-xl'>Период аренды:</div>
+		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
+			<div className='text-xl mb-4 lg:text-3xl lg:mb-6' >Форма бронирования</div>
+			<div className='mb-[10px] lg:text-xl'>Период аренды:</div>
 			<div className='flex flex-col gap-2 lg:flex-row lg:gap-[10px]'>
 				<ConfigProvider
 					locale={locale}

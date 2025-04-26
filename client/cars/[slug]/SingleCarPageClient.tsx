@@ -62,13 +62,13 @@ export default function SingleCarPageClient({
 		<div className='lg:flex lg:w-full lg:gap-6'>
 			<div className='lg:w-1/2 lg:max-w-[618px]'>
 				{car.acf?.nazvanie_avto && (
-					<div className='text-2xl uppercase font-bold mb-[12px] ml-3 lg:text-4xl lg:ml-0'>
+					<div className='text-2xl uppercase font-bold mb-5 ml-3 lg:text-4xl lg:ml-0'>
 						{car.acf.nazvanie_avto}
 					</div>
 				)}
 
 
-				<div className='фыв'>
+				<div className='carousel-wrapper'>
 					{galleryImages.length === 1 && (
 						<img
 							src={galleryImages[0]}
@@ -159,7 +159,7 @@ export default function SingleCarPageClient({
 					<div className='hidden lg:block lg:text-2xl lg:mt-8'>
 						Условия аренды
 					</div>
-					<div className='flex justify-between mt-6 space-y-1 text-[#f6f6f666] border-[#f6f6f638] border-y py-3 lg:mt-5 lg:border-0 lg:py-0'>
+					<div className='flex flex-wrap justify-between mt-6 text-[#f6f6f666] border-[#f6f6f638] border-y py-6 lg:mt-5 lg:border-0 lg:py-0'>
 						<div className='flex flex-wrap justify-between w-[116px] h-[32px] lg:w-[175px]'>
 							<DocumentsIcon />
 							<div className='mt-[-2px]'>
@@ -168,7 +168,7 @@ export default function SingleCarPageClient({
 							</div>
 						</div>
 
-						<div className='flex flex-wrap justify-between w-[97px] mt-[0!important] lg:w-[150px]'>
+						<div className='flex flex-wrap justify-between w-[97px] mt-0 lg:w-[150px]'>
 							<CarIcon />
 							<div className='h-[32px] w-[59px] mt-[-2px] lg:w-auto'>
 								<div className='text-sm font-bold lg:text-lg'>Стаж</div>
@@ -176,13 +176,15 @@ export default function SingleCarPageClient({
 							</div>
 						</div>
 
-						<div className='flex flex-wrap justify-between w-[104px] mt-[0!important] lg:w-[160px]'>
+						<div className='flex flex-wrap justify-between w-[104px] mt-0 lg:w-[160px]'>
 							<AgeIcon />
 							<div className='h-[32px] w-[66px] mt-[-2px] lg:w-auto'>
 								<div className='text-sm font-bold lg:text-lg'>Возраст</div>
 								<div className='text-xs lg:text-lg'>От 22-х лет</div>
 							</div>
 						</div>
+
+						<div className='block lg:hidden text-[#f6f6f6] mt-3 mx-auto underline'>Полные условия</div>
 					</div>
 
 					<div className='hidden lg:block'>

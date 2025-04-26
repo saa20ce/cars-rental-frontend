@@ -113,7 +113,7 @@ export const Breadcrumbs: React.FC = () => {
 		>
 			<Breadcrumb
 				items={items}
-				className='bg-[#1e384a] pt-[7px] pb-[8px] px-5 rounded-full mb-4 text-sm lg:pt-[14px] lg:pb-[16px] lg:px-6 lg:text-base lg:mb-9'
+				className='bg-[#1e384a] pt-[7px] pb-[8px] px-5 rounded-full mb-6 text-sm lg:pt-[14px] lg:pb-[16px] lg:px-6 lg:text-base lg:mb-9'
 				separator={<ChevronRightIcon />}
 			/>
 		</ConfigProvider>

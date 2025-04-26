@@ -32,14 +32,14 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	return (
 		<div>
 			<div className='additional-service-block'>
-				<div className='lg:text-lg mt-4'>Место подачи</div>
-				<div className='flex gap-2 w-full mt-3'>
+				<div className='lg:text-lg mt-[14px]'>Место подачи</div>
+				<div className='flex gap-2 w-full mt-[10px]'>
 					<CustomSelect options={optionsDelivery} placeholder='Выберите район' listHeight={232} style={{ width: '100%', height: '36px' }} />
 				</div>
 			</div>
-			<div className='mt-[14px] lg:flex lg:flex-col lg:gap-3 lg:text-lg'>
+			<div className='flex flex-wrap gap-[10px] mt-3 lg:flex-col lg:gap-3 lg:text-lg'>
 				Опции:
-				<CheckboxGroup options={options} />
+				<CheckboxGroup className='gap-4' options={options} />
 			</div>
 		</div>
 	);

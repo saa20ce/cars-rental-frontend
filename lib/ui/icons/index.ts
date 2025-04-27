@@ -21,3 +21,4 @@ export * from './PhoneIconDefault';
 export * from './CheckRound';
 export * from './FiltersIcon';
 export * from './SmallCross';
+export * from './ArrowRightLinkIcon';

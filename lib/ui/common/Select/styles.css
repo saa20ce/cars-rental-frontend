@@ -35,6 +35,10 @@
 		box-shadow: none !important;
 		border: 1px solid #f6f6f6 !important;
 	}
+
+	.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+		height: 29px;
+	}
 }
 
 /* Mobile Car single Timepicker */

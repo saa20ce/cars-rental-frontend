@@ -12,9 +12,7 @@ interface CarCharacteristicsProps {
 export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 	car,
 }) => {
-	const [taxonomyValues, setTaxonomyValues] = useState<
-		Record<string, string>
-	>({});
+	const [taxonomyValues, setTaxonomyValues] = useState<Record<string, string>>({});
 
 	useEffect(() => {
 		async function loadTaxonomies() {

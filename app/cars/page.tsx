@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Car, CarCard } from '@/components/layout/CarCard';
+import { CarCard } from '@/components/layout/CarCard';
+import type { Car } from '@/lib/types/Car';
 import SaleCard from '@/components/common/SaleOffer/SaleCard';
 import { Button, ConfigProvider } from 'antd';
 import {

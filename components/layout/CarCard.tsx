@@ -1,33 +1,22 @@
-import React from "react";
-import Link from "next/link";
-import { Button, ConfigProvider } from "antd";
-
-export interface Car {
-	id: number;
-	slug: string;
-	acf: {
-		white_gallery?: string[];
-		black_gallery?: string[];
-		gray_gallery?: string[];
-		blue_gallery?: string[];
-		red_gallery?: string[];
-		nazvanie_avto: string;
-		"30_dnej": string;
-	};
-}
+import React from 'react';
+import Link from 'next/link';
+import { Button, ConfigProvider } from 'antd';
+import type { Car as LibCar, CarACF } from '@/lib/types/Car';
 
 interface CarCardProps {
-	car: Car;
+	car: LibCar;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({ car }) => {
+	const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
+
 	const imageUrl =
-		car.acf.white_gallery?.[0] ||
-		car.acf.black_gallery?.[0] ||
-		car.acf.gray_gallery?.[0] ||
-		car.acf.blue_gallery?.[0] ||
-		car.acf.red_gallery?.[0] ||
-		"";
+		acf.white_gallery?.[0] ||
+		acf.black_gallery?.[0] ||
+		acf.gray_gallery?.[0] ||
+		acf.blue_gallery?.[0] ||
+		acf.red_gallery?.[0] ||
+		'';
 
 	const carLink = `/cars/${car.slug}`;
 
@@ -36,20 +25,18 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 			<Link href={carLink} passHref className="contents">
 				<img
 					src={imageUrl}
-					alt={car.acf.nazvanie_avto}
-					className="w-full h-3/4 object-cover mb-[6px] rounded-3xl"
+					alt={acf.nazvanie_avto}
+					className="w-full min-w-[310px] h-3/4 max-h-[207px] object-cover mb-[6px] rounded-3xl lg:max-h-[252px]"
 				/>
 			</Link>
 
 			<div className="flex justify-between">
 				<div className="w-full">
 					<Link href={carLink} passHref>
-						<div className="text-lg font-semibold">
-							{car.acf.nazvanie_avto}
-						</div>
+						<div className="text-lg font-semibold text-[#f6f6f6]">{acf.nazvanie_avto}</div>
 					</Link>
 					<div className="text-xl font-semibold text-[#f6f6f6] ">
-						{car.acf["30_dnej"]} ₽/сут.
+						{acf['30_dnej']} ₽/сут.
 					</div>
 				</div>
 
@@ -78,7 +65,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 							},
 						}}
 					>
-						<Button block style={{ height: "40px" }}>
+						<Button block style={{ height: '40px' }}>
 							Оформить
 						</Button>
 					</ConfigProvider>

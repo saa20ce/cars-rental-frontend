@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import type { PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Input } from 'antd';
+import { ConfigProvider, Button } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
 import { computeCostsChunked } from '@/lib/helpers/rentalCostHelper';
 
-import { ChevronDownIcon, InfoIcon, LineIcon } from '@/lib/ui/icons';
+import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
 import { isDaySeason } from '@/lib/helpers/rentalCostHelper';
 

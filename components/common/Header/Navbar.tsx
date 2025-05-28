@@ -12,7 +12,7 @@ import { fetchMenuItems } from '@/lib/api/fetchCarMenu';
 import { ChevronDownIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 
-const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 type AntdMenuItem = {
 	key: string;
@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
 	useEffect(() => {
 		async function loadMenu() {
 			const data = await fetchMenuItems(
-				`${WP_BASE_URL}/menu`,
+				`${WP_API_URL}/menu`,
 			);
 			if (data) {
 				const tree = buildMenuTree(data);

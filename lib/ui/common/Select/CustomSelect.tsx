@@ -10,6 +10,7 @@ export type CustomSelectProps = SelectProps<unknown>;
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
 	const [isSelectActive, setIsSelectActive] = useState(false);
+
 	return (
 		<ConfigProvider
 			theme={{

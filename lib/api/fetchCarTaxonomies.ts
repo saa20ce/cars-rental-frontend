@@ -1,7 +1,7 @@
 import { Car } from '@/lib/types/Car';
 import { CarTaxonomyConfig } from '@/lib/types/Taxonomies';
 
-const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export interface WpTerm {
 	id: number;
@@ -71,7 +71,7 @@ export async function fetchTaxonomyOptions(
 	taxonomy: string
 ): Promise<Array<{ value: string; label: string }>> {
 	try {
-		const res = await fetch(`${WP_BASE_URL}/${taxonomy}`);
+		const res = await fetch(`${WP_API_URL}/${taxonomy}`);
 		if (!res.ok) {
 			console.error(`Ошибка при получении таксономии ${taxonomy}:`, res.status);
 			return [];

@@ -31,16 +31,39 @@ a:hover {
 	color: #f6f6f675;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-	display: none;
+/* scrollbar */
+::-webkit-scrollbar {
+	width: 1px;
+	height: 4px;
+	margin-left: 20px;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f6f6f638;
 }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #f6f6f675;
+	border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/*  scrollbar for Chrome, Safari and Opera */
+/* .scrollbar::-webkit-scrollbar {
+	display: initial;
+} */
+
+/* scrollbar for IE, Edge and Firefox */
+/* .scrollbar {
+	-ms-overflow-style: initial;
+	scrollbar-width: initial;
+} */
 
 /* Mobile Breadcrumbs */
 .ant-breadcrumb ol {

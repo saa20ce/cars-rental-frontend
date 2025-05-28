@@ -7,20 +7,18 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-import { computeCostsChunked } from '@/lib/helpers/rentalCostHelper';
-
+import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
-import { isDaySeason } from '@/lib/helpers/rentalCostHelper';
 
-interface RentalCostProps {
+interface RentalCheckoutProps {
 	additionalOptions: { label: string; value: string }[];
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
 	setSeasonModeSwitch: (mode: boolean) => void;
 }
 
-export const RentalCost: React.FC<RentalCostProps> = ({
+export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	additionalOptions,
 	seasonDates,
 	priceRanges = [],

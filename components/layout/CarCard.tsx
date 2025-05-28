@@ -21,16 +21,16 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 	const carLink = `/cars/${car.slug}`;
 
 	return (
-		<div className="car-card flex flex-col">
+		<div className="car-card flex flex-col bg-[#f6f6f60e] rounded-2xl ">
 			<Link href={carLink} passHref className="contents">
 				<img
 					src={imageUrl}
 					alt={acf.nazvanie_avto}
-					className="w-full min-w-[310px] h-3/4 max-h-[207px] object-cover mb-[6px] rounded-3xl lg:max-h-[252px]"
+					className="w-full min-w-[310px] h-3/4 max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px]"
 				/>
 			</Link>
 
-			<div className="flex justify-between">
+			<div className="flex justify-between pb-4 px-4">
 				<div className="w-full">
 					<Link href={carLink} passHref>
 						<div className="text-lg font-semibold text-[#f6f6f6]">{acf.nazvanie_avto}</div>
@@ -61,12 +61,13 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 									defaultActiveColor: '#f6f6f6',
 									colorBorder: '#3c6e71',
 									colorBgTextActive: '#3c6e71',
+									borderRadius: 12,
 								},
 							},
 						}}
 					>
-						<Button block style={{ height: '40px' }}>
-							Оформить
+						<Button block style={{ height: '40px', }}>
+							<span className='mt-[-1px]'>Оформить</span>
 						</Button>
 					</ConfigProvider>
 				</div>

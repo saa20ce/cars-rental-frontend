@@ -6,7 +6,7 @@ import { ConfigProvider, Breadcrumb } from 'antd';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@/lib/ui/icons';
 
-const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export const Breadcrumbs: React.FC = () => {
 	const pathname = usePathname();
@@ -16,7 +16,7 @@ export const Breadcrumbs: React.FC = () => {
 	const [titles, setTitles] = useState<Record<string, string>>({});
 
 	useEffect(() => {
-		fetch(`${WP_BASE_URL}/pages?slug=home`)
+		fetch(`${WP_API_URL}/pages?slug=home`)
 			.then((res) => res.json())
 			.then((data) => {
 				if (
@@ -41,10 +41,10 @@ export const Breadcrumbs: React.FC = () => {
 				return;
 			}
 
-			let endpoint = `${WP_BASE_URL}/pages?slug=${segment}`;
+			let endpoint = `${WP_API_URL}/pages?slug=${segment}`;
 
 			if (segments[0] === 'cars' && index === 1) {
-				endpoint = `${WP_BASE_URL}/cars?slug=${segment}`;
+				endpoint = `${WP_API_URL}/cars?slug=${segment}`;
 			}
 
 			fetch(endpoint)

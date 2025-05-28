@@ -16,7 +16,7 @@ import './styles.css';
 
 export const dynamic = 'force-dynamic';
 
-const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export default function CarsPage() {
 	// Состояния для опций селектов
@@ -82,7 +82,7 @@ export default function CarsPage() {
 
 			queryParams.append('per_page', '100');
 
-			const url = `${WP_BASE_URL}/cars${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+			const url = `${WP_API_URL}/cars${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 			const res = await fetch(url);
 			if (!res.ok) {
 				throw new Error('Ошибка при получении списка автомобилей');
@@ -94,7 +94,7 @@ export default function CarsPage() {
 		} finally {
 			setLoading(false);
 		}
-	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor, WP_BASE_URL]);
+	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor, WP_API_URL]);
 
 	// Начальная загрузка автомобилей без фильтров
 	useEffect(() => {

@@ -40,7 +40,7 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
 					</div>
 				</Tooltip>
 			</div>
-			<div className='flex overflow-auto no-scrollbar whitespace-nowrap gap-[6px] mt-4 mr-[-16px] lg:flex-wrap lg:gap-3 lg:w-full'>
+			<div className='flex overflow-auto whitespace-nowrap gap-[6px] mt-4 mr-[-16px] lg:flex-wrap lg:gap-3 lg:w-full'>
 				{priceRanges.map(({ baseKey, label, price, seasonPrice }) => {
 					const finalPrice = seasonModeSwitch ? seasonPrice : price;
 

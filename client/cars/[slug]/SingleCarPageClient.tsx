@@ -5,9 +5,11 @@ import { ConfigProvider, Carousel, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import {
 	PriceCards,
-	RentalCost,
+	RentalCheckout,
 	CarCharacteristics,
 	SimilarCars,
+	RentSteps,
+	DeliveryPriceTable,
 } from '@/components/common/Cars/';
 
 import {
@@ -18,6 +20,7 @@ import {
 	AgeIcon,
 } from '@/lib/ui/icons';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
 
 interface SingleCarPageClientProps {
 	car: Car;
@@ -148,7 +151,7 @@ export default function SingleCarPageClient({
 				</div>
 
 				<div className='lg:w-1/2 lg:max-w-[618px]'>
-					<RentalCost
+					<RentalCheckout
 						additionalOptions={[
 							{ label: 'Бустер', value: 'buster' },
 							{ label: 'Бокс на крышу (+500 р./сут.)', value: 'box' },
@@ -230,6 +233,18 @@ export default function SingleCarPageClient({
 			</div>
 			<div>
 				<SimilarCars car={car} />
+			</div>
+
+			<div className='mx-[-16px]'>
+				<RentSteps />
+			</div>
+
+			<div>
+				<DeliveryPriceTable />
+			</div>
+
+			<div>
+				<WhyUs />
 			</div>
 		</>
 	);

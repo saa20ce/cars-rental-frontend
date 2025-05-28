@@ -101,6 +101,17 @@ export interface SeasonData {
 	'season-winter-end': string;
 }
 
+export interface DeliveryPrice {
+	'delivery_price_day_aeroport': string,
+	'delivery_price_day_berdsk': string,
+	'delivery_price_day_sovetskiy': string,
+	'delivery_price_day_vokzal': string,
+	'delivery_price_night_aeroport': string,
+	'delivery_price_night_berdsk': string,
+	'delivery_price_night_sovetskiy': string,
+	'delivery_price_night_vokzal': string,
+}
+
 export interface PriceRange {
 	baseKey: string;
 	minDays: number;

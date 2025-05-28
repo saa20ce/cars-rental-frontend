@@ -2,14 +2,16 @@ import type {
 	Car,
 	CarACF,
 	SeasonData,
+	DeliveryPrice,
 	PriceRange,
 	BasePriceRangeConfig,
 } from '@/lib/types/Car';
 
-const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 export async function getCarBySlug(slug: string): Promise<Car | null> {
-	const res = await fetch(`${WP_BASE_URL}/cars?slug=${slug}`, {
+	const res = await fetch(`${WP_API_URL}/cars?slug=${slug}`, {
 		next: { revalidate: 60 },
 	});
 
@@ -29,6 +31,20 @@ export async function getSeasonDates(): Promise<SeasonData | null> {
 
 	if (!res.ok) {
 		console.error('Error fetching season dates', res);
+		return null;
+	}
+
+	const json = await res.json();
+	return json?.acf || null;
+}
+
+export async function getDeliveryPrice(): Promise<DeliveryPrice | null> {
+	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
+		next: { revalidate: 60 },
+	});
+
+	if (!res.ok) {
+		console.error('Error fetching delivery price', res);
 		return null;
 	}
 

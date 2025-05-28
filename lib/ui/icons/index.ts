@@ -22,3 +22,4 @@ export * from './CheckRound';
 export * from './FiltersIcon';
 export * from './SmallCross';
 export * from './ArrowRightLinkIcon';
+export * from './ThumbsUp';

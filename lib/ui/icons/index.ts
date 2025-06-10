@@ -23,3 +23,17 @@ export * from './FiltersIcon';
 export * from './SmallCross';
 export * from './ArrowRightLinkIcon';
 export * from './ThumbsUp';
+export * from './TimeIcon';
+export * from './CarDescIcon';
+export * from './HandShakeIcon';
+export * from './CascoIcon';
+export * from './BubbleIcon';
+export * from './WhatsAppIcon';
+export * from './TelegramIcon';
+export * from './CallIcon';
+export * from './RentaSibLogo';
+export * from './SmartphoneIcon';
+export * from './MailIcon';
+export * from './PointerIcon';
+export * from './DzenIcon';
+export * from './VkMiniIcon'

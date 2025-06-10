@@ -8,7 +8,6 @@ import { LineIcon, InfoIcon } from '@/lib/ui/icons';
 interface PriceCardsProps {
 	priceRanges: PriceRange[];
 	seasonModeSwitch: boolean;
-	setSeasonModeSwitch: (mode: boolean) => void;
 }
 
 const tooltipText =
@@ -23,14 +22,12 @@ const tooltipText =
 export const PriceCards: React.FC<PriceCardsProps> = ({
 	priceRanges,
 	seasonModeSwitch,
-	setSeasonModeSwitch,
 }) => {
 	return (
 		<div>
 			<div className='flex items-center gap-2 mt-5 lg:ml-6 lg:text-lg'>
 				<Switch
 					checked={seasonModeSwitch}
-					onChange={(checked) => setSeasonModeSwitch(checked)}
 				/>
 				<span className='lg:mt-[4px]'>Сезон</span>
 				<LineIcon />

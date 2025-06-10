@@ -1,11 +1,14 @@
-export const ArrowLeftIcon = () => (
+import React from 'react';
+
+interface ArrowLeftIconProps extends React.SVGProps<SVGSVGElement> {
+	className?: string;
+}
+
+export const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({ className = '' }) => (
 	<svg
 		width='18'
 		height='29'
-		className='
-		w-8 h-8
-		lg:w-[30px] lg:h-[48px]
-		fill-current'
+		className={className}
 		viewBox='0 0 18 30'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'

@@ -37,3 +37,9 @@ export type WPMenuType = {
 	classes?: string[];
 	xfn?: string;
 };
+
+export type AntdMenuItem = {
+	key: string;
+	label: React.ReactNode;
+	children?: AntdMenuItem[];
+};

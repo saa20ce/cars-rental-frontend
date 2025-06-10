@@ -24,6 +24,22 @@ export async function getCarBySlug(slug: string): Promise<Car | null> {
 	return data && data.length > 0 ? data[0] : null;
 }
 
+export async function getSimilarCars(car: Car): Promise<Car[]> {
+	const markaIds = (car.marka as number[]) || [];
+	if (markaIds.length === 0) return [];
+
+	const markaId = markaIds[0];
+	const res = await fetch(`${WP_API_URL}/cars?marka=${markaId}&per_page=5`, {
+		next: { revalidate: 60 },
+	});
+	if (!res.ok) {
+		console.error('Ошибка при загрузке похожих авто', res.status);
+		return [];
+	}
+	let data: Car[] = await res.json();
+	return data.filter((c) => c.id !== car.id);
+}
+
 export async function getSeasonDates(): Promise<SeasonData | null> {
 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
 		next: { revalidate: 60 },

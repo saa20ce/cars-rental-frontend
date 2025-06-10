@@ -7,20 +7,13 @@ import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 
 interface CarCharacteristicsProps {
 	car: Car;
+	taxonomyValues: Record<string, string>;
 }
 
 export const CarCharacteristics: React.FC<CarCharacteristicsProps> = ({
 	car,
+	taxonomyValues,
 }) => {
-	const [taxonomyValues, setTaxonomyValues] = useState<Record<string, string>>({});
-
-	useEffect(() => {
-		async function loadTaxonomies() {
-			const result = await getCarTaxonomyNames(car, CAR_TAXONOMIES);
-			setTaxonomyValues(result);
-		}
-		loadTaxonomies();
-	}, [car]);
 
 	return (
 		<div className='px-2 lg:px-0'>

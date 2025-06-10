@@ -26,11 +26,11 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 				<img
 					src={imageUrl}
 					alt={acf.nazvanie_avto}
-					className="w-full min-w-[310px] h-3/4 max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px]"
+					className="w-full min-w-[310px] h-3/4 max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px] lg:mb-4"
 				/>
 			</Link>
 
-			<div className="flex justify-between pb-4 px-4">
+			<div className="flex justify-between pb-4 px-4 lg:pb-[26px] lg:px-[26px]">
 				<div className="w-full">
 					<Link href={carLink} passHref>
 						<div className="text-lg font-semibold text-[#f6f6f6]">{acf.nazvanie_avto}</div>
@@ -40,7 +40,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 					</div>
 				</div>
 
-				<div className="flex flex-col justify-center w-[103px]">
+				<div className="flex flex-col justify-center w-[103px] lg:justify-end">
 					<ConfigProvider
 						theme={{
 							components: {

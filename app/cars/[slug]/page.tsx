@@ -3,40 +3,40 @@ import {
 	getCarBySlug,
 	getSeasonDates,
 	buildPriceRangesFromACF,
+	getDeliveryPrice,
+	getSimilarCars,
 } from '@/lib/api/fetchCarData';
+import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
+import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
 import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
 export const dynamic = 'force-dynamic';
 
 interface SingleCarPageProps {
-	params: Promise<{ slug: string }>;
+	params: { slug: string };
 }
 
-
 export default async function SingleCarPage({ params }: SingleCarPageProps) {
-	const { slug } = await params;
+	const { slug } = params;
 	const car = await getCarBySlug(slug);
-	console.log('car', car);
+	// console.log('car', car);
 
-	if (!car) {
-		return notFound();
-	}
-
-	const gallery =
-		car.acf?.white_gallery && car.acf.white_gallery.length > 0
-			? car.acf.white_gallery
-			: car.acf?.black_gallery || [];
+	if (!car) return notFound();
 
 	const seasonDates = await getSeasonDates();
-
 	const priceRanges = buildPriceRangesFromACF(car.acf || {});
+	const deliveryPrice = await getDeliveryPrice();
+	const taxonomyValues = await getCarTaxonomyNames(car, CAR_TAXONOMIES);
+	const similarCars = await getSimilarCars(car);
 
 	return (
 		<SingleCarPageClient
 			car={car}
-			gallery={gallery}
 			seasonDates={seasonDates}
 			priceRanges={priceRanges}
+			deliveryPrice={deliveryPrice}
+			taxonomyValues={taxonomyValues}
+			similarCars={similarCars}
 		/>
 	);
 }

@@ -4,18 +4,10 @@ import type { DeliveryPrice } from "@/lib/types/Car";
 import { DefaultOptionType } from "antd/es/select";
 import { useState, useEffect } from 'react';
 import { CustomSelect } from "@/lib/ui/common/Select/CustomSelect";
-import { getDeliveryPrice } from "@/lib/api/fetchCarData";
+import { LineIcon } from "@/lib/ui/icons";
 
-export const DeliveryPriceTable = () => {
-	const [deliveryPrice, setDeliveryPrice] = useState<DeliveryPrice | null>(null);
+export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryPrice | null }) => {
 	const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
-
-	useEffect(() => {
-		// fetch data on mount
-		getDeliveryPrice().then(data => {
-			if (data) setDeliveryPrice(data);
-		}).catch(err => console.error('Failed to load delivery prices', err));
-	}, []);
 
 	const zones = [
 		{
@@ -43,18 +35,22 @@ export const DeliveryPriceTable = () => {
 
 	};
 
-	// render price cell based on zone and timeRange
-	const renderPrice = (zoneId: string) => {
+	const renderPrice = (zoneId: string, overrideRange?: 'day' | 'night') => {
 		if (!deliveryPrice) return '-';
-		const key = `delivery_price_${timeRange}_${zoneId}` as keyof DeliveryPrice;
+		const range = overrideRange ?? timeRange;
+		const key = `delivery_price_${range}_${zoneId}` as keyof DeliveryPrice;
 		const value = deliveryPrice[key];
-		return value ? `${value} ₽` : '-';
+		return value !== undefined && value !== null ? `${value} ₽` : '-';
 	};
 
 	return (
 		<div className="mt-10">
-			<div className="text-xl font-bold">Стоимость доставки авто:</div>
-			<div className="flex flex-row justify-between items-center mt-5">
+			<div className="flex flex-row">
+				<div className="text-xl font-bold lg:text-3xl">Стоимость доставки авто:</div>
+				<div className="hidden lg:block ml-4 mt-[6px]"><LineIcon /></div>
+				<div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">Доставка 24/7</div>
+			</div>
+			<div className="flex flex-row justify-between items-center mt-5 lg:hidden">
 				<div className="flex flex-row items-center">
 					<div>Время:</div>
 					<div className="ml-[10px]">
@@ -69,23 +65,26 @@ export const DeliveryPriceTable = () => {
 						/>
 					</div>
 				</div>
-				<div className="text-[#FFD7A6] ">
+				<div className="text-[#FFD7A6]">
 					Доставка 24/7
 				</div>
 			</div>
 
-			<div className="border border-[#f6f6f6] rounded-xl mt-4">
+			<div className="border border-[#f6f6f6] rounded-xl mt-4 lg:mt-6">
 				<table className="table-auto divide-y divide-gray-200">
 					<thead>
 						<tr className="divide-x divide-gray-200 bg-[#f6f6f60e]">
-							<th className="px-4 py-[14px] text-left w-2/3">Район доставки</th>
-							<th className="text-center w-1/3">Цена</th>
+							<th className="px-4 py-[14px] text-left w-2/3 lg:w-1/3 lg:text-center">Район доставки</th>
+							<th className="text-center w-1/3 lg:hidden">Цена</th>
+							<th className="hidden text-center w-1/3 lg:table-cell">10:00 - 19:00 </th>
+							<th className="hidden text-center w-1/3 lg:table-cell">20:00 - 9:00 </th>
 						</tr>
 					</thead>
 					{zones.map(zone => (
 						<tr key={zone.id} className="divide-x divide-gray-200">
-							<td className="px-4 py-2">{zone.label}</td>
+							<td className="px-4 py-2 lg:px-4 lg:py-5">{zone.label}</td>
 							<td className="text-center">{renderPrice(zone.id)}</td>
+							<td className="hidden text-center lg:table-cell">{renderPrice(zone.id, 'night')}</td>
 						</tr>
 					))}
 				</table>

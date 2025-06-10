@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ConfigProvider, Carousel, Tabs } from 'antd';
+import { ConfigProvider, Carousel, Tabs, Divider } from 'antd';
 import type { TabsProps } from 'antd';
 import {
 	PriceCards,
@@ -19,21 +19,25 @@ import {
 	CarIcon,
 	AgeIcon,
 } from '@/lib/ui/icons';
-import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
+import type { Car, PriceRange, SeasonData, DeliveryPrice } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 
 interface SingleCarPageClientProps {
 	car: Car;
-	gallery: string[];
 	seasonDates: SeasonData | null;
 	priceRanges: PriceRange[];
+	deliveryPrice: DeliveryPrice | null;
+	taxonomyValues: Record<string, string>;
+	similarCars: Car[];
 }
 
 export default function SingleCarPageClient({
 	car,
-	gallery,
 	seasonDates,
 	priceRanges,
+	deliveryPrice,
+	taxonomyValues,
+	similarCars,
 }: SingleCarPageClientProps) {
 	const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
@@ -49,7 +53,7 @@ export default function SingleCarPageClient({
 		{
 			key: '1',
 			label: 'Характеристики',
-			children: <CarCharacteristics car={car} />,
+			children: <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />,
 		},
 		{
 			key: '2',
@@ -93,8 +97,8 @@ export default function SingleCarPageClient({
 							>
 								<Carousel
 									arrows
-									prevArrow={<div><ArrowLeftIcon /></div>}
-									nextArrow={<div><ArrowRightIcon /></div>}
+									prevArrow={<div><ArrowLeftIcon className='w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current' /></div>}
+									nextArrow={<div><ArrowRightIcon className='w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current' /></div>}
 									dots={false}
 								>
 									{galleryImages.map((imgUrl) => (
@@ -115,11 +119,10 @@ export default function SingleCarPageClient({
 						<PriceCards
 							priceRanges={priceRanges}
 							seasonModeSwitch={seasonModeSwitch}
-							setSeasonModeSwitch={setSeasonModeSwitch}
 						/>
 					)}
 
-					<div className='mt-6 hidden lg:block lg:text-[18px] lg:border lg:border-solid lg:border-[#f6f6f638] lg:rounded-[32px] lg:p-7'>
+					<div className='mt-6 hidden lg:block lg:text-[18px] lg:border-2 lg:border-solid lg:border-[#f6f6f638] lg:rounded-[32px] lg:p-7'>
 						<div className='lg:text-2xl lg:font-bold lg:mb-6'>Информация</div>
 						<ConfigProvider
 							theme={{
@@ -232,7 +235,7 @@ export default function SingleCarPageClient({
 
 			</div>
 			<div>
-				<SimilarCars car={car} />
+				<SimilarCars similarCars={similarCars} />
 			</div>
 
 			<div className='mx-[-16px]'>
@@ -240,7 +243,11 @@ export default function SingleCarPageClient({
 			</div>
 
 			<div>
-				<DeliveryPriceTable />
+				<DeliveryPriceTable deliveryPrice={deliveryPrice} />
+			</div>
+
+			<div className='my-[65px]'>
+				<Divider style={{ borderColor: '#284b63b4' }} />
 			</div>
 
 			<div>

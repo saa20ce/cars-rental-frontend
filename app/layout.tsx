@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import type { Viewport } from 'next'
 import localFont from 'next/font/local';
 import './globals.css';
-import { Header } from '@/components/layout/Header';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import Header from '@/components/layout/Header';
+import UpdatePathCookie from '@/components/common/UpdatePathCookie'
 
 const lato = localFont({
 	src: [
@@ -42,19 +42,14 @@ export const viewport: Viewport = {
 	maximumScale: 1,
 }
 
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en'>
 			<body
 				className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5`}
 			>
+				<UpdatePathCookie />
 				<Header />
-				<Breadcrumbs />
-
 				{children}
 			</body>
 		</html>

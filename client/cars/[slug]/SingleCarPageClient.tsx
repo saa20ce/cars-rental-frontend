@@ -21,6 +21,8 @@ import {
 } from '@/lib/ui/icons';
 import type { Car, PriceRange, SeasonData, DeliveryPrice } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
+import { Footer } from '@/components/layout/Footer';
 
 interface SingleCarPageClientProps {
 	car: Car;
@@ -252,6 +254,12 @@ export default function SingleCarPageClient({
 
 			<div>
 				<WhyUs />
+			</div>
+			<div>
+				<HaveQuestions />
+			</div>
+			<div>
+				<Footer />
 			</div>
 		</>
 	);

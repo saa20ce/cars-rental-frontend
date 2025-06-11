@@ -22,10 +22,10 @@ export const Footer: React.FC = () => {
                         <div className="flex flex-row gap-4">
                             <div className="flex flex-row gap-3 items-center mt-5">
                                 <div>
-                                    <TelegramIcon className="w-[30px] h-[30px] lg:w-[30px] lg:h-[30px]" />
+                                    <TelegramIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
                                 <div>
-                                    <WhatsAppIcon className="w-[30px] h-[30px] lg:w-[30px] lg:h-[30px]" />
+                                    <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
                             
                             <ConfigProvider
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
 
                 <div className=" lg:hidden w-full border-t-2 border-double border-[#284B63B2] h-[1px]"></div>
                 <div className="flex flex-col lg:flex-row gap-[36px] lg:gap-[95px]">
-                    <div className="flex justify-between gap-9 lg:gap-[95px] text-[18px] lg:flex-1">
+                    <div className="flex gap-9 lg:gap-[95px] text-[18px] lg:flex-1">
                         <div>
                             <ul className="space-y-2">
                                 <li><a href="#">Главная</a></li>
@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
                             </ul>
                         </div>
                         <div>
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 w-[176px] lg:w-[165px]">
                                 <li><a href="#">Написать директору</a></li>
                                 <li><a href="#">Вопрос-ответ</a></li>
                                 <li><a href="#">Аренда для юридических лиц</a></li>
@@ -90,7 +90,7 @@ export const Footer: React.FC = () => {
                             <div>
                                 <SmartphoneIcon />
                             </div>
-                            <div className="underline underline-offset-4 decoration-5 font-medium">
+                            <div className="underline underline-offset-4 decoration-5 font-[100]">
                                 +7(913)-913-28-08
                             </div>
                         </div>
@@ -129,10 +129,10 @@ export const Footer: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-9 text-[#9CA3AF] font-regular lg:flex lg:items-center lg:gap-6 lg:justify-between" > {/* Flex в строку с отступами 6 */}
-                <div>© ООО «Рентасиб», 2020—2025</div>
+            <div className="mt-9 text-[#9CA3AF] font-regular lg:flex lg:items-center lg:gap-6 lg:justify-between mb-[150px]" >
+                <div className="mb-3">© ООО «Рентасиб», 2020—2025</div>
                 <div className="lg:flex lg:items-center lg:gap-6">
-                    <div className="underline underline-offset-4">
+                    <div className="underline underline-offset-4 mb-1">
                         Политика конфиденциальности
                     </div>
                     <div className="underline underline-offset-4">

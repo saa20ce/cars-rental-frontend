@@ -44,7 +44,7 @@ export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryP
 	};
 
 	return (
-		<div className="mt-10">
+		<div className="mt-10 lg:mt-[68px]">
 			<div className="flex flex-row">
 				<div className="text-xl font-bold lg:text-3xl">Стоимость доставки авто:</div>
 				<div className="hidden lg:block ml-4 mt-[6px]"><LineIcon /></div>

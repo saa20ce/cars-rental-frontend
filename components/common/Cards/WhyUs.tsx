@@ -4,7 +4,7 @@ import { ThumbsUp, TimeIcon, CarDescIcon, HandShakeIcon, CascoIcon, BubbleIcon }
 export const WhyUs = () => {
 	return (
 		<div>
-			<div className="text-3xl font-bold mt-10 mb-6" >Почему нам доверяют:</div>
+			<div className="text-xl lg:text-3xl font-bold mt-10 mb-5 lg:mb-6" >Почему нам доверяют:</div>
 			<div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-6">
 				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
 					<div>

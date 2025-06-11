@@ -4,7 +4,7 @@ import { LineIcon } from "@/lib/ui/icons";
 
 export const RentSteps = () => {
 	return (
-		<div className="lg:relative lg:h-[404] lg:w-screen lg:-ml-[calc(50vw-645px)]">
+		<div className="lg:relative lg:h-[384px] lg:w-screen lg:-ml-[calc(50vw-645px)]">
 			<div className="lg:bg-[#f6f6f60e] lg:absolute lg:top-0 lg:w-screen lg:flex lg:justify-center">
 				<div className="bg-[#f6f6f60e] lg:bg-transparent lg:w-[1290px]">
 					<div className="py-[41px] px-4 lg:py-[68px]">
@@ -58,7 +58,7 @@ export const RentSteps = () => {
 								</div>
 							</div>
 
-							<div className="flex text-lg mx-auto mt-4 underline underline-offset-[5px] decoration-1 lg:hidden">Полные условия</div>
+							<div className="flex text-xl mx-auto mt-4 underline underline-offset-[5px] decoration-1 lg:hidden">Полные условия</div>
 						</div>
 					</div>
 				</div>

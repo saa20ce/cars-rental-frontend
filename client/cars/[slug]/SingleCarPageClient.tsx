@@ -243,14 +243,12 @@ export default function SingleCarPageClient({
 			<div className='mx-[-16px]'>
 				<RentSteps />
 			</div>
-
+			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
 			<div>
 				<DeliveryPriceTable deliveryPrice={deliveryPrice} />
 			</div>
 
-			<div className='my-[65px]'>
-				<Divider style={{ borderColor: '#284b63b4' }} />
-			</div>
+			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
 			<div>
 				<WhyUs />

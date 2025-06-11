@@ -7,7 +7,7 @@ export const HaveQuestions = () => {
             <div className="flex flex-col gap-3 mt-10">
                 <div className="flex flex-wrap flex-row bg-[#1E384A] rounded-2xl lg:rounded-3xl px-6 py-7 lg:px-[60px] lg:py-[52px] lg:h-[256px] lg:flex-nowrap lg:items-center lg:justify-between lg:max-w-[1260px]">
                     <div className="pb-4 lg:pb-0 lg:w-[364px]">
-                        <div className="flex-wrap content-center font-bold text-[20px] lg:text-[36px] mb-4 lg:mb-5">
+                        <div className="flex-wrap content-center font-bold text-[20px] lg:text-[36px] mb-4 lg:mb-4">
                             Остались вопросы?
                         </div>
                         <div className="flex-wrap content-center text-[16px] w-[300px] lg:w-[364px]">
@@ -42,6 +42,6 @@ export const HaveQuestions = () => {
                     </div>
                 </div>
             </div>
-		</div>
-	);
+        </div>
+    );
 };

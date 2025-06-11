@@ -86,3 +86,23 @@ export async function fetchTaxonomyOptions(
 		return [];
 	}
 }
+
+// Для SSR загрузки опций фильтров сразу пачкой:
+export async function getAllTaxonomyOptions() {
+	const [klass, marka, kuzov, privod, dvigatel, color] = await Promise.all([
+		fetchTaxonomyOptions('klass'),
+		fetchTaxonomyOptions('marka'),
+		fetchTaxonomyOptions('kuzov'),
+		fetchTaxonomyOptions('privod'),
+		fetchTaxonomyOptions('dvigatel'),
+		fetchTaxonomyOptions('color'),
+	]);
+	return {
+		klassOptions: klass,
+		markaOptions: marka,
+		kuzovOptions: kuzov,
+		privodOptions: privod,
+		dvigatelOptions: dvigatel,
+		colorOptions: color,
+	};
+}

@@ -80,13 +80,15 @@ export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryP
 							<th className="hidden text-center w-1/3 lg:table-cell">20:00 - 9:00 </th>
 						</tr>
 					</thead>
-					{zones.map(zone => (
-						<tr key={zone.id} className="divide-x divide-gray-200">
-							<td className="px-4 py-2 lg:px-4 lg:py-5">{zone.label}</td>
-							<td className="text-center">{renderPrice(zone.id)}</td>
-							<td className="hidden text-center lg:table-cell">{renderPrice(zone.id, 'night')}</td>
-						</tr>
-					))}
+					<tbody>
+						{zones.map(zone => (
+							<tr key={zone.id} className="divide-x divide-gray-200">
+								<td className="px-4 py-2 lg:px-4 lg:py-5">{zone.label}</td>
+								<td className="text-center">{renderPrice(zone.id)}</td>
+								<td className="hidden text-center lg:table-cell">{renderPrice(zone.id, 'night')}</td>
+							</tr>
+						))}
+					</tbody>
 				</table>
 			</div>
 		</div>

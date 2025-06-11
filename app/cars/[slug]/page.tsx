@@ -17,7 +17,7 @@ interface SingleCarPageProps {
 }
 
 export default async function SingleCarPage({ params }: SingleCarPageProps) {
-	const { slug } = params;
+	const { slug } = await params;
 	const car = await getCarBySlug(slug);
 	// console.log('car', car);
 

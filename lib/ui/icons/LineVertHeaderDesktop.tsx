@@ -12,7 +12,7 @@ export const LineVertHeaderDesktop = () => (
 			x2='0.599999'
 			y2='16'
 			stroke='#F6F6F6'
-			stroke-width='1.2'
+			strokeWidth='1.2'
 		/>
 	</svg>
 );

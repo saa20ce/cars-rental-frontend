@@ -69,6 +69,33 @@ export default function SingleCarPageClient({
 		},
 	];
 
+	const MyPrevArrow = (props: any) => {
+		const { className, style, onClick } = props;
+		// не передаём все props сразу
+		return (
+			<div
+				className={className}
+				style={style}
+				onClick={onClick}
+			>
+				<ArrowLeftIcon className="w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current" />
+			</div>
+		);
+	};
+
+	const MyNextArrow = (props: any) => {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={style}
+				onClick={onClick}
+			>
+				<ArrowRightIcon className="w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current" />
+			</div>
+		);
+	};
+
 	return (
 		<>
 			<div className='lg:flex lg:w-full lg:gap-6'>
@@ -99,8 +126,8 @@ export default function SingleCarPageClient({
 							>
 								<Carousel
 									arrows
-									prevArrow={<div><ArrowLeftIcon className='w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current' /></div>}
-									nextArrow={<div><ArrowRightIcon className='w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current' /></div>}
+									prevArrow={<MyPrevArrow />}
+									nextArrow={<MyNextArrow />}
 									dots={false}
 								>
 									{galleryImages.map((imgUrl) => (

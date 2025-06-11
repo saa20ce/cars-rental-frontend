@@ -91,3 +91,11 @@ export function buildPriceRangesFromACF(acf: CarACF): PriceRange[] {
 		};
 	});
 }
+
+export async function getCars(filters: Record<string, string> = {}): Promise<Car[]> {
+	const params = new URLSearchParams(filters).toString();
+	const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}`;
+	const res = await fetch(url, { next: { revalidate: 60 } });
+	if (!res.ok) return [];
+	return res.json();
+}

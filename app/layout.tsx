@@ -8,6 +8,11 @@ import UpdatePathCookie from '@/components/common/UpdatePathCookie'
 const lato = localFont({
 	src: [
 		{
+			path: '../public/fonts/Lato-Light.ttf',
+			weight: '300',
+			style: 'normal',
+		},
+		{
 			path: '../public/fonts/Lato-Regular.ttf',
 			weight: '400',
 			style: 'normal',

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { Button, Carousel, ConfigProvider } from 'antd';
+import React, { useRef } from 'react';
+import { Button, ConfigProvider } from 'antd';
 import { CarCard } from '@/components/layout/CarCard';
 import type { Car } from '@/lib/types/Car';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowRightLinkIcon } from '@/lib/ui/icons';

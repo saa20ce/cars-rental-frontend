@@ -1,8 +1,5 @@
 import { WPMenuType } from '@/lib/types/Menu';
 
-const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
-
-
 export async function fetchMenuItems(
 	url: string,
 ): Promise<WPMenuType[] | null> {

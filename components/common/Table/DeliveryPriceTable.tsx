@@ -2,7 +2,7 @@
 
 import type { DeliveryPrice } from "@/lib/types/Car";
 import { DefaultOptionType } from "antd/es/select";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CustomSelect } from "@/lib/ui/common/Select/CustomSelect";
 import { LineIcon } from "@/lib/ui/icons";
 

@@ -1,4 +1,4 @@
-import { RentaSibLogo, TelegramIcon, VkIcon, WhatsAppIcon, PhoneIconDefault, SmartphoneIcon, MailIcon, PointerIcon, DzenIcon, VkMiniIcon, ChevronRightIcon} from "@/lib/ui/icons";
+import { RentaSibLogo, TelegramIcon, WhatsAppIcon, PhoneIconDefault, SmartphoneIcon, MailIcon, PointerIcon, DzenIcon, VkMiniIcon, ChevronRightIcon } from "@/lib/ui/icons";
 import { Button, ConfigProvider } from 'antd';
 
 export const Footer: React.FC = () => {
@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
                     <div>Разделы сайта <ChevronRightIcon width={10} height={20} /></div>
                     <div className="underline underline-offset-[6px]">Наш блог</div>
                 </div>
-                
+
                 <div className=" lg:block w-full border-t-2 border-double border-[#284B63B2] h-[1px] my-4"></div>
             </div>
 
@@ -27,31 +27,31 @@ export const Footer: React.FC = () => {
                                 <div>
                                     <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
-                            
-                            <ConfigProvider
-                                theme={{
-                                    components: {
-                                        Button: {
-                                            contentFontSize: 16,
-                                            defaultHoverBorderColor: '#fff',
-                                            defaultHoverColor: '#fff',
-                                            paddingInline: 12,
-                                            paddingBlock: 8,
-                                            lineHeight: 0,
-                                            fontFamily: '"lato", "lato Fallback"',
+
+                                <ConfigProvider
+                                    theme={{
+                                        components: {
+                                            Button: {
+                                                contentFontSize: 16,
+                                                defaultHoverBorderColor: '#fff',
+                                                defaultHoverColor: '#fff',
+                                                paddingInline: 12,
+                                                paddingBlock: 8,
+                                                lineHeight: 0,
+                                                fontFamily: '"lato", "lato Fallback"',
+                                            },
                                         },
-                                    },
-                                }}
-                            >
-                                <Button
-                                    variant='outlined'
-                                    icon={<PhoneIconDefault />}
-                                    style={{ height: 40, width: 170, borderRadius: 12 }}
-                                    ghost
+                                    }}
                                 >
-                                    Заказать звонок
-                                </Button>
-                            </ConfigProvider>
+                                    <Button
+                                        variant='outlined'
+                                        icon={<PhoneIconDefault />}
+                                        style={{ height: 40, width: 170, borderRadius: 12 }}
+                                        ghost
+                                    >
+                                        Заказать звонок
+                                    </Button>
+                                </ConfigProvider>
                             </div>
                         </div>
                     </div>
@@ -112,8 +112,8 @@ export const Footer: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="lg:flex lg:flex-col lg:justify-start"> 
-                    <div className="flex gap-5 text-[20px] font-regular lg:flex-col lg:gap-3"> 
+                <div className="lg:flex lg:flex-col lg:justify-start">
+                    <div className="flex gap-5 text-[20px] font-regular lg:flex-col lg:gap-3">
                         <div className="flex gap-3">
                             <div><VkMiniIcon /></div>
                             <div className="underline decoration-1 underline-offset-[6px]">

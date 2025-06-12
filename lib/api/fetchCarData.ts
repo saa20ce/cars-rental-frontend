@@ -36,7 +36,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 		console.error('Ошибка при загрузке похожих авто', res.status);
 		return [];
 	}
-	let data: Car[] = await res.json();
+	const data: Car[] = await res.json();
 	return data.filter((c) => c.id !== car.id);
 }
 

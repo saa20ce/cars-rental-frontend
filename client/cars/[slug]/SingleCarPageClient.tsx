@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ConfigProvider, Carousel, Tabs, Divider } from 'antd';
+import { ConfigProvider, Carousel, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import {
 	PriceCards,

@@ -1,9 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Car } from '@/lib/types/Car';
-import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
-import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 
 interface CarCharacteristicsProps {
 	car: Car;

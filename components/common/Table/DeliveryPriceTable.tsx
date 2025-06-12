@@ -70,22 +70,23 @@ export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryP
 				</div>
 			</div>
 
-			<div className="border border-[#f6f6f6] rounded-xl mt-4 lg:mt-6">
-				<table className="table-auto divide-y divide-gray-200">
-					<thead>
-						<tr className="divide-x divide-gray-200 bg-[#f6f6f60e]">
-							<th className="px-4 py-[14px] text-left w-2/3 lg:w-1/3 lg:text-center">Район доставки</th>
-							<th className="text-center w-1/3 lg:hidden">Цена</th>
-							<th className="hidden text-center w-1/3 lg:table-cell">10:00 - 19:00 </th>
-							<th className="hidden text-center w-1/3 lg:table-cell">20:00 - 9:00 </th>
+			<div className="mt-4 lg:mt-6 overflow-hidden">
+				<table className="table-auto border border-[#f6f6f6] border-separate border-spacing-0 rounded-xl w-full">
+					<thead className="bg-[#f6f6f60e]">
+						<tr className="">
+							<th className="border-b border-r border-[#f6f6f6] rounded-tl-xl px-4 py-[14px] text-left w-2/3 lg:w-1/3 lg:text-center">Район доставки</th>
+							<th className="border-b lg:border-r border-[#f6f6f6] rounded-tr-xl text-center w-1/3 lg:hidden">Цена</th>
+							<th className="border-b border-r border-[#f6f6f6] hidden text-center w-1/3 lg:table-cell">10:00 - 19:00 </th>
+							<th className="border-b border-[#f6f6f6] hidden text-center w-1/3 lg:table-cell">20:00 - 9:00 </th>
 						</tr>
 					</thead>
 					<tbody>
-						{zones.map(zone => (
-							<tr key={zone.id} className="divide-x divide-gray-200">
-								<td className="px-4 py-2 lg:px-4 lg:py-5">{zone.label}</td>
-								<td className="text-center">{renderPrice(zone.id)}</td>
-								<td className="hidden text-center lg:table-cell">{renderPrice(zone.id, 'night')}</td>
+						{zones.map((zone, idx) => (
+							<tr key={zone.id}>
+								<td className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 ${idx === zones.length - 1 ? 'border-b-0 border-r' : ''}`}>{zone.label}</td>
+								<td className={`border-b lg:border-r lg:border-[#f6f6f6] text-center ${idx === zones.length - 1 ? 'border-b-0' : ''}`}>{renderPrice(zone.id)}</td>
+								<td className={`border-b border-[#f6f6f6] hidden text-center lg:table-cell ${idx === zones.length - 1 ? 'border-b-0' : ''}`}>{renderPrice(zone.id, 'night')}</td>
+								<td className="hidden"></td>
 							</tr>
 						))}
 					</tbody>

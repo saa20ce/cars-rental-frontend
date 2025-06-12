@@ -78,7 +78,7 @@ export async function fetchTaxonomyOptions(
 		}
 		const data: WpTerm[] = await res.json();
 		return data.map(term => ({
-			value: term.id.toString(), // используем ID таксономии, а не slug
+			value: term.id.toString(),
 			label: term.name,
 		}));
 	} catch (err) {
@@ -87,7 +87,6 @@ export async function fetchTaxonomyOptions(
 	}
 }
 
-// Для SSR загрузки опций фильтров сразу пачкой:
 export async function getAllTaxonomyOptions() {
 	const [klass, marka, kuzov, privod, dvigatel, color] = await Promise.all([
 		fetchTaxonomyOptions('klass'),

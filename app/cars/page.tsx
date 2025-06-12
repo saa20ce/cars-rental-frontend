@@ -1,4 +1,3 @@
-// app/cars/page.tsx
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import CarsPageClient from '@/client/cars/CarsPageClient';

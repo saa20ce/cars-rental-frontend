@@ -19,7 +19,6 @@ interface SingleCarPageProps {
 export default async function SingleCarPage({ params }: SingleCarPageProps) {
 	const { slug } = await params;
 	const car = await getCarBySlug(slug);
-	// console.log('car', car);
 
 	if (!car) return notFound();
 

@@ -12,8 +12,14 @@ import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SingleCarPage({ params }: { params: { slug: string } }) {
-	const { slug } = params;
+type SingleCarPageProps = {
+	params: Promise<{
+		slug: string;
+	}>;
+};
+
+export default async function SingleCarPage({ params }: SingleCarPageProps) {
+	const { slug } = await params;
 	const car = await getCarBySlug(slug);
 
 	if (!car) return notFound();

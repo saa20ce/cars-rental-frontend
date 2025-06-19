@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import {
 	getCarBySlug,
 	getSeasonDates,
@@ -10,13 +11,17 @@ import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
 import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
 
+type SingleCarPageProps = {
+	params: Promise<{ slug: string; }>;
+};
+
 export const dynamic = 'force-dynamic';
 
-type SingleCarPageProps = {
-	params: Promise<{
-		slug: string;
-	}>;
-};
+export async function generateMetadata({ params }: SingleCarPageProps) {
+	const { slug } = await params;
+	return await fetchWPMetadata('cars/' + slug);
+}
+
 
 export default async function SingleCarPage({ params }: SingleCarPageProps) {
 	const { slug } = await params;

@@ -5,8 +5,8 @@ export const WhyUs = () => {
 	return (
 		<div>
 			<div className="text-xl lg:text-3xl font-bold mt-10 mb-5 lg:mb-6" >Почему нам доверяют:</div>
-			<div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-6">
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+			<div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-6 text-[16px] lg:text-[18px]">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<ThumbsUp />
 					</div>
@@ -14,7 +14,7 @@ export const WhyUs = () => {
 						Высококачественный клиентский сервис
 					</div>
 				</div>
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<TimeIcon />
 					</div>
@@ -22,7 +22,7 @@ export const WhyUs = () => {
 						Доставка автомобилей 24/7
 					</div>
 				</div>
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<CarDescIcon />
 					</div>
@@ -30,7 +30,7 @@ export const WhyUs = () => {
 						Широкий выбор моделей в автопарке
 					</div>
 				</div>
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<HandShakeIcon />
 					</div>
@@ -38,15 +38,15 @@ export const WhyUs = () => {
 						Система лояльности для постоянных клиентов
 					</div>
 				</div>
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<CascoIcon />
 					</div>
-					<div className="flex-wrap content-center">
-						КАСКО включена в стоимость
+					<div className="flex-wrap content-center w-[220px]">
+						КАСКО<span className="hidden md:inline"><br /></span> включена в стоимость
 					</div>
 				</div>
-				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-8 lg:pl-8">
+				<div className="flex flex-row gap-[14px]  bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
 					<div>
 						<BubbleIcon />
 					</div>

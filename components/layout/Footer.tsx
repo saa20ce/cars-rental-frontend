@@ -5,7 +5,7 @@ export const Footer: React.FC = () => {
     return (
         <div className="mt-[56px]">
             <div className='flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5'>
-                <div className="flex text-[18px] font-medium justify-between">
+                <div className="flex text-[18px] lg:text-[24px] font-medium justify-between">
                     <div>Разделы сайта <ChevronRightIcon width={10} height={20} /></div>
                     <div className="underline underline-offset-[6px]">Наш блог</div>
                 </div>
@@ -20,11 +20,11 @@ export const Footer: React.FC = () => {
                     </div>
                     <div>
                         <div className="flex flex-row gap-4">
-                            <div className="flex flex-row gap-3 items-center mt-5">
-                                <div>
+                            <div className="flex flex-row gap-3 lg:gap-5 items-center mt-5">
+                                <div className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
                                     <TelegramIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
-                                <div>
+                                <div className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
                                     <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
 
@@ -46,8 +46,17 @@ export const Footer: React.FC = () => {
                                     <Button
                                         variant='outlined'
                                         icon={<PhoneIconDefault />}
-                                        style={{ height: 40, width: 170, borderRadius: 12 }}
+                                        style={{}}
                                         ghost
+                                          className="
+                                            rounded-[12px] lg:rounded-[16px]
+                                            ml-2 lg:ml-2
+                                            text-[16px] lg:text-[18px]
+                                            h-10 lg:h-11
+                                            px-3 lg:px-6
+                                            py-2 lg:py-3
+                                            w-[170px] lg:w-[196px]              
+                                        "
                                     >
                                         Заказать звонок
                                     </Button>
@@ -55,7 +64,7 @@ export const Footer: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-wrap text-lg mt-9 gap-[10px] text-[18px]">
+                    <div className="flex flex-wrap text-lg mt-9 gap-[10px] text-[18px] lg:text-[16px]">
                         <div>Бронирование: 9:00 - 22:00 <span className="text-[#9ca3af]">(Нск)</span></div>
                         <div>Офис: 9:00 - 22:00 <span className="text-[#9ca3af]">(Нск)</span></div>
                     </div>
@@ -65,7 +74,7 @@ export const Footer: React.FC = () => {
                 <div className="flex flex-col lg:flex-row gap-[36px] lg:gap-[95px]">
                     <div className="flex gap-9 lg:gap-[95px] text-[18px] lg:flex-1">
                         <div>
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 lg:leading-7">
                                 <li><a href="#">Главная</a></li>
                                 <li><a href="#">Автопарк</a></li>
                                 <li><a href="#">Тарифы</a></li>
@@ -75,12 +84,12 @@ export const Footer: React.FC = () => {
                             </ul>
                         </div>
                         <div>
-                            <ul className="space-y-2 w-[176px] lg:w-[165px]">
-                                <li><a href="#">Написать директору</a></li>
+                            <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[165px]">
+                                <li><a href="#">Главная</a></li>
                                 <li><a href="#">Вопрос-ответ</a></li>
                                 <li><a href="#">Аренда для юридических лиц</a></li>
                                 <li><a href="#">Договор аренды</a></li>
-                                <li><a href="#">Условия</a></li>
+                                <li><a href="#">Услуги</a></li>
                             </ul>
                         </div>
                     </div>
@@ -90,7 +99,7 @@ export const Footer: React.FC = () => {
                             <div>
                                 <SmartphoneIcon />
                             </div>
-                            <div className="underline underline-offset-4 decoration-5 font-[100]">
+                            <div className="underline underline-offset-4 decoration-5 font-[100] lg:text-[18px] lg:underline lg:underline-offset-4 decoration-5 lg:font-[600]">
                                 +7(913)-913-28-08
                             </div>
                         </div>
@@ -130,9 +139,9 @@ export const Footer: React.FC = () => {
                 </div>
             </div>
             <div className="mt-9 text-[#9CA3AF] font-regular lg:flex lg:items-center lg:gap-6 lg:justify-between mb-[150px]" >
-                <div className="mb-3">© ООО «Рентасиб», 2020—2025</div>
+                <div className="mb-3 text-[#9CA3AF] font-bold tracking-wide">© ООО «Рентасиб», 2020—2025</div>
                 <div className="lg:flex lg:items-center lg:gap-6">
-                    <div className="underline underline-offset-4 mb-1">
+                    <div className="underline underline-offset-4 mb-1 lg:mb-0">
                         Политика конфиденциальности
                     </div>
                     <div className="underline underline-offset-4">

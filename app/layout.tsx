@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import UpdatePathCookie from '@/components/common/UpdatePathCookie'
+import { Footer } from '@/components/layout/Footer';
 
 const lato = localFont({
 	src: [
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<UpdatePathCookie />
 				<Header />
 				{children}
+				<Footer />
 			</body>
 		</html>
 	);

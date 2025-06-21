@@ -6,12 +6,12 @@ export const HaveQuestions = () => {
         <div>
             <div className="flex flex-col gap-3 mt-10">
                 <div className="flex flex-wrap flex-row bg-[#1E384A] rounded-2xl lg:rounded-3xl px-6 py-7 lg:px-[60px] lg:py-[52px] lg:h-[256px] lg:flex-nowrap lg:items-center lg:justify-between lg:max-w-[1260px]">
-                    <div className="pb-4 lg:pb-0 lg:w-[364px]">
-                        <div className="flex-wrap content-center font-bold text-[20px] lg:text-[36px] mb-4 lg:mb-4">
+                    <div className="pb-4 lg:pb-0 lg:w-[364px] lg:h-[132px]">
+                        <div className="flex-wrap content-center font-bold text-[20px] lg:text-[36px] mb-5 lg:mb-5 leading-[28px] lg:leading-[40px]">
                             Остались вопросы?
                         </div>
-                        <div className="flex-wrap content-center text-[16px] w-[300px] lg:w-[364px]">
-                            Позвоните нам по телефону или напишите в чат и наш менеджер подробно ответит на все ваши вопросы и забронирует нужный автомобиль!
+                        <div className="flex-wrap content-center text-[16px] min-w-[311px] lg:w-[364px]">
+                            Позвоните нам по телефону или напишите в чат и наш менеджер подробно ответит на все ваши вопросы<br className="block lg:hidden" /> и забронирует нужный автомобиль!
                         </div>
                     </div>
                     <div className="flex flex-wrap flex-row gap-[14px]  bg-[#1E384A] rounded-2xl lg:grid lg:grid-cols-3 lg:gap-4">

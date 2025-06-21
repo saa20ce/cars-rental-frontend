@@ -17,7 +17,7 @@ export const HaveQuestions = () => {
                     <div className="flex flex-wrap flex-row gap-[14px]  bg-[#1E384A] rounded-2xl lg:grid lg:grid-cols-3 lg:gap-4">
                         <div className="flex content-center bg-[#075E5466] rounded-2xl p-3 px-5 gap-[12px] w-full flex-wrap lg:flex-col lg:items-center lg:justify-center lg:h-[132px]">
                             <div>
-                                <WhatsAppIcon />
+                                <WhatsAppIcon className="w-[40px] h-[41px] lg:w-[52px] lg:h-[52px]" />
                             </div>
                             <div className="flex-wrap content-center text-[16px] lg:text-[18px]" >
                                 Написать в Whatsapp
@@ -25,7 +25,7 @@ export const HaveQuestions = () => {
                         </div>
                         <div className="flex content-center bg-[#0088CC66] rounded-2xl p-3 px-5 gap-[12px] w-full flex-wrap lg:flex-col lg:items-center lg:justify-center lg:h-[132px] lg:w-[228px]">
                             <div>
-                                <TelegramIcon />
+                                <TelegramIcon className="w-[40px] h-[41px] lg:w-[52px] lg:h-[52px]"/>
                             </div>
                             <div className="flex-wrap content-center text-[16px] lg:text-[18px]" >
                                 Написать в Telegram

@@ -14,7 +14,7 @@ export const WhatsAppIcon: React.FC<WhatsAppIconProps> = ({
     <svg 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`w-[40px] h-[41px] lg:w-[52px] lg:h-[52px] ${className}`}
+      className={`w-[30px] h-[31px] lg:w-[30px] lg:h-[31px] ${className}`}
       viewBox='0 0 40 41'
       xmlns='http://www.w3.org/2000/svg'
       style={{

@@ -283,9 +283,6 @@ export default function SingleCarPageClient({
 			<div>
 				<HaveQuestions />
 			</div>
-			<div>
-				<Footer />
-			</div>
 		</>
 	);
 }

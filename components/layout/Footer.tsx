@@ -5,8 +5,8 @@ export const Footer: React.FC = () => {
     return (
         <div className="mt-[56px]">
             <div className='flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5'>
-                <div className="flex text-[18px] lg:text-[24px] font-medium justify-between">
-                    <div>Разделы сайта <ChevronRightIcon width={10} height={20} /></div>
+                <div className="flex text-[18px] lg:text-[24px] font-[600] justify-between">
+                    <div>Разделы сайта <ChevronRightIcon width={10} height={32} /></div>
                     <div className="underline underline-offset-[6px]">Наш блог</div>
                 </div>
 
@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
                     </div>
                     <div>
                         <div className="flex flex-row gap-4">
-                            <div className="flex flex-row gap-3 lg:gap-5 items-center mt-5">
+                            <div className="flex flex-row gap-5 lg:gap-5 items-center mt-5 ml-[14px] lg:ml-0 ">
                                 <div className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
                                     <TelegramIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </div>
@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
                                         ghost
                                           className="
                                             rounded-[12px] lg:rounded-[16px]
-                                            ml-2 lg:ml-2
+                                            ml-0 lg:ml-0
                                             text-[16px] lg:text-[18px]
                                             h-10 lg:h-11
                                             px-3 lg:px-6
@@ -65,14 +65,14 @@ export const Footer: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex flex-wrap text-lg mt-9 gap-[10px] text-[18px] lg:text-[16px]">
-                        <div>Бронирование: 9:00 - 22:00 <span className="text-[#9ca3af]">(Нск)</span></div>
-                        <div>Офис: 9:00 - 22:00 <span className="text-[#9ca3af]">(Нск)</span></div>
+                        <div>Бронирование:<span className="ml-[10px]">9:00 - 22:00</span><span className="text-[#9ca3af]"> (Нск)</span></div>
+                        <div>Офис:<span className="ml-[10px]">9:00 -22:00</span> <span className="text-[#9ca3af]"> (Нск)</span></div>
                     </div>
                 </div>
 
                 <div className=" lg:hidden w-full border-t-2 border-double border-[#284B63B2] h-[1px]"></div>
                 <div className="flex flex-col lg:flex-row gap-[36px] lg:gap-[95px]">
-                    <div className="flex gap-9 lg:gap-[95px] text-[18px] lg:flex-1">
+                    <div className="flex gap-9 lg:gap-[95px] text-[16px] font-[100] lg:font-[400] lg:text-[18px] lg:flex-1">
                         <div>
                             <ul className="space-y-2 lg:leading-7">
                                 <li><a href="#">Главная</a></li>
@@ -85,11 +85,10 @@ export const Footer: React.FC = () => {
                         </div>
                         <div>
                             <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[165px]">
-                                <li><a href="#">Главная</a></li>
                                 <li><a href="#">Вопрос-ответ</a></li>
                                 <li><a href="#">Аренда для юридических лиц</a></li>
                                 <li><a href="#">Договор аренды</a></li>
-                                <li><a href="#">Услуги</a></li>
+                                <li><a href="#">Условия</a></li>
                             </ul>
                         </div>
                     </div>
@@ -99,11 +98,11 @@ export const Footer: React.FC = () => {
                             <div>
                                 <SmartphoneIcon />
                             </div>
-                            <div className="underline underline-offset-4 decoration-5 font-[100] lg:text-[18px] lg:underline lg:underline-offset-4 decoration-5 lg:font-[600]">
+                            <div className="underline underline-offset-4 decoration-5 font-[400] lg:font-[600] text-[16px] lg:text-[18px] lg:underline lg:underline-offset-4 decoration-5">
                                 +7(913)-913-28-08
                             </div>
                         </div>
-                        <div className="flex gap-2 mt-3 items-center">
+                        <div className="flex gap-2 mt-3 items-center text-[16px] lg:text-[18px]">
                             <div>
                                 <MailIcon />
                             </div>
@@ -111,7 +110,7 @@ export const Footer: React.FC = () => {
                                 rentasib54@gmail.com
                             </div>
                         </div>
-                        <div className="flex gap-2 mt-3 items-center">
+                        <div className="flex gap-2 mt-3 items-center text-[16px] lg:text-[18px]">
                             <div>
                                 <PointerIcon />
                             </div>
@@ -122,16 +121,16 @@ export const Footer: React.FC = () => {
                     </div>
                 </div>
                 <div className="lg:flex lg:flex-col lg:justify-start">
-                    <div className="flex gap-5 text-[20px] font-regular lg:flex-col lg:gap-3">
+                    <div className="flex gap-5 text-[20px] font-regular lg:flex-col lg:gap-3 ml-1 lg:ml-0 mt-1 lg:mt-0">
                         <div className="flex gap-3">
                             <div><VkMiniIcon /></div>
-                            <div className="underline decoration-1 underline-offset-[6px]">
+                            <div className="underline decoration-1 underline-offset-[6px] text-[20px] lg:text-[18px]">
                                 <a href="#">Vk</a>
                             </div>
                         </div>
                         <div className="flex gap-3">
                             <div><DzenIcon /></div>
-                            <div className="underline decoration-1 underline-offset-[6px]">
+                            <div className="underline decoration-1 underline-offset-[6px] text-[20px] lg:text-[18px]">
                                 <a href="#">Дзен</a>
                             </div>
                         </div>

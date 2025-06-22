@@ -10,6 +10,11 @@ import {
 	FiltersIcon,
 	SmallCross,
 } from '@/lib/ui/icons';
+import { RentSteps } from '@/components/common/Steps/RentSteps';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
+import type { DeliveryPrice } from '@/lib/types/Car';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 
 interface CarsPageClientProps {
@@ -20,6 +25,7 @@ interface CarsPageClientProps {
 	privodOptions: Array<{ value: string; label: string }>;
 	dvigatelOptions: Array<{ value: string; label: string }>;
 	colorOptions: Array<{ value: string; label: string }>;
+	deliveryPrice: DeliveryPrice | null; 
 }
 
 export default function CarsPageClient({
@@ -30,6 +36,7 @@ export default function CarsPageClient({
 	privodOptions,
 	dvigatelOptions,
 	colorOptions,
+	deliveryPrice,
 }: CarsPageClientProps) {
 	const [cars, setCars] = useState<Car[]>(initialCars);
 	const [loading, setLoading] = useState(false);
@@ -275,6 +282,22 @@ export default function CarsPageClient({
 					<p>Ничего не найдено</p>
 				)}
 			</div>
+						<div className='mx-[-16px] mt-[42px] lg:mt-[68px]'>
+							<RentSteps />
+						</div>
+						<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
+						<div>
+							<DeliveryPriceTable deliveryPrice={deliveryPrice} />
+						</div>
+			
+						<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
+			
+						<div>
+							<WhyUs />
+						</div>
+						<div>
+							<HaveQuestions />
+						</div>
 		</>
 	);
 }

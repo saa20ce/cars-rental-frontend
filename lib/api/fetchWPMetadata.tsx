@@ -8,7 +8,7 @@ export async function fetchWPMetadata(pagePath: string) {
 			{ cache: 'no-store' }
 		);
 		if (!res.ok) return {};
-		console.log('res', res.body);
+
 		const { head } = await res.json();
 
 		if (head) {

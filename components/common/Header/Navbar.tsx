@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	LogoFull,
 	PhoneIcon,
-	MenuIcon,
 	PhoneIconDefault
 } from '@/lib/ui/icons';
 import Link from 'next/link';
@@ -11,6 +10,7 @@ import type { WPMenuType, AntdMenuItem } from '@/lib/types/Menu';
 import { fetchMenuItems } from '@/lib/api/fetchMenu';
 import { buildMenuTree, convertToAntdMenuItems } from '@/lib/helpers/menuHelpers';
 import NavbarClient from './NavbarClient';
+import NavbarMobileClient from './NavbarMobileClient';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
@@ -31,7 +31,7 @@ export const Navbar = async () => {
 
 			<div className="flex items-center gap-6 lg:hidden">
 				<PhoneIcon />
-				<MenuIcon />
+				<NavbarMobileClient menuItems={antdItems} />
 			</div>
 
 			<div className="hidden lg:flex w-[75%]">

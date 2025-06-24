@@ -1,6 +1,7 @@
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
+import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import CarsPageClient from '@/client/cars/CarsPageClient';
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +22,8 @@ export default async function CarsPage() {
 		colorOptions
 	} = await getAllTaxonomyOptions();
 
+	const deliveryPrice = await getDeliveryPrice();
+
 	return (
 		<CarsPageClient
 			cars={cars}
@@ -30,6 +33,7 @@ export default async function CarsPage() {
 			privodOptions={privodOptions}
 			dvigatelOptions={dvigatelOptions}
 			colorOptions={colorOptions}
+			deliveryPrice={deliveryPrice}
 		/>
 	);
 }

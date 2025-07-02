@@ -22,7 +22,6 @@ import {
 import type { Car, PriceRange, SeasonData, DeliveryPrice } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-import { Footer } from '@/components/layout/Footer';
 
 interface SingleCarPageClientProps {
 	car: Car;
@@ -71,7 +70,6 @@ export default function SingleCarPageClient({
 
 	const MyPrevArrow = (props: any) => {
 		const { className, style, onClick } = props;
-		// не передаём все props сразу
 		return (
 			<div
 				className={className}
@@ -184,6 +182,7 @@ export default function SingleCarPageClient({
 
 				<div className='lg:w-1/2 lg:max-w-[618px]'>
 					<RentalCheckout
+						car={car}
 						additionalOptions={[
 							{ label: 'Бустер', value: 'buster' },
 							{ label: 'Бокс на крышу (+500 р./сут.)', value: 'box' },
@@ -270,12 +269,12 @@ export default function SingleCarPageClient({
 			<div className='mx-[-16px]'>
 				<RentSteps />
 			</div>
-			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
+			<div className='w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden'></div>
 			<div>
 				<DeliveryPriceTable deliveryPrice={deliveryPrice} />
 			</div>
 
-			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
+			<div className='w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]'></div>
 
 			<div>
 				<WhyUs />

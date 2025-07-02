@@ -33,6 +33,18 @@ export type Car = {
 
 	acf?: CarACF;
 	_links?: CarLinks;
+
+	_embedded?: {
+		'wp:featuredmedia': Array<{
+			media_details: {
+				sizes: {
+					thumbnail: { source_url: string };
+					/* …может быть large, medium и т.д. */
+				};
+			};
+		}>;
+		'wp:term': Term[][];
+	};
 };
 
 export interface CarACF {
@@ -122,3 +134,9 @@ export interface PriceRange {
 }
 
 export type BasePriceRangeConfig = Omit<PriceRange, 'price' | 'seasonPrice'>;
+
+export interface Term {
+	id: number;
+	name: string;
+	taxonomy: string;
+}

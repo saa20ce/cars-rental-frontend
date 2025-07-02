@@ -11,7 +11,7 @@ const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 export async function getCarBySlug(slug: string): Promise<Car | null> {
-	const res = await fetch(`${WP_API_URL}/cars?slug=${slug}`, {
+	const res = await fetch(`${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term`, {
 		next: { revalidate: 60 },
 	});
 

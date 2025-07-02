@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import type { PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button } from 'antd';
+import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
+import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -10,8 +10,10 @@ dayjs.extend(customParseFormat);
 import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
+import { ModalRentalCheckout } from '../../Modal/ModalRentalCheckout';
 
 interface RentalCheckoutProps {
+	car: Car;
 	additionalOptions: { label: string; value: string }[];
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
@@ -19,6 +21,7 @@ interface RentalCheckoutProps {
 }
 
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
+	car,
 	additionalOptions,
 	seasonDates,
 	priceRanges = [],
@@ -32,15 +35,16 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const [hasSeasonDays, setHasSeasonDays] = useState(false);
 
 	const [showCost, setShowCost] = useState(false);
-	// const [visible, setVisible] = useState(true);
+
+	const [modalVisible, setModalVisible] = useState(false);
+	const openModal = () => setModalVisible(true);
+	const closeModal = () => setModalVisible(false);
 
 	useEffect(() => {
 		if (startDate && returnDate) {
 			const startFull = startDate
 			const endFull = returnDate;
 
-			// const diffDays = endFull.diff(startFull, 'day');
-			// const totalDays = diffDays > 0 ? diffDays : 0;
 			const exactDiffHours = endFull.diff(startFull, 'hour', true);
 			const totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
 			setDaysCount(totalDays);
@@ -76,10 +80,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 			setDailyCosts(costs);
 
 			setShowCost(true);
-			// setVisible(true);
 		} else {
 			setShowCost(false);
-			// setVisible(false);
 			setDaysCount(0);
 			setDailyCosts([]);
 			setSeasonModeSwitch(false);
@@ -93,7 +95,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 		setSeasonModeSwitch,
 	]);
 
-	const total = dailyCosts.reduce((acc, val) => acc + val, 0);
+	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0);
 	const pricePerDay = dailyCosts[0] || 0;
 
 	return (
@@ -108,9 +110,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
 			{showCost && (
 				<div className='p-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all lg:px-7 lg:pb-8 lg:pt-11 lg:mt-[-28]'>
-					<div
-						className='flex items-center mb-4'
-					>
+					<div className='flex items-center mb-4'>
 						<span className='text-xl lg:text-2xl'>Расчет стоимости</span>
 					</div>
 
@@ -197,7 +197,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							)}
 						</div>
 						<div className='font-bold text-2xl lg:text-4xl'>
-							{total} ₽
+							{totalPrice} ₽
 						</div>
 					</div>
 
@@ -225,10 +225,66 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							},
 						}}
 					>
-						<Button className='lg:text-xl lg:h-[60px] lg:rounded-xl' block>Оставить заявку</Button>
+						<Button
+							className='lg:text-xl lg:h-[60px] lg:rounded-xl'
+							block
+							onClick={openModal}
+						>
+							Оставить заявку
+						</Button>
 					</ConfigProvider>
 				</div>
 			)}
+
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							contentBg: "#00000000",
+							boxShadow: 'none',
+						},
+					},
+				}}
+			>
+				<Modal
+					open={modalVisible}
+					onCancel={closeModal}
+					footer={null}
+					width="100vw"
+					style={{
+						top: -100,
+						left: 0,
+						margin: 0,
+						padding: 0,
+					}}
+					styles={{
+						mask: {
+							backdropFilter: 'blur(30px)',
+							WebkitBackdropFilter: 'blur(30px)',
+						},
+						content: {
+							padding: 8,
+						}
+					}}
+					centered
+				>
+					{startDate && returnDate && (
+						<ModalRentalCheckout
+							car={car}
+							startDate={startDate.format('YYYY-MM-DD')}
+							returnDate={returnDate.format('YYYY-MM-DD')}
+							startTime={startDate.format('HH:mm')}
+							endTime={returnDate.format('HH:mm')}
+							hasSeasonDays={hasSeasonDays}
+							options={additionalOptions.map(o => o.value)}
+							daysCount={daysCount}
+							pricePerDay={pricePerDay}
+							totalPrice={totalPrice}
+						/>
+					)}
+				</Modal>
+
+			</ConfigProvider>
 		</div>
 	);
 };

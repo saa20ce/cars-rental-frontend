@@ -15,7 +15,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 	return (
 		<>
 			<div
-				className="flex items-center"
+				className='flex items-center'
 				onClick={() => setOpen(true)}
 				style={{ cursor: 'pointer' }}
 			>
@@ -41,8 +41,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 					style={{
 						top: -100,
 						left: 0,
-						// maxWidth: '100vw',
-						// maxHeight: '100vh',
 						margin: 0,
 						padding: 0,
 					}}
@@ -85,7 +83,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 									key={item.key}
 									href={href}
 									onClick={() => setOpen(false)}
-									className="text-white text-xl py-2 text-center"
+									className='text-white text-xl py-2 text-center'
 									style={{ textDecoration: 'none' }}
 								>
 									{labelContent}

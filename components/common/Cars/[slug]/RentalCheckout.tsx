@@ -10,7 +10,7 @@ dayjs.extend(customParseFormat);
 import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
-import { ModalRentalCheckout } from '../../Modal/ModalRentalCheckout';
+import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
 
 interface RentalCheckoutProps {
 	car: Car;
@@ -35,6 +35,11 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const [hasSeasonDays, setHasSeasonDays] = useState(false);
 
 	const [showCost, setShowCost] = useState(false);
+
+	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0);
+	const pricePerDay = dailyCosts[0] || 0;
+
+	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const openModal = () => setModalVisible(true);
@@ -95,9 +100,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 		setSeasonModeSwitch,
 	]);
 
-	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0);
-	const pricePerDay = dailyCosts[0] || 0;
-
 	return (
 		<div className='lg:w-full'>
 			<RentalPeriod
@@ -106,6 +108,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 				onStartDateChange={setStartDate}
 				returnDate={returnDate}
 				onReturnDateChange={setReturnDate}
+				selectedOptions={selectedOptions}
+				onSelectOptionsChange={setSelectedOptions}
 			/>
 
 			{showCost && (
@@ -252,7 +256,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 					footer={null}
 					width="100vw"
 					style={{
-						top: -100,
+						top: 0,
 						left: 0,
 						margin: 0,
 						padding: 0,
@@ -264,6 +268,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 						},
 						content: {
 							padding: 8,
+							color: '#f6f6f6',
 						}
 					}}
 					centered
@@ -276,7 +281,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							startTime={startDate.format('HH:mm')}
 							endTime={returnDate.format('HH:mm')}
 							hasSeasonDays={hasSeasonDays}
-							options={additionalOptions.map(o => o.value)}
+							additionalOptions={additionalOptions}
+							selectedOptions={selectedOptions}
+							onSelectOptionsChange={setSelectedOptions}
 							daysCount={daysCount}
 							pricePerDay={pricePerDay}
 							totalPrice={totalPrice}

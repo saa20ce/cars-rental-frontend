@@ -10,6 +10,7 @@ import 'dayjs/locale/ru';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
+import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -22,10 +23,13 @@ type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 interface RentalPeriodProps {
 	additionalOptions: { label: string; value: string }[];
-	startDate: Dayjs | null;
-	onStartDateChange: (date: Dayjs | null) => void;
-	returnDate: Dayjs | null;
-	onReturnDateChange: (date: Dayjs | null) => void;
+	startDate?: Dayjs | null;
+	onStartDateChange?: (date: Dayjs | null) => void;
+	returnDate?: Dayjs | null;
+	onReturnDateChange?: (date: Dayjs | null) => void;
+	selectedOptions?: string[];
+	onSelectOptionsChange?: (opts: string[]) => void;
+	showContactForm?: boolean;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -38,10 +42,13 @@ const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
 
 export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	additionalOptions,
-	startDate,
+	startDate = null,
 	onStartDateChange,
-	returnDate,
+	returnDate = null,
 	onReturnDateChange,
+	selectedOptions = [],
+	onSelectOptionsChange,
+	showContactForm = false,
 }) => {
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
@@ -84,7 +91,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						defaultValue={today}
 						value={startDate || today}
 						onChange={(date) => {
-							onStartDateChange(date);
+							onStartDateChange?.(date);
 							if (date) setIsChainActive(true);
 						}}
 						width='58%'
@@ -110,7 +117,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						placeholder='Возврат'
 						disabledDate={disabledDateFinish}
 						value={returnDate}
-						onChange={onReturnDateChange}
+						onChange={(date) => onReturnDateChange?.(date)}
 						width='58%'
 						isMobile={isMobile}
 						open={isChainActive ? isReturnDateOpen : undefined}
@@ -132,7 +139,13 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 				</div>
 			</div>
 
-			<AdditionalServices options={additionalOptions} />
+			<AdditionalServices
+				options={additionalOptions}
+				selected={selectedOptions}
+				onChange={onSelectOptionsChange}
+			/>
+
+			{showContactForm && <RentalCheckoutContactForm />}
 		</div>
 	);
 };

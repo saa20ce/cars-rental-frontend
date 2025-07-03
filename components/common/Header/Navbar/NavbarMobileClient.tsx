@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MobileMenu from './MobileMenu';
+import MobileMenu from '@/components/common/Header/MobileMenu';
 
 import type { AntdMenuItem } from '@/lib/types/Menu';
 

@@ -3,7 +3,7 @@ import type { Viewport } from 'next'
 import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/layout/Header';
-import UpdatePathCookie from '@/components/common/UpdatePathCookie'
+import UpdatePathCookie from '@/components/common/Meta/UpdatePathCookie'
 import { Footer } from '@/components/layout/Footer';
 
 const lato = localFont({

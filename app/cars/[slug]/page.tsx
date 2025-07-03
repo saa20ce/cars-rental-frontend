@@ -9,7 +9,7 @@ import {
 } from '@/lib/api/fetchCarData';
 import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
-import SingleCarPageClient from '@/client/cars/[slug]/SingleCarPageClient';
+import SingleCarPageClient from '@/clientPage/cars/[slug]/SingleCarPageClient';
 
 type SingleCarPageProps = {
 	params: Promise<{ slug: string; }>;

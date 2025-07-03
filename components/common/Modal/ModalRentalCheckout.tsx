@@ -1,8 +1,10 @@
 'use client';
 
 import React from "react";
+import dayjs from "dayjs";
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { Car, Term } from "@/lib/types/Car";
+import { RentalPeriod } from "../Cars";
 
 interface ModalRentalCheckoutProps {
 	car: Car;
@@ -11,7 +13,9 @@ interface ModalRentalCheckoutProps {
 	startTime: string;
 	endTime: string;
 	hasSeasonDays: boolean;
-	options: string[];
+	additionalOptions: { label: string; value: string }[];
+	selectedOptions: string[];
+	onSelectOptionsChange: (opts: string[]) => void;
 	daysCount: number;
 	pricePerDay: number;
 	totalPrice: number;
@@ -24,7 +28,9 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 	startTime,
 	endTime,
 	hasSeasonDays,
-	options,
+	additionalOptions,
+	selectedOptions,
+	onSelectOptionsChange,
 	daysCount,
 	pricePerDay,
 	totalPrice,
@@ -56,7 +62,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
 					<div>
 						{car.acf?.nazvanie_avto && (
-							<div className='text-base text-[#f6f6f6] uppercase font-bold'>
+							<div className='text-base uppercase font-bold'>
 								{car.acf.nazvanie_avto}
 							</div>
 						)}
@@ -68,7 +74,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
 				</div>
 
-				<div className='text-[#f6f6f6]'>
+				<div>
 					<div className='flex items-center mb-4'>
 						<span className='text-xl lg:text-2xl'>Расчет стоимости</span>
 					</div>
@@ -140,7 +146,16 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 			</div>
 
 			<div>
-
+				<RentalPeriod
+					additionalOptions={additionalOptions}
+					startDate={dayjs(startDate)}
+					onStartDateChange={undefined}
+					returnDate={dayjs(returnDate)}
+					onReturnDateChange={undefined}
+					selectedOptions={selectedOptions}
+					onSelectOptionsChange={onSelectOptionsChange}
+					showContactForm={true}
+				/>
 			</div>
 		</div>
 	);

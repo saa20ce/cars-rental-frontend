@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { CarCard } from '@/components/layout/CarCard';
+import { CarCard } from '@/components/common/Cards/CarCard';
 import type { Car } from '@/lib/types/Car';
-import SaleCard from '@/components/common/SaleOffer/SaleCard';
+import SaleCard from '@/components/common/Cards/SaleCard';
 import { Button, ConfigProvider } from 'antd';
 import {
 	CheckRound,
@@ -25,7 +25,7 @@ interface CarsPageClientProps {
 	privodOptions: Array<{ value: string; label: string }>;
 	dvigatelOptions: Array<{ value: string; label: string }>;
 	colorOptions: Array<{ value: string; label: string }>;
-	deliveryPrice: DeliveryPrice | null; 
+	deliveryPrice: DeliveryPrice | null;
 }
 
 export default function CarsPageClient({
@@ -282,22 +282,22 @@ export default function CarsPageClient({
 					<p>Ничего не найдено</p>
 				)}
 			</div>
-						<div className='mx-[-16px] mt-[42px] lg:mt-[68px]'>
-							<RentSteps />
-						</div>
-						<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
-						<div>
-							<DeliveryPriceTable deliveryPrice={deliveryPrice} />
-						</div>
-			
-						<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
-			
-						<div>
-							<WhyUs />
-						</div>
-						<div>
-							<HaveQuestions />
-						</div>
+			<div className='mx-[-16px] mt-[42px] lg:mt-[68px]'>
+				<RentSteps />
+			</div>
+			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
+			<div>
+				<DeliveryPriceTable deliveryPrice={deliveryPrice} />
+			</div>
+
+			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
+
+			<div>
+				<WhyUs />
+			</div>
+			<div>
+				<HaveQuestions />
+			</div>
 		</>
 	);
 }

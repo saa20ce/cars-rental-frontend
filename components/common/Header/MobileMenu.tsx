@@ -39,7 +39,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 					closeIcon={false}
 					width="100vw"
 					style={{
-						top: -100,
+						top: 0,
 						left: 0,
 						margin: 0,
 						padding: 0,
@@ -49,6 +49,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 							backdropFilter: 'blur(30px)',
 							WebkitBackdropFilter: 'blur(30px)',
 						},
+						content: {
+							color: '#f6f6f6'
+						}
 					}}
 					centered
 				>
@@ -83,7 +86,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 									key={item.key}
 									href={href}
 									onClick={() => setOpen(false)}
-									className='text-white text-xl py-2 text-center'
+									className='text-xl py-2 text-center'
 									style={{ textDecoration: 'none' }}
 								>
 									{labelContent}

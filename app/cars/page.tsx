@@ -2,7 +2,7 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
-import CarsPageClient from '@/client/cars/CarsPageClient';
+import CarsPageClient from '@/clientPage/cars/CarsPageClient';
 
 export const dynamic = 'force-dynamic';
 

@@ -1,4 +1,4 @@
-import type { PriceRange, SeasonData } from '../types/Car';
+import type { PriceRange, SeasonData } from '@/lib/types/Car';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);

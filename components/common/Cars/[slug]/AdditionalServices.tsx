@@ -6,6 +6,8 @@ import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 
 interface AdditionalServicesProps {
 	options: { label: string; value: string }[];
+	selected?: string[];
+	onChange?: (values: string[]) => void;
 }
 
 const optionsDelivery = [
@@ -28,6 +30,8 @@ const optionsDelivery = [
 
 export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	options,
+	selected = [],
+	onChange,
 }) => {
 	return (
 		<div>
@@ -39,7 +43,12 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 			</div>
 			<div className='flex flex-wrap gap-[10px] mt-3 lg:flex-col lg:gap-3 lg:text-lg'>
 				Опции:
-				<CheckboxGroup className='gap-4' options={options} />
+				<CheckboxGroup
+					className='gap-4'
+					options={options}
+					value={selected}
+					onChange={onChange}
+				/>
 			</div>
 		</div>
 	);

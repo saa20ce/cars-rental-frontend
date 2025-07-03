@@ -48,12 +48,12 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
 								${seasonModeSwitch ? 'bg-[#f6f6f638]' : 'bg-[#f6f6f60e]'}`}
 						>
 							<div
-								className={`transition-all ${seasonModeSwitch ? 'text-white' : 'text-[#f6f6f666]'}`}
+								className={`transition-all ${seasonModeSwitch ? 'text-[#f6f6f6]' : 'text-[#f6f6f666]'}`}
 							>
 								{label}
 							</div>
 							<div
-								className={`font-bold transition-all ${seasonModeSwitch ? 'text-white' : ''}`}
+								className={`font-bold transition-all ${seasonModeSwitch ? 'text-[#f6f6f6]' : ''}`}
 							>
 								{finalPrice > 0
 									? `${finalPrice.toLocaleString()} ₽/сут.`

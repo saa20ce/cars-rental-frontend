@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { Button, ConfigProvider } from 'antd';
-import { CarCard } from '@/components/layout/CarCard';
+import { CarCard } from '@/components/common/Cards/CarCard';
 import type { Car } from '@/lib/types/Car';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowRightLinkIcon } from '@/lib/ui/icons';
 

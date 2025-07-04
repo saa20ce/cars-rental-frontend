@@ -2,15 +2,15 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
-import CarsPageClient from '@/clientPage/cars/clientPage';
+import TariffsPageClient from '@/clientPage/tariffs/clientPage';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-	return await fetchWPMetadata('/cars');
+	return await fetchWPMetadata('/tarify');
 }
 
-export default async function CarsPage() {
+export default async function TariffsPage() {
 	const cars = await getCars({ per_page: '100' });
 
 	const {
@@ -25,7 +25,7 @@ export default async function CarsPage() {
 	const deliveryPrice = await getDeliveryPrice();
 
 	return (
-		<CarsPageClient
+		<TariffsPageClient
 			cars={cars}
 			klassOptions={klassOptions}
 			markaOptions={markaOptions}
@@ -35,5 +35,5 @@ export default async function CarsPage() {
 			colorOptions={colorOptions}
 			deliveryPrice={deliveryPrice}
 		/>
-	);
+	)
 }

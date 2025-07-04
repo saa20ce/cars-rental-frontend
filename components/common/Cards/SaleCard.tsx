@@ -7,7 +7,7 @@ interface SaleCardProps {
 	link?: string;
 }
 
-const SaleCard: React.FC<SaleCardProps> = ({
+export const SaleCard: React.FC<SaleCardProps> = ({
 	title = 'Скидка 20%',
 	description = 'При аренде кроссоверов',
 }) => {
@@ -21,5 +21,3 @@ const SaleCard: React.FC<SaleCardProps> = ({
 		</div>
 	);
 };
-
-export default SaleCard;

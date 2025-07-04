@@ -1,21 +1,20 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { CarCard } from '@/components/common/Cards/CarCard';
-import type { Car } from '@/lib/types/Car';
-import SaleCard from '@/components/common/Cards/SaleCard';
+import type { Car, DeliveryPrice } from '@/lib/types/Car';
 import { Button, ConfigProvider } from 'antd';
+import { CarCard } from '@/components/common/Cards/CarCard';
+import { SaleCard } from '@/components/common/Cards/SaleCard';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
+import { RentSteps } from '@/components/common/Steps/RentSteps';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
+import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import {
 	CheckRound,
 	FiltersIcon,
 	SmallCross,
 } from '@/lib/ui/icons';
-import { RentSteps } from '@/components/common/Steps/RentSteps';
-import { WhyUs } from '@/components/common/Cards/WhyUs';
-import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
-import type { DeliveryPrice } from '@/lib/types/Car';
-import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 
 interface CarsPageClientProps {
 	cars: Car[];

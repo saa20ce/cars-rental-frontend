@@ -1,5 +1,5 @@
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import TariffsPageClient from '@/clientPage/tariffs/clientPage';
@@ -24,6 +24,8 @@ export default async function TariffsPage() {
 
 	const deliveryPrice = await getDeliveryPrice();
 
+	const seasonDates = await getSeasonDates();
+
 	return (
 		<TariffsPageClient
 			cars={cars}
@@ -34,6 +36,7 @@ export default async function TariffsPage() {
 			dvigatelOptions={dvigatelOptions}
 			colorOptions={colorOptions}
 			deliveryPrice={deliveryPrice}
+			seasonDates={seasonDates}
 		/>
 	)
 }

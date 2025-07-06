@@ -2,10 +2,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import type { Car, DeliveryPrice } from '@/lib/types/Car';
+import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
 import type { GetProps } from 'antd';
+import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
+import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
 import { Button, DatePicker, ConfigProvider } from 'antd';
-import { CarCard } from '@/components/common/Cards/CarCard';
+import { CarTariffsCard } from '@/components/common/Cards/CarTariffsCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
@@ -30,6 +32,7 @@ interface TariffsPageClientProps {
 	dvigatelOptions: Array<{ value: string; label: string }>;
 	colorOptions: Array<{ value: string; label: string }>;
 	deliveryPrice: DeliveryPrice | null;
+	seasonDates: SeasonData | null;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -40,7 +43,7 @@ const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
 	return current && current < dayjs().endOf('day');
 };
 
-export default function TariffsPage({
+export default function TariffsPageClient({
 	cars: initialCars,
 	klassOptions,
 	markaOptions,
@@ -49,11 +52,13 @@ export default function TariffsPage({
 	dvigatelOptions,
 	colorOptions,
 	deliveryPrice,
+	seasonDates,
 }: TariffsPageClientProps) {
 	const today = useMemo(() => dayjs(), []);
 
 	const [cars, setCars] = useState<Car[]>(initialCars);
 	const [loading, setLoading] = useState(false);
+	const [costsMap, setCostsMap] = useState<Record<number, { pricePerDay: number; totalPrice: number }>>({});
 
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
@@ -67,6 +72,28 @@ export default function TariffsPage({
 	const [selectedDvigatel, setSelectedDvigatel] = useState('');
 	const [selectedColor, setSelectedColor] = useState('');
 	const [advancedVisible, setAdvancedVisible] = useState(false);
+
+	const [openId, setOpenId] = useState<number | null>(null);
+
+	useEffect(() => {
+		if (!startDate || !returnDate) {
+			setCostsMap({});
+			return;
+		}
+		const m: typeof costsMap = {};
+		cars.forEach(car => {
+			const priceRanges = buildPriceRangesFromACF(car.acf || {});
+			const costs = computeCostsChunked(
+				startDate,
+				returnDate,
+				priceRanges,
+				seasonDates,
+			);
+			const total = costs.reduce((a, b) => a + b, 0);
+			m[car.id] = { pricePerDay: costs[0] ?? 0, totalPrice: total };
+		});
+		setCostsMap(m);
+	}, [startDate, returnDate, cars, seasonDates]);
 
 	const timeOptions = Array.from({ length: 24 }, (_, i) => {
 		const hour = i.toString().padStart(2, '0');
@@ -336,16 +363,15 @@ export default function TariffsPage({
 				</div>
 			</div>
 
-			<div className="flex justify-between mt-6">
-				<span className="lg:text-xl font-bold tracking-wide">Показано: {cars.length}</span>
-				<div className="flex items-center text-sm gap-[14px] lg:text-nowrap lg:text-lg lg:font-bold">
-					<div className="w-[55px] lg:w-full">Сначала дороже</div>
-					<div className="w-[59px] lg:w-full">Сначала дешевле</div>
-					<div className="w-[73px] lg:w-full">Сначала со скидкой</div>
+			<div className='flex flex-row flex-wrap justify-between text-xs mt-6 text-[#f6f6f675] pr-4 pl-5'>
+				<div className=' content-center'>Автомобиль</div>
+				<div className='flex flex-row w-[144px]'>
+					<div className='w-1/2'>Цена <br />за сутки</div>
+					<div className='w-1/2'>Итоговая стоимость</div>
 				</div>
 			</div>
 
-			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+			<div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
 				{loading ? (
 					<p>Загрузка...</p>
 				) : cars.length > 0 ? (
@@ -356,7 +382,13 @@ export default function TariffsPage({
 									<SaleCard />
 								</div>
 							)}
-							<CarCard car={car} />
+							<CarTariffsCard
+								car={car}
+								pricePerDay={costsMap[car.id]?.pricePerDay ?? 0}
+								totalPrice={costsMap[car.id]?.totalPrice ?? 0}
+								openId={openId}
+								onToggle={(id) => setOpenId(prev => prev === id ? null : id)}
+							/>
 						</React.Fragment>
 					))
 				) : (

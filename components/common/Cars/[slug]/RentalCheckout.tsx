@@ -15,6 +15,7 @@ import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalChecko
 interface RentalCheckoutProps {
 	car: Car;
 	additionalOptions: { label: string; value: string }[];
+	deliveryOptions: { label: string; value: string }[];
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
 	setSeasonModeSwitch: (mode: boolean) => void;
@@ -23,12 +24,16 @@ interface RentalCheckoutProps {
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	car,
 	additionalOptions,
+	deliveryOptions,
 	seasonDates,
 	priceRanges = [],
 	setSeasonModeSwitch,
 }) => {
 	const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
+
+	const [startTime, setStartTime] = useState('');
+	const [returnTime, setReturnTime] = useState('');
 
 	const [daysCount, setDaysCount] = useState(0);
 	const [dailyCosts, setDailyCosts] = useState<number[]>([]);
@@ -39,7 +44,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0);
 	const pricePerDay = dailyCosts[0] || 0;
 
-	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+	const [additionalOptionsSelected, setAdditionalOptions] = useState<string[]>([]);
+	const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const openModal = () => setModalVisible(true);
@@ -103,13 +109,22 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	return (
 		<div className='lg:w-full'>
 			<RentalPeriod
-				additionalOptions={additionalOptions}
+				car={car}
 				startDate={startDate}
 				onStartDateChange={setStartDate}
+				startTime={startTime}
+				onStartTimeChange={setStartTime}
 				returnDate={returnDate}
 				onReturnDateChange={setReturnDate}
-				selectedOptions={selectedOptions}
-				onSelectOptionsChange={setSelectedOptions}
+				returnTime={returnTime}
+				onReturnTimeChange={setReturnTime}
+				daysCount={daysCount}
+				additionalOptions={additionalOptions}
+				additionalOptionsSelected={additionalOptionsSelected}
+				setAdditionalOptions={setAdditionalOptions}
+				deliveryOptions={deliveryOptions}
+				deliveryOptionSelected={deliveryOptionSelected}
+				setDeliveryOption={setDeliveryOption}
 			/>
 
 			{showCost && (
@@ -230,7 +245,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 						}}
 					>
 						<Button
-							className='lg:text-xl lg:h-[60px] lg:rounded-xl'
+							className='rounded-xl lg:text-xl lg:h-[60px] lg:rounded-2xl'
 							block
 							onClick={openModal}
 						>
@@ -278,13 +293,16 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							car={car}
 							startDate={startDate.format('YYYY-MM-DD')}
 							returnDate={returnDate.format('YYYY-MM-DD')}
-							startTime={startDate.format('HH:mm')}
-							endTime={returnDate.format('HH:mm')}
+							startTime={startTime}
+							returnTime={returnTime}
+							daysCount={daysCount}
 							hasSeasonDays={hasSeasonDays}
 							additionalOptions={additionalOptions}
-							selectedOptions={selectedOptions}
-							onSelectOptionsChange={setSelectedOptions}
-							daysCount={daysCount}
+							additionalOptionsSelected={additionalOptionsSelected}
+							setAdditionalOptions={setAdditionalOptions}
+							deliveryOptions={deliveryOptions}
+							deliveryOptionSelected={deliveryOptionSelected}
+							setDeliveryOption={setDeliveryOption}
 							pricePerDay={pricePerDay}
 							totalPrice={totalPrice}
 						/>

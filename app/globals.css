@@ -65,6 +65,11 @@ a:hover {
 	scrollbar-width: initial;
 } */
 
+/* Form label required */
+label.ant-form-item-required::before {
+	display: none !important;
+}
+
 /* Mobile Breadcrumbs */
 .ant-breadcrumb ol {
 	overflow: auto;

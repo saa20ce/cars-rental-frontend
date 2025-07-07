@@ -5,11 +5,34 @@ const CF7_FORM_ID = process.env.CF7_FORM_ID!;
 
 export async function POST(req: NextRequest) {
 	try {
-		const { name, phone } = await req.json();
+		const {
+			clientName,
+			phone,
+			autoName,
+			autoColor,
+			rentDate,
+			rentPeriod,
+			delivery,
+			options,
+			comment,
+			totalPrice,
+			pricePerDay
+		} = await req.json();
 
 		const formData = new FormData();
-		formData.append('your-name', name);
-		formData.append('your-phone', phone);
+
+		formData.append('client-name', clientName);
+		formData.append('client-phone', phone);
+		formData.append('auto-name', autoName);
+		formData.append('auto-color', autoColor);
+		formData.append('rent-date', rentDate);
+		formData.append('rent-period', rentPeriod);
+		formData.append('delivery', delivery);
+		formData.append('options', options);
+		formData.append('comment', comment);
+		formData.append('price', totalPrice);
+		formData.append('day-price', pricePerDay);
+
 		formData.append('_wpcf7', CF7_FORM_ID);
 		formData.append('_wpcf7_version', '5.8.7');
 		formData.append('_wpcf7_locale', 'ru_RU');
@@ -27,7 +50,10 @@ export async function POST(req: NextRequest) {
 			}
 		);
 
+
 		const wpData = await wpRes.json();
+
+		console.log('wpData', wpData);
 
 		if (!wpRes.ok || wpData.status === 'validation_failed') {
 			return NextResponse.json(

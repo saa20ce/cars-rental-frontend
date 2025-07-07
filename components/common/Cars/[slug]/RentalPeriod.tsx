@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { DatePicker } from 'antd';
 import type { GetProps } from 'antd';
+import type { Car, Term } from '@/lib/types/Car';
 import { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -19,16 +20,28 @@ dayjs.updateLocale('ru', {
 	monthsShort: ['янв.', 'фев.', 'мар.', 'апр.', 'май', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.'],
 });
 
+
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 interface RentalPeriodProps {
-	additionalOptions: { label: string; value: string }[];
-	startDate?: Dayjs | null;
+	car: Car;
+	startDate: Dayjs | null;
 	onStartDateChange?: (date: Dayjs | null) => void;
-	returnDate?: Dayjs | null;
+	startTime?: string;
+	onStartTimeChange?: (time: string) => void;
+	returnDate: Dayjs | null;
 	onReturnDateChange?: (date: Dayjs | null) => void;
-	selectedOptions?: string[];
-	onSelectOptionsChange?: (opts: string[]) => void;
+	returnTime?: string;
+	onReturnTimeChange?: (time: string) => void;
+	daysCount: number;
+	additionalOptions: { label: string; value: string }[];
+	additionalOptionsSelected: string[];
+	setAdditionalOptions?: (opts: string[]) => void;
+	deliveryOptions: { label: string; value: string }[];
+	deliveryOptionSelected: string;
+	setDeliveryOption: (opt: string) => void;
+	totalPrice?: number;
+	pricePerDay?: number;
 	showContactForm?: boolean;
 }
 
@@ -41,15 +54,37 @@ const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
 };
 
 export const RentalPeriod: React.FC<RentalPeriodProps> = ({
-	additionalOptions,
+	car,
 	startDate = null,
 	onStartDateChange,
+	startTime,
+	onStartTimeChange,
+	returnTime,
+	onReturnTimeChange,
 	returnDate = null,
 	onReturnDateChange,
-	selectedOptions = [],
-	onSelectOptionsChange,
+	daysCount,
+	additionalOptions,
+	additionalOptionsSelected = [],
+	setAdditionalOptions,
+	deliveryOptions,
+	deliveryOptionSelected,
+	setDeliveryOption,
+	totalPrice = 0,
+	pricePerDay = 0,
 	showContactForm = false,
 }) => {
+	const allTerms = car._embedded?.['wp:term'] || [];
+	const colorTerm = allTerms
+		.flat()
+		.find((t: Term) => t.taxonomy === 'color');
+
+	const autoColor = colorTerm?.name ?? '—';
+	const autoName = car.acf?.nazvanie_avto ?? car.title.rendered;
+	const rentDate = `${startDate} ${startTime} – ${returnDate} ${returnTime}`;
+	const rentPeriod = `${daysCount} ${daysCount === 1 ? 'день' : 'дней'}`;
+	const optionsStr = additionalOptionsSelected.join(', ');
+
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
@@ -108,7 +143,8 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						placeholder='18:00'
 						options={timeOptions}
 						className='timePicker'
-						defaultValue={defaultTimeValue}
+						value={startTime || defaultTimeValue}
+						onChange={(val) => onStartTimeChange?.(val as string)}
 					/>
 				</div>
 
@@ -134,18 +170,33 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 						placeholder='18:00'
 						options={timeOptions}
 						className='timePicker'
-						defaultValue={defaultTimeValue}
+						value={returnTime || defaultTimeValue}
+						onChange={(val) => onReturnTimeChange?.(val as string)}
 					/>
 				</div>
 			</div>
 
 			<AdditionalServices
-				options={additionalOptions}
-				selected={selectedOptions}
-				onChange={onSelectOptionsChange}
+				additionalOptions={additionalOptions}
+				additionalOptionsSelected={additionalOptionsSelected}
+				setAdditionalOptions={setAdditionalOptions}
+				deliveryOptions={deliveryOptions}
+				deliveryOptionSelected={deliveryOptionSelected}
+				setDeliveryOption={setDeliveryOption}
 			/>
 
-			{showContactForm && <RentalCheckoutContactForm />}
+			{showContactForm &&
+				<RentalCheckoutContactForm
+					autoName={autoName}
+					autoColor={autoColor}
+					rentDate={rentDate}
+					rentPeriod={rentPeriod}
+					delivery={deliveryOptionSelected}
+					options={optionsStr}
+					totalPrice={totalPrice}
+					pricePerDay={pricePerDay}
+				/>
+			}
 		</div>
 	);
 };

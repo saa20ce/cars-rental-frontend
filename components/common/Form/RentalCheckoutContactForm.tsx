@@ -1,14 +1,59 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input, Form, message } from 'antd';
+import { ConfigProvider, Button, Input, Form, message } from 'antd';
+import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
 
 interface FormValues {
-	name: string;
+	clientName: string;
 	phone: string;
+	comment: string;
+	autoName: string;
+	autoColor: string;
+	rentDate: string;
+	rentPeriod: string;
+	delivery: string;
+	options: string;
+	totalPrice: number;
+	pricePerDay: number;
 }
 
-export const RentalCheckoutContactForm: React.FC = () => {
+interface RentalCheckoutContactFormProps {
+	autoName: string | undefined;
+	autoColor: string;
+	rentDate: string;
+	rentPeriod: string;
+	delivery: string;
+	options: string;
+	totalPrice: number;
+	pricePerDay: number;
+	comment?: string;
+}
+
+export const RentalCheckoutContactForm: React.FC<RentalCheckoutContactFormProps> = ({
+	autoName,
+	autoColor,
+	rentDate,
+	rentPeriod,
+	delivery,
+	options,
+	totalPrice,
+	pricePerDay,
+	comment,
+}) => {
+
+	const initialValues: Partial<FormValues> = {
+		autoName,
+		autoColor,
+		rentDate,
+		rentPeriod,
+		delivery,
+		options,
+		comment,
+		totalPrice,
+		pricePerDay
+	};
+
 	const [loading, setLoading] = useState(false);
 
 	const onFinish = async (values: FormValues) => {
@@ -34,26 +79,125 @@ export const RentalCheckoutContactForm: React.FC = () => {
 	};
 
 	return (
-		<Form layout="vertical" onFinish={onFinish}>
+		<Form
+			layout="vertical"
+			onFinish={onFinish}
+			initialValues={initialValues}
+		>
 			<Form.Item
-				name="name"
-				label="Имя"
-				rules={[{ required: true, message: 'Введите имя' }]}
+				name="clientName"
+				label={<label style={{ color: "#f6f6f6" }}>Фамилия и имя</label>}
+				rules={[{ required: true, message: 'Введите фамилию и имя' }]}
 			>
-				<Input placeholder="Имя" />
+				<CustomInput placeholder="Иван Иванов" />
 			</Form.Item>
+
 			<Form.Item
 				name="phone"
-				label="Телефон"
+				label={<label style={{ color: "#f6f6f6" }}>Номер телефона</label>}
 				rules={[{ required: true, message: 'Введите телефон' }]}
 			>
-				<Input placeholder="Телефон" />
+				<CustomInput placeholder='+7' />
 			</Form.Item>
+
+			<Form.Item
+				name="comment"
+				label={<label style={{ color: "#f6f6f6" }}>Комментарий</label>}
+			>
+				<CustomInput placeholder='Введите...' />
+			</Form.Item>
+
+			<Form.Item
+				name="autoName"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="autoColor"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="rentDate"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="rentPeriod"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="delivery"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="options"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="totalPrice"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
+			<Form.Item
+				name="pricePerDay"
+				className='hidden'
+			>
+				<Input disabled />
+			</Form.Item>
+
 			<Form.Item>
-				<Button type="primary" htmlType="submit" loading={loading} block>
-					Отправить
-				</Button>
+				<ConfigProvider
+					theme={{
+						components: {
+							Button: {
+								defaultBg: '#3c6e71',
+								defaultBorderColor: '#3c6e71',
+								defaultColor: '#f6f6f6',
+								contentFontSize: 16,
+								controlHeight: 42,
+								textHoverBg: '#f6f6f6',
+								colorPrimaryHover: '#f6f6f6',
+								colorBorderSecondary: '#3c6e71',
+								colorBorderBg: '#3c6e71',
+								colorBgContainer: '#3c6e71',
+								colorPrimaryBorderHover: '#3c6e71',
+								defaultHoverBorderColor: '#3c6e71',
+								defaultActiveBorderColor: '#3c6e71',
+								defaultActiveColor: '#f6f6f6',
+								colorBorder: '#3c6e71',
+								colorBgTextActive: '#3c6e71',
+							},
+						},
+					}}
+				>
+					<Button
+						className='rounded-xl lg:text-xl lg:h-[60px] lg:rounded-2xl'
+						block
+						htmlType="submit"
+						loading={loading}
+					>
+						Оставить заявку
+					</Button>
+				</ConfigProvider>
 			</Form.Item>
-		</Form>
+		</Form >
 	);
 };

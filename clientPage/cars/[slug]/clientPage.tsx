@@ -40,6 +40,8 @@ export default function SingleCarPageClient({
 	taxonomyValues,
 	similarCars,
 }: SingleCarPageClientProps) {
+	console.log('car', car);
+
 	const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
 	const galleryImages = useMemo(() => [
@@ -187,6 +189,23 @@ export default function SingleCarPageClient({
 							{ label: 'Бустер', value: 'buster' },
 							{ label: 'Бокс на крышу (+500 р./сут.)', value: 'box' },
 							{ label: 'Детское кресло', value: 'seat' },
+						]}
+						deliveryOptions={[
+							{
+								value: 'List Item 1', label: 'List Item 1',
+							},
+							{
+								value: 'List Item 2', label: 'List Item 2',
+							},
+							{
+								value: 'List Item 3', label: 'List Item 3',
+							},
+							{
+								value: 'List Item 4', label: 'List Item 4',
+							},
+							{
+								value: 'List Item 5', label: 'List Item 5',
+							},
 						]}
 						seasonDates={seasonDates}
 						priceRanges={priceRanges}

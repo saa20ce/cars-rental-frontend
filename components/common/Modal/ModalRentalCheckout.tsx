@@ -11,11 +11,14 @@ interface ModalRentalCheckoutProps {
 	startDate: string;
 	returnDate: string;
 	startTime: string;
-	endTime: string;
+	returnTime: string;
 	hasSeasonDays: boolean;
 	additionalOptions: { label: string; value: string }[];
-	selectedOptions: string[];
-	onSelectOptionsChange: (opts: string[]) => void;
+	additionalOptionsSelected: string[];
+	setAdditionalOptions: (opts: string[]) => void;
+	deliveryOptions: { label: string; value: string }[];
+	deliveryOptionSelected: string;
+	setDeliveryOption: (opt: string) => void
 	daysCount: number;
 	pricePerDay: number;
 	totalPrice: number;
@@ -26,16 +29,18 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 	startDate,
 	returnDate,
 	startTime,
-	endTime,
+	returnTime,
 	hasSeasonDays,
 	additionalOptions,
-	selectedOptions,
-	onSelectOptionsChange,
+	additionalOptionsSelected,
+	setAdditionalOptions,
+	deliveryOptions,
+	deliveryOptionSelected,
+	setDeliveryOption,
 	daysCount,
 	pricePerDay,
 	totalPrice,
 }) => {
-	console.log('car', JSON.stringify(car));
 
 	const thumbUrl = car._embedded?.['wp:featuredmedia']?.[0]
 		?.media_details.sizes.thumbnail.source_url;
@@ -147,14 +152,23 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
 			<div>
 				<RentalPeriod
-					additionalOptions={additionalOptions}
+					car={car}
 					startDate={dayjs(startDate)}
+					startTime={startTime}
 					onStartDateChange={undefined}
 					returnDate={dayjs(returnDate)}
+					returnTime={returnTime}
+					daysCount={daysCount}
 					onReturnDateChange={undefined}
-					selectedOptions={selectedOptions}
-					onSelectOptionsChange={onSelectOptionsChange}
+					additionalOptions={additionalOptions}
+					additionalOptionsSelected={additionalOptionsSelected}
+					setAdditionalOptions={setAdditionalOptions}
+					deliveryOptions={deliveryOptions}
+					deliveryOptionSelected={deliveryOptionSelected}
+					setDeliveryOption={setDeliveryOption}
 					showContactForm={true}
+					totalPrice={totalPrice}
+					pricePerDay={pricePerDay}
 				/>
 			</div>
 		</div>

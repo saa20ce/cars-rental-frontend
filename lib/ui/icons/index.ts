@@ -37,3 +37,4 @@ export * from './MailIcon';
 export * from './PointerIcon';
 export * from './DzenIcon';
 export * from './VkMiniIcon'
+export * from './CloseIcon';

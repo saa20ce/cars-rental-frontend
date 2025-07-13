@@ -22,6 +22,8 @@ interface ModalRentalCheckoutProps {
 	daysCount: number;
 	pricePerDay: number;
 	totalPrice: number;
+	closeModal?: () => void
+	setIsSubmitted: (isSubmitted: boolean) => void
 }
 
 export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
@@ -40,6 +42,8 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 	daysCount,
 	pricePerDay,
 	totalPrice,
+	closeModal,
+	setIsSubmitted,
 }) => {
 
 	const thumbUrl = car._embedded?.['wp:featuredmedia']?.[0]
@@ -169,6 +173,8 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 					showContactForm={true}
 					totalPrice={totalPrice}
 					pricePerDay={pricePerDay}
+					closeModal={closeModal}
+					setIsSubmitted={setIsSubmitted}
 				/>
 			</div>
 		</div>

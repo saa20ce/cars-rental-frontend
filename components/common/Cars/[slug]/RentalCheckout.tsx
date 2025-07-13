@@ -6,7 +6,7 @@ import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
-
+import { CloseIcon } from '@/lib/ui/icons';
 import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
@@ -50,6 +50,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const [modalVisible, setModalVisible] = useState(false);
 	const openModal = () => setModalVisible(true);
 	const closeModal = () => setModalVisible(false);
+
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	useEffect(() => {
 		if (startDate && returnDate) {
@@ -268,6 +270,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 				<Modal
 					open={modalVisible}
 					onCancel={closeModal}
+					closeIcon={false}
 					footer={null}
 					width="100vw"
 					style={{
@@ -288,7 +291,16 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 					}}
 					centered
 				>
-					{startDate && returnDate && (
+					{isSubmitted && (
+						<div className="text-center p-6 text-white">
+							<h2 className="mb-4 text-lg">Спасибо! Ваша заявка отправлена.</h2>
+							<Button block onClick={() => { setIsSubmitted(false); closeModal(); }}>
+								Закрыть
+							</Button>
+						</div>
+					)}
+
+					{startDate && returnDate && !isSubmitted && (
 						<ModalRentalCheckout
 							car={car}
 							startDate={startDate.format('YYYY-MM-DD')}
@@ -305,6 +317,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							setDeliveryOption={setDeliveryOption}
 							pricePerDay={pricePerDay}
 							totalPrice={totalPrice}
+							closeModal={closeModal}
+							setIsSubmitted={setIsSubmitted}
 						/>
 					)}
 				</Modal>

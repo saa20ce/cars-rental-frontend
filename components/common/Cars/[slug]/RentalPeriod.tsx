@@ -12,6 +12,7 @@ import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
 import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
+import { CloseIcon } from '@/lib/ui/icons';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -43,6 +44,8 @@ interface RentalPeriodProps {
 	totalPrice?: number;
 	pricePerDay?: number;
 	showContactForm?: boolean;
+	closeModal?: () => void;
+	setIsSubmitted?: (isSubmitted: boolean) => void;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -73,6 +76,8 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	totalPrice = 0,
 	pricePerDay = 0,
 	showContactForm = false,
+	closeModal,
+	setIsSubmitted,
 }) => {
 	const allTerms = car._embedded?.['wp:term'] || [];
 	const colorTerm = allTerms
@@ -115,6 +120,15 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
 	return (
 		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
+			{showContactForm && closeModal && (
+				<div
+					className='absolute top-6 right-6 cursor-pointer'
+					onClick={closeModal}
+				>
+					<CloseIcon />
+				</div>
+			)}
+
 			<div className='text-xl mb-4 lg:text-3xl lg:mb-6' >Форма бронирования</div>
 			<div className='mb-[10px] lg:text-xl'>Период аренды:</div>
 			<div className='flex flex-col gap-2 lg:flex-row lg:gap-[10px]'>
@@ -195,6 +209,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 					options={optionsStr}
 					totalPrice={totalPrice}
 					pricePerDay={pricePerDay}
+					onSuccess={() => setIsSubmitted?.(true)}
 				/>
 			}
 		</div>

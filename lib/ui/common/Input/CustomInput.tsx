@@ -12,6 +12,7 @@ export const CustomInput: React.FC<InputProps> = (props) => (
 					activeBg: '#f6f6f638',
 					addonBg: '#f6f6f638',
 					hoverBg: '#f6f6f638',
+					paddingInline: 16,
 				},
 			},
 		}}

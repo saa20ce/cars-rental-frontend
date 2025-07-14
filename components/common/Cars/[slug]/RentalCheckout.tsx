@@ -6,7 +6,6 @@ import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
-import { CloseIcon } from '@/lib/ui/icons';
 import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHelper';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';

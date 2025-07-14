@@ -10,7 +10,13 @@ interface Props {
 }
 
 const NavbarMobileClient: React.FC<Props> = ({ menuItems }) => {
-	return <MobileMenu menuItems={menuItems} />;
+	const convertedMenuItems = menuItems.map((item) => ({
+		key: item.key,
+		label: item.label,
+		children: item.children?.map((child) => child.label),
+	}));
+
+	return <MobileMenu menuItems={convertedMenuItems} />;
 };
 
 export default NavbarMobileClient;

@@ -6,7 +6,7 @@ import { MenuIcon, LogoFull, SmallCross } from '@/lib/ui/icons';
 import Link from 'next/link';
 
 type MobileMenuProps = {
-	menuItems: { key: string; label: React.ReactNode; children?: any[] }[];
+	menuItems: { key: string; label: React.ReactNode; children?: React.ReactNode[] }[];
 };
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
@@ -73,10 +73,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
 								labelContent = item.label;
 								href = typeof item.key === 'string' ? item.key : '#';
 							} else if (React.isValidElement(item.label) && item.label.type === 'a') {
-								// @ts-ignore
-								href = item.label.props.href || '#';
-								// @ts-ignore
-								labelContent = item.label.props.children;
+								const labelElement = item.label as React.ReactElement;
+								const anchorProps = labelElement.props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+								href = anchorProps.href || '#';
+								labelContent = anchorProps.children;
 							} else {
 								labelContent = item.label;
 							}

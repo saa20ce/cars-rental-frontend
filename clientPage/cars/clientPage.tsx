@@ -27,6 +27,8 @@ interface CarsPageClientProps {
 	deliveryPrice: DeliveryPrice | null;
 }
 
+
+
 export default function CarsPageClient({
 	cars: initialCars,
 	klassOptions,
@@ -37,8 +39,10 @@ export default function CarsPageClient({
 	colorOptions,
 	deliveryPrice,
 }: CarsPageClientProps) {
-	const [cars, setCars] = useState<Car[]>(initialCars);
-	const [loading, setLoading] = useState(false);
+	const[sortOrder,setSortOrder] = useState<'desc' | 'asc'>('desc');
+
+	const handleSortDesc = () => setSortOrder('desc');
+	const handleSortAsc = () => setSortOrder('asc')
 
 	const [selectedKlass, setSelectedKlass] = useState('');
 	const [selectedMarka, setSelectedMarka] = useState('');
@@ -47,6 +51,8 @@ export default function CarsPageClient({
 	const [selectedDvigatel, setSelectedDvigatel] = useState('');
 	const [selectedColor, setSelectedColor] = useState('');
 	const [advancedVisible, setAdvancedVisible] = useState(false);
+	const [selectedPriceRange,setSelectedPriceRange] = useState('');
+	const [selectedPassengers,setSelectedPassangers] = useState('') 
 
 	const handleReset = () => {
 		setSelectedKlass('');
@@ -55,45 +61,43 @@ export default function CarsPageClient({
 		setSelectedPrivod('');
 		setSelectedDvigatel('');
 		setSelectedColor('');
+		setSelectedPriceRange('');
+		setSelectedPassangers('');
 		setAdvancedVisible(false);
-		// После сброса фильтров — подгружаем все авто
-		loadCars({}, true);
 	};
 
-	const loadCars = useCallback(
-		async (customFilters: Record<string, string> = {}, forceAll = false) => {
-			setLoading(true);
-			try {
-				const params = new URLSearchParams();
-				if (!forceAll) {
-					if (selectedKlass) params.append('klass', selectedKlass);
-					if (selectedMarka) params.append('marka', selectedMarka);
-					if (selectedKuzov) params.append('kuzov', selectedKuzov);
-					if (selectedPrivod) params.append('privod', selectedPrivod);
-					if (selectedDvigatel) params.append('dvigatel', selectedDvigatel);
-					if (selectedColor) params.append('color', selectedColor);
-				}
-				// customFilters используется для ручного сброса/загрузки без фильтров
-				for (const [k, v] of Object.entries(customFilters)) params.set(k, v);
-				params.append('per_page', '100');
-				const res = await fetch('/api/cars?' + params.toString(), { cache: 'no-store' });
-				const data = await res.json();
-				setCars(data);
-			} catch (e) {
-				console.error(e);
-				setCars([]);
-			} finally {
-				setLoading(false);
-			}
-		},
-		[selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor]
-	);
 
-	// Автоматически обновлять список авто при изменении фильтров
-	React.useEffect(() => {
-		loadCars();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor]);
+	const filteredCars = initialCars.filter((car) =>{
+
+		const klassMatch = selectedKlass ? car.klass?.includes(Number(selectedKlass)): true;
+		const markaMatch = selectedMarka ? car.marka?.includes(Number(selectedMarka)): true;
+		const kuzovMatch = selectedKuzov ? car.kuzov?.includes(Number(selectedKuzov)): true;
+		const privodMatch = selectedPrivod ? car.privod?.includes(Number(selectedPrivod)): true;
+		const dvigatelMatch = selectedDvigatel ? car.dvigatel?.includes(Number(selectedDvigatel)): true;
+		const colorMatch = selectedColor ? car.color?.includes(Number(selectedColor)): true;
+
+		const price = parseInt(car.acf?.['30_dnej'] || '0',10);
+		const passengeres = parseInt(car.acf?.passengers || '0',10);
+
+		let priceMatch = true;
+		if (selectedPriceRange ==='lt4000') priceMatch = price<4000;
+		else if (selectedPriceRange ==='4000-6000') priceMatch = price>=4000 && price<=6000;
+		else if (selectedPriceRange ==='6000-10000') priceMatch = price>=6000 && price<=10000;
+		else if (selectedPriceRange ==='gt10000') priceMatch = price > 10000;
+
+		let passengerMatch = true;
+		if (selectedPassengers === '4') passengerMatch = passengeres === 4;
+		else if (selectedPassengers === '7') passengerMatch = passengeres ===7;
+		else if (selectedPassengers ==='8+') passengerMatch = passengeres >= 8;
+
+		return klassMatch && markaMatch && kuzovMatch && privodMatch && dvigatelMatch &&colorMatch && priceMatch && passengerMatch;
+	});
+
+	const sortedCars = [...filteredCars].sort((a:Car, b:Car) => {
+		const priceA = parseInt(a.acf?.['30_dnej'] || '0',10);
+		const priceB = parseInt(b.acf?.['30_dnej'] || '0',10);
+		return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
+	});
 
 	return (
 		<>
@@ -132,8 +136,16 @@ export default function CarsPageClient({
 							<CustomSelect
 								placeholder="Цена"
 								// Если нужен фильтр по цене, можно добавить состояние и обработчик
+								options={[
+									{value:'lt4000',label:'до 4000'},
+									{value:'4000-6000',label:'4000-6000'},
+									{value:'6000-10000',label:'6000-10000'},
+									{value:'gt10000',label:'от 10000'}
+								]}
 								className="filters-select"
 								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedPriceRange(value as string)}
+								value={selectedPriceRange || undefined}
 							/>
 						</div>
 						<div className='hidden lg:flex lg:w-2/5 lg:pl-3'>
@@ -146,7 +158,7 @@ export default function CarsPageClient({
 									border: 'none',
 									borderRadius: '12px',
 								}}
-								onClick={() => loadCars()}
+								onClick={handleReset}
 							>
 								Показать
 							</Button>
@@ -174,8 +186,15 @@ export default function CarsPageClient({
 								<CustomSelect
 									placeholder="Вместимость"
 									// Добавьте состояние, если потребуется
+									options={[
+										{value:'4',label:'4 пассажира'},
+										{value:'7',label:'7 пассажиров'},
+										{value:'8+',label:'8+ пассажиров'},
+									]}
 									className="filters-select"
 									style={{ width: '100%', height: '44px' }}
+									onChange={(value) =>setSelectedPassangers(value as string)}
+									value={selectedPassengers || undefined}
 								/>
 								<CustomSelect
 									placeholder="Двигатель"
@@ -245,7 +264,7 @@ export default function CarsPageClient({
 									background: '#3c6e71',
 									border: 'none',
 								}}
-								onClick={() => loadCars()}
+								onClick={handleReset}
 							>
 								Показать
 							</Button>
@@ -255,29 +274,31 @@ export default function CarsPageClient({
 			</div>
 
 			<div className="flex justify-between mt-6">
-				<span className="lg:text-xl font-bold tracking-wide">Показано: {cars.length}</span>
+				<span className="lg:text-xl font-bold tracking-wide">Показано: {sortedCars.length}</span>
 				<div className="flex items-center text-sm gap-[14px] lg:text-nowrap lg:text-lg lg:font-bold">
-					<div className="w-[55px] lg:w-full">Сначала дороже</div>
-					<div className="w-[59px] lg:w-full">Сначала дешевле</div>
+					<button onClick={handleSortDesc} className={sortOrder === 'desc' ? 'font-bold underline' : ''}>
+						Сначала дороже
+					</button>
+					<button onClick={handleSortAsc} className={sortOrder === 'asc' ? 'font-bold underline' : ''}>
+						Сначала дешевле
+					</button>
 					<div className="w-[73px] lg:w-full">Сначала со скидкой</div>
 				</div>
 			</div>
 
 			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-				{loading ? (
-					<p>Загрузка...</p>
-				) : cars.length > 0 ? (
-					cars.map((car, index) => (
-						<React.Fragment key={car.id}>
-							{index === 3 && (
-								<div className="block lg:hidden">
-									<SaleCard />
-								</div>
-							)}
-							<CarCard car={car} />
-						</React.Fragment>
-					))
-				) : (
+				{sortedCars.length > 0 ? (
+  					sortedCars.map((car, index) => (
+    				<React.Fragment key={car.id}>
+						{index === 3 && (
+							<div className="block lg:hidden">
+								<SaleCard />
+							</div>
+						)}
+						<CarCard car={car} />
+    			</React.Fragment>
+  			))
+			) : (
 					<p>Ничего не найдено</p>
 				)}
 			</div>

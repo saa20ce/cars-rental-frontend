@@ -76,14 +76,14 @@ export default function CarsPageClient({
 		const dvigatelMatch = selectedDvigatel ? car.dvigatel?.includes(Number(selectedDvigatel)): true;
 		const colorMatch = selectedColor ? car.color?.includes(Number(selectedColor)): true;
 
-		const price = parseInt(car.acf?.czena_ot || '0',10);
+		const price = parseInt(car.acf?.['30_dnej'] || '0',10);
 		const passengeres = parseInt(car.acf?.passengers || '0',10);
 
 		let priceMatch = true;
 		if (selectedPriceRange ==='lt4000') priceMatch = price<4000;
 		else if (selectedPriceRange ==='4000-6000') priceMatch = price>=4000 && price<=6000;
 		else if (selectedPriceRange ==='6000-10000') priceMatch = price>=6000 && price<=10000;
-		else if (selectedPriceRange ==='gt1000') priceMatch = price > 10000;
+		else if (selectedPriceRange ==='gt10000') priceMatch = price > 10000;
 
 		let passengerMatch = true;
 		if (selectedPassengers === '4') passengerMatch = passengeres === 4;
@@ -94,8 +94,8 @@ export default function CarsPageClient({
 	});
 
 	const sortedCars = [...filteredCars].sort((a:Car, b:Car) => {
-		const priceA = parseInt(a.acf?.czena_ot || '0',10);
-		const priceB = parseInt(b.acf?.czena_ot || '0',10);
+		const priceA = parseInt(a.acf?.['30_dnej'] || '0',10);
+		const priceB = parseInt(b.acf?.['30_dnej'] || '0',10);
 		return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
 	});
 

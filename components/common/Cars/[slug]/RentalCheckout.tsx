@@ -28,7 +28,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	priceRanges = [],
 	setSeasonModeSwitch,
 }) => {
-	const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
+	const [startDate, setStartDate] = useState<Dayjs | null>(null);
+
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
 
 	const [startTime, setStartTime] = useState('');
@@ -53,12 +54,20 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	useEffect(() => {
+		if (!startDate){
+			setStartDate(dayjs());
+		}
 		if (startDate && returnDate) {
 			const startFull = startDate
 			const endFull = returnDate;
 
 			const exactDiffHours = endFull.diff(startFull, 'hour', true);
-			const totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+			let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+			if (totalDays < 3){
+				const adjustedEnd = startFull.add(3,'day');
+				setReturnDate(adjustedEnd);
+				totalDays=3;
+			}
 			setDaysCount(totalDays);
 
 			let isSeasonal = false;

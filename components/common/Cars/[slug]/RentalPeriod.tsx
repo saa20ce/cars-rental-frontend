@@ -13,6 +13,7 @@ import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
 import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
 import { CloseIcon } from '@/lib/ui/icons';
+import { start } from 'repl';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -47,14 +48,6 @@ interface RentalPeriodProps {
 	closeModal?: () => void;
 	setIsSubmitted?: (isSubmitted: boolean) => void;
 }
-
-const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-	return current && current < dayjs().startOf('day');
-};
-
-const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
-	return current && current < dayjs().endOf('day');
-};
 
 export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	car,
@@ -118,6 +111,21 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 		return () => mediaQuery.removeEventListener('change', handleChange);
 	}, []);
 
+	const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
+		if (returnDate){
+			return(
+				current && 
+				(current < dayjs().startOf('day') || current> returnDate.startOf('day'))
+			);
+		}
+		return current && current < dayjs().startOf('day');
+	};
+
+	const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
+		if (!startDate) return true;
+		return current && current < startDate.startOf('day');
+	};
+
 	return (
 		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
 			{showContactForm && closeModal && (
@@ -137,8 +145,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 					<CustomDatePicker
 						placeholder='Дата аренды'
 						disabledDate={disabledDateStart}
-						defaultValue={today}
-						value={startDate || today}
+						value={startDate}
 						onChange={(date) => {
 							onStartDateChange?.(date);
 							if (date) setIsChainActive(true);
@@ -178,6 +185,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 							borderTopRightRadius: 0,
 							borderBottomRightRadius: 0,
 						}}
+						disabled={!startDate}
 					/>
 
 					<CustomSelect

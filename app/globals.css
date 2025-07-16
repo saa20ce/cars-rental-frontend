@@ -191,6 +191,18 @@ span.ant-checkbox-label {
 	border-radius: 12px;
 }
 
+.bg-globe,.bg-coatOfArms {
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: contain;
+}
+.bg-globe {
+  background-image: url("/images/Globe.png");
+}
+.bg-coatOfArms {
+  background-image: url("/images/coatOfArms.png");
+}
+
 /* Desktop Tabs */
 @media (width >= 64rem) {
 	.ant-tabs .ant-tabs-tab {

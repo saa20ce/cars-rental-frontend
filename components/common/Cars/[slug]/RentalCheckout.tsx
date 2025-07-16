@@ -10,11 +10,13 @@ import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHe
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
 import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
-
+import { DeliveryPrice} from '@/lib/types/Car';
+import { DeliveryOption } from '@/lib/types/Car';
 interface RentalCheckoutProps {
 	car: Car;
 	additionalOptions: { label: string; value: string }[];
-	deliveryOptions: { label: string; value: string }[];
+	// deliveryOptions: { label: string; value: string }[];
+	deliveryPrice: DeliveryPrice;
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
 	setSeasonModeSwitch: (mode: boolean) => void;
@@ -23,11 +25,15 @@ interface RentalCheckoutProps {
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	car,
 	additionalOptions,
-	deliveryOptions,
+	//deliveryOptions,
+	deliveryPrice,
 	seasonDates,
 	priceRanges = [],
 	setSeasonModeSwitch,
 }) => {
+	
+	const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
+
 	const [startDate, setStartDate] = useState<Dayjs | null>(null);
 
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
@@ -115,6 +121,15 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 		seasonDates,
 		setSeasonModeSwitch,
 	]);
+
+	useEffect(() => {
+		const hour = parseInt(startTime.split(':')[0], 10);
+		const isNight = hour >= 22 || hour < 6;
+		const options = isNight ? deliveryPrice.night : deliveryPrice.day;
+		setDeliveryOptions(options);
+	}, [startTime, deliveryPrice]);
+
+
 
 	return (
 		<div className='lg:w-full'>

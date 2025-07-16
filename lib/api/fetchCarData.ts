@@ -5,7 +5,10 @@ import type {
 	DeliveryPrice,
 	PriceRange,
 	BasePriceRangeConfig,
+	DeliveryOptionsGrouped
 } from '@/lib/types/Car';
+
+
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
@@ -54,18 +57,85 @@ export async function getSeasonDates(): Promise<SeasonData | null> {
 	return json?.acf || null;
 }
 
-export async function getDeliveryPrice(): Promise<DeliveryPrice | null> {
+// export async function getDeliveryPrice(): Promise<DeliveryPrice | null> {
+// 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
+// 		next: { revalidate: 60 },
+// 	});
+
+// 	if (!res.ok) {
+// 		console.error('Error fetching delivery price', res);
+// 		return null;
+// 	}
+
+// 	const json = await res.json();
+// 	return json?.acf || null;
+// }
+
+
+export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
 		next: { revalidate: 60 },
 	});
 
 	if (!res.ok) {
-		console.error('Error fetching delivery price', res);
-		return null;
+		console.error('Error fetching delivery options', res);
+		return { day: [], night: [] };
 	}
 
 	const json = await res.json();
-	return json?.acf || null;
+	const acf = json?.acf;
+
+	const mapLabel = (key: string) => {
+		const raw = key.split('_').pop() || '';
+		const dict: Record<string, string> = {
+			aeroport: 'Аэропорт',
+			berdsk: 'Бердск',
+			sovetskiy: 'Советский',
+			vokzal: 'Вокзал',
+		};
+		return dict[raw] || raw;
+	};
+
+	const day = Object.entries(acf)
+		.filter(([k]) => k.startsWith('delivery_price_day_'))
+		.map(([key, value]) => ({
+			value: key,
+			label: `${mapLabel(key)} — ${value} ₽ (день)`,
+			price: parseInt(value as string),
+		}));
+
+	const night = Object.entries(acf)
+		.filter(([k]) => k.startsWith('delivery_price_night_'))
+		.map(([key, value]) => ({
+			value: key,
+			label: `${mapLabel(key)} — ${value} ₽ (ночь)`,
+			price: parseInt(value as string),
+		}));
+
+	return { day, night };
+}
+
+export async function getAdditionalOptions(): Promise<{ label: string; value: string }[]> {
+	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
+		next: { revalidate: 60 },
+	});
+
+	if (!res.ok) {
+		console.error('Error fetching additional options', res);
+		return [];
+	}
+
+	const json = await res.json();
+	const dopOptions = json?.acf?.['dopolnitelnye_opczii'];
+
+	if (!dopOptions || typeof dopOptions !== 'object') return [];
+
+	return Object.entries(dopOptions)
+		.filter(([_, value]) => typeof value === 'string' && value.trim() !== '')
+		.map(([key, label]) => ({
+			value: key,
+			label: label as string, 
+		}));
 }
 
 const PRICE_CONFIG: BasePriceRangeConfig[] = [

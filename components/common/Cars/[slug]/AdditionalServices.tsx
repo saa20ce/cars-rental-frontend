@@ -20,12 +20,13 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	deliveryOptions,
 	deliveryOptionSelected,
 	setDeliveryOption,
-}) => {
-	const defaultDeliveryValue = useMemo(() => {
-		if (deliveryOptions) {
-			return deliveryOptions[0].value;
+	}) => {
+			const defaultDeliveryValue = useMemo(() => {
+			if (deliveryOptions && deliveryOptions.length > 0) {
+				return deliveryOptions[0].value;
 		}
-	}, []);
+		return '';
+	}, [deliveryOptions]);
 
 	return (
 		<div>

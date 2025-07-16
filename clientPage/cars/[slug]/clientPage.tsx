@@ -19,26 +19,30 @@ import {
 	CarIcon,
 	AgeIcon,
 } from '@/lib/ui/icons';
-import type { Car, PriceRange, SeasonData, DeliveryPrice } from '@/lib/types/Car';
+import type { Car, PriceRange, SeasonData, DeliveryOption,DeliveryPrice } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-
+import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 interface SingleCarPageClientProps {
 	car: Car;
 	seasonDates: SeasonData | null;
 	priceRanges: PriceRange[];
-	deliveryPrice: DeliveryPrice | null;
+	deliveryPrice: DeliveryPrice;
+	//deliveryOptions: DeliveryOption[];
 	taxonomyValues: Record<string, string>;
 	similarCars: Car[];
+	additionalOptions: { label: string; value: string }[];
 }
 
 export default function SingleCarPageClient({
 	car,
 	seasonDates,
 	priceRanges,
+	//deliveryOptions,
 	deliveryPrice,
 	taxonomyValues,
 	similarCars,
+	additionalOptions,
 }: SingleCarPageClientProps) {
 	console.log('car', car);
 
@@ -185,28 +189,9 @@ export default function SingleCarPageClient({
 				<div className='lg:w-1/2 lg:max-w-[618px]'>
 					<RentalCheckout
 						car={car}
-						additionalOptions={[
-							{ label: 'Бустер', value: 'buster' },
-							{ label: 'Бокс на крышу (+500 р./сут.)', value: 'box' },
-							{ label: 'Детское кресло', value: 'seat' },
-						]}
-						deliveryOptions={[
-							{
-								value: 'List Item 1', label: 'List Item 1',
-							},
-							{
-								value: 'List Item 2', label: 'List Item 2',
-							},
-							{
-								value: 'List Item 3', label: 'List Item 3',
-							},
-							{
-								value: 'List Item 4', label: 'List Item 4',
-							},
-							{
-								value: 'List Item 5', label: 'List Item 5',
-							},
-						]}
+						additionalOptions={additionalOptions}
+						//deliveryOptions={deliveryOptions}
+						deliveryPrice={deliveryPrice}
 						seasonDates={seasonDates}
 						priceRanges={priceRanges}
 						setSeasonModeSwitch={setSeasonModeSwitch}

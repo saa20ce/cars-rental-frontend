@@ -5,10 +5,9 @@ import type {
 	DeliveryPrice,
 	PriceRange,
 	BasePriceRangeConfig,
-	DeliveryOptionsGrouped
+	DeliveryOptionsGrouped,
+	DeliveryOption
 } from '@/lib/types/Car';
-
-
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
@@ -57,21 +56,6 @@ export async function getSeasonDates(): Promise<SeasonData | null> {
 	return json?.acf || null;
 }
 
-// export async function getDeliveryPrice(): Promise<DeliveryPrice | null> {
-// 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
-// 		next: { revalidate: 60 },
-// 	});
-
-// 	if (!res.ok) {
-// 		console.error('Error fetching delivery price', res);
-// 		return null;
-// 	}
-
-// 	const json = await res.json();
-// 	return json?.acf || null;
-// }
-
-
 export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
 		next: { revalidate: 60 },
@@ -86,36 +70,45 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
 	const acf = json?.acf;
 
 	const mapLabel = (key: string) => {
-		const raw = key.split('_').pop() || '';
 		const dict: Record<string, string> = {
+			zhd_vokzal: 'Ж/д вокзал',
+			czentralnyj: 'Центральный',
+			oktyabrskij: 'Октябрьский',
+			zaelczovskij: 'Заельцовский',
+			dzerzhinskij: 'Дзержинский',
+			zheleznodorozhnyj: 'Железнодорожный',
+			kalininskij: 'Калининский',
+			leninskij: 'Ленинский',
+			kirovskij: 'Кировский',
+			pervomajskij: 'Первомайский',
+			sovetskij: 'Советский',
+			pashino: 'Пашино',
 			aeroport: 'Аэропорт',
+			kolczovo: 'Кольцово',
+			krasnoobsk: 'Краснообск',
 			berdsk: 'Бердск',
-			sovetskiy: 'Советский',
-			vokzal: 'Вокзал',
+			samovyvoz: 'Самовывоз',
+			zhd: 'Ж/д вокзал',
 		};
-		return dict[raw] || raw;
+		return dict[key] || key;
 	};
 
-	const day = Object.entries(acf)
-		.filter(([k]) => k.startsWith('delivery_price_day_'))
-		.map(([key, value]) => ({
+	const buildOptions = (source?: Record<string, string>, timeLabel = ''): DeliveryOption[] => {
+		if (!source) return [];
+		return Object.entries(source).map(([key, value]) => ({
 			value: key,
-			label: `${mapLabel(key)} — ${value} ₽ (день)`,
-			price: parseInt(value as string),
+			label: `${mapLabel(key)} — ${value} ₽`,
+			price: parseInt(value, 10),
 		}));
+	};
 
-	const night = Object.entries(acf)
-		.filter(([k]) => k.startsWith('delivery_price_night_'))
-		.map(([key, value]) => ({
-			value: key,
-			label: `${mapLabel(key)} — ${value} ₽ (ночь)`,
-			price: parseInt(value as string),
-		}));
-
-	return { day, night };
+	return {
+		day: buildOptions(acf['dostavka_avto_den'], 'день'),
+		night: buildOptions(acf['dostavka_avto_noch'], 'ночь'),
+	};
 }
 
-export async function getAdditionalOptions(): Promise<{ label: string; value: string }[]> {
+export async function getAdditionalOptions(): Promise<{ label: string; value: string; price: number }[]> {
 	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
 		next: { revalidate: 60 },
 	});
@@ -124,18 +117,23 @@ export async function getAdditionalOptions(): Promise<{ label: string; value: st
 		console.error('Error fetching additional options', res);
 		return [];
 	}
-
 	const json = await res.json();
 	const dopOptions = json?.acf?.['dopolnitelnye_opczii'];
 
 	if (!dopOptions || typeof dopOptions !== 'object') return [];
 
+	const LABELS: Record<string, string> = {
+		buster: "Бустер",
+		boks_na_kryshu: "Бокс на крышу (+300 ₽)",
+		detskoe_kreslo: "Детское кресло",
+	};
+
 	return Object.entries(dopOptions)
-		.filter(([_, value]) => typeof value === 'string' && value.trim() !== '')
-		.map(([key, label]) => ({
+		.map(([key, value]) => ({
 			value: key,
-			label: label as string, 
-		}));
+			label: LABELS[key] || key, 
+			price: parseInt(value as string, 10), 
+		}));	
 }
 
 const PRICE_CONFIG: BasePriceRangeConfig[] = [

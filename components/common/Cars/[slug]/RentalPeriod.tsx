@@ -13,7 +13,7 @@ import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
 import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
 import { CloseIcon } from '@/lib/ui/icons';
-import { start } from 'repl';
+// import { start } from 'repl';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -86,7 +86,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
-	const today = useMemo(() => dayjs(), []);
+	// const today = useMemo(() => dayjs(), []);
 
 	const [isMobile, setIsMobile] = useState(false);
 
@@ -112,10 +112,10 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	}, []);
 
 	const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-		if (returnDate){
-			return(
-				current && 
-				(current < dayjs().startOf('day') || current> returnDate.startOf('day'))
+		if (returnDate) {
+			return (
+				current &&
+				(current < dayjs().startOf('day') || current > returnDate.startOf('day'))
 			);
 		}
 		return current && current < dayjs().startOf('day');

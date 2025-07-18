@@ -19,7 +19,7 @@ import {
 	CarIcon,
 	AgeIcon,
 } from '@/lib/ui/icons';
-import type { Car, PriceRange, SeasonData, DeliveryOption,DeliveryPrice } from '@/lib/types/Car';
+import type { Car, PriceRange, SeasonData, DeliveryOption, DeliveryPrice } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { getAdditionalOptions } from '@/lib/api/fetchCarData';

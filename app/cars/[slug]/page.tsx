@@ -38,14 +38,14 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
 	const similarCars = await getSimilarCars(car);
 	const additionalOptions = await getAdditionalOptions();
 
-	
+
 	if (!deliveryPrice || !deliveryPrice.day || !deliveryPrice.night) {
-		return null; 
+		return null;
 	}
-	const now = new Date();
-	const hour = now.getHours();
-	const isNight = hour >= 22 || hour < 6;
-	const deliveryOptions = isNight ? deliveryPrice.night : deliveryPrice.day;
+	// const now = new Date();
+	// const hour = now.getHours();
+	// const isNight = hour >= 22 || hour < 6;
+	// const deliveryOptions = isNight ? deliveryPrice.night : deliveryPrice.day;
 	return (
 		<SingleCarPageClient
 			car={car}

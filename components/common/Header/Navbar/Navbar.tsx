@@ -16,7 +16,7 @@ const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export const Navbar = async () => {
 	const data: WPMenuType[] | null = await fetchMenuItems(`${WP_API_URL}/menu`);
-
+	
 	let antdItems: AntdMenuItem[] = [];
 	if (data) {
 		const tree = buildMenuTree(data);

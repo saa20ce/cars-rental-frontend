@@ -16,16 +16,17 @@ interface AdditionalServicesProps {
 export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	additionalOptions,
 	additionalOptionsSelected = [],
-	setAdditionalOptions,
+	setAdditionalOptions = () => {},
 	deliveryOptions,
 	deliveryOptionSelected,
 	setDeliveryOption,
 }) => {
 	const defaultDeliveryValue = useMemo(() => {
-		if (deliveryOptions) {
+		if (deliveryOptions && deliveryOptions.length > 0) {
 			return deliveryOptions[0].value;
 		}
-	}, []);
+		return '';
+	}, [deliveryOptions]);
 
 	return (
 		<div>
@@ -42,13 +43,17 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 					/>
 				</div>
 			</div>
+
 			<div className='flex flex-wrap gap-[10px] mt-3 lg:flex-col lg:gap-3 lg:text-lg'>
 				Опции:
 				<CheckboxGroup
 					className='gap-4'
-					options={additionalOptions}
+					options={additionalOptions.map((opt) => ({
+						label: opt.label,
+						value: opt.value,
+					}))}
 					value={additionalOptionsSelected}
-					onChange={setAdditionalOptions}
+					onChange={(values) => setAdditionalOptions(values as string[])}
 				/>
 			</div>
 		</div>

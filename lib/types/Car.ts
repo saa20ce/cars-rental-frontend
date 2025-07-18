@@ -45,6 +45,7 @@ export type Car = {
 		}>;
 		'wp:term': Term[][];
 	};
+	
 };
 
 export interface CarACF {
@@ -78,7 +79,9 @@ export interface CarACF {
 	skidka_start?: string;
 	skidka_end?: string;
 
-	[key: string]: string | string[] | undefined;
+	dopolnitelnye_opcii?: AdditionalOptions;
+
+	[key: string]: string | string[] | AdditionalOptions | undefined;
 }
 
 export interface RenderedField {
@@ -113,15 +116,10 @@ export interface SeasonData {
 	'season-winter-end': string;
 }
 
-export interface DeliveryPrice {
-	'delivery_price_day_aeroport': string,
-	'delivery_price_day_berdsk': string,
-	'delivery_price_day_sovetskiy': string,
-	'delivery_price_day_vokzal': string,
-	'delivery_price_night_aeroport': string,
-	'delivery_price_night_berdsk': string,
-	'delivery_price_night_sovetskiy': string,
-	'delivery_price_night_vokzal': string,
+export interface AdditionalOptions {
+	buster: string;
+	boks_na_kryshu: string;
+	detskoe_kreslo: string;
 }
 
 export interface PriceRange {
@@ -140,3 +138,19 @@ export interface Term {
 	name: string;
 	taxonomy: string;
 }
+
+export type DeliveryOption = {
+  value: string;
+  label: string;
+  price: number;
+};
+
+export type DeliveryPrice = {
+  day: DeliveryOption[];
+  night: DeliveryOption[];
+};
+
+export type DeliveryOptionsGrouped = {
+  day: DeliveryOption[];
+  night: DeliveryOption[];
+};

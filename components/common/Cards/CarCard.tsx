@@ -11,11 +11,11 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
 	const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
 
 	const imageUrl =
-		acf.white_gallery?.[0] ||
-		acf.black_gallery?.[0] ||
-		acf.gray_gallery?.[0] ||
-		acf.blue_gallery?.[0] ||
-		acf.red_gallery?.[0] ||
+		(Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
+		(Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
+		(Array.isArray(acf.gray_gallery) && acf.gray_gallery[0]) ||
+		(Array.isArray(acf.blue_gallery) && acf.blue_gallery[0]) ||
+		(Array.isArray(acf.red_gallery) && acf.red_gallery[0]) ||
 		'';
 
 	const carLink = `/cars/${car.slug}`;

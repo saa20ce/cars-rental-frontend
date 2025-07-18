@@ -6,10 +6,12 @@ import {
 	buildPriceRangesFromACF,
 	getDeliveryPrice,
 	getSimilarCars,
+	getAdditionalOptions,
 } from '@/lib/api/fetchCarData';
 import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
 import SingleCarPageClient from '@/clientPage/cars/[slug]/clientPage';
+
 
 type SingleCarPageProps = {
 	params: Promise<{ slug: string; }>;
@@ -34,15 +36,26 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
 	const deliveryPrice = await getDeliveryPrice();
 	const taxonomyValues = await getCarTaxonomyNames(car, CAR_TAXONOMIES);
 	const similarCars = await getSimilarCars(car);
+	const additionalOptions = await getAdditionalOptions();
 
+	
+	if (!deliveryPrice || !deliveryPrice.day || !deliveryPrice.night) {
+		return null; 
+	}
+	const now = new Date();
+	const hour = now.getHours();
+	const isNight = hour >= 22 || hour < 6;
+	const deliveryOptions = isNight ? deliveryPrice.night : deliveryPrice.day;
 	return (
 		<SingleCarPageClient
 			car={car}
 			seasonDates={seasonDates}
 			priceRanges={priceRanges}
-			deliveryPrice={deliveryPrice}
+			//deliveryOptions={deliveryOptions}
 			taxonomyValues={taxonomyValues}
 			similarCars={similarCars}
+			additionalOptions={additionalOptions}
+			deliveryPrice={deliveryPrice}
 		/>
 	);
 }

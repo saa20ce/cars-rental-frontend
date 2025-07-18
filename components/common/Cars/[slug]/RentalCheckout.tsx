@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
 import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
@@ -10,11 +10,20 @@ import { isDaySeason, computeCostsChunked } from '@/lib/helpers/RentalCheckoutHe
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
 import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
+import { DeliveryPrice} from '@/lib/types/Car';
+import { DeliveryOption } from '@/lib/types/Car';
+import { text } from 'stream/consumers';
+
+interface AdditionalOption {
+  label: string;
+  value: string;
+  price?: number;
+}
 
 interface RentalCheckoutProps {
 	car: Car;
-	additionalOptions: { label: string; value: string }[];
-	deliveryOptions: { label: string; value: string }[];
+	additionalOptions:AdditionalOption[];
+	deliveryPrice: DeliveryPrice;
 	seasonDates: SeasonData | null;
 	priceRanges?: PriceRange[];
 	setSeasonModeSwitch: (mode: boolean) => void;
@@ -23,25 +32,21 @@ interface RentalCheckoutProps {
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	car,
 	additionalOptions,
-	deliveryOptions,
+	deliveryPrice,
 	seasonDates,
 	priceRanges = [],
 	setSeasonModeSwitch,
 }) => {
-	const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
+	
+	const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
+	const [startDate, setStartDate] = useState<Dayjs | null>(null);
 	const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
-
 	const [startTime, setStartTime] = useState('');
 	const [returnTime, setReturnTime] = useState('');
-
 	const [daysCount, setDaysCount] = useState(0);
 	const [dailyCosts, setDailyCosts] = useState<number[]>([]);
 	const [hasSeasonDays, setHasSeasonDays] = useState(false);
-
 	const [showCost, setShowCost] = useState(false);
-
-	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0);
-	const pricePerDay = dailyCosts[0] || 0;
 
 	const [additionalOptionsSelected, setAdditionalOptions] = useState<string[]>([]);
 	const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
@@ -49,16 +54,37 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 	const [modalVisible, setModalVisible] = useState(false);
 	const openModal = () => setModalVisible(true);
 	const closeModal = () => setModalVisible(false);
-
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
+	const pricePerDay = dailyCosts[0] || 0;
+	
+	const additionalOptionsTotal = useMemo(() => {
+		return additionalOptions
+		.filter(opt => additionalOptionsSelected.includes(opt.value))
+		.reduce((sum, opt) => sum + (opt.price ?? 0), 0);
+	}, [additionalOptionsSelected, additionalOptions]);
+
+	const deliveryCost = useMemo (()=>{
+		const selected = deliveryOptions.find(opt => opt.value === deliveryOptionSelected);
+		return selected ? Number(selected.price) || 0: 0;
+	},[deliveryOptionSelected,deliveryOptions]);
+
+	const totalPrice = dailyCosts.reduce((acc, val) => acc + val, 0)+ additionalOptionsTotal +deliveryCost;
 	useEffect(() => {
+		if (!startDate){
+			setStartDate(dayjs());
+		}
 		if (startDate && returnDate) {
 			const startFull = startDate
 			const endFull = returnDate;
 
 			const exactDiffHours = endFull.diff(startFull, 'hour', true);
-			const totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+			let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+			if (totalDays < 3){
+				const adjustedEnd = startFull.add(3,'day');
+				setReturnDate(adjustedEnd);
+				totalDays=3;
+			}
 			setDaysCount(totalDays);
 
 			let isSeasonal = false;
@@ -106,6 +132,15 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 		seasonDates,
 		setSeasonModeSwitch,
 	]);
+
+	useEffect(() => {
+		const hour = parseInt(startTime.split(':')[0], 10);
+		const isNight = hour >= 20 || hour < 9;
+		const options = isNight ? deliveryPrice.night : deliveryPrice.day;
+		setDeliveryOptions(options);
+	}, [startTime, deliveryPrice]);
+
+
 
 	return (
 		<div className='lg:w-full'>
@@ -183,6 +218,14 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 						</div>
 					</div>
 
+					{additionalOptionsTotal > 0 && (
+						<div className='text-sm lg:text-lg border-b border-[#f6f6f638]'>
+							<div className='flex justify-between my-[6px] lg:my-[10px]'>
+								<div>Дополнительные опции</div>
+								<div className='font-bold'>+{additionalOptionsTotal} ₽</div>
+							</div>
+						</div>
+					)}				
 					{/* <div className='font-semibold mb-2 lg:text-lg'>Промокод</div>
 					<div className='mb-5'>
 						<ConfigProvider
@@ -205,6 +248,15 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 							/>
 						</ConfigProvider>
 					</div> */}
+
+					{deliveryCost > 0 && (
+						<div className='text-sm lg:text-lg border-b border-[#f6f6f638]'>
+							<div className='flex justify-between my-[6px] lg:my-[10px]'>
+								<div>Доставка</div>
+								<div className='font-bold'>+{deliveryCost} ₽</div>
+							</div>
+						</div>
+					)}
 
 					<div className='flex items-center justify-between mb-5 mt-8'>
 						<div className='font-bold lg:text-2xl'>
@@ -326,3 +378,4 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 		</div>
 	);
 };
+

@@ -240,7 +240,7 @@ export default function TariffsPageClient({
                       setStartDate?.(date);
                       if (date) setIsChainActive(true);
                     }}
-                    width="58%"
+                    // width="58%"
                     isMobile={isMobile}
                     style={{
                       borderTopLeftRadius: 12,
@@ -264,7 +264,7 @@ export default function TariffsPageClient({
                     disabledDate={disabledDateFinish}
                     value={returnDate}
                     onChange={(date) => setReturnDate?.(date)}
-                    width="58%"
+                    // width="58%"
                     isMobile={isMobile}
                     open={isChainActive ? isReturnDateOpen : undefined}
                     onOpenChange={(open) => setIsReturnDateOpen(open)}

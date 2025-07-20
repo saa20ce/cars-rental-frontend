@@ -103,7 +103,7 @@ export default function SingleCarPageClient({
 	return (
 		<>
 			<div className='lg:flex lg:w-full lg:gap-6'>
-				<div className='lg:w-1/2 lg:max-w-[618px]'>
+				<div className='lg:flex-1 lg:min-w-0'>
 					{car.acf?.nazvanie_avto && (
 						<div className='text-2xl uppercase font-bold mb-5 ml-3 lg:text-4xl lg:ml-0'>
 							{car.acf.nazvanie_avto}
@@ -186,7 +186,7 @@ export default function SingleCarPageClient({
 					</div>
 				</div>
 
-				<div className='lg:w-1/2 lg:max-w-[618px]'>
+				<div className='lg:flex-1 lg:min-w-0'>
 					<RentalCheckout
 						car={car}
 						additionalOptions={additionalOptions}
@@ -196,36 +196,37 @@ export default function SingleCarPageClient({
 						priceRanges={priceRanges}
 						setSeasonModeSwitch={setSeasonModeSwitch}
 					/>
-					<div className='lg:px-7'>
-						<div className='hidden lg:block lg:text-2xl lg:mt-8'>
-							Условия аренды
+					<div className='mt-6 lg:mt-8 md:px-3 xl:px-7'>
+						<div className='lg:text-2xl lg:mt-8 flex justify-between'>
+							<h4 className='text-[20px]/[28px] lg:text-[24px]/[32px] font-bold'>Условия аренды:</h4>
+							<div className='lg:hidden underline text-[16px]/[24px] font-normal'>Полные условия</div>
 						</div>
-						<div className='flex flex-wrap justify-between mt-6 text-[#f6f6f666] border-[#f6f6f638] border-y py-6 lg:mt-5 lg:border-0 lg:py-0'>
-							<div className='flex flex-wrap justify-between w-[116px] h-[32px] lg:w-[175px]'>
-								<DocumentsIcon />
-								<div className='mt-[-2px]'>
-									<div className='text-sm font-bold lg:text-lg'>Документы</div>
-									<div className='text-xs lg:text-lg'>Паспорт и ВУ</div>
+						<div className='flex justify-between mt-4 lg:mt-5 text-[#f6f6f666] border-[#f6f6f638] border-b py-6 lg:mt-5 lg:border-0 lg:py-0'>
+							<div className='flex justify-between items-center gap-[6px] lg:gap-[10px] '>
+								<DocumentsIcon className='w-9 h-9 xl:w-[52px] xl:h-[52px]'/>
+								<div>
+									<h5 className='text-[14px]/[20px] lg:text-[18px]/[20px] font-bold'>Документы</h5>
+									<span className='text-[12px]/[16px] lg:text-[18px]/[20px] font-normal'>Паспорт и ВУ</span>
 								</div>
 							</div>
 
-							<div className='flex flex-wrap justify-between w-[97px] mt-0 lg:w-[150px]'>
-								<CarIcon />
-								<div className='h-[32px] w-[59px] mt-[-2px] lg:w-auto'>
-									<div className='text-sm font-bold lg:text-lg'>Стаж</div>
-									<div className='text-xs lg:text-lg'>От 2-х лет</div>
+							<div className='flex justify-between items-center gap-[6px] lg:gap-[10px] mt-0 '>
+								<CarIcon className='w-9 h-9 xl:w-[52px] xl:h-[52px]'/>
+								<div>
+									<h5 className='text-[14px]/[20px] lg:text-[18px]/[20px] font-bold'>Стаж</h5>
+									<span className='text-[12px]/[16px] lg:text-[18px]/[20px] font-normal'>От 2-х лет</span>
 								</div>
 							</div>
 
-							<div className='flex flex-wrap justify-between w-[104px] mt-0 lg:w-[160px]'>
-								<AgeIcon />
-								<div className='h-[32px] w-[66px] mt-[-2px] lg:w-auto'>
-									<div className='text-sm font-bold lg:text-lg'>Возраст</div>
-									<div className='text-xs lg:text-lg'>От 22-х лет</div>
+							<div className='flex justify-between items-center gap-[6px] lg:gap-[10px] mt-0'>
+								<AgeIcon className='w-9 h-9 xl:w-[52px] xl:h-[52px]'/>
+								<div>
+									<h5 className='text-[14px]/[20px] lg:text-[18px]/[20px] font-bold'>Возраст</h5>
+									<span className='text-[12px]/[16px] lg:text-[18px]/[20px] font-normal'>От 22-х лет</span>
 								</div>
 							</div>
 
-							<div className='block lg:hidden text-[#f6f6f6] mt-3 mx-auto underline'>Полные условия</div>
+							
 						</div>
 
 						<div className='hidden lg:block'>

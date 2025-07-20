@@ -127,7 +127,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	};
 
 	return (
-		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] '>
+		<div className='w-full bg-[#284b63]  rounded-2xl px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] '>
 			{showContactForm && closeModal && (
 				<div
 					className='absolute top-6 right-6 cursor-pointer'
@@ -137,8 +137,8 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 				</div>
 			)}
 
-			<div className='text-xl mb-4 lg:text-3xl lg:mb-6' >Форма бронирования</div>
-			<div className='mb-[10px] lg:text-xl'>Период аренды:</div>
+			<h2 className='text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:text-3xl lg:mb-5' >Форма бронирования</h2>
+			<h4 className='text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3'>Период аренды:</h4>
 			<div className='flex flex-col gap-2 lg:flex-row lg:gap-[10px]'>
 
 				<div className='flex'>

@@ -5,7 +5,7 @@ import type { Dayjs } from 'dayjs';
 import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
 import type { GetProps } from 'antd';
 import {
-	isDaySeason,
+	// isDaySeason,
 	computeCostsChunked,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
@@ -43,15 +43,15 @@ const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
 };
 
 export default function TariffsPageClient({
-	cars: initialCars,
-	klassOptions,
-	markaOptions,
-	kuzovOptions,
-	privodOptions,
-	dvigatelOptions,
-	colorOptions,
-	deliveryPrice,
-	seasonDates,
+  cars: initialCars,
+  klassOptions,
+  markaOptions,
+  kuzovOptions,
+  privodOptions,
+  dvigatelOptions,
+  colorOptions,
+  deliveryPrice,
+  seasonDates,
 }: TariffsPageClientProps) {
 	const today = useMemo(() => dayjs(), []);
 
@@ -221,32 +221,32 @@ export default function TariffsPageClient({
 					</div>
 				</div>
 
-				<div className="mb-[14px] lg:mb-4">
-					<h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-6 lg:mt-8 ">
-						Период аренды:
-					</h3>
-					<div className="flex flex-col mt-[10px] lg:mt-3 mb-2 lg:mb-3 gap-[10px] lg:flex-row lg:gap-0">
-						<div className="select-group flex flex-col gap-[10px] lg:flex-row lg:flex-[2] lg:gap-0">
-							<div className="flex flex-col gap-2 lg:flex-row lg:flex-[1] lg:gap-[10px]">
-								<div className="flex ">
-									<CustomDatePicker
-										placeholder="Дата аренды"
-										disabledDate={disabledDateStart}
-										defaultValue={today}
-										value={startDate || today}
-										onChange={(date) => {
-											setStartDate?.(date);
-											if (date) setIsChainActive(true);
-										}}
-										width="58%"
-										isMobile={isMobile}
-										style={{
-											borderTopLeftRadius: 12,
-											borderBottomLeftRadius: 12,
-											borderTopRightRadius: 0,
-											borderBottomRightRadius: 0,
-										}}
-									/>
+        <div className="mb-[14px] lg:mb-4">
+          <h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-6 lg:mt-8 ">
+            Период аренды:
+          </h3>
+          <div className="flex flex-col mt-[10px] lg:mt-3 mb-2 lg:mb-3 gap-[10px] lg:flex-row lg:gap-0">
+            <div className="select-group flex flex-col gap-[10px] lg:flex-row lg:flex-[2] lg:gap-0">
+              <div className="flex flex-col gap-2 lg:flex-row lg:flex-[1] lg:gap-[10px]">
+                <div className="flex ">
+                  <CustomDatePicker
+                    placeholder="Дата аренды"
+                    disabledDate={disabledDateStart}
+                    defaultValue={today}
+                    value={startDate || today}
+                    onChange={(date) => {
+                      setStartDate?.(date);
+                      if (date) setIsChainActive(true);
+                    }}
+                    // width="58%"
+                    isMobile={isMobile}
+                    style={{
+                      borderTopLeftRadius: 12,
+                      borderBottomLeftRadius: 12,
+                      borderTopRightRadius: 0,
+                      borderBottomRightRadius: 0,
+                    }}
+                  />
 
 									<CustomSelect
 										placeholder="18:00"
@@ -256,23 +256,23 @@ export default function TariffsPageClient({
 									/>
 								</div>
 
-								<div className="flex lg:flex-[1]">
-									<CustomDatePicker
-										placeholder="Возврат"
-										disabledDate={disabledDateFinish}
-										value={returnDate}
-										onChange={(date) => setReturnDate?.(date)}
-										width="58%"
-										isMobile={isMobile}
-										open={isChainActive ? isReturnDateOpen : undefined}
-										onOpenChange={(open) => setIsReturnDateOpen(open)}
-										style={{
-											borderTopLeftRadius: 12,
-											borderBottomLeftRadius: 12,
-											borderTopRightRadius: 0,
-											borderBottomRightRadius: 0,
-										}}
-									/>
+                <div className="flex lg:flex-[1]">
+                  <CustomDatePicker
+                    placeholder="Возврат"
+                    disabledDate={disabledDateFinish}
+                    value={returnDate}
+                    onChange={(date) => setReturnDate?.(date)}
+                    // width="58%"
+                    isMobile={isMobile}
+                    open={isChainActive ? isReturnDateOpen : undefined}
+                    onOpenChange={(open) => setIsReturnDateOpen(open)}
+                    style={{
+                      borderTopLeftRadius: 12,
+                      borderBottomLeftRadius: 12,
+                      borderTopRightRadius: 0,
+                      borderBottomRightRadius: 0,
+                    }}
+                  />
 
 									<CustomSelect
 										placeholder="18:00"

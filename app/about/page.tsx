@@ -125,7 +125,7 @@ export default async function AboutPage() {
       </section>
 
       <section className="flex flex-col-reverse lg:flex-row gap-6  py-[42px] lg:py-[68px]  border-b border-[#284B63B2] items-center">
-        <div className="relative w-full lg:w-1/2 max-w-[618px] rounded-[20px] aspect-[3/2] lg: aspect-[4/3] max-h-[456px] h-full overflow-hidden flex justify-center items-center">
+        <div className="relative w-full lg:w-1/2 max-w-[618px] rounded-[20px] lg: aspect-[4/3] max-h-[456px] h-full overflow-hidden flex justify-center items-center">
           <Image fill alt="" src={'/images/women.png'} className="contain" />
         </div>
         <div className="lg:w-1/2 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">

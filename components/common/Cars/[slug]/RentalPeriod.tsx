@@ -13,7 +13,6 @@ import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
 import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
 import { CloseIcon } from '@/lib/ui/icons';
-import { start } from 'repl';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -86,8 +85,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	const [isChainActive, setIsChainActive] = useState(false);
 	const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
-	const today = useMemo(() => dayjs(), []);
-
 	const [isMobile, setIsMobile] = useState(false);
 
 	const timeOptions = Array.from({ length: 24 }, (_, i) => {
@@ -110,16 +107,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 		mediaQuery.addEventListener('change', handleChange);
 		return () => mediaQuery.removeEventListener('change', handleChange);
 	}, []);
-
-	const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-		if (returnDate){
-			return(
-				current && 
-				(current < dayjs().startOf('day') || current> returnDate.startOf('day'))
-			);
-		}
-		return current && current < dayjs().startOf('day');
-	};
 
 	const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
 		if (!startDate) return true;
@@ -144,10 +131,15 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 				<div className='flex'>
 					<CustomDatePicker
 						placeholder='Дата аренды'
-						disabledDate={disabledDateStart}
+						disabledDate={(current) => current && current < dayjs().startOf('day')}
 						value={startDate}
 						onChange={(date) => {
 							onStartDateChange?.(date);
+							if (date && returnDate && returnDate.isBefore(date, 'day')) {
+								onReturnDateChange?.(null);
+							}
+
+
 							if (date) setIsChainActive(true);
 						}}
 						width='58%'

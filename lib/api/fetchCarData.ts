@@ -2,7 +2,6 @@ import type {
 	Car,
 	CarACF,
 	SeasonData,
-	DeliveryPrice,
 	PriceRange,
 	BasePriceRangeConfig,
 	DeliveryOptionsGrouped,
@@ -94,7 +93,7 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
 	};
 
 	const buildOptions = (source?: Record<string, string>, timeLabel = ''): DeliveryOption[] => {
-		if (!source) return [];
+		if (!source || !timeLabel) return [];
 		return Object.entries(source).map(([key, value]) => ({
 			value: key,
 			label: `${mapLabel(key)} — ${value} ₽`,
@@ -131,9 +130,9 @@ export async function getAdditionalOptions(): Promise<{ label: string; value: st
 	return Object.entries(dopOptions)
 		.map(([key, value]) => ({
 			value: key,
-			label: LABELS[key] || key, 
-			price: parseInt(value as string, 10), 
-		}));	
+			label: LABELS[key] || key,
+			price: parseInt(value as string, 10),
+		}));
 }
 
 const PRICE_CONFIG: BasePriceRangeConfig[] = [

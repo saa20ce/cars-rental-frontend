@@ -144,10 +144,15 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 				<div className='flex'>
 					<CustomDatePicker
 						placeholder='Дата аренды'
-						disabledDate={disabledDateStart}
+						disabledDate={(current) => current && current < dayjs().startOf('day')}
 						value={startDate}
 						onChange={(date) => {
 							onStartDateChange?.(date);
+							if (date && returnDate && returnDate.isBefore(date,'day')){
+								onReturnDateChange?.(null);
+							}
+
+
 							if (date) setIsChainActive(true);
 						}}
 						width='58%'

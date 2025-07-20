@@ -13,25 +13,25 @@ import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 
 interface CarsPageClientProps {
-  cars: Car[];
-  klassOptions: Array<{ value: string; label: string }>;
-  markaOptions: Array<{ value: string; label: string }>;
-  kuzovOptions: Array<{ value: string; label: string }>;
-  privodOptions: Array<{ value: string; label: string }>;
-  dvigatelOptions: Array<{ value: string; label: string }>;
-  colorOptions: Array<{ value: string; label: string }>;
-  deliveryPrice: DeliveryPrice | null;
+	cars: Car[];
+	klassOptions: Array<{ value: string; label: string }>;
+	markaOptions: Array<{ value: string; label: string }>;
+	kuzovOptions: Array<{ value: string; label: string }>;
+	privodOptions: Array<{ value: string; label: string }>;
+	dvigatelOptions: Array<{ value: string; label: string }>;
+	colorOptions: Array<{ value: string; label: string }>;
+	deliveryPrice: DeliveryPrice | null;
 }
 
 export default function CarsPageClient({
-  cars: initialCars,
-  klassOptions,
-  markaOptions,
-  kuzovOptions,
-  privodOptions,
-  dvigatelOptions,
-  colorOptions,
-  deliveryPrice,
+	cars: initialCars,
+	klassOptions,
+	markaOptions,
+	kuzovOptions,
+	privodOptions,
+	dvigatelOptions,
+	colorOptions,
+	deliveryPrice,
 }: CarsPageClientProps) {
 	const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
@@ -46,29 +46,19 @@ export default function CarsPageClient({
 	const [selectedColor, setSelectedColor] = useState('');
 	const [advancedVisible, setAdvancedVisible] = useState(false);
 	const [selectedPriceRange, setSelectedPriceRange] = useState('');
-	const [selectedPassengers, setSelectedPassangers] = useState('')
+	const [selectedPassengers, setSelectedPassangers] = useState('');
 
-  const [selectedKlass, setSelectedKlass] = useState('');
-  const [selectedMarka, setSelectedMarka] = useState('');
-  const [selectedKuzov, setSelectedKuzov] = useState('');
-  const [selectedPrivod, setSelectedPrivod] = useState('');
-  const [selectedDvigatel, setSelectedDvigatel] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
-  const [advancedVisible, setAdvancedVisible] = useState(false);
-  const [selectedPriceRange, setSelectedPriceRange] = useState('');
-  const [selectedPassengers, setSelectedPassangers] = useState('');
-
-  const handleReset = () => {
-    setSelectedKlass('');
-    setSelectedMarka('');
-    setSelectedKuzov('');
-    setSelectedPrivod('');
-    setSelectedDvigatel('');
-    setSelectedColor('');
-    setSelectedPriceRange('');
-    setSelectedPassangers('');
-    setAdvancedVisible(false);
-  };
+	const handleReset = () => {
+		setSelectedKlass('');
+		setSelectedMarka('');
+		setSelectedKuzov('');
+		setSelectedPrivod('');
+		setSelectedDvigatel('');
+		setSelectedColor('');
+		setSelectedPriceRange('');
+		setSelectedPassangers('');
+		setAdvancedVisible(false);
+	};
 
 	const filteredCars = initialCars.filter((car) => {
 
@@ -102,231 +92,233 @@ export default function CarsPageClient({
 		return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
 	});
 
-        <div className="mb-4 mt-6 lg:mt-8">
-          <div className="flex flex-col mt-[14px] mb-3 gap-[10px] lg:flex-row lg:gap-0">
-            <div className="select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0">
-              <CustomSelect
-                placeholder="Класс"
-                options={klassOptions}
-                className="filters-select"
-								style={{ width: '100%'}}
-                onChange={(value) => setSelectedKlass(value as string)}
-                value={selectedKlass || undefined}
-              />
-              <CustomSelect
-                placeholder="Марка"
-                options={markaOptions}
-                className="filters-select"
-								style={{ width: '100%'}}
-                onChange={(value) => setSelectedMarka(value as string)}
-                value={selectedMarka || undefined}
-              />
-              <CustomSelect
-                placeholder="Цена"
-                // Если нужен фильтр по цене, можно добавить состояние и обработчик
-                options={[
-                  { value: 'lt4000', label: 'до 4000' },
-                  { value: '4000-6000', label: '4000-6000' },
-                  { value: '6000-10000', label: '6000-10000' },
-                  { value: 'gt10000', label: 'от 10000' },
-                ]}
-                className="filters-select"
-                style={{ width: '100%'}}
-                onChange={(value) => setSelectedPriceRange(value as string)}
-                value={selectedPriceRange || undefined}
-              />
-            </div>
-            <div className="hidden lg:flex lg:w-2/5 lg:pl-3 mt-0">
-              <Button
-                style={{
-                  color: '#f6f6f6',
-                  height: '44px',
-                  width: '100%',
-                  background: '#3c6e71',
-                  border: 'none', 
-                  borderRadius: '12px',
-                }}
-                onClick={handleReset}
-              >
-                Показать
-              </Button>
-            </div>
-          </div>
-          {advancedVisible && (
-            <>
-              <div className="select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0">
-                <CustomSelect
-                  placeholder="Кузов"
-                  options={kuzovOptions}
-                  className="filters-select"
-						style={{ width: '100%'}}
-                  onChange={(value) => setSelectedKuzov(value as string)}
-                  value={selectedKuzov || undefined}
-                />
-                <CustomSelect
-                  placeholder="Привод"
-                  options={privodOptions}
-                  className="filters-select"
-						style={{ width: '100%'}}
-                  onChange={(value) => setSelectedPrivod(value as string)}
-                  value={selectedPrivod || undefined}
-                />
-                <CustomSelect
-                  placeholder="Вместимость"
-                  // Добавьте состояние, если потребуется
-                  options={[
-                    { value: '4', label: '4 пассажира' },
-                    { value: '7', label: '7 пассажиров' },
-                    { value: '8+', label: '8+ пассажиров' },
-                  ]}
-                  className="filters-select"
-									style={{ width: '100%'}}
-                  onChange={(value) => setSelectedPassangers(value as string)}
-                  value={selectedPassengers || undefined}
-                />
-                <CustomSelect
-                  placeholder="Двигатель"
-                  options={dvigatelOptions}
-                  className="filters-select"
-									style={{ width: '100%'}}
-                  onChange={(value) => setSelectedDvigatel(value as string)}
-                  value={selectedDvigatel || undefined}
-                />
-                <CustomSelect
-                  placeholder="Цвет"
-                  options={colorOptions}
-                  className="filters-select"
-									style={{ width: '100%'}}
-                  onChange={(value) => setSelectedColor(value as string)}
-                  value={selectedColor || undefined}
-                />
-              </div>
-            </>
-          )}
-        </div>
-
-				<div className='mb-4'>
-					<div className="flex flex-col mt-[14px] mb-3 gap-[10px] lg:flex-row lg:gap-0">
-						<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0'>
+	return (
+		<>
+			<div className="mb-4 mt-6 lg:mt-8">
+				<div className="flex flex-col mt-[14px] mb-3 gap-[10px] lg:flex-row lg:gap-0">
+					<div className="select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0">
+						<CustomSelect
+							placeholder="Класс"
+							options={klassOptions}
+							className="filters-select"
+							style={{ width: '100%' }}
+							onChange={(value) => setSelectedKlass(value as string)}
+							value={selectedKlass || undefined}
+						/>
+						<CustomSelect
+							placeholder="Марка"
+							options={markaOptions}
+							className="filters-select"
+							style={{ width: '100%' }}
+							onChange={(value) => setSelectedMarka(value as string)}
+							value={selectedMarka || undefined}
+						/>
+						<CustomSelect
+							placeholder="Цена"
+							// Если нужен фильтр по цене, можно добавить состояние и обработчик
+							options={[
+								{ value: 'lt4000', label: 'до 4000' },
+								{ value: '4000-6000', label: '4000-6000' },
+								{ value: '6000-10000', label: '6000-10000' },
+								{ value: 'gt10000', label: 'от 10000' },
+							]}
+							className="filters-select"
+							style={{ width: '100%' }}
+							onChange={(value) => setSelectedPriceRange(value as string)}
+							value={selectedPriceRange || undefined}
+						/>
+					</div>
+					<div className="hidden lg:flex lg:w-2/5 lg:pl-3 mt-0">
+						<Button
+							style={{
+								color: '#f6f6f6',
+								height: '44px',
+								width: '100%',
+								background: '#3c6e71',
+								border: 'none',
+								borderRadius: '12px',
+							}}
+							onClick={handleReset}
+						>
+							Показать
+						</Button>
+					</div>
+				</div>
+				{advancedVisible && (
+					<>
+						<div className="select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0">
 							<CustomSelect
-								placeholder="Класс"
-								options={klassOptions}
+								placeholder="Кузов"
+								options={kuzovOptions}
 								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedKlass(value as string)}
-								value={selectedKlass || undefined}
+								style={{ width: '100%' }}
+								onChange={(value) => setSelectedKuzov(value as string)}
+								value={selectedKuzov || undefined}
 							/>
 							<CustomSelect
-								placeholder="Марка"
-								options={markaOptions}
+								placeholder="Привод"
+								options={privodOptions}
 								className="filters-select"
-								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedMarka(value as string)}
-								value={selectedMarka || undefined}
+								style={{ width: '100%' }}
+								onChange={(value) => setSelectedPrivod(value as string)}
+								value={selectedPrivod || undefined}
 							/>
 							<CustomSelect
-								placeholder="Цена"
+								placeholder="Вместимость"
+								// Добавьте состояние, если потребуется
 								options={[
-									{ value: 'lt4000', label: 'до 4000' },
-									{ value: '4000-6000', label: '4000-6000' },
-									{ value: '6000-10000', label: '6000-10000' },
-									{ value: 'gt10000', label: 'от 10000' }
+									{ value: '4', label: '4 пассажира' },
+									{ value: '7', label: '7 пассажиров' },
+									{ value: '8+', label: '8+ пассажиров' },
+								]}
+								className="filters-select"
+								style={{ width: '100%' }}
+								onChange={(value) => setSelectedPassangers(value as string)}
+								value={selectedPassengers || undefined}
+							/>
+							<CustomSelect
+								placeholder="Двигатель"
+								options={dvigatelOptions}
+								className="filters-select"
+								style={{ width: '100%' }}
+								onChange={(value) => setSelectedDvigatel(value as string)}
+								value={selectedDvigatel || undefined}
+							/>
+							<CustomSelect
+								placeholder="Цвет"
+								options={colorOptions}
+								className="filters-select"
+								style={{ width: '100%' }}
+								onChange={(value) => setSelectedColor(value as string)}
+								value={selectedColor || undefined}
+							/>
+						</div>
+					</>
+				)}
+			</div>
+
+			<div className='mb-4'>
+				<div className="flex flex-col mt-[14px] mb-3 gap-[10px] lg:flex-row lg:gap-0">
+					<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0'>
+						<CustomSelect
+							placeholder="Класс"
+							options={klassOptions}
+							className="filters-select"
+							style={{ width: '100%', height: '44px' }}
+							onChange={(value) => setSelectedKlass(value as string)}
+							value={selectedKlass || undefined}
+						/>
+						<CustomSelect
+							placeholder="Марка"
+							options={markaOptions}
+							className="filters-select"
+							style={{ width: '100%', height: '44px' }}
+							onChange={(value) => setSelectedMarka(value as string)}
+							value={selectedMarka || undefined}
+						/>
+						<CustomSelect
+							placeholder="Цена"
+							options={[
+								{ value: 'lt4000', label: 'до 4000' },
+								{ value: '4000-6000', label: '4000-6000' },
+								{ value: '6000-10000', label: '6000-10000' },
+								{ value: 'gt10000', label: 'от 10000' }
+							]}
+							className="filters-select"
+							style={{ width: '100%', height: '44px' }}
+							onChange={(value) => setSelectedPriceRange(value as string)}
+							value={selectedPriceRange || undefined}
+						/>
+					</div>
+					<div className='hidden lg:flex lg:w-2/5 lg:pl-3'>
+						<Button
+							style={{
+								color: '#f6f6f6',
+								height: '44px',
+								width: '100%',
+								background: '#3c6e71',
+								border: 'none',
+								borderRadius: '12px',
+							}}
+							onClick={handleReset}
+						>
+							Показать
+						</Button>
+					</div>
+				</div>
+				{advancedVisible && (
+					<>
+						<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0'>
+							<CustomSelect
+								placeholder="Кузов"
+								options={kuzovOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedKuzov(value as string)}
+								value={selectedKuzov || undefined}
+							/>
+							<CustomSelect
+								placeholder="Привод"
+								options={privodOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedPrivod(value as string)}
+								value={selectedPrivod || undefined}
+							/>
+							<CustomSelect
+								placeholder="Вместимость"
+								options={[
+									{ value: '4', label: '4 пассажира' },
+									{ value: '7', label: '7 пассажиров' },
+									{ value: '8+', label: '8+ пассажиров' },
 								]}
 								className="filters-select"
 								style={{ width: '100%', height: '44px' }}
-								onChange={(value) => setSelectedPriceRange(value as string)}
-								value={selectedPriceRange || undefined}
+								onChange={(value) => setSelectedPassangers(value as string)}
+								value={selectedPassengers || undefined}
+							/>
+							<CustomSelect
+								placeholder="Двигатель"
+								options={dvigatelOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedDvigatel(value as string)}
+								value={selectedDvigatel || undefined}
+							/>
+							<CustomSelect
+								placeholder="Цвет"
+								options={colorOptions}
+								className="filters-select"
+								style={{ width: '100%', height: '44px' }}
+								onChange={(value) => setSelectedColor(value as string)}
+								value={selectedColor || undefined}
 							/>
 						</div>
-						<div className='hidden lg:flex lg:w-2/5 lg:pl-3'>
-							<Button
-								style={{
-									color: '#f6f6f6',
-									height: '44px',
-									width: '100%',
-									background: '#3c6e71',
-									border: 'none',
-									borderRadius: '12px',
-								}}
-								onClick={handleReset}
-							>
-								Показать
-							</Button>
-						</div>
-					</div>
-					{advancedVisible && (
-						<>
-							<div className='select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0'>
-								<CustomSelect
-									placeholder="Кузов"
-									options={kuzovOptions}
-									className="filters-select"
-									style={{ width: '100%', height: '44px' }}
-									onChange={(value) => setSelectedKuzov(value as string)}
-									value={selectedKuzov || undefined}
-								/>
-								<CustomSelect
-									placeholder="Привод"
-									options={privodOptions}
-									className="filters-select"
-									style={{ width: '100%', height: '44px' }}
-									onChange={(value) => setSelectedPrivod(value as string)}
-									value={selectedPrivod || undefined}
-								/>
-								<CustomSelect
-									placeholder="Вместимость"
-									options={[
-										{ value: '4', label: '4 пассажира' },
-										{ value: '7', label: '7 пассажиров' },
-										{ value: '8+', label: '8+ пассажиров' },
-									]}
-									className="filters-select"
-									style={{ width: '100%', height: '44px' }}
-									onChange={(value) => setSelectedPassangers(value as string)}
-									value={selectedPassengers || undefined}
-								/>
-								<CustomSelect
-									placeholder="Двигатель"
-									options={dvigatelOptions}
-									className="filters-select"
-									style={{ width: '100%', height: '44px' }}
-									onChange={(value) => setSelectedDvigatel(value as string)}
-									value={selectedDvigatel || undefined}
-								/>
-								<CustomSelect
-									placeholder="Цвет"
-									options={colorOptions}
-									className="filters-select"
-									style={{ width: '100%', height: '44px' }}
-									onChange={(value) => setSelectedColor(value as string)}
-									value={selectedColor || undefined}
-								/>
-							</div>
-						</>
-					)}
+					</>
+				)}
+			</div>
+
+			<div className="flex justify-between items-end mt-6">
+
+				<span className="lg:text-xl font-bold tracking-wide">
+					Показано: {sortedCars.length}
+				</span>
+				<div className={`flex items-center gap-[14px] font-bold text-[14px]/[20px] lg:text-[18px]/[28px] text-[#F6F6F633]`}>
+					<button
+						onClick={handleSortDesc}
+						className={`${sortOrder === 'desc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+					>
+						Сначала дороже
+					</button>
+					<button
+						onClick={handleSortAsc}
+						className={`${sortOrder === 'asc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+					>
+						Сначала дешевле
+					</button>
+					<div className="max-w-[76px] lg:max-w-none text-center">Сначала со скидкой</div>
 				</div>
-
-      <div className="flex justify-between items-end mt-6">
-
-        <span className="lg:text-xl font-bold tracking-wide">
-          Показано: {sortedCars.length}
-        </span>
-        <div className={`flex items-center gap-[14px] font-bold text-[14px]/[20px] lg:text-[18px]/[28px] text-[#F6F6F633]`}>
-          <button
-            onClick={handleSortDesc}
-            className={`${sortOrder === 'desc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
-          >
-            Сначала дороже
-          </button>
-          <button
-            onClick={handleSortAsc}
-            className={`${sortOrder === 'asc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
-          >
-            Сначала дешевле
-          </button>
-          <div className="max-w-[76px] lg:max-w-none text-center">Сначала со скидкой</div>
-        </div>
-      </div>
+			</div>
 
 			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
 				{sortedCars.length > 0 ? (
@@ -352,14 +344,14 @@ export default function CarsPageClient({
 				<DeliveryPriceTable deliveryPrice={deliveryPrice} />
 			</div>
 
-      <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
+			<div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
-      <div>
-        <WhyUs />
-      </div>
-      <div>
-        <HaveQuestions />
-      </div>
-    </>
-  );
+			<div>
+				<WhyUs />
+			</div>
+			<div>
+				<HaveQuestions />
+			</div>
+		</>
+	);
 }

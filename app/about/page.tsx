@@ -1,5 +1,4 @@
 import { WhyUs } from '@/components/common/Cards/WhyUs';
-import YandexMap from '@/components/common/YandexMap';
 import { ArrowRight } from '@/lib/ui/icons/ArrowRight';
 import { AutorealIcon } from '@/lib/ui/icons/AutorealIcon';
 import { EmailIcon } from '@/lib/ui/icons/EmailIcon';
@@ -171,7 +170,7 @@ export default async function AboutPage() {
             <li>Напишите на почту – ответим в течение нескольких часов.</li>
             <li>Оставьте заявку на аренду авто через форму на сайте.</li>
           </ul>
-          <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">
+          <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">
             <div className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow">
               <MobileIcon className="w-9 lg:w-[48px]" />
               <span className='text-nowrap'>+ 7(913)-913-28-08</span>

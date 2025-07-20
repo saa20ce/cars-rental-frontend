@@ -126,7 +126,6 @@ export default function TariffsPageClient({
 		setSelectedDvigatel('');
 		setSelectedColor('');
 		setAdvancedVisible(false);
-		// После сброса фильтров — подгружаем все авто
 		loadCars({}, true);
 	};
 
@@ -143,7 +142,7 @@ export default function TariffsPageClient({
 					if (selectedDvigatel) params.append('dvigatel', selectedDvigatel);
 					if (selectedColor) params.append('color', selectedColor);
 				}
-				// customFilters используется для ручного сброса/загрузки без фильтров
+
 				for (const [k, v] of Object.entries(customFilters)) params.set(k, v);
 				params.append('per_page', '100');
 				const res = await fetch('/api/cars?' + params.toString(), { cache: 'no-store' });
@@ -159,7 +158,6 @@ export default function TariffsPageClient({
 		[selectedKlass, selectedMarka, selectedKuzov, selectedPrivod, selectedDvigatel, selectedColor]
 	);
 
-	// Автоматически обновлять список авто при изменении фильтров
 	React.useEffect(() => {
 		loadCars();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -298,7 +296,6 @@ export default function TariffsPageClient({
 								/>
 								<CustomSelect
 									placeholder="Цена"
-									// Если нужен фильтр по цене, можно добавить состояние и обработчик
 									className="filters-select"
 									style={{ width: '100%', height: '44px' }}
 								/>

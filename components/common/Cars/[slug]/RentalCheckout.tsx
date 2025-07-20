@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Modal,Tooltip } from 'antd';
+import { ConfigProvider, Button, Modal, Tooltip } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -12,7 +12,6 @@ import { RentalPeriod } from './RentalPeriod';
 import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
 import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
-// import { text } from 'stream/consumers';
 
 interface AdditionalOption {
 	label: string;
@@ -21,15 +20,15 @@ interface AdditionalOption {
 }
 
 const tooltipText = (
-  <div className='text-xs lg:text-sm'>
-    Сезонные тарифы (высокий спрос)
-    <ul className='list-decimal list-inside pl-1 font-bold'>
-      <li>10 декабря - 20 января</li>
-      <li>1 мая - 15 сентября</li>
-    </ul>
-  </div>
+	<div className='text-xs lg:text-sm'>
+		Сезонные тарифы (высокий спрос)
+		<ul className='list-decimal list-inside pl-1 font-bold'>
+			<li>10 декабря - 20 января</li>
+			<li>1 мая - 15 сентября</li>
+		</ul>
+	</div>
 );
-	
+
 interface RentalCheckoutProps {
 	car: Car;
 	additionalOptions: AdditionalOption[];

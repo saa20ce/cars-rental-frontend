@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import CheckboxGroup from 'antd/lib/checkbox/Group';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 
@@ -16,17 +16,11 @@ interface AdditionalServicesProps {
 export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 	additionalOptions,
 	additionalOptionsSelected = [],
-	setAdditionalOptions = () => {},
+	setAdditionalOptions = () => { },
 	deliveryOptions,
 	deliveryOptionSelected,
 	setDeliveryOption,
 }) => {
-	const defaultDeliveryValue = useMemo(() => {
-		if (deliveryOptions && deliveryOptions.length > 0) {
-			return deliveryOptions[0].value;
-		}
-		return '';
-	}, [deliveryOptions]);
 
 	return (
 		<div>
@@ -34,9 +28,9 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 				<div className='lg:text-lg mt-[14px]'>Место подачи</div>
 				<div className='flex gap-2 w-full mt-[10px]'>
 					<CustomSelect
-						
+
 						options={[
-							{label:'Без подачи',value:'no_delivery'},
+							{ label: 'Без подачи', value: 'no_delivery' },
 							...(deliveryOptions || [])
 						]}
 						onChange={(value) => setDeliveryOption(value as string)}

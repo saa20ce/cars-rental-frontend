@@ -39,7 +39,7 @@ export default function CarsPageClient({
 	colorOptions,
 	deliveryPrice,
 }: CarsPageClientProps) {
-	const[sortOrder,setSortOrder] = useState<'desc' | 'asc'>('desc');
+	const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
 	const handleSortDesc = () => setSortOrder('desc');
 	const handleSortAsc = () => setSortOrder('asc')
@@ -51,8 +51,8 @@ export default function CarsPageClient({
 	const [selectedDvigatel, setSelectedDvigatel] = useState('');
 	const [selectedColor, setSelectedColor] = useState('');
 	const [advancedVisible, setAdvancedVisible] = useState(false);
-	const [selectedPriceRange,setSelectedPriceRange] = useState('');
-	const [selectedPassengers,setSelectedPassangers] = useState('') 
+	const [selectedPriceRange, setSelectedPriceRange] = useState('');
+	const [selectedPassengers, setSelectedPassangers] = useState('')
 
 	const handleReset = () => {
 		setSelectedKlass('');
@@ -67,35 +67,35 @@ export default function CarsPageClient({
 	};
 
 
-	const filteredCars = initialCars.filter((car) =>{
+	const filteredCars = initialCars.filter((car) => {
 
-		const klassMatch = selectedKlass ? car.klass?.includes(Number(selectedKlass)): true;
-		const markaMatch = selectedMarka ? car.marka?.includes(Number(selectedMarka)): true;
-		const kuzovMatch = selectedKuzov ? car.kuzov?.includes(Number(selectedKuzov)): true;
-		const privodMatch = selectedPrivod ? car.privod?.includes(Number(selectedPrivod)): true;
-		const dvigatelMatch = selectedDvigatel ? car.dvigatel?.includes(Number(selectedDvigatel)): true;
-		const colorMatch = selectedColor ? car.color?.includes(Number(selectedColor)): true;
+		const klassMatch = selectedKlass ? car.klass?.includes(Number(selectedKlass)) : true;
+		const markaMatch = selectedMarka ? car.marka?.includes(Number(selectedMarka)) : true;
+		const kuzovMatch = selectedKuzov ? car.kuzov?.includes(Number(selectedKuzov)) : true;
+		const privodMatch = selectedPrivod ? car.privod?.includes(Number(selectedPrivod)) : true;
+		const dvigatelMatch = selectedDvigatel ? car.dvigatel?.includes(Number(selectedDvigatel)) : true;
+		const colorMatch = selectedColor ? car.color?.includes(Number(selectedColor)) : true;
 
-		const price = parseInt(car.acf?.['30_dnej'] || '0',10);
-		const passengeres = parseInt(car.acf?.passengers || '0',10);
+		const price = parseInt(car.acf?.['30_dnej'] || '0', 10);
+		const passengeres = parseInt(car.acf?.passengers || '0', 10);
 
 		let priceMatch = true;
-		if (selectedPriceRange ==='lt4000') priceMatch = price<4000;
-		else if (selectedPriceRange ==='4000-6000') priceMatch = price>=4000 && price<=6000;
-		else if (selectedPriceRange ==='6000-10000') priceMatch = price>=6000 && price<=10000;
-		else if (selectedPriceRange ==='gt10000') priceMatch = price > 10000;
+		if (selectedPriceRange === 'lt4000') priceMatch = price < 4000;
+		else if (selectedPriceRange === '4000-6000') priceMatch = price >= 4000 && price <= 6000;
+		else if (selectedPriceRange === '6000-10000') priceMatch = price >= 6000 && price <= 10000;
+		else if (selectedPriceRange === 'gt10000') priceMatch = price > 10000;
 
 		let passengerMatch = true;
 		if (selectedPassengers === '4') passengerMatch = passengeres === 4;
-		else if (selectedPassengers === '7') passengerMatch = passengeres ===7;
-		else if (selectedPassengers ==='8+') passengerMatch = passengeres >= 8;
+		else if (selectedPassengers === '7') passengerMatch = passengeres === 7;
+		else if (selectedPassengers === '8+') passengerMatch = passengeres >= 8;
 
-		return klassMatch && markaMatch && kuzovMatch && privodMatch && dvigatelMatch &&colorMatch && priceMatch && passengerMatch;
+		return klassMatch && markaMatch && kuzovMatch && privodMatch && dvigatelMatch && colorMatch && priceMatch && passengerMatch;
 	});
 
-	const sortedCars = [...filteredCars].sort((a:Car, b:Car) => {
-		const priceA = parseInt(a.acf?.['30_dnej'] || '0',10);
-		const priceB = parseInt(b.acf?.['30_dnej'] || '0',10);
+	const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
+		const priceA = parseInt(a.acf?.['30_dnej'] || '0', 10);
+		const priceB = parseInt(b.acf?.['30_dnej'] || '0', 10);
 		return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
 	});
 
@@ -135,12 +135,11 @@ export default function CarsPageClient({
 							/>
 							<CustomSelect
 								placeholder="Цена"
-								// Если нужен фильтр по цене, можно добавить состояние и обработчик
 								options={[
-									{value:'lt4000',label:'до 4000'},
-									{value:'4000-6000',label:'4000-6000'},
-									{value:'6000-10000',label:'6000-10000'},
-									{value:'gt10000',label:'от 10000'}
+									{ value: 'lt4000', label: 'до 4000' },
+									{ value: '4000-6000', label: '4000-6000' },
+									{ value: '6000-10000', label: '6000-10000' },
+									{ value: 'gt10000', label: 'от 10000' }
 								]}
 								className="filters-select"
 								style={{ width: '100%', height: '44px' }}
@@ -185,15 +184,14 @@ export default function CarsPageClient({
 								/>
 								<CustomSelect
 									placeholder="Вместимость"
-									// Добавьте состояние, если потребуется
 									options={[
-										{value:'4',label:'4 пассажира'},
-										{value:'7',label:'7 пассажиров'},
-										{value:'8+',label:'8+ пассажиров'},
+										{ value: '4', label: '4 пассажира' },
+										{ value: '7', label: '7 пассажиров' },
+										{ value: '8+', label: '8+ пассажиров' },
 									]}
 									className="filters-select"
 									style={{ width: '100%', height: '44px' }}
-									onChange={(value) =>setSelectedPassangers(value as string)}
+									onChange={(value) => setSelectedPassangers(value as string)}
 									value={selectedPassengers || undefined}
 								/>
 								<CustomSelect
@@ -288,17 +286,17 @@ export default function CarsPageClient({
 
 			<div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
 				{sortedCars.length > 0 ? (
-  					sortedCars.map((car, index) => (
-    				<React.Fragment key={car.id}>
-						{index === 3 && (
-							<div className="block lg:hidden">
-								<SaleCard />
-							</div>
-						)}
-						<CarCard car={car} />
-    			</React.Fragment>
-  			))
-			) : (
+					sortedCars.map((car, index) => (
+						<React.Fragment key={car.id}>
+							{index === 3 && (
+								<div className="block lg:hidden">
+									<SaleCard />
+								</div>
+							)}
+							<CarCard car={car} />
+						</React.Fragment>
+					))
+				) : (
 					<p>Ничего не найдено</p>
 				)}
 			</div>

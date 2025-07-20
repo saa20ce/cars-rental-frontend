@@ -28,7 +28,6 @@ interface SingleCarPageClientProps {
 	seasonDates: SeasonData | null;
 	priceRanges: PriceRange[];
 	deliveryPrice: DeliveryPrice;
-	//deliveryOptions: DeliveryOption[];
 	taxonomyValues: Record<string, string>;
 	similarCars: Car[];
 	additionalOptions: { label: string; value: string }[];
@@ -38,7 +37,6 @@ export default function SingleCarPageClient({
 	car,
 	seasonDates,
 	priceRanges,
-	//deliveryOptions,
 	deliveryPrice,
 	taxonomyValues,
 	similarCars,
@@ -190,7 +188,6 @@ export default function SingleCarPageClient({
 					<RentalCheckout
 						car={car}
 						additionalOptions={additionalOptions}
-						//deliveryOptions={deliveryOptions}
 						deliveryPrice={deliveryPrice}
 						seasonDates={seasonDates}
 						priceRanges={priceRanges}

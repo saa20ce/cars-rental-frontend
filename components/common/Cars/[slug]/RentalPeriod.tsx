@@ -127,7 +127,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 	};
 
 	return (
-		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 relative z-10 lg:p-9 lg:mt-[52px] lg:rounded-[32px] '>
+		<div className='w-full bg-[#284b63] rounded-2xl px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] '>
 			{showContactForm && closeModal && (
 				<div
 					className='absolute top-6 right-6 cursor-pointer'

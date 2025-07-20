@@ -203,6 +203,19 @@ span.ant-checkbox-label {
   background-image: url("/images/coatOfArms.png");
 }
 
+/* TAILWIND variables */
+.text-white-card {
+  @apply text-[14px]/[20px] lg:text-[18px]/[28px] font-bold;
+}
+
+.carPriceInfo {
+	@apply lg:flex lg:flex-row-reverse lg:justify-center lg:items-start lg:gap-6
+}
+
+.filters-select {
+	@apply h-9 lg:h-11 w-full;
+}
+
 /* Desktop Tabs */
 @media (width >= 64rem) {
 	.ant-tabs .ant-tabs-tab {
@@ -276,4 +289,9 @@ span.ant-checkbox-label {
 		height: 14.142857px;
 		top: 42%;
 	}
+}
+
+.ant-btn-icon {
+	display: flex;
+	align-items: center;
 }

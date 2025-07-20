@@ -259,7 +259,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 					)}
 
 					<div className='flex items-center justify-between mb-5 mt-8'>
-						<div className='font-bold lg:text-2xl'>
+						<div className='font-bold lg:text-xl'>
 							Итоговая стоимость:
 							{hasSeasonDays && (
 								<div className='flex font-semibold items-center gap-2 lg:text-lg'>

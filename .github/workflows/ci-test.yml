@@ -25,7 +25,7 @@ jobs:
     
     - name:  Создаём .env из секретов GitHub
       run: |
-        echo "API_URL=${{ secrets.NEXT_PUBLIC_WP_API_URL }}" >> .env
+        echo "NEXT_PUBLIC_WP_API_URL=${{ secrets.NEXT_PUBLIC_WP_API_URL }}" >> .env
 
     - name:  Проверяем линтер
       run: npm run lint

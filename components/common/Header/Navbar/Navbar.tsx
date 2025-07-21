@@ -1,7 +1,7 @@
 import React from 'react';
 import { LogoFull, PhoneIcon, PhoneIconDefault } from '@/lib/ui/icons';
 import Link from 'next/link';
-import { ConfigProvider, Button } from 'antd';
+// import { ConfigProvider, Button } from 'antd';
 import type { WPMenuType, AntdMenuItem } from '@/lib/types/Menu';
 import { fetchMenuItems } from '@/lib/api/fetchMenu';
 import {
@@ -10,6 +10,7 @@ import {
 } from '@/lib/helpers/menuHelpers';
 import NavbarClient from './NavbarClient';
 import NavbarMobileClient from './NavbarMobileClient';
+import CustomButton from '@/lib/ui/common/Button';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
@@ -38,23 +39,15 @@ export const Navbar = async () => {
       </div>
 
       <div className="hidden lg:flex w-auto">
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                contentFontSize: 16,
-                defaultHoverBorderColor: '#fff',
-                defaultHoverColor: '#fff',
-                paddingInline: 12,
-                paddingBlock: 8,
-                lineHeight: 0,
-                fontFamily: '"lato", "lato Fallback"',
-                borderRadius: 12,
-              },
-            },
-          }}
+        <CustomButton
+          variant="outlined"
+          icon={<PhoneIconDefault />}
+          className="hidden xl:flex"
+          style={{ height: 40, width: 169 }}
         >
-          <Button
+          Заказать звонок
+        </CustomButton>
+        {/* <Button
             className="hidden xl:flex"
             variant="outlined"
             icon={<PhoneIconDefault />}
@@ -62,11 +55,10 @@ export const Navbar = async () => {
             ghost
           >
             Заказать звонок
-          </Button>
-          <div className='xl:hidden'>
-            <PhoneIcon />
-          </div>
-        </ConfigProvider>
+          </Button> */}
+        <div className="xl:hidden">
+          <PhoneIcon />
+        </div>
       </div>
     </div>
   );

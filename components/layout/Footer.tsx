@@ -1,5 +1,7 @@
 import { RentaSibLogo, TelegramIcon, WhatsAppIcon, PhoneIconDefault, SmartphoneIcon, MailIcon, PointerIcon, DzenIcon, VkMiniIcon, ChevronRightIcon } from "@/lib/ui/icons";
 import { Button, ConfigProvider } from 'antd';
+import Link from 'next/link';
+
 
 export const Footer: React.FC = () => {
     return (
@@ -21,12 +23,12 @@ export const Footer: React.FC = () => {
                     <div>
                         <div className="flex flex-row gap-4">
                             <div className="flex flex-row gap-5 lg:gap-5 items-center mt-5 ml-[14px] lg:ml-0 ">
-                                <div className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
+                                <a href="https://t.me/Rentasib" target="_blank" className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
                                     <TelegramIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
-                                </div>
-                                <div className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
+                                </a>
+                                <a href="https://wa.me/79139132808" target="_blank"  className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]">
                                     <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
-                                </div>
+                                </a>
 
                                 <ConfigProvider
                                     theme={{
@@ -75,20 +77,21 @@ export const Footer: React.FC = () => {
                     <div className="flex gap-9 lg:gap-[95px] text-[16px] font-[100] lg:font-[400] lg:text-[18px] lg:flex-1">
                         <div>
                             <ul className="space-y-2 lg:leading-7">
-                                <li><a href="#">Главная</a></li>
-                                <li><a href="#">Автопарк</a></li>
-                                <li><a href="#">Тарифы</a></li>
-                                <li><a href="#">Услуги</a></li>
-                                <li><a href="#">О нас</a></li>
-                                <li><a href="#">Отзывы</a></li>
+
+                                <li><Link href="/">Главная</Link></li>
+                                <li><Link href="/cars">Автопарк</Link></li>
+                                <li><Link href="/tariffs">Тарифы</Link></li>
+                                <li><Link href="#">Услуги</Link></li>
+                                <li><Link href="/about">О нас</Link></li>
+                                <li><Link href="#">Отзывы</Link></li>
                             </ul>
                         </div>
                         <div>
                             <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[165px]">
-                                <li><a href="#">Вопрос-ответ</a></li>
-                                <li><a href="#">Аренда для юридических лиц</a></li>
-                                <li><a href="#">Договор аренды</a></li>
-                                <li><a href="#">Условия</a></li>
+                                <li><Link href="/faq">Вопрос-ответ</Link></li>
+                                <li><Link href="#">Аренда для юридических лиц</Link></li>
+                                <li><Link href="#">Договор аренды</Link></li>
+                                <li><Link href="/terms">Условия</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +102,7 @@ export const Footer: React.FC = () => {
                                 <SmartphoneIcon />
                             </div>
                             <div className="underline underline-offset-4 decoration-5 font-[400] lg:font-[600] text-[16px] lg:text-[18px] lg:underline lg:underline-offset-4 decoration-5">
-                                +7(913)-913-28-08
+                                <a href="tel:+7(913)-913-28-08">+7(913)-913-28-08</a>
                             </div>
                         </div>
                         <div className="flex gap-2 mt-3 items-center text-[16px] lg:text-[18px]">
@@ -107,7 +110,7 @@ export const Footer: React.FC = () => {
                                 <MailIcon />
                             </div>
                             <div>
-                                rentasib54@gmail.com
+                                <a href="mailto:rentasib54@gmail.com">rentasib54@gmail.com</a>
                             </div>
                         </div>
                         <div className="flex gap-2 mt-3 items-center text-[16px] lg:text-[18px]">
@@ -115,7 +118,7 @@ export const Footer: React.FC = () => {
                                 <PointerIcon />
                             </div>
                             <div>
-                                Красный просп., 2/1
+                                <a href="https://2gis.ru/novosibirsk/firm/70000001038917532?m=82.925675%2C55.014643%2F16" target="_blank" rel="noopener noreferrer">Красный просп., 2/1</a>
                             </div>
                         </div>
                     </div>
@@ -125,13 +128,13 @@ export const Footer: React.FC = () => {
                         <div className="flex gap-3">
                             <div><VkMiniIcon /></div>
                             <div className="underline decoration-1 underline-offset-[6px] text-[20px] lg:text-[18px]">
-                                <a href="#">Vk</a>
+                                <a href="https://vk.com/rentasib" target="_blank" rel="noopener noreferrer">Vk</a>
                             </div>
                         </div>
                         <div className="flex gap-3">
                             <div><DzenIcon /></div>
                             <div className="underline decoration-1 underline-offset-[6px] text-[20px] lg:text-[18px]">
-                                <a href="#">Дзен</a>
+                                <a href="https://dzen.ru/rentasib" target="_blank" rel="noopener noreferrer">Дзен</a>
                             </div>
                         </div>
                     </div>

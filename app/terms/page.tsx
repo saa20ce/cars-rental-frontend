@@ -11,6 +11,7 @@ import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
+import { FaqCollapse } from '@/lib/ui/common/Collapse';
 
 const steps = [
   {
@@ -402,6 +403,10 @@ export default async function TermsPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="py-[42px] lg:py-[68px] border-b border-[#284B63B2]">
+        <FaqCollapse />
       </section>
 
       <section className="pb-[42px] lg:pb-[68px]">

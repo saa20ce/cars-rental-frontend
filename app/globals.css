@@ -203,6 +203,22 @@ span.ant-checkbox-label {
   background-image: url("/images/coatOfArms.png");
 }
 
+.custom-breadcrumb .ant-breadcrumb-separator {
+  margin: 0 10px;
+}
+
+.custom-menu .ant-menu-submenu {
+	padding-inline: 12px;
+}
+
+.custom-menu .ant-menu-item {
+	padding-inline: 12px;
+}
+
+.custom-menu .ant-menu-submenu-arrow {
+	margin-left: 10px;
+}
+
 /* TAILWIND variables */
 .text-white-card {
   @apply text-[14px]/[20px] lg:text-[18px]/[28px] font-bold;
@@ -214,6 +230,10 @@ span.ant-checkbox-label {
 
 .filters-select {
 	@apply h-9 lg:h-11 w-full;
+}
+
+.flex-center {
+	@apply flex justify-center items-center
 }
 
 /* Desktop Tabs */
@@ -259,6 +279,7 @@ span.ant-checkbox-label {
 @media (width >= 64rem) {
 	.ant-menu .ant-menu-submenu-arrow {
 		height: 17px;
+		width: 12px;
 		margin-bottom: 3px;
 	}
 
@@ -273,7 +294,7 @@ span.ant-checkbox-label {
 
 	li.ant-menu-item {
 		border-radius: 8px !important;
-		padding-inline: 8px !important;
+		padding-inline: 12px !important;
 	}
 }
 

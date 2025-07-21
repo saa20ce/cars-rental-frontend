@@ -38,15 +38,16 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ menuItems }) => {
 					},
 				},
 				token: {
-					colorText: '#fff',
+					colorText: '#F6F6F6',
 					fontSize: 16,
 				},
 			}}
 		>
 			<Menu
 				mode="horizontal"
+				className='custom-menu'
 				items={menuItems as unknown as MenuProps['items']}
-				expandIcon={<ChevronDownIcon />}
+				expandIcon={<ChevronDownIcon className='w-3 h-6'/>}
 				style={{ flex: 'auto', minWidth: 0, justifyContent: 'center' }}
 			/>
 		</ConfigProvider>

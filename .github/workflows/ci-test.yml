@@ -1,0 +1,34 @@
+name: CI - Test Branch Check
+
+on:
+  push:
+    branches: [test]
+  pull_request:
+    branches: [test]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name:  Клонируем репозиторий
+      uses: actions/checkout@v3
+
+    - name:  Устанавливаем Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name:  Устанавливаем зависимости
+      run: npm ci
+
+    
+    - name:  Создаём .env из секретов GitHub
+      run: |
+        echo "NEXT_PUBLIC_WP_API_URL=${{ secrets.NEXT_PUBLIC_WP_API_URL }}" >> .env
+
+    - name:  Проверяем линтер
+      run: npm run lint
+
+    - name:  Собираем проект
+      run: npm run build

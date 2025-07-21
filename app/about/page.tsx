@@ -1,5 +1,4 @@
 import { WhyUs } from '@/components/common/Cards/WhyUs';
-import YandexMap from '@/components/common/YandexMap';
 import { ArrowRight } from '@/lib/ui/icons/ArrowRight';
 import { AutorealIcon } from '@/lib/ui/icons/AutorealIcon';
 import { EmailIcon } from '@/lib/ui/icons/EmailIcon';
@@ -125,7 +124,7 @@ export default async function AboutPage() {
       </section>
 
       <section className="flex flex-col-reverse lg:flex-row gap-6  py-[42px] lg:py-[68px]  border-b border-[#284B63B2] items-center">
-        <div className="relative w-full lg:w-1/2 max-w-[618px] rounded-[20px] aspect-[3/2] lg: aspect-[4/3] max-h-[456px] h-full overflow-hidden flex justify-center items-center">
+        <div className="relative w-full lg:w-1/2 max-w-[618px] rounded-[20px] aspect-[3/2] lg:aspect-[4/3] max-h-[456px] h-full overflow-hidden flex justify-center items-center">
           <Image fill alt="" src={'/images/women.png'} className="contain" />
         </div>
         <div className="lg:w-1/2 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">
@@ -171,7 +170,7 @@ export default async function AboutPage() {
             <li>Напишите на почту – ответим в течение нескольких часов.</li>
             <li>Оставьте заявку на аренду авто через форму на сайте.</li>
           </ul>
-          <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">
+          <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">
             <div className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow">
               <MobileIcon className="w-9 lg:w-[48px]" />
               <span className='text-nowrap'>+ 7(913)-913-28-08</span>

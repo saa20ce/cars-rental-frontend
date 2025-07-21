@@ -45,13 +45,16 @@ export type Car = {
 		}>;
 		'wp:term': Term[][];
 	};
-	
+
 };
 
 export interface CarACF {
 	nazvanie_avto?: string;
 	white_gallery?: string[];
 	black_gallery?: string[];
+	gray_gallery?: string[];
+	blue_gallery?: string[];
+	red_gallery?: string[];
 	engine_volume?: string;
 	fuel_flow?: string;
 	passengers?: string;
@@ -140,17 +143,17 @@ export interface Term {
 }
 
 export type DeliveryOption = {
-  value: string;
-  label: string;
-  price: number;
+	value: string;
+	label: string;
+	price: number;
 };
 
 export type DeliveryPrice = {
-  day: DeliveryOption[];
-  night: DeliveryOption[];
+	day: DeliveryOption[];
+	night: DeliveryOption[];
 };
 
 export type DeliveryOptionsGrouped = {
-  day: DeliveryOption[];
-  night: DeliveryOption[];
+	day: DeliveryOption[];
+	night: DeliveryOption[];
 };

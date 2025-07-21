@@ -8,6 +8,7 @@ on:
 
 jobs:
   lint-and-build:
+    name: CI
     runs-on: ubuntu-latest
 
     steps:

@@ -33,3 +33,6 @@ jobs:
 
     - name:  Собираем проект
       run: npm run build
+
+    - name: Завершаем CI
+      run: echo "CI завершён"

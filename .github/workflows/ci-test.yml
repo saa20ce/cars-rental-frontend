@@ -22,6 +22,11 @@ jobs:
     - name:  Устанавливаем зависимости
       run: npm ci
 
+    
+    - name:  Создаём .env из секретов GitHub
+      run: |
+        echo "API_URL=${{ secrets.NEXT_PUBLIC_WP_API_URL }}" >> .env
+
     - name:  Проверяем линтер
       run: npm run lint
 

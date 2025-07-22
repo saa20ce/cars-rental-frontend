@@ -285,19 +285,6 @@ export default function TariffsPageClient({
               </div>
             </div>
             <div className="hidden lg:flex lg:flex-[2] lg:pl-3">
-              {/* <Button
-								style={{
-									color: '#f6f6f6',
-									height: '44px',
-									width: '100%',
-									background: '#3c6e71',
-									border: 'none',
-									borderRadius: '12px',
-								}}
-								onClick={() => loadCars()}
-							>
-								Показать
-							</Button> */}
               <CustomButton
                 variant="default"
                 style={{
@@ -355,57 +342,6 @@ export default function TariffsPageClient({
         </div>
 
         <div className="flex justify-between flex-wrap lg:justify-start gap-[13px] lg:gap-4">
-          {/* <ConfigProvider
-						theme={{
-							components: {
-								Button: {
-									contentFontSize: 16,
-									paddingInline: 12,
-									defaultHoverBorderColor: '#f6f6f6',
-									defaultHoverColor: '#f6f6f6',
-									defaultActiveBorderColor: '#f6f6f6',
-									defaultActiveColor: '#f6f6f6',
-									borderRadius: 12,
-								},
-							},
-						}}
-					>
-						<Button
-							icon={<FiltersIcon />}
-							ghost
-							className="filterButton"
-							style={{ height: '40px', width: '124px' }}
-							onClick={() => setAdvancedVisible((prev) => !prev)}
-						>
-							Фильтры
-						</Button>
-						<Button
-							icon={<SmallCross />}
-							style={{
-								height: '40px',
-								background: 'transparent',
-								border: '1px solid transparent',
-								color: '#f6f6f6',
-							}}
-							onClick={handleReset}
-						>
-							Очистить фильтры
-						</Button>
-						<div className="block lg:hidden w-full">
-							<Button
-								style={{
-									color: '#f6f6f6',
-									height: '40px',
-									width: '100%',
-									background: '#3c6e71',
-									border: 'none',
-								}}
-								onClick={() => loadCars()}
-							>
-								Показать
-							</Button>
-						</div>
-					</ConfigProvider> */}
           <CustomButton
             variant="outlined"
             icon={<FiltersIcon />}

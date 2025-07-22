@@ -12,6 +12,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
 import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import CallRequestModal from '@/components/common/Modal/CallRequestModal';
 
 const steps = [
   {
@@ -49,6 +50,7 @@ const steps = [
 export default async function TermsPage() {
   return (
     <>
+    <CallRequestModal />
       <section>
         <h2 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
           Условия аренды автомобиля
@@ -342,11 +344,11 @@ export default async function TermsPage() {
         <h2 className="lg:text-center text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-12">
           Что делать при ДТП?
         </h2>
-        <div className="grid lg:grid-cols-3 lg:gap-6 lg:max-w-[939px] mx-auto">
+        <ol className="grid lg:grid-cols-3 lg:gap-6 lg:max-w-[939px] mx-auto list-none counter-reset:step">
           {steps.map((step, index) => (
-            <div
+            <li
               key={index}
-              className="flex gap-4 relative last:pb-0 lg:flex-col "
+              className="flex gap-4 relative last:pb-0 lg:flex-col counter-increment:step"
             >
               <div className="relative flex flex-col items-center lg:items-start">
                 <div className="relative w-9 h-9 bg-[#5D6770] rounded-md text-white font-bold flex items-center justify-center">
@@ -356,16 +358,16 @@ export default async function TermsPage() {
                 <div className="h-2px border-l-2 border-dashed border-gray-500 flex-1 lg:w-full"></div>
               </div>
               <div className={`${index !== steps.length - 1 ? 'pb-8' : ''}`}>
-                <h3 className="text-[18px]/[28px] lg:text-[20px]/[28px] mb-[2px] font-bold ">
+                <h3 className="text-[18px]/[28px] lg:text-[20px]/[28px] mb-[2px] font-bold">
                   {step.title}
                 </h3>
                 <p className="text-[14px]/[20px] lg:text-[16px]/[24px]">
                   {step.description}
                 </p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       <section className="pt-[62px] lg:py-[68px] pb-[42px]  border-b border-[#284B63B2]">

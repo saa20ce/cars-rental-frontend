@@ -22,8 +22,8 @@ const variantStyles: Record<
     type: 'default',
     ghost: true,
     style: {
-      height: 40,
-      width: 124,
+      // height: 40,
+      // width: 124,
     },
   },
   transparent: {
@@ -42,7 +42,7 @@ const variantStyles: Record<
       border: 'none',
       color: '#f6f6f6',
       // width: '100%',
-      marginTop: 20,
+      // marginTop: 20,
     },
   },
 };

@@ -318,33 +318,53 @@ span.ant-checkbox-label {
   align-items: center;
 }
 
+
+/* Секция часто задаваемые вопросы */
 .faq-collapse .ant-collapse-item {
+
+  position: relative;
   background: transparent;
-  border: none;
-  border-bottom: 1px solid #f6f6f633;
+  border: none; 
   border-radius: 0;
   overflow: hidden;
-	padding-bottom: 10px;
-}
-.faq-collapse > .ant-collapse-item:last-child,
-.faq-collapse > .ant-collapse-item:first-child {
-  border-bottom: 1px solid #f6f6f633;
 }
 
-.faq-collapse .ant-collapse-item-active,
-.faq-collapse .ant-collapse-item-active:last-child,
-.faq-collapse .ant-collapse-item-active:first-child {
-  border: 1px solid #f6f6f633;
+.faq-collapse .ant-collapse-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   border-radius: 20px;
-  margin-bottom: 0px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.faq-collapse .ant-collapse-item-active::before {
+  border-color: #f6f6f633;
+}
+
+.faq-collapse .ant-collapse-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: #f6f6f633;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.faq-collapse .ant-collapse-item-active::after {
+  opacity: 0;
 }
 
 .faq-collapse .ant-collapse-item-active > .ant-collapse-header {
-  background-color: #f6f6f60d;
   border-radius: 20px 20px 0 0;
   padding: 10px 16px !important;
+  position: relative;
+  z-index: 2; 
 }
-
 @media (min-width: 1024px) {
   .faq-collapse .ant-collapse-item-active > .ant-collapse-header {
     padding: 16px 24px !important;
@@ -354,20 +374,42 @@ span.ant-checkbox-label {
 .faq-collapse .ant-collapse-content {
   background-color: #f6f6f633;
   border-radius: 0 0 20px 20px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .faq-collapse .ant-collapse-content-box {
-	background-color: #f6f6f633;
-	margin-bottom: -10px;
-  padding: 12px 16px !important;
+  background-color: #f6f6f633;
+  padding: 12px 16px 20px 16px !important;
 }
-
 @media (min-width: 1024px) {
   .faq-collapse .ant-collapse-content-box {
     padding: 20px 24px !important;
   }
 }
 
-.ant-btn {
-  font-family: "lato", "lato Fallback" !important;
+/* Шрифты для antd*/
+input,
+input::placeholder,
+.ant-btn,
+.ant-modal-body,
+.faq-collapse,
+.faq-collapse .ant-collapse-header,
+.faq-collapse .ant-collapse-content {
+  font-family: var(--font-lato), Arial, Helvetica, sans-serif !important;
 }
+input::placeholder {
+  color: #F6F6F699;
+}
+
+/* сроллбар */
+.scrollbar-hide {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; 
+}
+

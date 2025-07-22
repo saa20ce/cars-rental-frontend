@@ -191,19 +191,6 @@ export default function CarsPageClient({
               />
             </div>
             <div className="hidden lg:flex lg:w-2/5 lg:pl-3 mt-0">
-              {/* <Button
-                style={{
-                  color: '#f6f6f6',
-                  height: '44px',
-                  width: '100%',
-                  background: '#3c6e71',
-                  border: 'none',
-                  borderRadius: '12px',
-                }}
-                onClick={handleReset}
-              >
-                Показать
-              </Button> */}
               <CustomButton
                 variant="default"
 								style={{
@@ -268,63 +255,12 @@ export default function CarsPageClient({
         </div>
 
         <div className="flex justify-between flex-wrap lg:justify-start lg:gap-3">
-          {/* <ConfigProvider
-						theme={{
-							components: {
-								Button: {
-									contentFontSize: 16,
-									paddingInline: 12,
-									defaultHoverBorderColor: '#f6f6f6',
-									defaultHoverColor: '#f6f6f6',
-									defaultActiveBorderColor: '#f6f6f6',
-									defaultActiveColor: '#f6f6f6',
-									borderRadius: 12,
-								},
-							},
-						}}
-					>
-						<Button
-							icon={<FiltersIcon />}
-							ghost
-							className="filterButton"
-							style={{ height: '40px', width: '124px' }}
-							onClick={() => setAdvancedVisible((prev) => !prev)}
-						>
-							Фильтры
-						</Button>
-						<Button
-							icon={<SmallCross />}
-							style={{
-								height: '40px',
-								background: 'transparent',
-								border: '1px solid transparent',
-								color: '#f6f6f6',
-							}}
-							onClick={handleReset}
-						>
-							Очистить фильтры
-						</Button>
-						<div className="block lg:hidden w-full">
-							<Button
-								style={{
-									color: '#f6f6f6',
-									height: '40px',
-									width: '100%',
-									marginTop: '20px',
-									background: '#3c6e71',
-									border: 'none',
-								}}
-								onClick={handleReset}
-							>
-								Показать
-							</Button>
-						</div>
-					</ConfigProvider> */}
 
           <CustomButton
             variant="outlined"
             icon={<FiltersIcon />}
             onClick={() => setAdvancedVisible((prev) => !prev)}
+						className="w-[124px] h-10 py-2 lg:py-[7px] text-[16px]/[24px] font-medium"
           >
             Фильтры
           </CustomButton>
@@ -340,14 +276,14 @@ export default function CarsPageClient({
             variant="default"
 						style={{height: '44px',}}
             onClick={handleReset}
-            className="block lg:hidden w-full"
+            className="block lg:hidden w-full mt-5"
           >
             Показать
           </CustomButton>
         </div>
       </div>
 
-      <div className="flex justify-between items-end mt-6">
+      <div className="flex justify-between items-end mt-6 lg:mt-8 lg:px-6">
         <span className="lg:text-xl font-bold tracking-wide">
           Показано: {sortedCars.length}
         </span>

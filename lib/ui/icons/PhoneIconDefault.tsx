@@ -1,9 +1,16 @@
-export const PhoneIconDefault = () => (
+import React from 'react';
+
+interface IconProps {
+	className?: string;
+}
+
+export const PhoneIconDefault: React.FC<IconProps> = ({ className = '' }) => (
 	<svg
 		width='16'
 		height='24'
-		viewBox='0 0 17 19'
+		viewBox='0 0 17 24'
 		fill='none'
+		className={`${className}`}
 		xmlns='http://www.w3.org/2000/svg'
 	>
 		<path

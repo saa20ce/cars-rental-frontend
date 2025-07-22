@@ -41,36 +41,45 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
           </div>
         </Tooltip>
       </div>
-      <div
-        className="grid gap-3 mt-4  lg:gap-3 lg:w-full"
-        style={{
-          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-        }}
-      >
-        {priceRanges.map(({ baseKey, label, price, seasonPrice }) => {
-          const finalPrice = seasonModeSwitch ? seasonPrice : price;
-          return (
-            <div
-              key={baseKey}
-              className={`flex flex-col rounded-lg px-3 py-2 justify-between transition-all lg:text-lg lg:min-h-[80px] lg:justify-center lg:m-0 lg:px-4 lg:py-3
-          ${seasonModeSwitch ? 'bg-[#f6f6f638]' : 'bg-[#f6f6f60e]'}
-        `}
-            >
-              <div
-                className={`transition-all ${seasonModeSwitch ? 'text-[#f6f6f6]' : 'text-[#f6f6f666]'}`}
+
+      <div className="mt-4 overflow-x-auto lg:overflow-visible scrollbar-hide">
+        <ul
+          className="
+            flex gap-3 min-w-max
+            lg:grid lg:gap-3 lg:w-full
+          "
+          style={{
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+          }}
+        >
+          {priceRanges.map(({ baseKey, label, price, seasonPrice }) => {
+            const finalPrice = seasonModeSwitch ? seasonPrice : price;
+            return (
+              <li
+                key={baseKey}
+                className={`flex flex-col rounded-lg px-3 py-[6px] justify-between transition-all lg:text-lg lg:min-h-[80px] lg:justify-center lg:m-0 lg:px-4 lg:py-3 min-w-[112px]
+                ${seasonModeSwitch ? 'bg-[#f6f6f638]' : 'bg-[#f6f6f60e]'}
+              `}
               >
-                {label}
-              </div>
-              <div
-                className={`font-bold transition-all ${seasonModeSwitch ? 'text-[#f6f6f6]' : ''}`}
-              >
-                {finalPrice > 0 ? `${finalPrice.toLocaleString()} ₽/сут.` : '—'}
-              </div>
-            </div>
-          );
-        })}
+                <h3
+                  className={`text-[14px]/[20px] lg:text-[18px]/[28px] font-normal transition-all ${
+                    seasonModeSwitch ? 'text-[#f6f6f6]' : 'text-[#f6f6f666]'
+                  }`}
+                >
+                  {label}
+                </h3>
+                <p
+                  className={`text-[14px]/[20px] lg:text-[18px]/[28px] font-bold transition-all`}
+                >
+                  {finalPrice > 0
+                    ? `${finalPrice.toLocaleString()} ₽/сут.`
+                    : '—'}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
 };
-

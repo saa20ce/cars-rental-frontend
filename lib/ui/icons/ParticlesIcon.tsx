@@ -13,7 +13,7 @@ export const ParticlesIcon: React.FC<IconProps> = ({ className = '' }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="26" height="26" rx="13" fill="#F6F6F6" fill-opacity="0.2" />
-    <circle cx="13" cy="13" r="5" fill="#F6F6F6" fill-opacity="0.6" />
+    <rect width="26" height="26" rx="13" fill="#F6F6F6" fillOpacity="0.2" />
+    <circle cx="13" cy="13" r="5" fill="#F6F6F6" fillOpacity="0.6" />
   </svg>
 );

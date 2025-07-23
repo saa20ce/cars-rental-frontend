@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import CheckboxGroup from 'antd/lib/checkbox/Group';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
+import './AdditionalServices.css'
 
 interface AdditionalServicesProps {
   additionalOptions: { label: string; value: string }[];

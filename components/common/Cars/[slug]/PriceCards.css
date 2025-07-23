@@ -1,0 +1,13 @@
+.ant-switch,
+.ant-switch:hover:not(.ant-switch-disabled) {
+  background-color: #f6f6f675;
+}
+
+.ant-switch.ant-switch-checked,
+.ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled) {
+  background-color: #3c6e71;
+}
+
+.ant-tooltip .ant-tooltip-inner {
+  padding: 8px 10px;
+}

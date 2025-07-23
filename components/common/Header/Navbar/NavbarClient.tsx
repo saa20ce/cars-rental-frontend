@@ -4,6 +4,7 @@ import React from 'react';
 import { Menu, ConfigProvider } from 'antd';
 import { ChevronDownIcon } from '@/lib/ui/icons';
 import type { MenuProps } from 'antd';
+import './NavbarClient.css'
 
 export type AntdMenuItem = {
 	key: string;

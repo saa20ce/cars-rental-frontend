@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { Modal, ConfigProvider } from 'antd';
-import { MenuIcon, SmallCross, PhoneIconDefault } from '@/lib/ui/icons';
+import { MenuIcon, SmallCross } from '@/lib/ui/icons';
 import Link from 'next/link';
-import CustomButton from '@/lib/ui/common/Button';
+import ModalTrigger from '../Modal/ModalTrigger';
 
 type MobileMenuProps = {
   menuItems: {
@@ -104,13 +104,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
           </div>
 
           <div className="flex justify-center mt-8">
-            <CustomButton
-              variant="outlined"
-              icon={<PhoneIconDefault />}
-              className="w-[196px] py-[10px] text-[18px]/[30px]"
-            >
-              Заказать звонок
-            </CustomButton>
+            <ModalTrigger className='w-[196px] py-[10px] text-[18px]/[30px]'/>
           </div>
         </Modal>
       </ConfigProvider>

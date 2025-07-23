@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Breadcrumb, ConfigProvider } from 'antd';
 import { ChevronRightIcon } from '@/lib/ui/icons';
 import { usePathname } from 'next/navigation';
+import './Breadcrumbs.css'
 
 export interface BreadcrumbItem {
   href: string;
@@ -62,7 +63,7 @@ export default function Breadcrumbs() {
     >
       <Breadcrumb
         items={mappedItems}
-        className="custom-breadcrumb bg-[#1e384a] py-[10px] px-5 lg:py-3 lg:px-7 rounded-[24px] text-[16px]/[24px] lg:text-[18px]/[28px] font-normal"
+        className="custom-breadcrumb bg-[#1e384a] py-[10px] px-5 lg:py-3 lg:px-7 rounded-[24px] text-[16px]/[24px] lg:text-[18px]/[28px] font-normal mb-[12px] lg:mb-5"
         separator={<ChevronRightIcon/>}
       />
     </ConfigProvider>

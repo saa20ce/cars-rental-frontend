@@ -4,6 +4,7 @@ import React from 'react';
 import type { PriceRange } from '@/lib/types/Car';
 import { Switch, Tooltip } from 'antd';
 import { LineIcon, InfoIcon } from '@/lib/ui/icons';
+import './PriceCards.css'
 
 interface PriceCardsProps {
   priceRanges: PriceRange[];
@@ -42,10 +43,10 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
         </Tooltip>
       </div>
 
-      <div className="mt-4 overflow-x-auto lg:overflow-visible scrollbar-hide">
+      <div className="-mx-4 lg:mx-0 mt-4 overflow-x-auto lg:overflow-visible scrollbar-hide">
         <ul
           className="
-            flex gap-3 min-w-max
+            flex gap-3 min-w-max px-4
             lg:grid lg:gap-3 lg:w-full
           "
           style={{

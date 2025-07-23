@@ -1,14 +1,11 @@
-'use client';
+"use client"
 
 import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
 import { ConfigProvider, Modal } from 'antd';
 import Link from 'next/link';
-import { useState } from 'react';
 
-export default function CallRequestModal() {
-  const [open, setOpen] = useState(true);
-
+export default function CallRequestModal({isOpen, setIsOpenAction}: {isOpen:boolean, setIsOpenAction: (isOpen: boolean)=> void}) {
   return (
     <ConfigProvider
       theme={{
@@ -21,12 +18,11 @@ export default function CallRequestModal() {
       }}
     >
       <Modal
-        open={open}
+        open={isOpen}
         footer={null}
         closeIcon={false}
-        onCancel={() => setOpen(false)}
+        onCancel={() => setIsOpenAction(false)}
         maskClosable={true}
-        width="100vw"
         centered
         style={{ top: 0, left: 0, margin: 0, padding: 0 }}
         styles={{
@@ -42,13 +38,13 @@ export default function CallRequestModal() {
           },
         }}
       >
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="py-[28px] px-6 lg:py-[38px] lg:px-9 bg-[#284B63] rounded-[16px] lg:rounded-[32px] w-full max-w-[360px] lg:max-w-[618px] text-[#F6F6F6]">
+        <div className="flex justify-center items-center">
+          <div className="py-[28px]  px-6 lg:py-[38px] lg:px-9 bg-[#284B63] rounded-[16px] lg:rounded-[32px]  text-[#F6F6F6] w-[360px] lg:w-[618px]">
             <div className="flex justify-between items-center">
               <h2 className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
                 Заказать звонок
               </h2>
-              <button onClick={() => setOpen(false)}>
+              <button onClick={() => setIsOpenAction(false)}>
                 <CloseModalBtnIcon className="w-[36px] h-[36px] lg:w-[48px] lg:h-[48px]" />
               </button>
             </div>

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { ConfigProvider, Carousel, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import './index.css'
 import {
   PriceCards,
   RentalCheckout,
@@ -181,7 +182,7 @@ export default function SingleCarPageClient({
                 },
               }}
             >
-              <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
+              <Tabs className='tabs' defaultActiveKey="1" items={TAB_ITEMS} />
             </ConfigProvider>
           </div>
         </div>
@@ -272,6 +273,7 @@ export default function SingleCarPageClient({
                 },
                 components: {
                   Tabs: {
+                    fontSize: 16,
                     cardBg: '#f6f6f60e',
                     itemColor: '#f6f6f666',
                     itemSelectedColor: '#f6f6f6',
@@ -280,11 +282,12 @@ export default function SingleCarPageClient({
                     itemHoverColor: '#f6f6f638',
                     horizontalItemPadding: '8px 14px',
                     horizontalItemGutter: 6,
+                    fontFamily: '"lato", "lato Fallback"',
                   },
                 },
               }}
             >
-              <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
+              <Tabs className='tabs' defaultActiveKey="1" items={TAB_ITEMS} />
             </ConfigProvider>
           </div>
         </section>

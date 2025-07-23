@@ -1,0 +1,19 @@
+.descCard {
+  @apply text-[14px]/[20px] lg:text-[18px]/[28px] font-bold;
+}
+
+.headerCard {
+  @apply text-[14px]/[20px] lg:text-[16px]/[24px];
+}
+
+.carPriceInfo {
+  @apply lg:flex lg:flex-row-reverse lg:justify-center lg:items-start lg:gap-6;
+}
+
+.flexBetween {
+  @apply flex justify-between;
+}
+
+.borderBot {
+  @apply border-b border-[#f6f6f638]
+}

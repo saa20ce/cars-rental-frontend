@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ConfigProvider, Button, Input, Form, message } from 'antd';
 import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
+import './RentalCheckoutContactForm.css'
 
 interface FormValues {
 	clientName: string;

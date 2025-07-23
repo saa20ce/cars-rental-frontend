@@ -6,6 +6,7 @@ import type { DatePickerProps } from 'antd';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
 import { CalendarIcon } from '@/lib/ui/icons';
+import './CustomDatePicker.css'
 
 export type CustomDatePickerProps = DatePickerProps & {
 	width?: string | number;

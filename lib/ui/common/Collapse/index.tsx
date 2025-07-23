@@ -3,6 +3,7 @@
 import React from 'react';
 import { Collapse } from 'antd';
 import { ArrowCollapseIcon } from '@/lib/ui/icons/ArrowCollapseIcon';
+import './index.css'
 
 const rawFaqItems = [
   {
@@ -82,7 +83,7 @@ export const FaqCollapse = () => {
           <ArrowCollapseIcon className={`transition-transform ${isActive ? '' : 'rotate-180'}`} />
         )}
         items={faqItems}
-        className="faq-collapse text-[16px] leading-[24px] font-medium lg:text-[18px] lg:eading-[28px]"
+        className={`faqCollapse text-[16px] leading-[24px] font-medium lg:text-[18px] lg:eading-[28px]`}
         ghost
       />
     </section>

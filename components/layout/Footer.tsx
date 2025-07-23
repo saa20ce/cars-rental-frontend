@@ -1,9 +1,7 @@
-import CustomButton from '@/lib/ui/common/Button';
 import {
   RentaSibLogo,
   TelegramIcon,
   WhatsAppIcon,
-  PhoneIconDefault,
   SmartphoneIcon,
   MailIcon,
   PointerIcon,
@@ -12,8 +10,10 @@ import {
   ChevronRightIcon,
 } from '@/lib/ui/icons';
 import Link from 'next/link';
+import ModalTrigger from '../common/Modal/ModalTrigger';
 
 export const Footer: React.FC = () => {
+
   return (
     <div className="mt-[56px]">
       <div className="flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5">
@@ -49,14 +49,7 @@ export const Footer: React.FC = () => {
                 >
                   <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                 </a>
-
-                <CustomButton
-                  variant="outlined"
-                  icon={<PhoneIconDefault />}
-                  className="w-[170px] lg:w-[196px] py-2 lg:py-[9px] text-[18px]/[30px]"
-                >
-                  Заказать звонок
-                </CustomButton>
+                <ModalTrigger className='w-[170px] lg:w-[196px] py-2 lg:py-[9px] text-[16px]/[24px] lg:text-[18px]/[30px]'/>
               </div>
             </div>
           </div>

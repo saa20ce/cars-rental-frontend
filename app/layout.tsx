@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang='en'>
 			<body
-				className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5`}
+				className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5 min-h-screen`}
 			>
 				<UpdatePathCookie />
 				<Header />

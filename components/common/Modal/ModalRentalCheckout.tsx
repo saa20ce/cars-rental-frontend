@@ -6,6 +6,7 @@ import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { Car, Term } from '@/lib/types/Car';
 import { RentalPeriod } from '../Cars';
 import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
+import classes from './ModalRentalCheckout.module.css'
 
 interface ModalRentalCheckoutProps {
   car: Car;
@@ -57,7 +58,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
   const kuzovName = kuzovTerm ? kuzovTerm.name : '—';
 
   return (
-    <div className="carPriceInfo">
+    <div className={classes.carPriceInfo}>
       <div
         className={`
 					lg:flex-1
@@ -72,7 +73,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
           if (window.innerWidth < 1024) setIsOpen((prev) => !prev);
         }}
       >
-        <div className="flex justify-between lg:block lg:aspect-[5/3] lg:-mx-9 lg:-mt-7 lg:mb-0">
+        <div className={`${classes.flexBetween} lg:block lg:aspect-[5/3] lg:-mx-9 lg:-mt-7 lg:mb-0`}>
           <div className="text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
             {thumbUrl && (
               <img
@@ -104,51 +105,51 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
         >
           <h3 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">Расчет стоимости</h3>
 
-          <div className="mb-3 text-sm border-b border-[#f6f6f638] lg:text-lg">
-            <div className="flex justify-between mb-[6px] lg:mb-[10px]">
-              <span className='text-[14px]/[20px] lg:text-[16px]/[24px]'>Продолжительность</span>
-              <span className="text-white-card">
+          <div className={`${classes.borderBot} mb-3 text-sm lg:text-lg`}>
+            <div className={`${classes.flexBetween} mb-[6px] lg:mb-[10px]`}>
+              <span className={classes.headerCard}>Продолжительность</span>
+              <span className={classes.descCard}>
                 {daysCount} {daysCount === 1 ? 'день' : 'дней'}
               </span>
             </div>
           </div>
 
-          <div className="border-b border-[#f6f6f638] lg:text-lg">
-            <div className="flex justify-between my-[6px] lg:my-[10px]">
-              <span className='text-[14px]/[20px] lg:text-[16px]/[24px]'>
+          <div className={`${classes.borderBot} lg:text-lg`}>
+            <div className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}>
+              <span className={classes.headerCard}>
                 Цена за сутки
                 {hasSeasonDays && (
                   <span className="font-bold text-[#f6f6f666]"> (Сезон)</span>
                 )}
               </span>
-              <span className="text-white-card">
+              <span className={classes.descCard}>
                 {pricePerDay.toLocaleString()} ₽/сут.
               </span>
             </div>
           </div>
 
-          <div className="text-sm border-b border-[#f6f6f638] lg:text-lg">
-            <div className="flex justify-between my-[6px] lg:my-[10px]">
-              <span className='text-[14px]/[20px] lg:text-[16px]/[24px]'>Залог</span>
-              <span className="text-white-card">10 000 ₽</span>
+          <div className={`${classes.borderBot} text-sm lg:text-lg`}>
+            <div className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}>
+              <span className={classes.headerCard}>Залог</span>
+              <span className={classes.descCard}>10 000 ₽</span>
             </div>
           </div>
 
-          <div className="text-sm border-b border-[#f6f6f638] lg:text-lg">
-            <div className="flex justify-between my-[6px] lg:my-[10px]">
-              <span className='text-[14px]/[20px] lg:text-[16px]/[24px]'>Пробег</span>
-              <span className="text-white-card">6 км.</span>
+          <div className={`${classes.borderBot} text-sm lg:text-lg`}>
+            <div className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}>
+              <span className={classes.headerCard}>Пробег</span>
+              <span className={classes.descCard}>6 км.</span>
             </div>
           </div>
 
-          <div className="text-sm border-b border-[#f6f6f638] lg:text-lg">
-            <div className="flex justify-between my-[6px] lg:my-[10px]">
-              <span className='text-[14px]/[20px] lg:text-[16px]/[24px]'>Перепробег за 1 км</span>
-              <span className="text-white-card">6 ₽/км.</span>
+          <div className={`${classes.borderBot} text-sm lg:text-lg`}>
+            <div className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}>
+              <span className={classes.headerCard}>Перепробег за 1 км</span>
+              <span className={classes.descCard}>6 ₽/км.</span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between mt-8 lg:mt-9">
+          <div className={`${classes.flexBetween} items-center mt-8 lg:mt-9`}>
             <span className="font-bold text-[16px]/[24px] lg:text-[24px]/[32px]">
               Итого:
               {hasSeasonDays && (

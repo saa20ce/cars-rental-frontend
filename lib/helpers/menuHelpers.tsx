@@ -1,5 +1,6 @@
 import React from 'react';
 import type { WPMenuType, AntdMenuItem } from '@/lib/types/Menu';
+import Link from 'next/link';
 
 export type WPMenuWithChildren = WPMenuType & { children: WPMenuWithChildren[] };
 
@@ -23,15 +24,13 @@ export function buildMenuTree(items: WPMenuType[]): WPMenuWithChildren[] {
 	return tree;
 }
 
-export function convertToAntdMenuItems(
-	menuTree: WPMenuWithChildren[]
-): AntdMenuItem[] {
+export function convertToAntdMenuItems(menuTree: WPMenuWithChildren[]): AntdMenuItem[] {
 	return menuTree.map((item) => ({
 		key: item.ID.toString(),
 		label: (
-			<a href={item.url} >
+			<Link href={item.url} >
 				{item.title}
-			</a>
+			</Link>
 		),
 		children:
 			item.children && item.children.length > 0
@@ -39,3 +38,4 @@ export function convertToAntdMenuItems(
 				: undefined,
 	}));
 }
+

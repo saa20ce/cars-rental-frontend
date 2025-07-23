@@ -123,7 +123,7 @@ export async function getAdditionalOptions(): Promise<{ label: string; value: st
 
 	const LABELS: Record<string, string> = {
 		buster: "Бустер",
-		boks_na_kryshu: "Бокс на крышу (+300 ₽)",
+		boks_na_kryshu: "Бокс на крышу",
 		detskoe_kreslo: "Детское кресло",
 	};
 

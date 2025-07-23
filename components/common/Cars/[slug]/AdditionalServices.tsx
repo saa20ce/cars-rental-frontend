@@ -33,15 +33,14 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
     <div>
       <div className="additional-service-block">
         <h4 className="ltext-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] flex items-center gap-2 ">
-          Место подачи и возврата <LineIcon />{' '}
-          <InfoIcon width={18} height={18} />
+          Место подачи:
         </h4>
         <div className="flex gap-2 w-full mt-[10px]">
           <CustomSelect
             options={deliveryOptions}
             onChange={(value) => setDeliveryOption(value as string)}
-            value={deliveryOptionSelected || defaultDeliveryValue}
-            placeholder="Выберите район"
+            value={deliveryOptionSelected || undefined}
+            placeholder="Выберите место подачи"
             listHeight={232}
             style={{ width: '100%', height: '36px' }}
           />

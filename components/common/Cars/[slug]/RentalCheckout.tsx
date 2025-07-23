@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Modal } from 'antd';
+import { ConfigProvider, Button, Modal,Tooltip } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -32,6 +32,16 @@ interface RentalCheckoutProps {
   priceRanges?: PriceRange[];
   setSeasonModeSwitch: (mode: boolean) => void;
 }
+
+const tooltipText = (
+  <div className="text-xs lg:text-sm">
+    Сезонные тарифы (высокий спрос)
+    <ul className="list-decimal list-inside pl-1 font-bold">
+      <li>10 декабря - 20 января</li>
+      <li>1 мая - 15 сентября</li>
+    </ul>
+  </div>
+);
 
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
   car,
@@ -138,7 +148,12 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const hour = parseInt(startTime.split(':')[0], 10);
     const isNight = hour >= 20 || hour < 9;
     const options = isNight ? deliveryPrice.night : deliveryPrice.day;
-    setDeliveryOptions(options);
+
+    const modifiedOptions = [
+      { label: 'Без подачи', value: 'none', price: 0 },
+      ...options,
+    ];
+    setDeliveryOptions(modifiedOptions);
   }, [startTime, deliveryPrice]);
 
   return (
@@ -153,7 +168,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         onReturnDateChange={setReturnDate}
         returnTime={returnTime}
         onReturnTimeChange={setReturnTime}
-        daysCount={daysCount}
         additionalOptions={additionalOptions}
         additionalOptionsSelected={additionalOptionsSelected}
         setAdditionalOptions={setAdditionalOptions}
@@ -214,10 +228,17 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
           {additionalOptionsTotal > 0 && (
             <div className="text-sm lg:text-lg border-b border-[#f6f6f638]">
-              <div className="flex justify-between my-[6px] lg:my-[10px]">
-                <div>Дополнительные опции</div>
-                <div className="font-bold">+{additionalOptionsTotal} ₽</div>
-              </div>
+              {additionalOptions
+                .filter((opt) => additionalOptionsSelected.includes(opt.value))
+                .map((opt) => (
+                  <div
+                    key={opt.value}
+                    className="flex justify-between my-[6px] lg:my-[10px]"
+                  >
+                    <div>{opt.label}</div>
+                    <div className="font-bold">{opt.price ?? 0} ₽</div>
+                  </div>
+                ))}
             </div>
           )}
           {/* <div className='font-semibold mb-2 lg:text-lg'>Промокод</div>
@@ -247,7 +268,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             <div className="text-sm lg:text-lg border-b border-[#f6f6f638]">
               <div className="flex justify-between my-[6px] lg:my-[10px]">
                 <div>Доставка</div>
-                <div className="font-bold">+{deliveryCost} ₽</div>
+                <div className="font-bold">{deliveryCost} ₽</div>
               </div>
             </div>
           )}
@@ -258,7 +279,16 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
               {hasSeasonDays && (
                 <div className="flex font-semibold items-center gap-2 lg:text-lg">
                   с учетом сезонности <LineIcon />{' '}
-                  <InfoIcon width={20} height={20} />
+                  <Tooltip
+                  placement="right"
+                  title={tooltipText}
+                  color="#4b5563"
+                  arrow={false}
+                  >
+                      <div>
+                        <InfoIcon/>
+                      </div>
+                  </Tooltip>
                 </div>
               )}
             </div>
@@ -409,6 +439,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
               totalPrice={totalPrice}
               closeModal={closeModal}
               setIsSubmitted={setIsSubmitted}
+              seasonDates={seasonDates}         
+              priceRanges={priceRanges}        
+              deliveryPrice={deliveryPrice}
             />
           )}
         </Modal>

@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import type { Car, DeliveryPrice } from '@/lib/types/Car';
-// import { Button } from 'antd';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
@@ -12,7 +11,7 @@ import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
-
+import { useSearchParams } from 'next/navigation';
 interface CarsPageClientProps {
   cars: Car[];
   klassOptions: Array<{ value: string; label: string }>;
@@ -34,11 +33,12 @@ export default function CarsPageClient({
   colorOptions,
   deliveryPrice,
 }: CarsPageClientProps) {
-  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
+  // const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
-  const handleSortDesc = () => setSortOrder('desc');
-  const handleSortAsc = () => setSortOrder('asc');
-
+  // const handleSortDesc = () => setSortOrder('desc');
+  // const handleSortAsc = () => setSortOrder('asc');
+  const [sortType, setSortType] = useState<'desc' | 'asc' | 'sale'>('desc');
+  
   const [selectedKlass, setSelectedKlass] = useState('');
   const [selectedMarka, setSelectedMarka] = useState('');
   const [selectedKuzov, setSelectedKuzov] = useState('');
@@ -49,6 +49,15 @@ export default function CarsPageClient({
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [selectedPassengers, setSelectedPassangers] = useState('');
 
+  const searchParams = useSearchParams();
+
+    useEffect(() => {
+      const priceFromUrl = searchParams.get('price');
+      if (priceFromUrl) {
+        setSelectedPriceRange(priceFromUrl);
+      }
+    }, [searchParams]);
+  
   const handleReset = () => {
     setSelectedKlass('');
     setSelectedMarka('');
@@ -109,10 +118,36 @@ export default function CarsPageClient({
     );
   });
 
+
   const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
     const priceA = parseInt(a.acf?.['30_dnej'] || '0', 10);
     const priceB = parseInt(b.acf?.['30_dnej'] || '0', 10);
-    return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
+
+    if (sortType === 'desc') return priceB - priceA;
+    if (sortType === 'asc') return priceA - priceB;
+
+    if (sortType === 'sale') {
+      const today = new Date();
+
+      const isActiveSale = (car: Car) => {
+        const start = car.acf?.skidka_start;
+        const end = car.acf?.skidka_end;
+        if (!start || !end) return false;
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        return startDate <= today && today <= endDate;
+      };
+
+      const aHasSale = isActiveSale(a);
+      const bHasSale = isActiveSale(b);
+
+      if (aHasSale && !bHasSale) return -1;
+      if (!aHasSale && bHasSale) return 1;
+
+      return priceB - priceA;
+    }
+
+    return 0;
   });
 
   return (
@@ -355,20 +390,30 @@ export default function CarsPageClient({
           className={`flex items-center gap-[14px] font-bold text-[14px]/[20px] lg:text-[18px]/[28px] text-[#F6F6F633]`}
         >
           <button
-            onClick={handleSortDesc}
-            className={`${sortOrder === 'desc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+            //onClick={handleSortDesc}
+            //className={`${sortOrder === 'desc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+            onClick={() => setSortType('desc')}
+            className={`${sortType === 'desc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
           >
             Сначала дороже
           </button>
           <button
-            onClick={handleSortAsc}
-            className={`${sortOrder === 'asc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+            // onClick={handleSortAsc}
+            // className={`${sortOrder === 'asc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+            onClick={() => setSortType('asc')}
+            className={`${sortType === 'asc' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
           >
             Сначала дешевле
           </button>
-          <div className="max-w-[76px] lg:max-w-none text-center">
+          {/* <div className="max-w-[76px] lg:max-w-none text-center">
             Сначала со скидкой
-          </div>
+          </div> */}
+          <button
+            onClick={() => setSortType('sale')}
+            className={`${sortType === 'sale' ? 'text-[#F6F6F6]' : ''} max-w-[76px] lg:max-w-none text-center`}
+          >
+            Сначала со скидкой
+          </button>
         </div>
       </div>
 

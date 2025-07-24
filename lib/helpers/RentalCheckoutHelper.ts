@@ -4,97 +4,97 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
 export function computeCostsChunked(
-	startFull: Dayjs,
-	endFull: Dayjs,
-	priceRanges: PriceRange[],
-	seasonDates: SeasonData | null,
+    startFull: Dayjs,
+    endFull: Dayjs,
+    priceRanges: PriceRange[],
+    seasonDates: SeasonData | null,
 ): number[] {
-	const costs: number[] = [];
-	let currentDay = startFull.clone();
+    const costs: number[] = [];
+    let currentDay = startFull.clone();
 
-	while (currentDay.isBefore(endFull, 'day')) {
-		const exactDiffHours = endFull.diff(currentDay, 'hour', true);
-		const daysLeft = Math.ceil(exactDiffHours / 24);
-		if (daysLeft <= 0) break;
+    while (currentDay.isBefore(endFull, 'day')) {
+        const exactDiffHours = endFull.diff(currentDay, 'hour', true);
+        const daysLeft = Math.ceil(exactDiffHours / 24);
+        if (daysLeft <= 0) break;
 
-		const chunkRange = findPriceRange(daysLeft, priceRanges);
-		if (!chunkRange) break;
+        const chunkRange = findPriceRange(daysLeft, priceRanges);
+        if (!chunkRange) break;
 
-		let blockSize: number;
-		if (daysLeft < chunkRange.minDays) {
-			blockSize = daysLeft;
-		} else if (daysLeft > chunkRange.maxDays) {
-			blockSize = chunkRange.maxDays;
-		} else {
-			blockSize = daysLeft;
-		}
+        let blockSize: number;
+        if (daysLeft < chunkRange.minDays) {
+            blockSize = daysLeft;
+        } else if (daysLeft > chunkRange.maxDays) {
+            blockSize = chunkRange.maxDays;
+        } else {
+            blockSize = daysLeft;
+        }
 
-		for (let i = 0; i < blockSize; i++) {
-			if (!currentDay.isBefore(endFull, 'day')) break;
-			const seasonDay = isDaySeason(currentDay, seasonDates);
-			costs.push(seasonDay ? chunkRange.seasonPrice : chunkRange.price);
-			currentDay = currentDay.add(1, 'day');
-		}
-	}
+        for (let i = 0; i < blockSize; i++) {
+            if (!currentDay.isBefore(endFull, 'day')) break;
+            const seasonDay = isDaySeason(currentDay, seasonDates);
+            costs.push(seasonDay ? chunkRange.seasonPrice : chunkRange.price);
+            currentDay = currentDay.add(1, 'day');
+        }
+    }
 
-	return costs;
+    return costs;
 }
 
 export function findPriceRange(
-	days: number,
-	arr: PriceRange[],
+    days: number,
+    arr: PriceRange[],
 ): PriceRange | null {
-	for (const pr of arr) {
-		if (days >= pr.minDays && days <= pr.maxDays) {
-			return pr;
-		}
-	}
-	return null;
+    for (const pr of arr) {
+        if (days >= pr.minDays && days <= pr.maxDays) {
+            return pr;
+        }
+    }
+    return null;
 }
 
 export function isDaySeason(
-	day: Dayjs,
-	seasonDates: SeasonData | null,
+    day: Dayjs,
+    seasonDates: SeasonData | null,
 ): boolean {
-	if (!seasonDates) return false;
-	const winterStart = parseSeasonDate(seasonDates['season-winter-start']);
-	const winterEnd = parseSeasonDate(seasonDates['season-winter-end']);
-	const summerStart = parseSeasonDate(seasonDates['season-summer-start']);
-	const summerEnd = parseSeasonDate(seasonDates['season-summer-end']);
+    if (!seasonDates) return false;
+    const winterStart = parseSeasonDate(seasonDates['season-winter-start']);
+    const winterEnd = parseSeasonDate(seasonDates['season-winter-end']);
+    const summerStart = parseSeasonDate(seasonDates['season-summer-start']);
+    const summerEnd = parseSeasonDate(seasonDates['season-summer-end']);
 
-	return (
-		isDayjsInSeason(day, winterStart, winterEnd) ||
-		isDayjsInSeason(day, summerStart, summerEnd)
-	);
+    return (
+        isDayjsInSeason(day, winterStart, winterEnd) ||
+        isDayjsInSeason(day, summerStart, summerEnd)
+    );
 }
 
 export function parseSeasonDate(dateStr: string) {
-	const [dd, mm] = dateStr.split('/');
-	return { day: +dd, month: +mm };
+    const [dd, mm] = dateStr.split('/');
+    return { day: +dd, month: +mm };
 }
 
 export function isDayjsInSeason(
-	day: Dayjs,
-	start: { day: number; month: number },
-	end: { day: number; month: number },
+    day: Dayjs,
+    start: { day: number; month: number },
+    end: { day: number; month: number },
 ) {
-	const d = day.date();
-	const m = day.month() + 1;
+    const d = day.date();
+    const m = day.month() + 1;
 
-	const crossesNewYear = start.month > end.month;
-	const toNum = (x: { day: number; month: number }) => x.month * 100 + x.day;
-	const curNum = toNum({ day: d, month: m });
-	const startNum = toNum(start);
-	const endNum = toNum(end);
+    const crossesNewYear = start.month > end.month;
+    const toNum = (x: { day: number; month: number }) => x.month * 100 + x.day;
+    const curNum = toNum({ day: d, month: m });
+    const startNum = toNum(start);
+    const endNum = toNum(end);
 
-	if (!crossesNewYear) {
-		return curNum >= startNum && curNum <= endNum;
-	} else {
-		const dec31 = 1231;
-		const jan01 = 101;
-		return (
-			(curNum >= startNum && curNum <= dec31) ||
-			(curNum >= jan01 && curNum <= endNum)
-		);
-	}
+    if (!crossesNewYear) {
+        return curNum >= startNum && curNum <= endNum;
+    } else {
+        const dec31 = 1231;
+        const jan01 = 101;
+        return (
+            (curNum >= startNum && curNum <= dec31) ||
+            (curNum >= jan01 && curNum <= endNum)
+        );
+    }
 }

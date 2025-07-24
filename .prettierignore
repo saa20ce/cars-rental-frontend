@@ -1,0 +1,6 @@
+.vs_code
+node_modules
+.next
+dist
+build
+public

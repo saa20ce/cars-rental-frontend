@@ -4,9 +4,9 @@
 
 /* DARK THEME BY DEFAULT */
 :root {
-  --background: #142632;
-  --foreground: #ededed;
-  --text-dark-base: #f6f6f6;
+    --background: #142632;
+    --foreground: #ededed;
+    --text-dark-base: #f6f6f6;
 }
 
 /* DARK THEME AUTO */
@@ -18,49 +18,49 @@
 } */
 
 body {
-  color: var(--text-dark-base);
-  background: var(--background);
-  font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+    color: var(--text-dark-base);
+    background: var(--background);
+    font-family: var(--font-lato), Arial, Helvetica, sans-serif;
 }
 
 svg {
-  display: inline-block;
+    display: inline-block;
 }
 
 a:hover {
-  color: #f6f6f675;
+    color: #f6f6f675;
 }
 
 /* scrollbar */
 ::-webkit-scrollbar {
-  width: 1px;
-  height: 4px;
-  margin-left: 20px;
+    width: 1px;
+    height: 4px;
+    margin-left: 20px;
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none;  
-  scrollbar-width: none;    
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; 
+    display: none;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f6f6f638;
+    background: #f6f6f638;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f6f6f675;
-  border-radius: 100px;
+    background: #f6f6f675;
+    border-radius: 100px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
 
 /*  scrollbar for Chrome, Safari and Opera */
@@ -76,30 +76,30 @@ a:hover {
 
 .bg-globe,
 .bg-coatOfArms {
-  background-repeat: no-repeat;
-  background-position: right bottom;
-  background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: contain;
 }
 
 .bg-globe {
-  background-image: url('/images/Globe.png');
+    background-image: url('/images/Globe.png');
 }
 
 .bg-coatOfArms {
-  background-image: url('/images/coatOfArms.png');
+    background-image: url('/images/coatOfArms.png');
 }
 
 .filters-select {
-  @apply h-9 lg:h-11 w-full;
+    @apply h-9 lg:h-11 w-full;
 }
 
 .flex-center {
-  @apply flex justify-center items-center;
+    @apply flex justify-center items-center;
 }
 
 .ant-btn-icon {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 /* Шрифты для antd*/
@@ -110,11 +110,9 @@ input::placeholder,
 .faq-collapse,
 .faq-collapse .ant-collapse-header,
 .faq-collapse .ant-collapse-content {
-  font-family: var(--font-lato), Arial, Helvetica, sans-serif !important;
+    font-family: var(--font-lato), Arial, Helvetica, sans-serif !important;
 }
 
 input::placeholder {
-  color: #F6F6F699;
+    color: #f6f6f699;
 }
-
-

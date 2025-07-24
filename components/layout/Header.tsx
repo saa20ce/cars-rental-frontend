@@ -4,13 +4,13 @@ import { Navbar } from '@/components/common/Header/Navbar/Navbar';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 
 export default async function Header() {
-  return (
-    <>
-      <header>
-        <TopHeader />
-      </header>
-      <Navbar />
-      <Breadcrumbs />
-    </>
-  );
+    return (
+        <>
+            <header>
+                <TopHeader />
+            </header>
+            <Navbar />
+            <Breadcrumbs />
+        </>
+    );
 }

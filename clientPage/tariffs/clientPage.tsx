@@ -74,8 +74,10 @@ export default function TariffsPageClient({
   const [selectedDvigatel, setSelectedDvigatel] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [advancedVisible, setAdvancedVisible] = useState(false);
+  const [selectedPriceRange, setSelectedPriceRange] = useState('');
 
   const [openId, setOpenId] = useState<number | null>(null);
+
 
   useEffect(() => {
     if (!startDate || !returnDate) {
@@ -181,6 +183,18 @@ export default function TariffsPageClient({
     selectedColor,
   ]);
 
+  const filteredCars = useMemo(() => {
+    return cars.filter((car) => {
+      const price = costsMap[car.id]?.pricePerDay ?? 0;
+
+      if (selectedPriceRange === 'lt4000') return price < 4000;
+      if (selectedPriceRange === '4000-6000') return price >= 4000 && price <= 6000;
+      if (selectedPriceRange === '6000-10000') return price >= 6000 && price <= 10000;
+      if (selectedPriceRange === 'gt10000') return price > 10000;
+
+      return true;
+    });
+  }, [cars, costsMap, selectedPriceRange]);
   return (
     <>
       <div className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7">
@@ -348,6 +362,14 @@ export default function TariffsPageClient({
                   placeholder="Цена"
                   className="filters-select"
                   style={{ width: '100%' }}
+                  options={[
+                    { value: 'lt4000', label: 'до 4000' },
+                    { value: '4000-6000', label: '4000 - 6000' },
+                    { value: '6000-10000', label: '6000 - 10000' },
+                    { value: 'gt10000', label: 'от 10000' },
+                  ]}
+                  value={selectedPriceRange || undefined}
+                  onChange={(value) => setSelectedPriceRange(value as string)}
                 />
               </div>
             </>
@@ -445,8 +467,8 @@ export default function TariffsPageClient({
       <div className="mt-2  flex flex-col">
         {loading ? (
           <p>Загрузка...</p>
-        ) : cars.length > 0 ? (
-          cars.map((car, index) => (
+        ) : filteredCars.length > 0 ? (
+          filteredCars.map((car, index) => (
             <React.Fragment key={car.id}>
               {index === 3 && (
                 <div className="block lg:hidden py-5">

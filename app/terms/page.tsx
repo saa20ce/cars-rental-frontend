@@ -12,6 +12,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
 import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import { getDeliveryPriceTableData } from '@/lib/api/fetchCarData';
 
 const steps = [
   {
@@ -47,6 +48,7 @@ const steps = [
 ];
 
 export default async function TermsPage() {
+  const deliveryPrice = await getDeliveryPriceTableData();
   return (
     <>
       <section>
@@ -410,7 +412,7 @@ export default async function TermsPage() {
       </section>
 
       <section className="pb-[42px] lg:pb-[68px]">
-        <DeliveryPriceTable deliveryPrice={null} />
+        <DeliveryPriceTable deliveryPrice={deliveryPrice as any} />
       </section>
 
       <section className="border-t border-[#284B63B2]">

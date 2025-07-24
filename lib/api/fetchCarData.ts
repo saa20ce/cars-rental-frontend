@@ -11,6 +11,50 @@ import type {
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
+type DeliveryPrice ={
+	dilivery_price_day_aeroport:number;
+	delivery_pric_day_berdsk:number;
+	delivery_price_day_sovetskiy: number;
+  	delivery_price_day_vokzal: number;
+  	delivery_price_night_aeroport: number;
+  	delivery_price_night_berdsk: number;
+  	delivery_price_night_sovetskiy: number;
+  	delivery_price_night_vokzal: number;
+};
+
+export async function getDeliveryPriceTableData(): Promise<DeliveryPrice | null> {
+	const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
+    	next: { revalidate: 60 },
+  	});
+
+  	if (!res.ok) {
+    	console.error('Error fetching delivery price table data', res);
+    	return null;
+  	}
+
+  	const json = await res.json();
+  	const acf = json?.acf;
+
+  	if (!acf) return null;
+
+	const keys = [
+		'delivery_price_day_aeroport',
+		'delivery_price_day_berdsk',
+		'delivery_price_day_sovetskiy',
+		'delivery_price_day_vokzal',
+		'delivery_price_night_aeroport',
+		'delivery_price_night_berdsk',
+		'delivery_price_night_sovetskiy',
+		'delivery_price_night_vokzal',
+	] as const;
+
+	const deliveryPrice: DeliveryPrice = Object.fromEntries(
+		keys.map((key) => [key, Number(acf[key])])
+	) as DeliveryPrice;
+
+	return deliveryPrice;
+}
+
 export async function getCarBySlug(slug: string): Promise<Car | null> {
 	const res = await fetch(`${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term`, {
 		next: { revalidate: 60 },

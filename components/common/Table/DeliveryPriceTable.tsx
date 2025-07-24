@@ -6,10 +6,21 @@ import { useState } from 'react';
 import { CustomSelect } from "@/lib/ui/common/Select/CustomSelect";
 import { LineIcon } from "@/lib/ui/icons";
 
+type ZoneGroup = {
+  id: string;
+  label: string;
+};
+
 export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryPrice | null }) => {
 	const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
+	const zoneGroups: Record<string, string[]> = {
+		vokzal: ['zhd_vokzal', 'centralnyj', 'oktyabrskij', 'zaelcovskij', 'dzerginskij', 'zheleznodorozhnyj'],
+		aeroport: ['kalininskij', 'leninskij', 'kirovskij', 'pervomajskij', 'aeroport'],
+		sovetskiy: ['sovetskij', 'pashino', 'kolcovo', 'krasnoobsk'],
+		berdsk: ['berdsk'],
+	};
 
-	const zones = [
+	const zones: ZoneGroup[] = [
 		{
 			id: 'vokzal',
 			label: 'Ж/Д Вокзал, Центральный, Октябрьский, Заельцовский, Дзержинский, Железнодорожный',
@@ -38,9 +49,19 @@ export const DeliveryPriceTable = ({ deliveryPrice }: { deliveryPrice: DeliveryP
 	const renderPrice = (zoneId: string, overrideRange?: 'day' | 'night') => {
 		if (!deliveryPrice) return '-';
 		const range = overrideRange ?? timeRange;
-		const key = `delivery_price_${range}_${zoneId}` as keyof DeliveryPrice;
-		const value = deliveryPrice[key];
-		return value !== undefined && value !== null ? `${value} ₽` : '-';
+		const priceList = deliveryPrice[range];
+
+		const groupValues = zoneGroups[zoneId];
+
+		if (!groupValues) return '-';
+
+		const total = groupValues
+			.map(v => priceList.find(p => p.value === v)?.price)
+			.filter((p): p is number => typeof p === 'number');
+
+		if (total.length === 0) return '-';
+
+		return `${Math.max(...total)} ₽`;
 	};
 
 	return (

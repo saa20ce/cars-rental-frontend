@@ -33,10 +33,11 @@ export default function CarsPageClient({
   colorOptions,
   deliveryPrice,
 }: CarsPageClientProps) {
-  // const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
-  // const handleSortDesc = () => setSortOrder('desc');
-  // const handleSortAsc = () => setSortOrder('asc');
+  function safeParseDate(dateStr:string):Date{
+    const[day,month,year] = dateStr.split('/').map(Number);
+    return new Date(year,month-1,day)
+  }
   const [sortType, setSortType] = useState<'desc' | 'asc' | 'sale'>('desc');
   
   const [selectedKlass, setSelectedKlass] = useState('');
@@ -133,8 +134,9 @@ export default function CarsPageClient({
         const start = car.acf?.skidka_start;
         const end = car.acf?.skidka_end;
         if (!start || !end) return false;
-        const startDate = new Date(start);
-        const endDate = new Date(end);
+        const startDate = safeParseDate(start);
+        const endDate = safeParseDate(end);
+        const today = new Date();
         return startDate <= today && today <= endDate;
       };
 

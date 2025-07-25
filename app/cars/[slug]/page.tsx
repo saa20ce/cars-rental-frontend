@@ -11,6 +11,8 @@ import {
 import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
 import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
 import SingleCarPageClient from '@/clientPage/cars/[slug]/clientPage';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 
 type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
@@ -39,16 +41,20 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
     if (!deliveryPrice || !deliveryPrice.day || !deliveryPrice.night) {
         return null;
     }
+    const breadcrumbs = await fetchBreadcrumbs(`/cars/${slug}`);
 
     return (
-        <SingleCarPageClient
-            car={car}
-            seasonDates={seasonDates}
-            priceRanges={priceRanges}
-            taxonomyValues={taxonomyValues}
-            similarCars={similarCars}
-            additionalOptions={additionalOptions}
-            deliveryPrice={deliveryPrice}
-        />
+        <>
+            <Breadcrumbs crumbs={breadcrumbs} />
+            <SingleCarPageClient
+                car={car}
+                seasonDates={seasonDates}
+                priceRanges={priceRanges}
+                taxonomyValues={taxonomyValues}
+                similarCars={similarCars}
+                additionalOptions={additionalOptions}
+                deliveryPrice={deliveryPrice}
+            />
+        </>
     );
 }

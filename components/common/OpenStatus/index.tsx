@@ -25,24 +25,26 @@ export default function OpenStatus() {
         setIsOpen(open);
     }, []);
 
-    if (isOpen === null) return null;
-
-    return isOpen ? (
-        <>
-            <span className="mb-[1px] mr-[-3px] lg:mb-0 lg:mt-[-2px]">
-                <DotIcon />
-            </span>
-            <span>Сейчас открыто</span>
-        </>
-    ) : (
-        <a
-            href="https://wa.me/79139132808"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-center gap-2"
-        >
-            <WhatsappLogo />
-            Оставьте заявку
-        </a>
+    return (
+        <div className="min-w-[150px] min-h-[24px] flex items-center gap-2">
+            {isOpen === null ? null : isOpen ? (
+                <>
+                    <span className="mb-[1px]  lg:mb-0 lg:mt-[-2px]">
+                        <DotIcon />
+                    </span>
+                    <span>Сейчас открыто</span>
+                </>
+            ) : (
+                <a
+                    href="https://wa.me/79139132808"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-center gap-2"
+                >
+                    <WhatsappLogo />
+                    Оставьте заявку
+                </a>
+            )}
+        </div>
     );
 }

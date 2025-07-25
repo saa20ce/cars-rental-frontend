@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ConfigProvider, Button, Input, Form, message } from 'antd';
 import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
 import './RentalCheckoutContactForm.css';
+import { InputMask } from '@react-input/mask';
 
 interface FormValues {
     clientName: string;
@@ -86,7 +87,7 @@ export const RentalCheckoutContactForm: React.FC<
     return (
         <>
             <div className="border-t-[1px] border-solid border-[#f6f6f638] pb-[14px] mt-[14px]"></div>
-            <div className="text-base mb-[10px]">Ваши контактные данные:</div>
+            <h2 className="text-base mb-[10px]">Ваши контактные данные:</h2>
 
             <ConfigProvider
                 theme={{
@@ -128,7 +129,11 @@ export const RentalCheckoutContactForm: React.FC<
                         }
                         rules={[{ required: true, message: 'Введите телефон' }]}
                     >
-                        <CustomInput placeholder="+7" />
+                        <InputMask
+                            mask="+7 (___) ___-__-__"
+                            replacement={{ _: /\d/ }}
+                            placeholder="+7 "
+                        />
                     </Form.Item>
 
                     <Form.Item

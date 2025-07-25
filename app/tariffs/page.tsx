@@ -3,6 +3,8 @@ import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import TariffsPageClient from '@/clientPage/tariffs/clientPage';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,18 +27,22 @@ export default async function TariffsPage() {
     const deliveryPrice = await getDeliveryPrice();
 
     const seasonDates = await getSeasonDates();
+    const breadcrumbs = await fetchBreadcrumbs('/tariffs');
 
     return (
-        <TariffsPageClient
-            cars={cars}
-            klassOptions={klassOptions}
-            markaOptions={markaOptions}
-            kuzovOptions={kuzovOptions}
-            privodOptions={privodOptions}
-            dvigatelOptions={dvigatelOptions}
-            colorOptions={colorOptions}
-            deliveryPrice={deliveryPrice}
-            seasonDates={seasonDates}
-        />
+        <>
+            <Breadcrumbs crumbs={breadcrumbs} />
+            <TariffsPageClient
+                cars={cars}
+                klassOptions={klassOptions}
+                markaOptions={markaOptions}
+                kuzovOptions={kuzovOptions}
+                privodOptions={privodOptions}
+                dvigatelOptions={dvigatelOptions}
+                colorOptions={colorOptions}
+                deliveryPrice={deliveryPrice}
+                seasonDates={seasonDates}
+            />
+        </>
     );
 }

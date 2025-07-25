@@ -3,6 +3,8 @@ import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import CarsPageClient from '@/clientPage/cars/clientPage';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,17 +25,21 @@ export default async function CarsPage() {
     } = await getAllTaxonomyOptions();
 
     const deliveryPrice = await getDeliveryPrice();
+    const breadcrumbs = await fetchBreadcrumbs('/cars');
 
     return (
-        <CarsPageClient
-            cars={cars}
-            klassOptions={klassOptions}
-            markaOptions={markaOptions}
-            kuzovOptions={kuzovOptions}
-            privodOptions={privodOptions}
-            dvigatelOptions={dvigatelOptions}
-            colorOptions={colorOptions}
-            deliveryPrice={deliveryPrice}
-        />
+        <>
+            <Breadcrumbs crumbs={breadcrumbs} />
+            <CarsPageClient
+                cars={cars}
+                klassOptions={klassOptions}
+                markaOptions={markaOptions}
+                kuzovOptions={kuzovOptions}
+                privodOptions={privodOptions}
+                dvigatelOptions={dvigatelOptions}
+                colorOptions={colorOptions}
+                deliveryPrice={deliveryPrice}
+            />
+        </>
     );
 }

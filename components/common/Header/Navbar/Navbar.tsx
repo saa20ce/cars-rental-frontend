@@ -25,14 +25,12 @@ export const Navbar = async () => {
     }
 
     return (
-        <div className="sticky top-[10px] z-50 flex justify-between items-center bg-[#284b63] py-4 px-5 rounded-full lg:py-[7px] lg:px-6 lg:rounded-3xl my-3  lg:my-5 ">
+        <div className="sticky top-[10px] z-50 flex justify-between items-center bg-[#284b63] py-4 px-5 rounded-full lg:py-[10px] lg:px-6 lg:rounded-3xl my-3  lg:my-5 lg:min-h-[60px]">
             <Link href="/">
                 <LogoFull />
             </Link>
 
-            <div className="hidden lg:flex w-[75%]">
-                <NavbarClient menuItems={antdItems} />
-            </div>
+            <NavbarClient />
 
             <div className="flex items-center gap-6">
                 <ModalTrigger isHeader={true} className="hidden xl:flex" />

@@ -2,7 +2,7 @@ import { WhatsAppIcon, TelegramIcon, CallIcon } from '@/lib/ui/icons';
 
 export const HaveQuestions = () => {
     return (
-        <section  >
+        <section>
             <div className="flex flex-wrap flex-row bg-[#1E384A] rounded-2xl lg:rounded-3xl px-6 py-7 lg:px-[60px] lg:py-[52px] lg:h-[256px] lg:flex-nowrap lg:items-center lg:justify-between lg:max-w-[1260px]">
                 <div className="pb-4 lg:pb-0 lg:w-[364px] lg:h-[132px]">
                     <h2 className="font-bold text-[20px] lg:text-[36px] mb-5 leading-[28px] lg:leading-[40px]">

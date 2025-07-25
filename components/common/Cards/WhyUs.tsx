@@ -11,7 +11,7 @@ import {
 
 export const WhyUs = () => {
     return (
-        <section className='pb-[42px] lg:pb-[68px]'>
+        <section className="pb-[42px] lg:pb-[68px]">
             <h2 className="text-xl lg:text-3xl font-bold mt-10 mb-5 lg:mb-6">
                 Почему нам доверяют:
             </h2>

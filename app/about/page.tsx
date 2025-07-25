@@ -1,5 +1,7 @@
 import ContactCard from '@/components/common/Cards/ConactCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import CustomButton from '@/lib/ui/common/Button';
 import { ArrowRight } from '@/lib/ui/icons/ArrowRight';
 import { AutorealIcon } from '@/lib/ui/icons/AutorealIcon';
@@ -10,8 +12,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function AboutPage() {
+    const breadcrumbs = await fetchBreadcrumbs('/about');
     return (
         <>
+            <Breadcrumbs crumbs={breadcrumbs} />
             <section className="flex flex-col-reverse lg:flex-row gap-6  pb-[42px] lg:pb-[68px]  border-b border-[#284B63B2]">
                 <div className="relative lg:w-1/2 rounded-[20px] overflow-hidden min-h-[82px] flex justify-center items-center">
                     <div className="lg:absolute top-5 left-5 z-[2] flex gap-8 lg:gap-[32px] text-center">

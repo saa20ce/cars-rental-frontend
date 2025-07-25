@@ -16,15 +16,15 @@ export default function ModalTrigger({
 
     return (
         <>
-            <CustomButton
-                variant="outlined"
-                icon={<PhoneIconDefault />}
-                className={className}
-                style={isHeader ? { height: 40, width: 169 } : {}}
-                onClick={() => setIsOpen(true)}
-            >
-                Заказать звонок
-            </CustomButton>
+            <div className={className}>
+                <button
+                    onClick={() => setIsOpen(true)}
+                    className="flex-center text-nowrap gap-[10px] font-medium text-[16px]/[24px] rounded-[12px] border py-2 px-3 h-10"
+                >
+                    <PhoneIconDefault />
+                    Заказать звонок
+                </button>
+            </div>
             {isHeader && (
                 <button onClick={() => setIsOpen(true)} className="xl:hidden">
                     <PhoneIcon />

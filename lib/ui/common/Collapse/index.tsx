@@ -71,7 +71,7 @@ const faqItems = rawFaqItems.map((item, index) => ({
 
 export const FaqCollapse = () => {
     return (
-        <section>
+        <section className="pb-[42px] lg:pb-[68px]">
             <h2 className="text-white text-2xl font-semibold mb-4">
                 Часто задаваемые вопросы:
             </h2>

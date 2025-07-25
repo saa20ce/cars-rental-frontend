@@ -39,7 +39,9 @@ export type Car = {
             media_details: {
                 sizes: {
                     thumbnail: { source_url: string };
-                    /* …может быть large, medium и т.д. */
+                    medium?: { source_url: string };
+                    large?: { source_url: string };
+                    full?: { source_url: string };
                 };
             };
         }>;

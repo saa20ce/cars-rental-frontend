@@ -12,6 +12,8 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
 import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 
 const steps = [
     {
@@ -47,8 +49,10 @@ const steps = [
 ];
 
 export default async function TermsPage() {
+    const breadcrumbs = await fetchBreadcrumbs('/terms');
     return (
         <>
+            <Breadcrumbs crumbs={breadcrumbs} />
             <section>
                 <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Условия аренды автомобиля
@@ -300,7 +304,10 @@ export default async function TermsPage() {
                         </ol>
                     </article>
                 </div>
-                <div className="hidden lg:flex gap-4" aria-label="Документы для скачивания">
+                <div
+                    className="hidden lg:flex gap-4"
+                    aria-label="Документы для скачивания"
+                >
                     <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center">
                         <DownloadIcon className="mr-3" /> Скачать доверенность
                     </button>

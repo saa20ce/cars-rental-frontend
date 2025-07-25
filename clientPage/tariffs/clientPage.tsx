@@ -445,7 +445,7 @@ export default function TariffsPageClient({
             <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
             <WhyUs />
-            
+
             <HaveQuestions />
         </>
     );

@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 export interface ChevronRightIconProps {
     width?: number;
     height?: number;
+    className?: string;
 }
 
 export const ChevronRightIcon: React.FC<ChevronRightIconProps> = ({
     width = 7,
-    height = 10,
+    height = 12,
+    className = '',
 }) => {
     const [hovered, setHovered] = useState(false);
 
@@ -16,6 +18,7 @@ export const ChevronRightIcon: React.FC<ChevronRightIconProps> = ({
         <svg
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            className={className}
             width={width}
             height={height}
             viewBox="0 0 7 10"

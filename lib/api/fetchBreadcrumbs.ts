@@ -4,6 +4,13 @@ export interface BreadcrumbItem {
     isLast: boolean;
 }
 
+const staticPages: Record<string, string> = {
+    cars: 'Автопарк',
+    tariffs: 'Тарифы',
+    terms: 'Условия',
+    news: 'Новости',
+};
+
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 async function fetchTitleBySlug(slug: string, type: 'pages' | 'cars') {
@@ -42,8 +49,8 @@ export async function fetchBreadcrumbs(
         const slug = segments[i];
         let title: string | null = null;
 
-        if (slug === 'cars') {
-            title = 'Автопарк';
+        if (staticPages[slug]) {
+            title = staticPages[slug];
         } else {
             if (segments[0] === 'cars' && i === 1) {
                 title = await fetchTitleBySlug(slug, 'cars');

@@ -49,8 +49,8 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const thumbUrl =
-        car._embedded?.['wp:featuredmedia']?.[0]?.media_details.sizes.thumbnail
-            .source_url;
+        car._embedded?.['wp:featuredmedia']?.[0]?.media_details?.sizes?.large
+            ?.source_url;
 
     const allTerms = car._embedded?.['wp:term'] || [];
     const kuzovTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'kuzov');
@@ -58,14 +58,14 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     const kuzovName = kuzovTerm ? kuzovTerm.name : '—';
 
     return (
-        <div className={classes.carPriceInfo}>
-            <div
+        <article className={classes.carPriceInfo}>
+            <section
                 className={`
 					lg:flex-1
 					lg:max-w-[404px]
-  				bg-[#f6f6f60e] rounded-2xl p-6 
-  				transition-[max-height,opacity,padding] duration-500
-  				${isOpen ? 'pt-[28px] pb-6' : 'pt-[28px] pb-3'}
+  				    bg-[#f6f6f60e] rounded-2xl p-6 
+  				    transition-[max-height,opacity,padding] duration-500
+  				    ${isOpen ? 'pt-[28px] pb-6' : 'pt-[28px] pb-3'}
 					lg:px-9 lg:pb-[38px]
 					lg:min-w-[370px]
 				`}
@@ -73,10 +73,10 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                     if (window.innerWidth < 1024) setIsOpen((prev) => !prev);
                 }}
             >
-                <div
+                <header
                     className={`${classes.flexBetween} lg:block lg:aspect-[5/3] lg:-mx-9 lg:-mt-7 lg:mb-0`}
                 >
-                    <div className="text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
+                    <figure className="text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
                         {thumbUrl && (
                             <img
                                 src={thumbUrl}
@@ -84,7 +84,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 className="w-24 h-[72px] object-cover rounded-xl lg:w-full lg:h-full"
                             />
                         )}
-                        <div>
+                        <figcaption>
                             {car.acf?.nazvanie_avto && (
                                 <h3 className="font-bold uppercase lg:hidden">
                                     {car.acf.nazvanie_avto}
@@ -93,46 +93,37 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                             <span className="font-normal text-[#f6f6f675] lg:hidden">
                                 {kuzovName}
                             </span>
-                        </div>
-                    </div>
+                        </figcaption>
+                    </figure>
 
                     <ArrowIcon
                         className={`${isOpen ? '' : 'rotate-180'} transition lg:hidden`}
                     />
-                </div>
+                </header>
 
-                <div
-                    className={`
-      			overflow-hidden transition-all duration-500
-      			${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}
-      			lg:max-h-full lg:opacity-100 mt-4
-						lg:px-
-    			`}
+                <section
+                    className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'} lg:max-h-full lg:opacity-100 mt-4`}
                 >
-                    <h3 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
+                    <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
                         Расчет стоимости
-                    </h3>
+                    </h2>
 
-                    <div
-                        className={`${classes.borderBot} mb-3 text-sm lg:text-lg`}
-                    >
+                    <dl className={`mb-3`}>
                         <div
-                            className={`${classes.flexBetween} mb-[6px] lg:mb-[10px]`}
+                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <span className={classes.headerCard}>
+                            <dt className={classes.headerCard}>
                                 Продолжительность
-                            </span>
-                            <span className={classes.descCard}>
+                            </dt>
+                            <dd className={classes.descCard}>
                                 {daysCount} {daysCount === 1 ? 'день' : 'дней'}
-                            </span>
+                            </dd>
                         </div>
-                    </div>
 
-                    <div className={`${classes.borderBot} lg:text-lg`}>
                         <div
-                            className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}
+                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <span className={classes.headerCard}>
+                            <dt className={classes.headerCard}>
                                 Цена за сутки
                                 {hasSeasonDays && (
                                     <span className="font-bold text-[#f6f6f666]">
@@ -140,41 +131,35 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                         (Сезон)
                                     </span>
                                 )}
-                            </span>
-                            <span className={classes.descCard}>
+                            </dt>
+                            <dd className={classes.descCard}>
                                 {pricePerDay.toLocaleString()} ₽/сут.
-                            </span>
+                            </dd>
                         </div>
-                    </div>
 
-                    <div className={`${classes.borderBot} text-sm lg:text-lg`}>
                         <div
-                            className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}
+                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <span className={classes.headerCard}>Залог</span>
-                            <span className={classes.descCard}>10 000 ₽</span>
+                            <dt className={classes.headerCard}>Залог</dt>
+                            <dd className={classes.descCard}>10 000 ₽</dd>
                         </div>
-                    </div>
 
-                    <div className={`${classes.borderBot} text-sm lg:text-lg`}>
                         <div
-                            className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}
+                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <span className={classes.headerCard}>Пробег</span>
-                            <span className={classes.descCard}>6 км.</span>
+                            <dt className={classes.headerCard}>Пробег</dt>
+                            <dd className={classes.descCard}>6 км.</dd>
                         </div>
-                    </div>
 
-                    <div className={`${classes.borderBot} text-sm lg:text-lg`}>
                         <div
-                            className={`${classes.flexBetween} my-[6px] lg:my-[10px]`}
+                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <span className={classes.headerCard}>
+                            <dt className={classes.headerCard}>
                                 Перепробег за 1 км
-                            </span>
-                            <span className={classes.descCard}>6 ₽/км.</span>
+                            </dt>
+                            <dd className={classes.descCard}>6 ₽/км.</dd>
                         </div>
-                    </div>
+                    </dl>
 
                     <div
                         className={`${classes.flexBetween} items-center mt-8 lg:mt-9`}
@@ -192,32 +177,30 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                             {totalPrice} ₽
                         </span>
                     </div>
-                </div>
-            </div>
+                </section>
+            </section>
 
-            <div>
-                <RentalPeriod
-                    car={car}
-                    startDate={dayjs(startDate)}
-                    startTime={startTime}
-                    onStartDateChange={undefined}
-                    returnDate={dayjs(returnDate)}
-                    returnTime={returnTime}
-                    daysCount={daysCount}
-                    onReturnDateChange={undefined}
-                    additionalOptions={additionalOptions}
-                    additionalOptionsSelected={additionalOptionsSelected}
-                    setAdditionalOptions={setAdditionalOptions}
-                    deliveryOptions={deliveryOptions}
-                    deliveryOptionSelected={deliveryOptionSelected}
-                    setDeliveryOption={setDeliveryOption}
-                    showContactForm={true}
-                    totalPrice={totalPrice}
-                    pricePerDay={pricePerDay}
-                    closeModal={closeModal}
-                    setIsSubmitted={setIsSubmitted}
-                />
-            </div>
-        </div>
+            <RentalPeriod
+                car={car}
+                startDate={dayjs(startDate)}
+                startTime={startTime}
+                onStartDateChange={undefined}
+                returnDate={dayjs(returnDate)}
+                returnTime={returnTime}
+                daysCount={daysCount}
+                onReturnDateChange={undefined}
+                additionalOptions={additionalOptions}
+                additionalOptionsSelected={additionalOptionsSelected}
+                setAdditionalOptions={setAdditionalOptions}
+                deliveryOptions={deliveryOptions}
+                deliveryOptionSelected={deliveryOptionSelected}
+                setDeliveryOption={setDeliveryOption}
+                showContactForm={true}
+                totalPrice={totalPrice}
+                pricePerDay={pricePerDay}
+                closeModal={closeModal}
+                setIsSubmitted={setIsSubmitted}
+            />
+        </article>
     );
 };

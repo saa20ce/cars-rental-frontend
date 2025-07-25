@@ -4,6 +4,7 @@ import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
 import { ConfigProvider, Modal } from 'antd';
 import Link from 'next/link';
+import { InputMask } from '@react-input/mask';
 
 export default function CallRequestModal({
     isOpen,
@@ -71,10 +72,11 @@ export default function CallRequestModal({
                             <label className="font-semibold text-[16px]/[24px] lg:text-[18px]/[28px]">
                                 Номер телефона
                             </label>
-                            <input
-                                type="text"
-                                placeholder="+79999999999"
+                            <InputMask
                                 className="w-full mt-[10px] lg:mt-3 mb-[12px] lg:mb-[14px] py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px]"
+                                mask="+7 (___) ___-__-__"
+                                replacement={{ _: /\d/ }}
+                                placeholder="+7 "
                             />
                             <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699]">
                                 При нажатии кнопки &quot;Отправить&quot;, я

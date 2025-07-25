@@ -1,3 +1,31 @@
 label.ant-form-item-required::before {
     display: none !important;
 }
+
+.ant-form-item-control-input-content input {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    color: #f6f6f6;
+    padding: 0.5rem 1rem;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    background-color: #f6f6f633;
+    border-radius: 16px;
+    height: 36px;
+    border: none;
+    outline: none;
+}
+
+@media (min-width: 1024px) {
+    .ant-form-item-control-input-content input {
+        margin-top: 0.75rem;
+        margin-bottom: 14px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 16px;
+        line-height: 24px;
+        height: 48px;
+    }
+}

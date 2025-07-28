@@ -9,7 +9,7 @@ export default async function NewsPage() {
             <Breadcrumbs crumbs={breadcrumbs} />
             <h1>Новости:</h1>
             <section>
-                <NewsCard />
+                {/* <NewsCard /> */}
             </section>
         </>
     );

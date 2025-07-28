@@ -1,21 +1,21 @@
 import { WPMenuType } from '@/lib/types/Menu';
 
 export async function fetchMenuItems(
-	url: string,
+    url: string,
 ): Promise<WPMenuType[] | null> {
-	try {
-		const res = await fetch(url);
-		if (!res.ok) {
-			console.error('Ошибка при запросе меню:', url, res.status);
-			return null;
-		}
-		const data: WPMenuType[] = await res.json();
-		if (Array.isArray(data) && data.length > 0) {
-			return data;
-		}
-		return null;
-	} catch (err) {
-		console.error('Ошибка fetchMenuItems:', err);
-		return null;
-	}
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            console.error('Ошибка при запросе меню:', url, res.status);
+            return null;
+        }
+        const data: WPMenuType[] = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return null;
+    } catch (err) {
+        console.error('Ошибка fetchMenuItems:', err);
+        return null;
+    }
 }

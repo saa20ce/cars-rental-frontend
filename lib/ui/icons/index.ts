@@ -36,5 +36,5 @@ export * from './SmartphoneIcon';
 export * from './MailIcon';
 export * from './PointerIcon';
 export * from './DzenIcon';
-export * from './VkMiniIcon'
+export * from './VkMiniIcon';
 export * from './CloseIcon';

@@ -14,7 +14,8 @@ export async function generateMetadata() {
 
 export default async function TariffsPage() {
     const cars = await getCars({ per_page: '100' });
-
+        console.log(cars);
+        
     const {
         klassOptions,
         markaOptions,

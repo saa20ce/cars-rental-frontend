@@ -11,7 +11,7 @@ interface PriceCardsProps {
     seasonModeSwitch: boolean;
 }
 
-const tooltipText = (
+export const tooltipText = (
     <div className="text-xs lg:text-sm">
         Сезонные тарифы (высокий спрос)
         <ul className="list-decimal list-inside pl-1 font-bold">

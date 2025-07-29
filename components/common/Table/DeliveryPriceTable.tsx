@@ -1,10 +1,57 @@
 'use client';
 
-import type { DeliveryPrice } from '@/lib/types/Car';
+import type { DeliveryOption, DeliveryPrice } from '@/lib/types/Car';
 import { DefaultOptionType } from 'antd/es/select';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { LineIcon } from '@/lib/ui/icons';
+
+const normalizeKey = (key: string) => {
+    if (key === 'zhd_vokzal' || key === 'zhd') return 'zhd';
+    return key;
+};
+
+const groupDeliveryOptions = (
+    day: DeliveryOption[] | undefined,
+    night: DeliveryOption[] | undefined,
+) => {
+    if (!day || !night) return [];
+
+    const nightMap = night.reduce<Record<string, DeliveryOption>>(
+        (acc, item) => {
+            acc[item.value] = item;
+            return acc;
+        },
+        {},
+    );
+
+    const combined = day.map((dayItem) => {
+        const normKey = normalizeKey(dayItem.value);
+        const nightItem = nightMap[normKey];
+
+        return {
+            label: dayItem.label.split(' — ')[0],
+            priceDay: dayItem.price,
+            priceNight: nightItem ? nightItem.price : null,
+        };
+    });
+
+    const grouped = combined.reduce<Record<string, string[]>>((acc, item) => {
+        const key = `${item.priceDay}-${item.priceNight ?? 'null'}`;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(item.label);
+        return acc;
+    }, {});
+
+    return Object.entries(grouped).map(([key, labels]) => {
+        const [priceDayStr, priceNightStr] = key.split('-');
+        return {
+            districts: labels.join(', '),
+            priceDay: Number(priceDayStr),
+            priceNight: priceNightStr !== 'null' ? Number(priceNightStr) : null,
+        };
+    });
+};
 
 export const DeliveryPriceTable = ({
     deliveryPrice,
@@ -13,24 +60,12 @@ export const DeliveryPriceTable = ({
 }) => {
     const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
 
-    const zones = [
-        {
-            id: 'vokzal',
-            label: 'Ж/Д Вокзал, Центральный, Октябрьский, Заельцовский, Дзержинский, Железнодорожный',
-        },
-        {
-            id: 'aeroport',
-            label: 'Калининский, Ленинский, Кировский, Первомайский, Аэропорт',
-        },
-        {
-            id: 'sovetskiy',
-            label: 'Советский, Пашино, Кольцово, Краснообск',
-        },
-        {
-            id: 'berdsk',
-            label: 'Бердск',
-        },
-    ];
+    const getTimeLabel = (range: 'day' | 'night') =>
+  range === 'day' ? '10:00 - 19:00' : '20:00 - 09:00';
+
+    const groupedDeliveryOptions = useMemo(() => {
+        return groupDeliveryOptions(deliveryPrice?.day, deliveryPrice?.night);
+    }, [deliveryPrice]);
 
     const handleSelectChange = (
         value: unknown,
@@ -41,13 +76,19 @@ export const DeliveryPriceTable = ({
         }
     };
 
-    const renderPrice = (zoneId: string, overrideRange?: 'day' | 'night') => {
-        if (!deliveryPrice) return '-';
-        const range = overrideRange ?? timeRange;
-        const key = `delivery_price_${range}_${zoneId}` as keyof DeliveryPrice;
-        const value = deliveryPrice[key];
-        return value !== undefined && value !== null ? `${value} ₽` : '-';
-    };
+    useEffect(() => {
+        const checkScreenSize = () => {
+            if (window.innerWidth >= 1024) {
+                setTimeRange('day');
+            }
+        };
+
+        checkScreenSize(); 
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
+    if (!deliveryPrice) return null;
 
     return (
         <section className="mt-10 lg:mt-[68px]">
@@ -78,7 +119,7 @@ export const DeliveryPriceTable = ({
                                     label: '20:00 - 09:00',
                                 },
                             ]}
-                            defaultValue="10:00 - 19:00"
+                            value={getTimeLabel(timeRange)}
                             style={{ width: '146px' }}
                             onChange={handleSelectChange}
                         />
@@ -110,26 +151,39 @@ export const DeliveryPriceTable = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {zones.map((zone, idx) => (
-                            <tr key={zone.id}>
-                                <td
-                                    className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 ${idx === zones.length - 1 ? 'border-b-0 border-r' : ''}`}
-                                >
-                                    {zone.label}
-                                </td>
-                                <td
-                                    className={`border-b lg:border-r lg:border-[#f6f6f6] text-center ${idx === zones.length - 1 ? 'border-b-0' : ''}`}
-                                >
-                                    {renderPrice(zone.id)}
-                                </td>
-                                <td
-                                    className={`border-b border-[#f6f6f6] hidden text-center lg:table-cell ${idx === zones.length - 1 ? 'border-b-0' : ''}`}
-                                >
-                                    {renderPrice(zone.id, 'night')}
-                                </td>
-                                <td className="hidden"></td>
-                            </tr>
-                        ))}
+                        {groupedDeliveryOptions.map(
+                            ({ districts, priceDay, priceNight }, index) => {
+                                const isLast =
+                                    index === groupedDeliveryOptions.length - 1;
+                                return (
+                                    <tr key={districts}>
+                                        <td
+                                            className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 ${
+                                                isLast ? 'border-b-0' : ''
+                                            }`}
+                                        >
+                                            {districts ?? '-'}
+                                        </td>
+                                        <td
+                                            className={`border-b lg:border-r lg:border-[#f6f6f6] text-center ${
+                                                isLast ? 'border-b-0' : ''
+                                            }`}
+                                        >
+                                            {timeRange === 'day'
+                                                ? priceDay
+                                                : (priceNight ?? '-')}
+                                        </td>
+                                        <td
+                                            className={`border-b border-[#f6f6f6] hidden text-center lg:table-cell ${
+                                                isLast ? 'border-b-0' : ''
+                                            }`}
+                                        >
+                                            {priceNight ?? '-'}
+                                        </td>
+                                    </tr>
+                                );
+                            },
+                        )}
                     </tbody>
                 </table>
             </div>

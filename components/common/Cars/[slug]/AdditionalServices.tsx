@@ -19,16 +19,15 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
     additionalOptions,
     additionalOptionsSelected = [],
     setAdditionalOptions = () => {},
-    deliveryOptions,
+    deliveryOptions = [],
     deliveryOptionSelected,
     setDeliveryOption,
 }) => {
-    const defaultDeliveryValue = useMemo(() => {
-        if (deliveryOptions && deliveryOptions.length > 0) {
-            return deliveryOptions[0].value;
-        }
-        return '';
-    }, [deliveryOptions]);
+    const optionsWithNoDelivery = [
+        { label: 'Без подачи', value: 'none' },
+        ...deliveryOptions,
+    ];
+
 
     return (
         <div>
@@ -38,11 +37,11 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                     <InfoIcon width={18} height={18} />
                 </h4>
                 <div className="flex gap-2 w-full mt-[10px]">
-                    <CustomSelect
-                        options={deliveryOptions}
+                   <CustomSelect
+                        options={optionsWithNoDelivery}
                         onChange={(value) => setDeliveryOption(value as string)}
-                        value={deliveryOptionSelected || defaultDeliveryValue}
-                        placeholder="Выберите район"
+                        value={deliveryOptionSelected || undefined}
+                        placeholder="Выберите место подачи"
                         listHeight={232}
                         style={{ width: '100%', height: '36px' }}
                     />

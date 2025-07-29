@@ -33,10 +33,13 @@ export default function CarsPageClient({
     colorOptions,
     deliveryPrice,
 }: CarsPageClientProps) {
-    const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
+    const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
+        'desc',
+    );
 
     const handleSortDesc = () => setSortOrder('desc');
     const handleSortAsc = () => setSortOrder('asc');
+    const handleSortDiscount = () => setSortOrder('discount');
 
     const [selectedKlass, setSelectedKlass] = useState('');
     const [selectedMarka, setSelectedMarka] = useState('');
@@ -109,9 +112,22 @@ export default function CarsPageClient({
     });
 
     const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
+        const discountA = parseInt(a.acf?.skidka || '0', 10);
+        const discountB = parseInt(b.acf?.skidka || '0', 10);
+
+        if (sortOrder === 'discount') {
+            return discountB - discountA;
+        }
+
         const priceA = parseInt(a.acf?.['30_dnej'] || '0', 10);
         const priceB = parseInt(b.acf?.['30_dnej'] || '0', 10);
-        return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
+
+        const finalPriceA = priceA * (1 - discountA / 100);
+        const finalPriceB = priceB * (1 - discountB / 100);
+
+        return sortOrder === 'desc'
+            ? finalPriceB - finalPriceA
+            : finalPriceA - finalPriceB;
     });
 
     return (
@@ -319,9 +335,12 @@ export default function CarsPageClient({
                         >
                             Сначала дешевле
                         </button>
-                        <div className="max-w-[76px] lg:max-w-none text-center">
+                        <button
+                            onClick={handleSortDiscount}
+                            className={`${sortOrder === 'discount' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+                        >
                             Сначала со скидкой
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">

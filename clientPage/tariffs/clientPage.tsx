@@ -74,8 +74,36 @@ export default function TariffsPageClient({
     const [selectedDvigatel, setSelectedDvigatel] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [advancedVisible, setAdvancedVisible] = useState(false);
-
+    const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
+        null,
+    );
     const [openId, setOpenId] = useState<number | null>(null);
+
+    const priceRanges = [
+        { label: 'До 4000', min: null, max: 4000 },
+        { label: '4000–6000', min: 4000, max: 6000 },
+        { label: '6000–10000', min: 6000, max: 10000 },
+        { label: 'От 10000', min: 10000, max: null },
+    ];
+    console.log(cars);
+    
+
+    const filterByPriceRange = (cars: Car[], selectedLabel: string | null) => {
+        if (!selectedLabel) return cars;
+
+        const range = priceRanges.find((r) => r.label === selectedLabel);
+        if (!range) return cars;
+
+        return cars.filter((car) => {
+            const price = Number(car.acf?.['1-3_dnya'] ?? 0);
+            if (price === 0) return false;
+
+            if (range.min !== null && price < range.min) return false;
+            if (range.max !== null && price > range.max) return false;
+
+            return true;
+        });
+    };
 
     useEffect(() => {
         if (!startDate || !returnDate) {
@@ -128,7 +156,8 @@ export default function TariffsPageClient({
         setSelectedPrivod('');
         setSelectedDvigatel('');
         setSelectedColor('');
-        setAdvancedVisible(false);
+        // setAdvancedVisible(false);
+        setSelectedPriceRange(null);
         loadCars({}, true);
     };
 
@@ -186,6 +215,10 @@ export default function TariffsPageClient({
         selectedDvigatel,
         selectedColor,
     ]);
+
+    const filteredCars = useMemo(() => {
+        return filterByPriceRange(cars, selectedPriceRange);
+    }, [cars, selectedPriceRange]);
 
     return (
         <>
@@ -356,7 +389,15 @@ export default function TariffsPageClient({
                             <CustomSelect
                                 placeholder="Цена"
                                 className="filters-select"
+                                options={priceRanges.map(({ label }) => ({
+                                    value: label,
+                                    label,
+                                }))}
                                 style={{ width: '100%' }}
+                                value={selectedPriceRange || undefined}
+                                onChange={(value) =>
+                                    setSelectedPriceRange(value as string)
+                                }
                             />
                         </section>
                     )}
@@ -406,30 +447,32 @@ export default function TariffsPageClient({
                     {loading ? (
                         <p>Загрузка...</p>
                     ) : cars.length > 0 ? (
-                        cars.map((car, index) => (
-                            <React.Fragment key={car.id}>
-                                {index === 3 && (
-                                    <div className="block lg:hidden py-5">
-                                        <SaleCard />
-                                    </div>
-                                )}
-                                <CarTariffsCard
-                                    car={car}
-                                    pricePerDay={
-                                        costsMap[car.id]?.pricePerDay ?? 0
-                                    }
-                                    totalPrice={
-                                        costsMap[car.id]?.totalPrice ?? 0
-                                    }
-                                    openId={openId}
-                                    onToggle={(id) =>
-                                        setOpenId((prev) =>
-                                            prev === id ? null : id,
-                                        )
-                                    }
-                                />
-                            </React.Fragment>
-                        ))
+                        filteredCars.map(
+                            (car, index) => (
+                                <React.Fragment key={car.id}>
+                                    {index === 3 && (
+                                        <div className="block lg:hidden py-5">
+                                            <SaleCard />
+                                        </div>
+                                    )}
+                                    <CarTariffsCard
+                                        car={car}
+                                        pricePerDay={
+                                            costsMap[car.id]?.pricePerDay ?? 0
+                                        }
+                                        totalPrice={
+                                            costsMap[car.id]?.totalPrice ?? 0
+                                        }
+                                        openId={openId}
+                                        onToggle={(id) =>
+                                            setOpenId((prev) =>
+                                                prev === id ? null : id,
+                                            )
+                                        }
+                                    />
+                                </React.Fragment>
+                            ),
+                        )
                     ) : (
                         <p>Ничего не найдено</p>
                     )}

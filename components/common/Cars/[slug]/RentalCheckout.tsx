@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Modal } from 'antd';
+import { ConfigProvider, Button, Modal, Tooltip } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -17,6 +17,7 @@ import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
 // import { text } from 'stream/consumers';
 import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
+import { tooltipText } from './PriceCards';
 
 interface AdditionalOption {
     label: string;
@@ -143,6 +144,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         const hour = parseInt(startTime.split(':')[0], 10);
         const isNight = hour >= 20 || hour < 9;
         const options = isNight ? deliveryPrice.night : deliveryPrice.day;
+        
+        
         setDeliveryOptions(options);
     }, [startTime, deliveryPrice]);
 
@@ -215,7 +218,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                                 <dt>Дополнительные опции</dt>
                                 <dd className="font-bold">
-                                    +{additionalOptionsTotal} ₽
+                                    {additionalOptionsTotal} ₽
                                 </dd>
                             </div>
                         )}
@@ -223,7 +226,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         {deliveryCost > 0 && (
                             <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                                 <dt>Доставка</dt>
-                                <dd className="font-bold">+{deliveryCost} ₽</dd>
+                                <dd className="font-bold">{deliveryCost} ₽</dd>
                             </div>
                         )}
                     </dl>
@@ -254,9 +257,19 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         <div className="font-bold lg:text-xl">
                             Итоговая стоимость:
                             {hasSeasonDays && (
-                                <div className="flex font-semibold items-center gap-2 lg:text-lg">
+                                <div className="flex-center font-semibold items-center gap-2 lg:text-lg">
                                     с учетом сезонности <LineIcon />{' '}
-                                    <InfoIcon width={20} height={20} />
+                                    <Tooltip
+                                        placement="right"
+                                        title={tooltipText}
+                                        color="#4b5563"
+                                        arrow={false}
+                                        className='flex-center'
+                                    >
+                                        <div>
+                                            <InfoIcon width={20} height={20}/>
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             )}
                         </div>

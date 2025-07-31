@@ -17,6 +17,11 @@
     z-index: 0;
 }
 
+.faqCollapse .ant-collapse-item:last-child {
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+}
+
 .faqCollapse .ant-collapse-item-active::before {
     border-color: #f6f6f633;
 }

@@ -4,58 +4,20 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { DownIcon } from '@/lib/ui/icons/DownIcon';
 
-const items = [
-    {
-        title: 'Автопарк',
-        href: '/cars',
-        items: [
-            { title: 'До 4000 руб.', href: '/cars2000' },
-            { title: '4000-6000 руб.', href: '/cars4000' },
-            { title: '6000-10000 руб.', href: '/cars6000' },
-            { title: 'от 10000 руб.', href: '/cars10000' },
-        ],
-    },
-    { title: 'Тарифы', href: '/tariffs' },
-    { title: 'Условия', href: '/terms' },
-    {
-        title: 'Услуги',
-        href: '#',
-        items: [
-            { title: 'Все услуги', href: '/services' },
-            { title: 'Аренда авто для Юр.лиц', href: '#' },
-            { title: 'Аренда авто бизнес классы', href: '#' },
-            { title: 'Аренда авто комфорт класса', href: '#' },
-            { title: 'Дополнительные услуги', href: '#' },
-        ],
-    },
-    {
-        title: 'О нас',
-        href: '/about',
-        items: [
-            { title: 'О компании', href: '/about' },
-            { title: 'Отзывы', href: '#' },
-            { title: 'Контакты', href: '#' },
-            { title: 'Новости', href: '/news' },
-            { title: 'Соц. сети', href: '#' },
-        ],
-    },
-    { title: 'Контакты', href: '#' },
-    {
-        title: 'Поддержка',
-        href: '/faq',
-        items: [
-            { title: 'Вопрос-ответ', href: '/faq' },
-            { title: 'Связь с директором', href: '#' },
-        ],
-    },
-];
-
-export default function NavbarClient() {
+export default function NavbarClient({
+    menuItems,
+}: {
+    menuItems: {
+        title: string;
+        href: string;
+        items?: { title: string; href: string }[];
+    }[];
+}) {
     const [openKey, setOpenKey] = useState<string | null>(null);
 
     return (
         <nav className="max-w-[731px] w-full hidden lg:flex gap-[6px] text-[16px]/[24px] font-medium">
-            {items.map((item) => (
+            {menuItems.map((item) => (
                 <div
                     key={item.title}
                     className="relative group"

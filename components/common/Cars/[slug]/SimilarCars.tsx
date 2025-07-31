@@ -33,8 +33,9 @@ export const SimilarCars: React.FC<SimilarCarsProps> = ({ similarCars }) => {
         container.scrollBy({ left: -step, behavior: 'smooth' });
     };
 
+    
     return (
-        <section className="py-7 mt-8 mx-[-16px] lg:py-[65px]">
+        <section className="py-7 mt-8  lg:py-[65px]">
             <div className="flex flew-row justify-between pb-6">
                 <h2 className="text-xl font-bold ml-4 lg:text-3xl">
                     Похожие авто:
@@ -128,17 +129,17 @@ export const SimilarCars: React.FC<SimilarCarsProps> = ({ similarCars }) => {
                     </ConfigProvider>
                 </div>
             </div>
-            <div className="flex pb-5">
+            <div className="flex w-full pb-5 xl:max-w-[1260px] mx-auto">
                 <ul
                     ref={scrollRef}
-                    className="flex overflow-x-scroll scrollbar-thin scrollbar-thumb-gray-400 pb-5"
+                    className="flex gap-6 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 pb-5"
                     role="list"
                     aria-label="Список похожих автомобилей"
                 >
                     {similarCars.map((c) => (
                         <li
                             key={c.id}
-                            className="min-w-full px-4 lg:min-w-[436px] lg:first:pl-0"
+                            className="min-w-[360px] lg:min-w-[404px] lg:first:pl-0"
                         >
                             <CarCard car={c} />
                         </li>

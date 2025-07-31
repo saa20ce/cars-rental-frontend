@@ -38,7 +38,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
     }
 
     return (
-        <article className="car-card flex flex-col bg-[#f6f6f60e] rounded-2xl ">
+        <article className="car-card  flex flex-col bg-[#f6f6f60e] rounded-2xl ">
             <div className="relative  h-3/4 ">
                 <Link
                     href={carLink}

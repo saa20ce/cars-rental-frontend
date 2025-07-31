@@ -26,7 +26,7 @@ export default function OpenStatus() {
     }, []);
 
     return (
-        <div className="min-w-[150px] min-h-[24px] flex items-center gap-2">
+        <div className="min-w-[120px] lg:min-w-[150px] min-h-[24px] flex items-center gap-2">
             {isOpen === null ? null : isOpen ? (
                 <>
                     <span className="mb-[1px]  lg:mb-0 lg:mt-[-2px]">

@@ -9,6 +9,8 @@ const staticPages: Record<string, string> = {
     tariffs: 'Тарифы',
     terms: 'Условия',
     news: 'Новости',
+    contacts: 'Контакты',
+    services: 'Услуги',
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;

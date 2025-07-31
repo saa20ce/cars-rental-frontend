@@ -36,12 +36,55 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const res = await fetch(`${WP_API_URL}/cars?marka=${markaId}&per_page=5`, {
         next: { revalidate: 60 },
     });
+
     if (!res.ok) {
         console.error('Ошибка при загрузке похожих авто', res.status);
         return [];
     }
+
     const data: Car[] = await res.json();
-    return data.filter((c) => c.id !== car.id);
+    let similarCars = data.filter((c) => c.id !== car.id);
+
+    if (similarCars.length >= 3) {
+        return similarCars;
+    }
+
+    const fallbackRes = await fetch(`${WP_API_URL}/cars?per_page=20`, {
+        next: { revalidate: 60 },
+    });
+
+    if (!fallbackRes.ok) {
+        console.error(
+            'Ошибка при загрузке похожих авто по цене ',
+            fallbackRes.status,
+        );
+        return similarCars;
+    }
+
+    const fallbackCars: Car[] = await fallbackRes.json();
+
+    const targetPrice = car.acf?.['30_dnej']
+        ? parseInt(car.acf['30_dnej'], 10)
+        : 0;
+    const priceRange = 3000;
+
+    const priceMatched = fallbackCars
+        .filter((c) => {
+            if (c.id === car.id || similarCars.find((sc) => sc.id === c.id))
+                return false;
+            const price = c.acf?.['30_dnej']
+                ? parseInt(c.acf['30_dnej'], 10)
+                : 0;
+            return Math.abs(price - targetPrice) <= priceRange;
+        })
+        .sort(
+            (a, b) =>
+                parseInt(b.acf?.['30_dnej'] ?? '0', 10) -
+                parseInt(a.acf?.['30_dnej'] ?? '0', 10),
+        )
+        .slice(0, 5 - similarCars.length);
+
+    return [...similarCars, ...priceMatched];
 }
 
 export async function getSeasonDates(): Promise<SeasonData | null> {

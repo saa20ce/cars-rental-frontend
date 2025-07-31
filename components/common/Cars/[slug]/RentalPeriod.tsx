@@ -119,14 +119,17 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
         return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
+    // const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
+    //     if (returnDate) {
+    //         return (
+    //             current &&
+    //             (current < dayjs().startOf('day') ||
+    //                 current > returnDate.startOf('day'))
+    //         );
+    //     }
+    //     return current && current < dayjs().startOf('day');
+    // };
     const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-        if (returnDate) {
-            return (
-                current &&
-                (current < dayjs().startOf('day') ||
-                    current > returnDate.startOf('day'))
-            );
-        }
         return current && current < dayjs().startOf('day');
     };
 
@@ -160,7 +163,12 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                         value={startDate}
                         onChange={(date) => {
                             onStartDateChange?.(date);
-                            if (date) setIsChainActive(true);
+                            if (date) {
+                                setIsChainActive(true);
+                                if (returnDate && date.isAfter(returnDate)) {
+                                    onReturnDateChange?.(null); 
+                                }
+                            }
                         }}
                         width="58%"
                         isMobile={isMobile}

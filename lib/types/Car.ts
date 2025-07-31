@@ -1,4 +1,6 @@
 export type Car = {
+    totalPrice: number;
+    pricePerDay: number;
     id: number;
     date: string;
     date_gmt: string;

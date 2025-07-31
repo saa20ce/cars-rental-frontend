@@ -1,23 +1,13 @@
 import { EmailIcon } from '@/lib/ui/icons/EmailIcon';
 import { MarkerIcon } from '@/lib/ui/icons/MarkerIcon';
 import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
+import { ReactNode } from 'react';
 
-export default function ContactCard() {
+export default function ContactCard({children}: {children: ReactNode}) {
     return (
         <section className="flex lg:gap-6 pt-[42px] lg:pt-[68px]">
             <div className="w-full lg:max-w-[730px]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                    Наши контакты:
-                </h2>
-                <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
-                    <li>Позвоните (номер на сайте) для консультации.</li>
-                    <li>
-                        Напишите на почту – ответим в течение нескольких часов.
-                    </li>
-                    <li>
-                        Оставьте заявку на аренду авто через форму на сайте.
-                    </li>
-                </ul>
+                {children}
                 <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">
                     <a
                         href="tel:+7(913)-913-28-08"

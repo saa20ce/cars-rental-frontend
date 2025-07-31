@@ -60,7 +60,6 @@ export default function CarsPageClient({
         setSelectedColor('');
         setSelectedPriceRange('');
         setSelectedPassangers('');
-        setAdvancedVisible(false);
     };
 
     const filteredCars = initialCars.filter((car) => {
@@ -85,7 +84,8 @@ export default function CarsPageClient({
 
         const price = parseInt(car.acf?.['30_dnej'] || '0', 10);
         const passengeres = parseInt(car.acf?.passengers || '0', 10);
-
+        console.log(selectedPriceRange);
+        
         let priceMatch = true;
         if (selectedPriceRange === 'lt4000') priceMatch = price < 4000;
         else if (selectedPriceRange === '4000-6000')

@@ -55,75 +55,102 @@ export default function TariffsPageClient({
     seasonDates,
 }: TariffsPageClientProps) {
     const today = useMemo(() => dayjs(), []);
-
-    const [cars, setCars] = useState<Car[]>(initialCars);
-    const [loading, setLoading] = useState(false);
-    const [costsMap, setCostsMap] = useState<
-        Record<number, { pricePerDay: number; totalPrice: number }>
-    >({});
-
-    const [isChainActive, setIsChainActive] = useState(false);
-    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
+    const [pendingFilters, setPendingFilters] = useState({
+        klass: '',
+        marka: '',
+        kuzov: '',
+        privod: '',
+        dvigatel: '',
+        color: '',
+        priceRange: null as string | null,
+    });
+    const [cars, setCars] = useState<Car[] | null>(null);
+    const [startDate, setStartDate] = useState<Dayjs | null>(() => dayjs());
     const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
+    const [isChainActive, setIsChainActive] = useState(false);
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
-
-    const [selectedKlass, setSelectedKlass] = useState('');
-    const [selectedMarka, setSelectedMarka] = useState('');
-    const [selectedKuzov, setSelectedKuzov] = useState('');
-    const [selectedPrivod, setSelectedPrivod] = useState('');
-    const [selectedDvigatel, setSelectedDvigatel] = useState('');
-    const [selectedColor, setSelectedColor] = useState('');
     const [advancedVisible, setAdvancedVisible] = useState(false);
-    const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
-        null,
-    );
     const [openId, setOpenId] = useState<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
 
-    const priceRanges = [
-        { label: 'До 4000', min: null, max: 4000 },
-        { label: '4000–6000', min: 4000, max: 6000 },
-        { label: '6000–10000', min: 6000, max: 10000 },
-        { label: 'От 10000', min: 10000, max: null },
-    ];
-    console.log(cars);
-    
+    const handleApplyFilters = () => {
+        if (!startDate || !returnDate) return;
 
-    const filterByPriceRange = (cars: Car[], selectedLabel: string | null) => {
-        if (!selectedLabel) return cars;
-
-        const range = priceRanges.find((r) => r.label === selectedLabel);
-        if (!range) return cars;
-
-        return cars.filter((car) => {
-            const price = Number(car.acf?.['1-3_dnya'] ?? 0);
-            if (price === 0) return false;
-
-            if (range.min !== null && price < range.min) return false;
-            if (range.max !== null && price > range.max) return false;
-
-            return true;
-        });
-    };
-
-    useEffect(() => {
-        if (!startDate || !returnDate) {
-            setCostsMap({});
-            return;
-        }
-        const m: typeof costsMap = {};
-        cars.forEach((car) => {
+        const enriched = initialCars.map((car) => {
             const priceRanges = buildPriceRangesFromACF(car.acf || {});
             const costs = computeCostsChunked(
                 startDate,
                 returnDate,
                 priceRanges,
-                seasonDates,
+                null,
             );
-            const total = costs.reduce((a, b) => a + b, 0);
-            m[car.id] = { pricePerDay: costs[0] ?? 0, totalPrice: total };
+            const totalPrice = costs.reduce((a, b) => a + b, 0);
+            const pricePerDay = costs[0] ?? 0;
+
+            return {
+                ...car,
+                pricePerDay,
+                totalPrice,
+            };
         });
-        setCostsMap(m);
-    }, [startDate, returnDate, cars, seasonDates]);
+
+        const filtered = enriched.filter((car) => {
+            const { klass, marka, kuzov, privod, dvigatel, color, priceRange } =
+                pendingFilters;
+
+            const klassMatch = klass
+                ? car.klass?.includes(Number(klass))
+                : true;
+            const markaMatch = marka
+                ? car.marka?.includes(Number(marka))
+                : true;
+            const kuzovMatch = kuzov
+                ? car.kuzov?.includes(Number(kuzov))
+                : true;
+            const privodMatch = privod
+                ? car.privod?.includes(Number(privod))
+                : true;
+            const dvigatelMatch = dvigatel
+                ? car.dvigatel?.includes(Number(dvigatel))
+                : true;
+            const colorMatch = color
+                ? car.color?.includes(Number(color))
+                : true;
+
+            let priceMatch = true;
+            const price = car.pricePerDay;
+
+            switch (priceRange) {
+                case 'До 4000':
+                    priceMatch = price <= 4000;
+                    break;
+                case '4000-6000':
+                    priceMatch = price >= 4000 && price <= 6000;
+                    break;
+                case '6000-10000':
+                    priceMatch = price >= 6000 && price <= 10000;
+                    break;
+                case 'От 10000':
+                    priceMatch = price >= 10000;
+                    break;
+                default:
+                    priceMatch = true;
+            }
+
+            return (
+                klassMatch &&
+                markaMatch &&
+                kuzovMatch &&
+                privodMatch &&
+                dvigatelMatch &&
+                colorMatch &&
+                priceMatch
+            );
+        });
+
+        filtered.sort((a, b) => b.pricePerDay - a.pricePerDay);
+        setCars(filtered);
+    };
 
     const timeOptions = Array.from({ length: 24 }, (_, i) => {
         const hour = i.toString().padStart(2, '0');
@@ -137,8 +164,18 @@ export default function TariffsPageClient({
         return `${hour.toString().padStart(2, '0')}:00`;
     }, []);
 
-    const [isMobile, setIsMobile] = useState(false);
-
+    const handleReset = () => {
+        setPendingFilters({
+            klass: '',
+            marka: '',
+            kuzov: '',
+            privod: '',
+            dvigatel: '',
+            color: '',
+            priceRange: null,
+        });
+    };
+    
     useEffect(() => {
         const mediaQuery = window.matchMedia('(max-width: 768px)');
         setIsMobile(mediaQuery.matches);
@@ -149,80 +186,23 @@ export default function TariffsPageClient({
         return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
-    const handleReset = () => {
-        setSelectedKlass('');
-        setSelectedMarka('');
-        setSelectedKuzov('');
-        setSelectedPrivod('');
-        setSelectedDvigatel('');
-        setSelectedColor('');
-        // setAdvancedVisible(false);
-        setSelectedPriceRange(null);
-        loadCars({}, true);
-    };
-
-    const loadCars = useCallback(
-        async (
-            customFilters: Record<string, string> = {},
-            forceAll = false,
-        ) => {
-            setLoading(true);
-            try {
-                const params = new URLSearchParams();
-                if (!forceAll) {
-                    if (selectedKlass) params.append('klass', selectedKlass);
-                    if (selectedMarka) params.append('marka', selectedMarka);
-                    if (selectedKuzov) params.append('kuzov', selectedKuzov);
-                    if (selectedPrivod) params.append('privod', selectedPrivod);
-                    if (selectedDvigatel)
-                        params.append('dvigatel', selectedDvigatel);
-                    if (selectedColor) params.append('color', selectedColor);
-                }
-
-                for (const [k, v] of Object.entries(customFilters))
-                    params.set(k, v);
-                params.append('per_page', '100');
-                const res = await fetch('/api/cars?' + params.toString(), {
-                    cache: 'no-store',
-                });
-                const data = await res.json();
-                setCars(data);
-            } catch (e) {
-                console.error(e);
-                setCars([]);
-            } finally {
-                setLoading(false);
-            }
-        },
-        [
-            selectedKlass,
-            selectedMarka,
-            selectedKuzov,
-            selectedPrivod,
-            selectedDvigatel,
-            selectedColor,
-        ],
-    );
-
-    React.useEffect(() => {
-        loadCars();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        selectedKlass,
-        selectedMarka,
-        selectedKuzov,
-        selectedPrivod,
-        selectedDvigatel,
-        selectedColor,
-    ]);
-
-    const filteredCars = useMemo(() => {
-        return filterByPriceRange(cars, selectedPriceRange);
-    }, [cars, selectedPriceRange]);
+    useEffect(() => {
+        if (
+            pendingFilters.klass === '' &&
+            pendingFilters.marka === '' &&
+            pendingFilters.kuzov === '' &&
+            pendingFilters.privod === '' &&
+            pendingFilters.dvigatel === '' &&
+            pendingFilters.color === '' &&
+            pendingFilters.priceRange === null
+        ) {
+            handleApplyFilters();
+        }
+    }, [pendingFilters]);
 
     return (
         <>
-            <section className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7">
+            <section className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7 mb-6 lg:mb-8">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
                         <h1 className="text-[20px]/[28px] lg:text-[24px]/[32 px] font-bold mb-4 lg:mb-5">
@@ -276,10 +256,9 @@ export default function TariffsPageClient({
                                         defaultValue={today}
                                         value={startDate || today}
                                         onChange={(date) => {
-                                            setStartDate?.(date);
+                                            setStartDate(date);
                                             if (date) setIsChainActive(true);
                                         }}
-                                        // width="58%"
                                         isMobile={isMobile}
                                         style={{
                                             borderTopLeftRadius: 12,
@@ -305,7 +284,6 @@ export default function TariffsPageClient({
                                         onChange={(date) =>
                                             setReturnDate?.(date)
                                         }
-                                        // width="58%"
                                         isMobile={isMobile}
                                         open={
                                             isChainActive
@@ -338,7 +316,7 @@ export default function TariffsPageClient({
                                 style={{
                                     width: '100%',
                                 }}
-                                onClick={handleReset}
+                                onClick={handleApplyFilters}
                             >
                                 Показать
                             </CustomButton>
@@ -351,52 +329,72 @@ export default function TariffsPageClient({
                                 options={klassOptions}
                                 className="filters-select"
                                 style={{ width: '100%' }}
-                                onChange={(value) =>
-                                    setSelectedKlass(value as string)
+                                value={pendingFilters.klass || undefined}
+                                onChange={(val) =>
+                                    setPendingFilters((p) => ({
+                                        ...p,
+                                        klass: val as string,
+                                    }))
                                 }
-                                value={selectedKlass || undefined}
                             />
                             <CustomSelect
                                 placeholder="Кузов"
                                 options={kuzovOptions}
                                 className="filters-select"
                                 style={{ width: '100%' }}
-                                onChange={(value) =>
-                                    setSelectedKuzov(value as string)
+                                value={pendingFilters.kuzov || undefined}
+                                onChange={(val) =>
+                                    setPendingFilters((p) => ({
+                                        ...p,
+                                        kuzov: val as string,
+                                    }))
                                 }
-                                value={selectedKuzov || undefined}
                             />
                             <CustomSelect
                                 placeholder="Цвет"
                                 options={colorOptions}
                                 className="filters-select"
                                 style={{ width: '100%' }}
-                                onChange={(value) =>
-                                    setSelectedColor(value as string)
+                                value={pendingFilters.color || undefined}
+                                onChange={(val) =>
+                                    setPendingFilters((p) => ({
+                                        ...p,
+                                        color: val as string,
+                                    }))
                                 }
-                                value={selectedColor || undefined}
                             />
                             <CustomSelect
                                 placeholder="Марка"
                                 options={markaOptions}
                                 className="filters-select"
                                 style={{ width: '100%' }}
-                                onChange={(value) =>
-                                    setSelectedMarka(value as string)
+                                value={pendingFilters.marka || undefined}
+                                onChange={(val) =>
+                                    setPendingFilters((p) => ({
+                                        ...p,
+                                        marka: val as string,
+                                    }))
                                 }
-                                value={selectedMarka || undefined}
                             />
                             <CustomSelect
                                 placeholder="Цена"
                                 className="filters-select"
-                                options={priceRanges.map(({ label }) => ({
-                                    value: label,
-                                    label,
-                                }))}
                                 style={{ width: '100%' }}
-                                value={selectedPriceRange || undefined}
-                                onChange={(value) =>
-                                    setSelectedPriceRange(value as string)
+                                options={[
+                                    { label: 'До 4000', value: 'До 4000' },
+                                    { label: '4000–6000', value: '4000–6000' },
+                                    {
+                                        label: '6000–10000',
+                                        value: '6000–10000',
+                                    },
+                                    { label: 'От 10000', value: 'От 10000' },
+                                ]}
+                                value={pendingFilters.priceRange || undefined}
+                                onChange={(val) =>
+                                    setPendingFilters((p) => ({
+                                        ...p,
+                                        priceRange: val as string,
+                                    }))
                                 }
                             />
                         </section>
@@ -423,7 +421,7 @@ export default function TariffsPageClient({
                     <CustomButton
                         variant="default"
                         style={{ height: '44px' }}
-                        onClick={handleReset}
+                        onClick={handleApplyFilters}
                         className="block lg:hidden w-full"
                     >
                         Показать
@@ -431,24 +429,22 @@ export default function TariffsPageClient({
                 </div>
             </section>
 
-            <section className="mb-[42px] lg:mb-[68px]">
-                <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between mt-6 text-[#f6f6f675] px-4 gap-4">
-                    <div className="lg:w-1/2">Автомобиль</div>
-                    <div className="lg:w-1/2 flex">
-                        <div className="max-w-[72px] lg:max-w-none lg:w-1/2 text-center">
-                            Цена за сутки
-                        </div>
-                        <div className="w-1/2 text-center">
-                            Итоговая стоимость
+            {cars === null ? null : (
+                <section className="mb-[42px] lg:mb-[68px]">
+                    <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between text-[#f6f6f675] px-4 gap-4">
+                        <div className="lg:w-1/2">Автомобиль</div>
+                        <div className="lg:w-1/2 flex">
+                            <div className="max-w-[72px] lg:max-w-none lg:w-1/2 text-center">
+                                Цена за сутки
+                            </div>
+                            <div className="w-1/2 text-center">
+                                Итоговая стоимость
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="mt-2  flex flex-col">
-                    {loading ? (
-                        <p>Загрузка...</p>
-                    ) : cars.length > 0 ? (
-                        filteredCars.map(
-                            (car, index) => (
+                    <div className="mt-2 flex flex-col">
+                        {cars.length ? (
+                            cars.map((car, index) => (
                                 <React.Fragment key={car.id}>
                                     {index === 3 && (
                                         <div className="block lg:hidden py-5">
@@ -457,12 +453,8 @@ export default function TariffsPageClient({
                                     )}
                                     <CarTariffsCard
                                         car={car}
-                                        pricePerDay={
-                                            costsMap[car.id]?.pricePerDay ?? 0
-                                        }
-                                        totalPrice={
-                                            costsMap[car.id]?.totalPrice ?? 0
-                                        }
+                                        pricePerDay={car.pricePerDay}
+                                        totalPrice={car.totalPrice}
                                         openId={openId}
                                         onToggle={(id) =>
                                             setOpenId((prev) =>
@@ -471,13 +463,13 @@ export default function TariffsPageClient({
                                         }
                                     />
                                 </React.Fragment>
-                            ),
-                        )
-                    ) : (
-                        <p>Ничего не найдено</p>
-                    )}
-                </div>
-            </section>
+                            ))
+                        ) : (
+                            <p>Ничего не найдено</p>
+                        )}
+                    </div>
+                </section>
+            )}
 
             <RentSteps />
 

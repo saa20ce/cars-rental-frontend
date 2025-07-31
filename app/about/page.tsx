@@ -137,7 +137,7 @@ export default async function AboutPage() {
                         />
                     </div>
                 </div>
-            </section>
+            </section> 
 
             <WhyUs />
 
@@ -186,7 +186,28 @@ export default async function AboutPage() {
                 </article>
             </section>
 
-            <ContactCard />
+            <ContactCard
+                children={
+                    <>
+                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                            Наши контакты:
+                        </h2>
+                        <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
+                            <li>
+                                Позвоните (номер на сайте) для консультации.
+                            </li>
+                            <li>
+                                Напишите на почту – ответим в течение нескольких
+                                часов.
+                            </li>
+                            <li>
+                                Оставьте заявку на аренду авто через форму на
+                                сайте.
+                            </li>
+                        </ul>
+                    </>
+                }
+            />
         </>
     );
 }

@@ -12,6 +12,7 @@ interface CustomButtonProps extends Omit<ButtonProps, 'type' | 'variant'> {
     children?: ReactNode;
     style?: CSSProperties;
     className?: string;
+    type?: "button" | "submit" | "reset";
 }
 
 const variantStyles: Record<
@@ -53,6 +54,8 @@ export default function CustomButton({
     children,
     style,
     className,
+    type,
+    loading,
     ...rest
 }: CustomButtonProps) {
     const variantProps = variantStyles[variant];
@@ -86,6 +89,8 @@ export default function CustomButton({
                     ...variantProps.style,
                     ...style,
                 }}
+                loading={loading}
+                htmlType={type}
                 {...rest}
             >
                 {children}

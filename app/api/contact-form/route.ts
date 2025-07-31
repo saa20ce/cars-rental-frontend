@@ -35,9 +35,8 @@ export async function POST(req: NextRequest) {
 
         const data = await res.json();
 
-        return NextResponse.json({ ok: true });
-
         if (res.ok && data.status === 'mail_sent') {
+            return NextResponse.json({ ok: true });
         } else {
             console.log('Ошибка CF7:', data.message || data);
             return NextResponse.json(

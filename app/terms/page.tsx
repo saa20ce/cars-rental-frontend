@@ -14,42 +14,14 @@ import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
 import { FaqCollapse } from '@/lib/ui/common/Collapse';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
-
-const steps = [
-    {
-        title: 'Защита автомобиля',
-        description:
-            'Примите все меры для защиты автомобиля от дополнительных повреждений, включая выставление знака аварийной остановки согласно правилам дорожного движения.',
-    },
-    {
-        title: 'Страхование и компенсация',
-        description:
-            'Сообщите участникам ДТП, что у вас есть страховка гражданской ответственности, и они могут обратиться к страховой компании за материальной компенсацией ущерба.',
-    },
-    {
-        title: 'Оформление документов',
-        description:
-            'Обязательно вызовите сотрудника ГИБДД для оформления всех необходимых документов и получения официального протокола о дорожно-транспортном происшествии.',
-    },
-    {
-        title: 'Консультация с менеджером',
-        description:
-            'Позвоните менеджеру «Авено» для получения консультации и информации о дальнейших действиях в связи с произошедшим ДТП и возможными компенсациями.',
-    },
-    {
-        title: 'Сохранение документов',
-        description:
-            'Сохраните формы №12 и №748, а также протокол и постановление. Убедитесь, что на всех этих документах имеются необходимые печати и подписи ответственных лиц.',
-    },
-    {
-        title: 'Заполнение извещения',
-        description:
-            'Заполните форму «Извещение о ДТП», указав все необходимые данные о происшествии, участниках и обстоятельствах, чтобы избежать недоразумений в будущем.',
-    },
-];
+import { LineIcon } from '@/lib/ui/icons';
+import { getDeliveryPrice } from '@/lib/api/fetchCarData';
+import { steps } from '@/lib/data/emergencySteps';
 
 export default async function TermsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/terms');
+    const deliveryPrice = await getDeliveryPrice();
+
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
@@ -443,18 +415,27 @@ export default async function TermsPage() {
                 </div>
             </section>
 
-            <section className="py-[42px] lg:py-[68px] border-b border-[#284B63B2]">
+            <section className="mt-10 lg:mt-[68px] pb-[42px] lg:pb-[68px]">
+                <div className="flex flex-row">
+                    <h2 className="text-xl font-bold lg:text-3xl">
+                        Стоимость доставки авто:
+                    </h2>
+                    <div className="hidden lg:block ml-4 mt-[6px]">
+                        <LineIcon />
+                    </div>
+                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
+                        Доставка 24/7
+                    </div>
+                </div>
+                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
+            </section>
+
+            <div className="pt-[42px] lg:pt-[68px] border-t border-[#284B63B2] -mb-[36px] lg:-mb-[]">
                 <FaqCollapse />
-            </section>
+            </div>
 
-            <section className="pb-[42px] lg:pb-[68px]">
-                <DeliveryPriceTable deliveryPrice={null} />
-            </section>
-
-            <section className="border-t border-[#284B63B2]">
-                <WhyUs />
-                <HaveQuestions />
-            </section>
+            <WhyUs />
+            <HaveQuestions />
         </>
     );
 }

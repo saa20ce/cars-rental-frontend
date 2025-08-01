@@ -47,7 +47,7 @@ export default async function AboutPage() {
                     <Image
                         fill
                         alt="Фотография офиса Рентасиб"
-                        src={'/images/rentasibAbout.jpg'}
+                        src={'/images/rentasibAbout.webp'}
                         className="contain hidden lg:block"
                     />
                 </div>
@@ -132,7 +132,7 @@ export default async function AboutPage() {
                         <Image
                             fill
                             alt="Рукопожатие, символизирующее сотрудничество"
-                            src={'/images/handshake.png'}
+                            src={'/images/handshake.webp'}
                             className="object-cover"
                         />
                     </div>
@@ -146,7 +146,7 @@ export default async function AboutPage() {
                     <Image
                         fill
                         alt="Девушка заключившая договор"
-                        src="/images/women.png"
+                        src="/images/women.webp"
                         className="object-cover"
                     />
                 </div>

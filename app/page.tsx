@@ -1,101 +1,154 @@
-import Image from 'next/image';
+import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
+import { AgeIcon, CarIcon, DocumentsIcon, LineIcon } from '@/lib/ui/icons';
+import { getDeliveryPrice } from '@/lib/api/fetchCarData';
+import Link from 'next/link';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
+import CarouselControls from '@/lib/ui/common/CarouselControls';
 
-export default function Home() {
+export default async function Home() {
+    const deliveryPrice = await getDeliveryPrice();
+
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                <Image
-                    className="dark:invert"
-                    src="/next.svg"
-                    alt="Next.js logo"
-                    width={180}
-                    height={38}
-                    priority
-                />
-                <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-                    <li className="mb-2">
-                        Get started by editing{' '}
-                        <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-                            app/page.tsx
-                        </code>
-                        .
-                    </li>
-                    <li>Save and see your changes instantly.</li>
-                </ol>
-
-                <div className="flex gap-4 items-center flex-col sm:flex-row">
-                    <a
-                        className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Image
-                            className="dark:invert"
-                            src="/vercel.svg"
-                            alt="Vercel logomark"
-                            width={20}
-                            height={20}
-                        />
-                        Deploy now
-                    </a>
-                    <a
-                        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-                        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read our docs
-                    </a>
+        <>
+            <section>
+                <div>
+                    <span>Большой выбор</span>
+                    <span>Обслуженные авто</span>
+                    <span>КАСКО и ОСАГО</span>
                 </div>
-            </main>
-            <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="/file.svg"
-                        alt="File icon"
-                        width={16}
-                        height={16}
-                    />
-                    Learn
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="/window.svg"
-                        alt="Window icon"
-                        width={16}
-                        height={16}
-                    />
-                    Examples
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="/globe.svg"
-                        alt="Globe icon"
-                        width={16}
-                        height={16}
-                    />
-                    Go to nextjs.org →
-                </a>
-            </footer>
-        </div>
+                {/* секция рекламы, не статика */}
+                <div>
+                    <div>
+                        {/* <img src="" alt="" /> */}
+                    </div>
+                    <div>
+                        <h2>Скидка 20%</h2>
+                        <p>При аренде кроссоверов</p>
+                        <div>От 5-ти суток</div>
+                        <div>Срок действия акции до 31.01</div>
+                    </div>
+                </div>
+                <div>
+                    <h1>Арендуйте авто в Новосибирске</h1>
+                    <p>
+                        Арендуйте автомобиль в Новосибирске по выгодной цене от
+                        1800 рублей/сутки
+                    </p>
+                    <div>
+                        <Link href={'#'}>Автопарк</Link>
+                        <Link href={'#'}>Трансфер</Link>
+                    </div>
+                    <Link href={'#'}>Аренда для Юридических лиц</Link>
+                </div>
+            </section>
+            <section className="py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2]">
+                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-6">
+                    Классы:
+                </h2>
+            </section>
+            <section className="my-[42px] lg:my-[68px]">
+                <div className="lg:text-2xl lg:mt-8 flex justify-between items-start">
+                    <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
+                        Условия аренды:
+                    </h2>
+                    <Link
+                        href={'/terms'}
+                        className="lg:hidden underline text-[16px]/[24px] font-normal"
+                    >
+                        Полные условия
+                    </Link>
+                </div>
+
+                <ul className="flex justify-between gap-6 mt-4 text-[#F6F6F699] border-[#f6f6f638] lg:mt-5">
+                    <li className="flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                        <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
+                            <DocumentsIcon className="w-9 h-9 xl:w-10 xl:h-10" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[14px]/[20px] lg:text-[18px]/[20px] font-bold">
+                                Документы
+                            </span>
+                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
+                                Паспорт и ВУ
+                            </span>
+                        </div>
+                    </li>
+
+                    <li className="flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                        <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
+                            <CarIcon className="w-9 h-9 xl:w-10 xl:h-10" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[14px]/[20px] lg:text-[18px]/[20px] font-bold">
+                                Стаж
+                            </span>
+                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
+                                От 2-х лет
+                            </span>
+                        </div>
+                    </li>
+
+                    <li className="flex-1  flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                        <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
+                            <AgeIcon className="w-9 h-9 xl:w-10 xl:h-10" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[14px]/[20px] lg:text-[18px]/[20px] font-bold">
+                                Возраст
+                            </span>
+                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
+                                От 22-х лет
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+
+                {/* (для десктопа) */}
+                <div className="hidden lg:block mt-[18px] text-lg">
+                    <p>
+                        Полные условия аренды вы можете прочитать{' '}
+                        <Link
+                            href="/terms"
+                            className="font-semibold underline underline-offset-4"
+                        >
+                            ЗДЕСЬ
+                        </Link>
+                    </p>
+                </div>
+            </section>
+
+            <RentSteps />
+
+            <section>
+                {/* комфорт */}
+                {/* зарефакторить SimilarCars (принимать заголовок, listCars, подпись и ссылка на кнопку после CarouselControls), и на странице авто получать класс*/}
+            </section>
+            <section>
+                {/* Кроссоверы */}
+            </section>
+            <section>
+                {/* бизнес */}
+            </section>
+
+            <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">
+                <div className="flex flex-row">
+                    <h2 className="text-xl font-bold lg:text-3xl">
+                        Стоимость доставки авто:
+                    </h2>
+                    <div className="hidden lg:block ml-4 mt-[6px]">
+                        <LineIcon />
+                    </div>
+                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
+                        Доставка 24/7
+                    </div>
+                </div>
+                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
+            </section>
+
+            <WhyUs />
+
+            <HaveQuestions />
+        </>
     );
 }

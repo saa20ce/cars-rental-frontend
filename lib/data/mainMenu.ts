@@ -27,7 +27,7 @@ export const mainMenu = [
         href: '/about',
         items: [
             { title: 'О компании', href: '/about' },
-            { title: 'Отзывы', href: '#' },
+            { title: 'Отзывы', href: '/reviews' },
             { title: 'Контакты', href: '/contacts' },
             { title: 'Новости', href: '/news' },
             { title: 'Соц. сети', href: '#' },

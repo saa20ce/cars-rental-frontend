@@ -91,18 +91,7 @@ export const DeliveryPriceTable = ({
     if (!deliveryPrice) return null;
 
     return (
-        <section className="mt-10 lg:mt-[68px]">
-            <div className="flex flex-row">
-                <h2 className="text-xl font-bold lg:text-3xl">
-                    Стоимость доставки авто:
-                </h2>
-                <div className="hidden lg:block ml-4 mt-[6px]">
-                    <LineIcon />
-                </div>
-                <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
-                    Доставка 24/7
-                </div>
-            </div>
+        <>
             <div className="flex flex-row justify-between items-center mt-5 lg:hidden">
                 <div className="flex flex-row items-center">
                     <label htmlFor="time-select">Время:</label>
@@ -187,6 +176,8 @@ export const DeliveryPriceTable = ({
                     </tbody>
                 </table>
             </div>
-        </section>
+       </>
     );
 };
+
+

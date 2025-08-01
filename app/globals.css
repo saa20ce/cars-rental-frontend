@@ -82,11 +82,11 @@ a:hover {
 }
 
 .bg-globe {
-    background-image: url('/images/Globe.png');
+    background-image: url('/images/Globe.webp');
 }
 
 .bg-coatOfArms {
-    background-image: url('/images/coatOfArms.png');
+    background-image: url('/images/coatOfArms.webp');
 }
 
 .filters-select {

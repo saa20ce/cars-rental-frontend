@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 
 export default async function ContactsPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/about');
+    const breadcrumbs = await fetchBreadcrumbs('/contacts');
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
@@ -37,7 +37,7 @@ export default async function ContactsPage() {
                     <Image
                         fill
                         alt="Рукопожатие, символизирующее сотрудничество"
-                        src={'/images/handshake.png'}
+                        src={'/images/handshake.webp'}
                         className="object-cover"
                     />
                 </div>

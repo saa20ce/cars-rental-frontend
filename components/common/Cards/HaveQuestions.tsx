@@ -1,6 +1,5 @@
 import { WhatsAppIcon, TelegramIcon, CallIcon } from '@/lib/ui/icons';
 
-
 export const HaveQuestions = () => {
     return (
         <section>

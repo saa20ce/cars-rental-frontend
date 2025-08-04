@@ -8,6 +8,7 @@ import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
 import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
 import SuccessRequest from './ResponseRequest';
+import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
 export default function CallRequestModal({
     isOpen,
@@ -37,7 +38,7 @@ export default function CallRequestModal({
             setName('');
             setPhone('');
         } else {
-            setStatus('error')
+            setStatus('error');
         }
     };
 
@@ -74,7 +75,9 @@ export default function CallRequestModal({
                 }}
             >
                 <div className="flex justify-center items-center">
-                    {(status === 'idle' || status === 'loading') && (
+                    {(status === 'idle' ||
+                        status === 'loading' ||
+                        status === 'error') && (
                         <div className="py-[28px]  px-6 lg:py-[38px] lg:px-9 bg-[#284B63] rounded-[16px] lg:rounded-[32px]  text-[#F6F6F6] w-[360px] lg:w-[618px]">
                             <div className="flex justify-between items-center">
                                 <h2 className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
@@ -132,7 +135,7 @@ export default function CallRequestModal({
                             </form>
                         </div>
                     )}
-                    {(status === 'success' || status === 'error') && (
+                    {status === 'success' && (
                         <SuccessRequest
                             request={status}
                             onClick={() => {
@@ -141,6 +144,7 @@ export default function CallRequestModal({
                             }}
                         />
                     )}
+                    {status === 'error' && <ErrorBanner duration={2000} />}
                 </div>
             </Modal>
         </ConfigProvider>

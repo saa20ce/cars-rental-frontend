@@ -1,7 +1,11 @@
 import { Button, ConfigProvider } from 'antd';
 import { ArrowLeftIcon, ArrowRightIcon } from '../../icons';
 
-export default function CarouselControls({ ref }: { ref:  React.RefObject<HTMLUListElement | null> }) {
+export default function CarouselControls({
+    ref,
+}: {
+    ref: React.RefObject<HTMLUListElement | null>;
+}) {
     const goNext = () => {
         const container = ref.current;
         if (!container) return;

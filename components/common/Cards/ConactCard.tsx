@@ -3,7 +3,7 @@ import { MarkerIcon } from '@/lib/ui/icons/MarkerIcon';
 import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
 import { ReactNode } from 'react';
 
-export default function ContactCard({children}: {children: ReactNode}) {
+export default function ContactCard({ children }: { children: ReactNode }) {
     return (
         <section className="flex lg:gap-6 pt-[42px] lg:pt-[68px]">
             <div className="w-full lg:max-w-[730px]">

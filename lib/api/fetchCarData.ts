@@ -218,3 +218,35 @@ export async function getCars(
     if (!res.ok) return [];
     return res.json();
 }
+
+export async function getCarsByClass(klassId: number): Promise<Car[]> {
+    const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia,wp:term`;
+
+    const res = await fetch(url, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+        console.error('Ошибка при загрузке авто по классу', res.status);
+        return [];
+    }
+
+    const data: Car[] = await res.json();
+    return data;
+}
+
+export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
+    const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia,wp:term`;
+
+    const res = await fetch(url, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+        console.error('Ошибка при загрузке авто по классу', res.status);
+        return [];
+    }
+
+    const data: Car[] = await res.json();
+    return data;
+}

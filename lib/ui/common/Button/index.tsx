@@ -12,7 +12,7 @@ interface CustomButtonProps extends Omit<ButtonProps, 'type' | 'variant'> {
     children?: ReactNode;
     style?: CSSProperties;
     className?: string;
-    type?: "button" | "submit" | "reset";
+    type?: 'button' | 'submit' | 'reset';
 }
 
 const variantStyles: Record<

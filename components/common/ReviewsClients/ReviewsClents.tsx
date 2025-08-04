@@ -16,8 +16,10 @@ const reviews = [
 ];
 
 export default function ReviewsClents(props: any) {
-    const scrollRef = useRef<HTMLUListElement>(null); 
-    const [expandedStates, setExpandedStates] = useState<{ [key: string]: boolean }>({});
+    const scrollRef = useRef<HTMLUListElement>(null);
+    const [expandedStates, setExpandedStates] = useState<{
+        [key: string]: boolean;
+    }>({});
 
     const toggleExpanded = (key: string) => {
         setExpandedStates((prev) => ({
@@ -55,7 +57,10 @@ export default function ReviewsClents(props: any) {
                                 : item.review.slice(0, 150).trim();
 
                         return (
-                            <li key={item.key} className="min-w-[349px] md:min-w-[390px] w-full">
+                            <li
+                                key={item.key}
+                                className="min-w-[349px] md:min-w-[390px] w-full"
+                            >
                                 <span className="text-[16px]/[24px] font-medium mb-2">
                                     {item.userName}
                                 </span>
@@ -76,12 +81,14 @@ export default function ReviewsClents(props: any) {
                                         })
                                         .replace(' г.', '')}
                                 </span>
-                                <p className="text-[16px]/[24px] font-medium pt-[14px] mt-[14px] border-t border-[#F6F6F633]" >
+                                <p className="text-[16px]/[24px] font-medium pt-[14px] mt-[14px] border-t border-[#F6F6F633]">
                                     {displayedText}
                                     {isLong && !isExpanded && '... '}
                                     {isLong && (
                                         <button
-                                            onClick={() => toggleExpanded(item.key)}
+                                            onClick={() =>
+                                                toggleExpanded(item.key)
+                                            }
                                             className={`${isExpanded ? 'md:ml-2' : ''} underline`}
                                         >
                                             {isExpanded

@@ -50,13 +50,13 @@ export default async function ServicesPage() {
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className='flex justify-between items-center flex-1 pr-4'>
+                            <div className="flex justify-between items-center flex-1 pr-4">
                                 <h3
                                     className={`${i === 0 ? 'sm:bg-[#2D5355]' : 'sm:bg-[#142632D6]'} max-w-[155px] sm:max-w-none sm:absolute bottom-0  text-[#F6F6F6] text-[14px] lg:text-[16px] sm:w-full sm:text-center font-medium px-4 py-3`}
                                 >
                                     {item.title}
                                 </h3>
-                                <GoIcon className='sm:hidden'/>
+                                <GoIcon className="sm:hidden" />
                             </div>
                         </Link>
                     ))}

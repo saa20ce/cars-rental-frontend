@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SuccessRequest from '../Modal/ResponseRequest';
 import { Modal } from 'antd';
+import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
 export default function ContactForm() {
     const [name, setName] = useState('');
@@ -141,7 +142,7 @@ export default function ContactForm() {
             </form>
 
             <Modal
-                open={status === 'success' || status === 'error'}
+                open={status === 'success'}
                 footer={null}
                 closeIcon={false}
                 onCancel={() => setStatus('idle')}
@@ -161,8 +162,13 @@ export default function ContactForm() {
                     },
                 }}
             >
-                <SuccessRequest request={status} onClick={() => setStatus('idle')} />
+                <SuccessRequest
+                    request={status}
+                    onClick={() => setStatus('idle')}
+                />
             </Modal>
+
+            {status === 'error' && <ErrorBanner />}
         </section>
     );
 }

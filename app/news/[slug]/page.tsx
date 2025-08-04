@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 type NewsDetail = {
-    content : {
-        rendered: string
-    }
-}
+    content: {
+        rendered: string;
+    };
+};
 
 export default async function newsDetailPage({
     params,
@@ -15,14 +15,15 @@ export default async function newsDetailPage({
     const res = await fetch(
         `https://demo.rentasib.ru/wp-json/wp/v2/posts/${slug}`,
     );
-    
-    const details: NewsDetail = await res.json()
+
+    const details: NewsDetail = await res.json();
     console.log(details.content.rendered);
     console.log(details);
-    
-    
-    return <article
-      className="prose prose-invert max-w-none"
-      dangerouslySetInnerHTML={{ __html: details.content.rendered }}
-    />
+
+    return (
+        <article
+            className="prose prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: details.content.rendered }}
+        />
+    );
 }

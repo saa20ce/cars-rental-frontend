@@ -4,7 +4,6 @@ import type { DeliveryOption, DeliveryPrice } from '@/lib/types/Car';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useMemo, useState } from 'react';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
-import { LineIcon } from '@/lib/ui/icons';
 
 const normalizeKey = (key: string) => {
     if (key === 'zhd_vokzal' || key === 'zhd') return 'zhd';
@@ -61,7 +60,7 @@ export const DeliveryPriceTable = ({
     const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
 
     const getTimeLabel = (range: 'day' | 'night') =>
-  range === 'day' ? '10:00 - 19:00' : '20:00 - 09:00';
+        range === 'day' ? '10:00 - 19:00' : '20:00 - 09:00';
 
     const groupedDeliveryOptions = useMemo(() => {
         return groupDeliveryOptions(deliveryPrice?.day, deliveryPrice?.night);
@@ -83,7 +82,7 @@ export const DeliveryPriceTable = ({
             }
         };
 
-        checkScreenSize(); 
+        checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
@@ -176,8 +175,6 @@ export const DeliveryPriceTable = ({
                     </tbody>
                 </table>
             </div>
-       </>
+        </>
     );
 };
-
-

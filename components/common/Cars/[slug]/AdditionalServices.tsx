@@ -28,7 +28,6 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
         ...deliveryOptions,
     ];
 
-
     return (
         <div>
             <div className="additional-service-block">
@@ -37,7 +36,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                     <InfoIcon width={18} height={18} />
                 </h4>
                 <div className="flex gap-2 w-full mt-[10px]">
-                   <CustomSelect
+                    <CustomSelect
                         options={optionsWithNoDelivery}
                         onChange={(value) => setDeliveryOption(value as string)}
                         value={deliveryOptionSelected || undefined}

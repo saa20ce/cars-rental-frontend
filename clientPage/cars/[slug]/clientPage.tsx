@@ -8,7 +8,6 @@ import {
     PriceCards,
     RentalCheckout,
     CarCharacteristics,
-    SimilarCars,
     RentSteps,
     DeliveryPriceTable,
 } from '@/components/common/Cars/';
@@ -31,6 +30,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
+import GalleryCars from '@/components/common/Cars/[slug]/SimilarCars';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -305,7 +305,13 @@ export default function SingleCarPageClient({
                 </article>
             </section>
 
-            <SimilarCars similarCars={similarCars} />
+            <div className="pb-[42px] lg:pb-[68px]">
+                <GalleryCars
+                    title="Похожие авто"
+                    btnTitle="Все бизнес"
+                    similarCars={similarCars}
+                />
+            </div>
 
             <RentSteps />
 

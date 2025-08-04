@@ -166,7 +166,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                             if (date) {
                                 setIsChainActive(true);
                                 if (returnDate && date.isAfter(returnDate)) {
-                                    onReturnDateChange?.(null); 
+                                    onReturnDateChange?.(null);
                                 }
                             }
                         }}

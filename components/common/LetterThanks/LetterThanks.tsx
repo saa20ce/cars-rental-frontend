@@ -8,7 +8,7 @@ const arrayLetterThanks = [{ key: 1, src: '/images/LetterThanks.jpg' }];
 export default function LetterThanks() {
     const scrollRef = useRef<HTMLUListElement>(null);
     return (
-        <section className='mt-6 lg:mt-10'>
+        <section className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between mb-4 lg:mb-6">
                 <h2 className="text-[20px]/[28px] md:text-[30px]/[36px] font-bold">
                     Благодарственные письма
@@ -33,7 +33,11 @@ export default function LetterThanks() {
                                 key={item.key}
                                 className="min-w-[180px] lg:min-w-[250px]"
                             >
-                                <img src={item.src} alt="" className='aspect-[180/254] lg:aspect-[250/354]'/>
+                                <img
+                                    src={item.src}
+                                    alt=""
+                                    className="aspect-[180/254] lg:aspect-[250/354]"
+                                />
                             </li>
                         );
                     })}

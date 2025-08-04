@@ -1,10 +1,15 @@
-export const CheckRound = () => (
+import React from 'react';
+
+interface IconProps {
+    className?: string;
+}
+
+export const CheckRound: React.FC<IconProps> = ({ className = '' }) => (
     <svg
         width="18"
         height="19"
-        className="
-		w-[18px] h-[18px]
-		lg:w-[24px] lg:h-[24px]"
+        className={`${className} w-[18px] h-[18px]
+		lg:w-[24px] lg:h-[24px]`}
         viewBox="0 0 18 19"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

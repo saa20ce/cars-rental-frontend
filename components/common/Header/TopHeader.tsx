@@ -55,7 +55,7 @@ export const TopHeader: React.FC = () => {
                         href="https://2gis.ru/novosibirsk/firm/70000001038917532?m=82.925675%2C55.014643%2F16"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className='text-nowrap'
+                        className="text-nowrap"
                     >
                         Красный просп., 2/1
                     </a>

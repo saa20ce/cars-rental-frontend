@@ -9,7 +9,7 @@ export default function ResponseRequest({
     request?: 'idle' | 'loading' | 'success' | 'error';
 }) {
     console.log(request);
-    
+
     return (
         <section className="text-center p-6 text-white  flex-center">
             <div className="w-full max-w-[360px] lg:max-w-[515px] bg-[#284B63] rounded-[16px] py-7 px-6 lg:py-[38px] lg:px-9 ">
@@ -34,7 +34,7 @@ export default function ResponseRequest({
                                 <div className="flex-center gap-4 mb-4 lg:justify-start">
                                     <SucsessIcon className="lg:hidden" />
                                     <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
-                                        Ошибка при отправке заявки! 
+                                        Ошибка при отправке заявки!
                                     </h2>
                                 </div>
                                 <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-2 tracking-normal text-nowrap">

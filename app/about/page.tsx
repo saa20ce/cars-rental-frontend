@@ -137,7 +137,7 @@ export default async function AboutPage() {
                         />
                     </div>
                 </div>
-            </section> 
+            </section>
 
             <WhyUs />
 

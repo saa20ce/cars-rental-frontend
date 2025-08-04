@@ -4,7 +4,6 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import Image from 'next/image';
 
-
 export default async function ContactsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/contacts');
     return (
@@ -45,48 +44,49 @@ export default async function ContactsPage() {
                     <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Реквизиты:
                     </h2>
-                    <h3 className='mb-[10px] sm:mb-3 text-[16px]/[24px] sm:text-[18px]/[28px] font-semibold'>
+                    <h3 className="mb-[10px] sm:mb-3 text-[16px]/[24px] sm:text-[18px]/[28px] font-semibold">
                         ООО «РЕНТАСИБ»
                     </h3>
-                    <dl className='flex flex-col gap-[10px] lg:gap-3'>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>Юр. адрес:</dt>
-                            <dd>РФ, 630102, г. Новосибирск, ул. Инская 3, к.18</dd>
+                    <dl className="flex flex-col gap-[10px] lg:gap-3">
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">Юр. адрес:</dt>
+                            <dd>
+                                РФ, 630102, г. Новосибирск, ул. Инская 3, к.18
+                            </dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>ИНН:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">ИНН:</dt>
                             <dd>5405065213</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>КПП:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">КПП:</dt>
                             <dd>540501001</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>ОГРН:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">ОГРН:</dt>
                             <dd>1215400028238</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>Р/счет:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">Р/счет:</dt>
                             <dd>№ 40702810013410001297</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>Банк:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">Банк:</dt>
                             <dd>ФИЛИАЛ “ЦЕНТРАЛЬНЫЙ” БАНКА ВТБ (ПАО)</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>Кор. счет:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">Кор. счет:</dt>
                             <dd>30101810145250000411</dd>
                         </div>
-                        <div className='flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row'>
-                            <dt className='text-[#F6F6F699]'>БИК:</dt>
+                        <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
+                            <dt className="text-[#F6F6F699]">БИК:</dt>
                             <dd>044525411</dd>
                         </div>
                     </dl>
                 </article>
             </section>
-            
+
             <ContactForm />
-            
         </>
     );
 }

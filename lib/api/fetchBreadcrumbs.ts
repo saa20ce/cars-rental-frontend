@@ -16,7 +16,10 @@ const staticPages: Record<string, string> = {
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
-async function fetchTitleBySlug(slug: string, type: 'pages' | 'cars') {
+async function fetchTitleBySlug(
+    slug: string,
+    type: 'pages' | 'cars' | 'posts',
+) {
     const url = `${WP_API_URL}/${type}?slug=${slug}`;
     const res = await fetch(url, { cache: 'force-cache' });
     if (!res.ok) return null;
@@ -57,10 +60,13 @@ export async function fetchBreadcrumbs(
         } else {
             if (segments[0] === 'cars' && i === 1) {
                 title = await fetchTitleBySlug(slug, 'cars');
+            } else if (segments[0] === 'news' && i === 1) {
+                title = await fetchTitleBySlug(slug, 'posts');
             } else {
                 title = await fetchTitleBySlug(slug, 'pages');
             }
         }
+
         if (!title) title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
         items.push({
@@ -69,5 +75,6 @@ export async function fetchBreadcrumbs(
             isLast: i === segments.length - 1,
         });
     }
+
     return items;
 }

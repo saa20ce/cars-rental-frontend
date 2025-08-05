@@ -40,7 +40,7 @@ export default async function TermsPage() {
 
             <section className="flex flex-col lg:flex-row gap-3 lg:gap-6 text-[14px]/[20px] font-medium lg:text-[18px]/[28px] pt-8 pb-[42px] lg:pt-[42px] lg:pb-[68px] border-t border-b border-[#284B63B2]">
                 <article className="flex flex-col gap-3 lg:gap-6 lg:w-1/2">
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <SteeringWheelIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -54,7 +54,7 @@ export default async function TermsPage() {
                             </ol>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -68,7 +68,7 @@ export default async function TermsPage() {
                             </ol>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <HandshakeSvg className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -87,7 +87,7 @@ export default async function TermsPage() {
                             </p>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <TermsIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -106,7 +106,7 @@ export default async function TermsPage() {
                             </ul>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 lg:pb-[66px]">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 lg:pb-[66px]">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <RouteIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -138,7 +138,7 @@ export default async function TermsPage() {
                     </article>
                 </article>
                 <article className="flex flex-col gap-3 lg:gap-6 lg:w-1/2">
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <KeyIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -177,7 +177,7 @@ export default async function TermsPage() {
                             </p>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentsUser className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -196,7 +196,7 @@ export default async function TermsPage() {
                             </p>
                         </div>
                     </article>
-                    <article className="flex items-start gap-4 rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 ">
+                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 ">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentCar className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -204,7 +204,7 @@ export default async function TermsPage() {
                             <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Ответственность Рентасиб
                             </h3>
-                            <p className="mb-[6px] lg:mb-3">
+                            <p className="mb-[6px] lg:mb-3 lg:text-[]/[]">
                                 Для бронирования отправьте заявку с сайта,
                                 напишите или позвоните нам. После подтверждения
                                 дат и авто менеджер запросит документы.
@@ -214,7 +214,7 @@ export default async function TermsPage() {
                                 удостоверения (с двух сторон).
                             </p>
                             <p>Арендатор НЕ несёт ответственности за:</p>
-                            <ul className="list-disc pl-4">
+                            <ul className="list-disc pl-4 max-w">
                                 <li>
                                     Появление сколов на лакокрасочном покрытии.
                                 </li>

@@ -78,12 +78,14 @@ export default function TariffsPageClient({
 
         const enriched = initialCars.map((car) => {
             const priceRanges = buildPriceRangesFromACF(car.acf || {});
+
             const costs = computeCostsChunked(
                 startDate,
                 returnDate,
                 priceRanges,
                 null,
             );
+
             const totalPrice = costs.reduce((a, b) => a + b, 0);
             const pricePerDay = costs[0] ?? 0;
 
@@ -119,12 +121,15 @@ export default function TariffsPageClient({
 
             let priceMatch = true;
             const price = car.pricePerDay;
+            const normalizedPriceRange = priceRange?.replace(/–|—/g, '-');
 
-            switch (priceRange) {
+            switch (normalizedPriceRange) {
                 case 'До 4000':
                     priceMatch = price <= 4000;
                     break;
                 case '4000-6000':
+                    console.log('4000-6000');
+
                     priceMatch = price >= 4000 && price <= 6000;
                     break;
                 case '6000-10000':
@@ -133,8 +138,6 @@ export default function TariffsPageClient({
                 case 'От 10000':
                     priceMatch = price >= 10000;
                     break;
-                default:
-                    priceMatch = true;
             }
 
             return (
@@ -257,7 +260,16 @@ export default function TariffsPageClient({
                                         value={startDate || today}
                                         onChange={(date) => {
                                             setStartDate(date);
-                                            if (date) setIsChainActive(true);
+                                            if (date) {
+                                                setIsChainActive(true);
+                                                if (
+                                                    returnDate &&
+                                                    (date.isAfter(returnDate) ||
+                                                        date.isSame(returnDate))
+                                                ) {
+                                                    setReturnDate(null);
+                                                }
+                                            }
                                         }}
                                         isMobile={isMobile}
                                         style={{
@@ -281,6 +293,11 @@ export default function TariffsPageClient({
                                         placeholder="Возврат"
                                         disabledDate={disabledDateFinish}
                                         value={returnDate}
+                                        minDate={
+                                            startDate
+                                                ? dayjs(startDate).add(1, 'day')
+                                                : undefined
+                                        }
                                         onChange={(date) =>
                                             setReturnDate?.(date)
                                         }
@@ -431,13 +448,13 @@ export default function TariffsPageClient({
 
             {cars === null ? null : (
                 <section className="mb-[42px] lg:mb-[68px]">
-                    <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between text-[#f6f6f675] px-4 gap-4">
+                    <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between items-end text-[#f6f6f675] px-4 gap-4">
                         <div className="lg:w-1/2">Автомобиль</div>
-                        <div className="lg:w-1/2 flex">
-                            <div className="max-w-[72px] lg:max-w-none lg:w-1/2 text-center">
-                                Цена за сутки
+                        <div className="lg:w-1/2 flex justify-end">
+                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/2 ">
+                                Цена <br className="lg:hidden" /> за сутки
                             </div>
-                            <div className="w-1/2 text-center">
+                            <div className="w-1/2 max-w-[72px] lg:max-w-none lg:text-center  mr-[7px]">
                                 Итоговая стоимость
                             </div>
                         </div>

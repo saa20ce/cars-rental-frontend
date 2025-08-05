@@ -21,7 +21,10 @@ export const Footer: React.FC = () => {
                         Разделы сайта{' '}
                         <ChevronRightIcon width={10} height={32} />
                     </h2>
-                    <Link href="#" className="underline underline-offset-[6px]">
+                    <Link
+                        href="/faq"
+                        className="underline underline-offset-[6px]"
+                    >
                         Наш блог
                     </Link>
                 </div>

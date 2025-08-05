@@ -4,10 +4,11 @@ import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
 import Link from 'next/link';
 import { useState } from 'react';
-import SuccessRequest from '../Modal/ResponseRequest';
+import SuccessRequest from '../Modal/SuccessRequest';
 import { Modal } from 'antd';
 import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
+import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
 export default function ReviewForm() {
     const [selected, setSelected] = useState<number | null>(null);
@@ -171,7 +172,7 @@ export default function ReviewForm() {
             </form>
 
             <Modal
-                open={status === 'success' || status === 'error'}
+                open={status === 'success'}
                 footer={null}
                 closeIcon={false}
                 onCancel={() => setStatus('idle')}
@@ -191,12 +192,10 @@ export default function ReviewForm() {
                     },
                 }}
             >
-                {/* другую модалку */}
-                <SuccessRequest
-                    request={status}
-                    onClick={() => setStatus('idle')}
-                />
+                <SuccessRequest onClick={() => setStatus('idle')} />
             </Modal>
+
+            {status === 'error' && <ErrorBanner />}
         </section>
     );
 }

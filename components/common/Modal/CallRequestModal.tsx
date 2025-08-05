@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
 import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
-import SuccessRequest from './ResponseRequest';
+import SuccessRequest from './SuccessRequest';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
 export default function CallRequestModal({
@@ -137,7 +137,6 @@ export default function CallRequestModal({
                     )}
                     {status === 'success' && (
                         <SuccessRequest
-                            request={status}
                             onClick={() => {
                                 setIsOpenAction(false);
                                 setStatus('idle');

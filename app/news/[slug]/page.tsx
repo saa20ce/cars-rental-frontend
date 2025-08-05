@@ -1,29 +1,77 @@
-import { ReactNode } from 'react';
+import NewsPreviewCard from '@/components/common/Cards/NewsPreviewCard';
+import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
+import HtmlContent from '@/components/common/HtmlContent/HtmlContent';
+import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 
-type NewsDetail = {
-    content: {
-        rendered: string;
+export type NewsDetail = {
+    content: { rendered: string };
+    title: { rendered: string };
+    date: string;
+};
+
+export type WPPost = {
+    id: number;
+    slug: string;
+    date: string;
+    title: { rendered: string };
+    _embedded?: {
+        'wp:featuredmedia'?: [
+            {
+                source_url: string;
+            },
+        ];
     };
 };
 
 export default async function newsDetailPage({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: { slug: string };
 }) {
-    const { slug } = await params;
-    const res = await fetch(
-        `https://demo.rentasib.ru/wp-json/wp/v2/posts/${slug}`,
-    );
+    const { slug } = params;
 
-    const details: NewsDetail = await res.json();
-    console.log(details.content.rendered);
-    console.log(details);
+    const fetchNews = async (excludeId: number) => {
+        const res = await fetch(
+            `https://demo.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=6&exclude=${excludeId}&orderby=rand`,
+            { next: { revalidate: 3600 } },
+        );
+        const data = await res.json();
+        return data;
+    };
+
+    const res = await fetch(
+        `https://demo.rentasib.ru/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+    );
+    const data = await res.json();
+    const details: NewsDetail | undefined = data[0];
+    const breadcrumbs = await fetchBreadcrumbs(`/news/${slug}`);
+    const news: WPPost[] = details ? await fetchNews(data[0].id) : [];
+    console.log(news);
+    if (!details) {
+        return <div>Новость не найдена</div>;
+    }
 
     return (
-        <article
-            className="prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: details.content.rendered }}
-        />
+        <>
+            <Breadcrumbs crumbs={breadcrumbs} />
+            <div className="flex gap-0 lg:gap-6 flex-col lg:flex-row mt-6 lg:mt-8">
+                <article className="article" style={{ flex: 3 }}>
+                    <img
+                        src={
+                            data[0]._embedded?.['wp:featuredmedia']?.[0]
+                                ?.source_url || null
+                        }
+                        alt="Фото прикрепленное к новости"
+                        className="w-full block rounded-[32px] mb-5 lg:mb-6"
+                    />
+                    <HtmlContent details={details} />
+                </article>
+                <aside className="mt-[42px] lg:mt-0 grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:block flex-1 lg:max-w-[297px]">
+                    {news.map((item) => (
+                        <NewsPreviewCard key={item.id} news={item} />
+                    ))}
+                </aside>
+            </div>
+        </>
     );
 }

@@ -31,6 +31,7 @@ import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/SimilarCars';
+import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -65,7 +66,7 @@ export default function SingleCarPageClient({
         [car.acf],
     );
 
-    const TAB_ITEMS: TabsProps['items'] = [
+    const TAB_ITEMS = [
         {
             key: '1',
             label: 'Характеристики',
@@ -105,15 +106,14 @@ export default function SingleCarPageClient({
 
     return (
         <>
+            {car.acf?.nazvanie_avto && (
+                <h1 className="text-2xl uppercase font-bold mb-5 ml-3 lg:text-4xl lg:ml-0">
+                    {car.acf.nazvanie_avto}
+                </h1>
+            )}
             <section className="lg:flex lg:w-full lg:gap-6">
                 <article className="lg:flex-1 lg:min-w-0">
                     <section className="carousel-wrapper">
-                        {car.acf?.nazvanie_avto && (
-                            <h1 className="text-2xl uppercase font-bold mb-5 ml-3 lg:text-4xl lg:ml-0">
-                                {car.acf.nazvanie_avto}
-                            </h1>
-                        )}
-
                         <figure>
                             {galleryImages.length === 1 && (
                                 <img
@@ -162,36 +162,7 @@ export default function SingleCarPageClient({
                         <h2 className="lg:text-2xl lg:font-bold lg:mb-6">
                             Информация
                         </h2>
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    colorBorder: 'transparent',
-                                    colorText: '#f6f6f6',
-                                    lineWidthFocus: 0,
-                                    lineWidth: 0,
-                                    fontSize: 16,
-                                },
-                                components: {
-                                    Tabs: {
-                                        cardBg: '#f6f6f60e',
-                                        itemColor: '#f6f6f6',
-                                        itemSelectedColor: '#f6f6f6',
-                                        inkBarColor: 'transparent',
-                                        itemActiveColor: '#f6f6f6',
-                                        itemHoverColor: '#f6f6f638',
-                                        horizontalItemPadding: '8px 14px',
-                                        horizontalItemGutter: 6,
-                                        fontFamily: '"lato", "lato Fallback"',
-                                    },
-                                },
-                            }}
-                        >
-                            <Tabs
-                                className="tabs"
-                                defaultActiveKey="1"
-                                items={TAB_ITEMS}
-                            />
-                        </ConfigProvider>
+                        <SimpleTabs tabs={TAB_ITEMS} />
                     </section>
                 </article>
 
@@ -270,37 +241,7 @@ export default function SingleCarPageClient({
                         </div>
                     </section>
                     <section className="mt-6 block lg:hidden">
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    colorBorder: 'transparent',
-                                    colorText: '#f6f6f6',
-                                    lineWidthFocus: 0,
-                                    lineWidth: 0,
-                                    fontSize: 16,
-                                },
-                                components: {
-                                    Tabs: {
-                                        fontSize: 16,
-                                        cardBg: '#f6f6f60e',
-                                        itemColor: '#f6f6f666',
-                                        itemSelectedColor: '#f6f6f6',
-                                        inkBarColor: 'transparent',
-                                        itemActiveColor: '#f6f6f6',
-                                        itemHoverColor: '#f6f6f638',
-                                        horizontalItemPadding: '8px 14px',
-                                        horizontalItemGutter: 6,
-                                        fontFamily: '"lato", "lato Fallback"',
-                                    },
-                                },
-                            }}
-                        >
-                            <Tabs
-                                className="tabs"
-                                defaultActiveKey="1"
-                                items={TAB_ITEMS}
-                            />
-                        </ConfigProvider>
+                        <SimpleTabs tabs={TAB_ITEMS} />
                     </section>
                 </article>
             </section>

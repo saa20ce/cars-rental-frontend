@@ -13,6 +13,8 @@ export default function NavbarMobileClient({
     menuItems: {
         title: string;
         href: string;
+        mobHref?: string;
+        mobTitle?: string;
         items?: { title: string; href: string }[];
     }[];
 }) {
@@ -91,13 +93,15 @@ export default function NavbarMobileClient({
                                 <div key={item.title} className="relative">
                                     <div className="flex items-center justify-center px-3 py-[6px] rounded-[8px] transition-colors duration-300">
                                         <Link
-                                            href={item.href || '#'}
+                                            href={
+                                                item.mobHref || item.href || '#'
+                                            }
                                             className="whitespace-nowrap  text-[20px]/[28px] text-medium hover:text-[#f6f6f6]"
                                             onClick={() => {
                                                 setOpen(false);
                                             }}
                                         >
-                                            {item.title}
+                                            {item.mobTitle || item.title}
                                         </Link>
 
                                         {item.items && (

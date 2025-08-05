@@ -36,6 +36,7 @@ export default function CarsPageClient({
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc',
     );
+    console.log(colorOptions);
 
     const handleSortDesc = () => setSortOrder('desc');
     const handleSortAsc = () => setSortOrder('asc');
@@ -84,7 +85,6 @@ export default function CarsPageClient({
 
         const price = parseInt(car.acf?.['30_dnej'] || '0', 10);
         const passengeres = parseInt(car.acf?.passengers || '0', 10);
-        console.log(selectedPriceRange);
 
         let priceMatch = true;
         if (selectedPriceRange === 'lt4000') priceMatch = price < 4000;
@@ -110,6 +110,7 @@ export default function CarsPageClient({
             passengerMatch
         );
     });
+    console.log(filteredCars);
 
     const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
         const discountA = parseInt(a.acf?.skidka || '0', 10);
@@ -337,7 +338,7 @@ export default function CarsPageClient({
                         </button>
                         <button
                             onClick={handleSortDiscount}
-                            className={`${sortOrder === 'discount' ? 'text-[#F6F6F6]' : ''} max-w-[57px] lg:max-w-none text-center`}
+                            className={`${sortOrder === 'discount' ? 'text-[#F6F6F6]' : ''} max-w-[75px] lg:max-w-none text-center`}
                         >
                             Сначала со скидкой
                         </button>

@@ -52,8 +52,13 @@ export default function Pagination({
                 setDelta(9);
                 setMaxButtons(11);
             } else {
-                setDelta(4);
-                setMaxButtons(8);
+                if (currentPage >= 3 || currentPage <= totalPages - 3) {
+                    setDelta(3);
+                    setMaxButtons(7);
+                } else {
+                    setDelta(4);
+                    setMaxButtons(8);
+                }
             }
         }
 

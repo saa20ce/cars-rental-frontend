@@ -1,0 +1,47 @@
+.content {
+    h1 {
+        @apply text-[24px]/[32px] lg:text-[36px]/[48px] font-bold mb-6 lg:mb-8;
+    }
+    h2 {
+        @apply text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-6;
+    }
+    h2:not(h2:first-child) {
+        @apply mt-8 lg:mt-9;
+    }
+    p {
+        @apply text-[14px]/[20px] lg:text-[16px]/[24px] font-normal mb-[10px] lg:mb-3;
+    }
+    ul,
+    ol:not(ol:first-child) {
+        @apply list-disc ml-5 lg:ml-6 mb-[10px] lg:mb-3;
+    }
+    li {
+        @apply text-[16px]/[24px] font-normal;
+    }
+    table {
+        @apply w-full border-spacing-0 overflow-hidden mb-[14px] lg:mb-4;
+        border-collapse: separate;
+    }
+    th {
+        @apply bg-[#F6F6F60D] text-left lg:text-center px-4 py-3 font-bold border border-[#F6F6F6];
+    }
+    td {
+        @apply px-4 py-3 border border-[#F6F6F6] text-left lg:text-center;
+    }
+    thead,
+    tbody {
+        @apply text-[16px]/[24px] lg:text-[18px]/[28px];
+    }
+    thead tr:first-child th:first-child {
+        @apply rounded-tl-[20px];
+    }
+    thead tr:first-child th:last-child {
+        @apply rounded-tr-[20px];
+    }
+    tbody tr:last-child td:first-child {
+        @apply rounded-bl-[20px];
+    }
+    tbody tr:last-child td:last-child {
+        @apply rounded-br-[20px];
+    }
+}

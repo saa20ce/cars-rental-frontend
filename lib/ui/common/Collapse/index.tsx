@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Collapse } from 'antd';
 import { ArrowCollapseIcon } from '@/lib/ui/icons/ArrowCollapseIcon';
 import './index.css';
@@ -23,12 +23,27 @@ const faqItems = rawFaqItems.map((item, index) => ({
     }`,
 }));
 
-export const FaqCollapse = () => {
+export const FaqCollapse = ({
+    items,
+    news,
+}: {
+    items?: {
+        key: string;
+        label: ReactNode;
+        children: ReactNode;
+        className: string;
+    }[];
+    news?: boolean;
+}) => {
     return (
-        <section className="pb-[42px] lg:pb-[68px]">
-            <h2 className="text-white text-2xl font-semibold mb-4">
-                Часто задаваемые вопросы:
-            </h2>
+        <section
+            className={`${news ? 'pb-[10px] lg:pb-3 ' : 'pb-[42px] lg:pb-[68px]'}`}
+        >
+            {!news && (
+                <h2 className="text-white text-2xl font-semibold mb-4">
+                    Часто задаваемые вопросы:
+                </h2>
+            )}
             <Collapse
                 accordion
                 expandIconPosition="end"
@@ -37,7 +52,7 @@ export const FaqCollapse = () => {
                         className={`transition-transform ${isActive ? '' : 'rotate-180'}`}
                     />
                 )}
-                items={faqItems}
+                items={items || faqItems}
                 className={`faqCollapse text-[16px] leading-[24px] font-medium lg:text-[18px] lg:leading-[28px]`}
                 ghost
             />

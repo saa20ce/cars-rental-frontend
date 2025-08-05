@@ -18,7 +18,7 @@ import { DeliveryOption } from '@/lib/types/Car';
 // import { text } from 'stream/consumers';
 import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
 import { tooltipText } from './PriceCards';
-import SuccessRequest from '../../Modal/ResponseRequest';
+import SuccessRequest from '../../Modal/SuccessRequest';
 
 interface AdditionalOption {
     label: string;
@@ -349,6 +349,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 >
                     {isSubmitted && (
                         <SuccessRequest
+                            reservation={true}
                             onClick={() => {
                                 setModalVisible(false);
                                 setIsSubmitted(false);

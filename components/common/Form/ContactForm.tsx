@@ -4,7 +4,7 @@ import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
 import Link from 'next/link';
 import { useState } from 'react';
-import SuccessRequest from '../Modal/ResponseRequest';
+import SuccessRequest from '../Modal/SuccessRequest';
 import { Modal } from 'antd';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
@@ -65,7 +65,7 @@ export default function ContactForm() {
                             name="name"
                             className="w-full mt-[10px] lg:mt-3 mb-[14px] lg:mb-4 py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px] outline-none"
                             type="text"
-                            placeholder="Имя"
+                            placeholder="Введите..."
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
@@ -96,7 +96,7 @@ export default function ContactForm() {
                             name="email"
                             className="w-full mt-[10px] lg:mt-3 mb-[14px] lg:mb-4 py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px] outline-none"
                             type="email"
-                            placeholder="Email"
+                            placeholder="Введите..."
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -112,7 +112,7 @@ export default function ContactForm() {
                             id="comment"
                             name="comment"
                             className="w-full min-h-[78px] mt-[10px] lg:mt-3 py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px] flex-1 resize-none outline-none"
-                            placeholder="Введите.."
+                            placeholder="Введите..."
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                         ></textarea>
@@ -128,7 +128,7 @@ export default function ContactForm() {
                         htmlType="submit"
                         loading={status === 'loading'}
                     >
-                        Оставить заявку
+                        Отправить
                     </CustomButton>
                     <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699]">
                         При нажатии кнопки &quot;Отправить&quot;, я подтверждаю,
@@ -162,10 +162,7 @@ export default function ContactForm() {
                     },
                 }}
             >
-                <SuccessRequest
-                    request={status}
-                    onClick={() => setStatus('idle')}
-                />
+                <SuccessRequest onClick={() => setStatus('idle')} />
             </Modal>
 
             {status === 'error' && <ErrorBanner />}

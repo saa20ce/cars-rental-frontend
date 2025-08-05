@@ -91,12 +91,18 @@ export default async function Home() {
                             </p>
                         </div>
                         <div className="flex gap-3 justify-center md:justify-start lg:mb-9">
-                            <button className="bg-[#3C6E71] lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-full font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[28px]">
+                            <Link
+                                href={'/cars'}
+                                className="bg-[#3C6E71] lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-full font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[28px] text-center"
+                            >
                                 Автопарк
-                            </button>
-                            <button className="border lg:max-w-[194px] flex-1 md:flex-0 py-2 rounded-full font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[28px]">
+                            </Link>
+                            <Link
+                                href={'#'}
+                                className="border text-center lg:max-w-[194px] flex-1 md:flex-0 py-2 rounded-full font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[28px]"
+                            >
                                 Трансфер
-                            </button>
+                            </Link>
                         </div>
                         <Link
                             href="#"
@@ -150,8 +156,8 @@ export default async function Home() {
                     </Link>
                 </div>
 
-                <ul className="flex justify-between gap-6 mt-4 text-[#F6F6F699] border-[#f6f6f638] lg:mt-5">
-                    <li className="flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                <ul className="flex justify-between gap-[14px] mt-4 text-[#F6F6F699] border-[#f6f6f638] lg:mt-5">
+                    <li className="md:flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <DocumentsIcon className="w-9 h-9 xl:w-10 xl:h-10" />
                         </div>
@@ -165,7 +171,7 @@ export default async function Home() {
                         </div>
                     </li>
 
-                    <li className="flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                    <li className="md:flex-1 flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <CarIcon className="w-9 h-9 xl:w-10 xl:h-10" />
                         </div>
@@ -179,7 +185,7 @@ export default async function Home() {
                         </div>
                     </li>
 
-                    <li className="flex-1  flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
+                    <li className="md:flex-1  flex items-center gap-[6px] lg:gap-[10px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <AgeIcon className="w-9 h-9 xl:w-10 xl:h-10" />
                         </div>
@@ -187,7 +193,7 @@ export default async function Home() {
                             <span className="text-[14px]/[20px] lg:text-[18px]/[20px] font-bold">
                                 Возраст
                             </span>
-                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
+                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal text-nowrap">
                                 От 22-х лет
                             </span>
                         </div>
@@ -212,17 +218,17 @@ export default async function Home() {
 
             <GalleryCars
                 similarCars={comfortCars}
-                title="Комфорт"
+                title="Комфорт:"
                 btnTitle="Все комфорт"
             />
             <GalleryCars
                 similarCars={crossoversCars}
-                title="Кроссоверы"
+                title="Кроссоверы:"
                 btnTitle="Все кроссоверы"
             />
             <GalleryCars
                 similarCars={businessCars}
-                title="Бизнес"
+                title="Бизнес:"
                 btnTitle="Все бизнес"
             />
 

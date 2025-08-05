@@ -32,17 +32,17 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
 
     const headerRow = (
         <button
-            className="flex items-center  justify-between py-3 px-4 cursor-pointer text-[12px]/[16px] lg:text-[16px]/[24px] border-b border-[#F6F6F633]"
+            className="flex items-center justify-between py-3 px-4 cursor-pointer text-[12px]/[16px] lg:text-[16px]/[24px] border-b border-[#F6F6F633]"
             onClick={() => onToggle(car.id)}
         >
             <div className="font-medium text-[#f6f6f6]">
                 {acf.nazvanie_avto}
             </div>
-            <div className="lg:w-1/2 flex pl-[12px] items-center">
+            <div className="lg:w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center">
                 <div className="w-[60px] lg:w-1/2 text-center">
                     {pricePerDay.toLocaleString()} ₽
                 </div>
-                <div className="w-[122px] pr-3 lg:pr-0  lg:w-1/2 text-center">
+                <div className="pr-2 lg:pr-0  lg:w-1/2 text-center">
                     <span> {totalPrice.toLocaleString()} ₽</span>
                 </div>
                 <ChevronDownIcon className="w-[12px] h-[9px]" active />

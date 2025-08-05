@@ -32,8 +32,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
         <div>
             <div className="additional-service-block">
                 <h4 className="ltext-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] flex items-center gap-2 ">
-                    Место подачи и возврата <LineIcon />{' '}
-                    <InfoIcon width={18} height={18} />
+                    Место подачи и возврата:
                 </h4>
                 <div className="flex gap-2 w-full mt-[10px]">
                     <CustomSelect

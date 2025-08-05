@@ -10,9 +10,10 @@ export const mainMenu = [
         ],
     },
     { title: 'Тарифы', href: '/tariffs' },
-    { title: 'Условия', href: '/terms' },
+    { title: 'Условия', mobTitle: 'Условия аренды', href: '/terms' },
     {
         title: 'Услуги',
+        mobTitle: 'Наши услуги',
         href: '/services',
         items: [
             { title: 'Все услуги', href: '/services' },
@@ -33,7 +34,12 @@ export const mainMenu = [
             { title: 'Соц. сети', href: '#' },
         ],
     },
-    { title: 'Контакты', href: '/contacts' },
+    {
+        title: 'Контакты',
+        href: '/contacts',
+        mobTitle: 'Отзывы',
+        mobHref: '/reviews',
+    },
     {
         title: 'Поддержка',
         href: '/faq',

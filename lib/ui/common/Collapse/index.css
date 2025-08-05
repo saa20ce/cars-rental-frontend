@@ -6,6 +6,10 @@
     overflow: hidden;
 }
 
+.faqCollapse {
+    font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+}
+
 .faqCollapse .ant-collapse-item::before {
     content: '';
     position: absolute;

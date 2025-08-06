@@ -139,7 +139,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     };
 
     return (
-        <section className="w-full bg-[#284b63]  rounded-2xl px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] ">
+        <section className="w-full bg-[#284b63] lg:max-w-[618px] rounded-2xl px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] ">
             {showContactForm && closeModal && (
                 <button
                     className="absolute top-6 right-6 cursor-pointer"
@@ -166,7 +166,11 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                             if (date) {
                                 setIsChainActive(true);
                                 if (returnDate && date.isAfter(returnDate)) {
-                                    onReturnDateChange?.(null);
+                                    const newReturnDate = dayjs(date).add(
+                                        1,
+                                        'day',
+                                    );
+                                    onReturnDateChange?.(newReturnDate);
                                 }
                             }
                         }}

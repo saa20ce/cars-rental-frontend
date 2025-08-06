@@ -105,6 +105,8 @@ a:hover {
 /* Шрифты для antd*/
 input,
 input::placeholder,
+textarea,
+textarea::placeholder,
 .ant-btn,
 .ant-modal-body,
 .faq-collapse,
@@ -113,6 +115,7 @@ input::placeholder,
     font-family: var(--font-lato), Arial, Helvetica, sans-serif !important;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
     color: #f6f6f699;
 }

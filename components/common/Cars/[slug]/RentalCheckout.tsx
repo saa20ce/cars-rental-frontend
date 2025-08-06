@@ -15,10 +15,9 @@ import { RentalPeriod } from './RentalPeriod';
 import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
 import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
-// import { text } from 'stream/consumers';
-import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
 import { tooltipText } from './PriceCards';
 import SuccessRequest from '../../Modal/SuccessRequest';
+
 
 interface AdditionalOption {
     label: string;
@@ -310,6 +309,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             Оставить заявку
                         </Button>
                     </ConfigProvider>
+                    
                 </section>
             )}
 
@@ -358,13 +358,35 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                     )}
 
                     {startDate && returnDate && !isSubmitted && (
+                        // <ModalRentalCheckout
+                        //     car={car}
+                        //     startDate={startDate.format('YYYY-MM-DD')}
+                        //     returnDate={returnDate.format('YYYY-MM-DD')}
+                        //     startTime={startTime}
+                        //     returnTime={returnTime}
+                        //     daysCount={daysCount}
+                        //     hasSeasonDays={hasSeasonDays}
+                        //     additionalOptions={additionalOptions}
+                        //     additionalOptionsSelected={
+                        //         additionalOptionsSelected
+                        //     }
+                        //     setAdditionalOptions={setAdditionalOptions}
+                        //     deliveryOptions={deliveryOptions}
+                        //     deliveryOptionSelected={deliveryOptionSelected}
+                        //     setDeliveryOption={setDeliveryOption}
+                        //     pricePerDay={pricePerDay}
+                        //     totalPrice={totalPrice}
+                        //     closeModal={closeModal}
+                        //     setIsSubmitted={setIsSubmitted}
+                        // />
                         <ModalRentalCheckout
                             car={car}
+                            additionalOptionsTotal={additionalOptionsTotal}
+                            deliveryCost={deliveryCost}
                             startDate={startDate.format('YYYY-MM-DD')}
                             returnDate={returnDate.format('YYYY-MM-DD')}
                             startTime={startTime}
                             returnTime={returnTime}
-                            daysCount={daysCount}
                             hasSeasonDays={hasSeasonDays}
                             additionalOptions={additionalOptions}
                             additionalOptionsSelected={
@@ -374,8 +396,13 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             deliveryOptions={deliveryOptions}
                             deliveryOptionSelected={deliveryOptionSelected}
                             setDeliveryOption={setDeliveryOption}
+                            daysCount={daysCount}
                             pricePerDay={pricePerDay}
                             totalPrice={totalPrice}
+                            setStartDate={setStartDate}
+                            setReturnDate={setReturnDate}
+                            setStartTime={setStartTime}
+                            setReturnTime={setReturnTime}
                             closeModal={closeModal}
                             setIsSubmitted={setIsSubmitted}
                         />

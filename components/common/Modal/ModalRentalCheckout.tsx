@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { Car, Term } from '@/lib/types/Car';
-import { RentalPeriod } from '../Cars';
+import { RentalPeriod, tooltipText } from '../Cars';
 import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
 import classes from './ModalRentalCheckout.module.css';
+import { Tooltip } from 'antd';
 
 interface ModalRentalCheckoutProps {
     car: Car;
@@ -15,6 +16,8 @@ interface ModalRentalCheckoutProps {
     startTime: string;
     returnTime: string;
     hasSeasonDays: boolean;
+    deliveryCost: number;
+    additionalOptionsTotal: number;
     additionalOptions: { label: string; value: string }[];
     additionalOptionsSelected: string[];
     setAdditionalOptions: (opts: string[]) => void;
@@ -26,6 +29,10 @@ interface ModalRentalCheckoutProps {
     totalPrice: number;
     closeModal?: () => void;
     setIsSubmitted: (isSubmitted: boolean) => void;
+    setStartDate: (date: Dayjs | null) => void;
+    setReturnDate: (date: Dayjs | null) => void;
+    setStartTime: (time: string) => void;
+    setReturnTime: (time: string) => void;
 }
 
 export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
@@ -44,8 +51,14 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     daysCount,
     pricePerDay,
     totalPrice,
+    setStartDate,
+    setReturnDate,
+    setStartTime,
+    setReturnTime,
     closeModal,
     setIsSubmitted,
+    deliveryCost,
+    additionalOptionsTotal,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const thumbUrl =
@@ -159,6 +172,29 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                             </dt>
                             <dd className={classes.descCard}>6 ₽/км.</dd>
                         </div>
+                        {additionalOptionsTotal > 0 && (
+                            <div
+                                className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
+                            >
+                                <dt className={classes.headerCard}>
+                                    Дополнительные опции
+                                </dt>
+                                <dd className={classes.descCard}>
+                                    {additionalOptionsTotal} ₽
+                                </dd>
+                            </div>
+                        )}
+
+                        {deliveryCost > 0 && (
+                            <div
+                                className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
+                            >
+                                <dt className={classes.headerCard}>Доставка</dt>
+                                <dd className={classes.descCard}>
+                                    {deliveryCost} ₽
+                                </dd>
+                            </div>
+                        )}
                     </dl>
 
                     <div
@@ -169,7 +205,17 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                             {hasSeasonDays && (
                                 <div className="flex font-semibold items-center gap-2 text-[10px]/[18px]  lg:text-[12px]/[18px]">
                                     с учетом сезонности <LineIcon />{' '}
-                                    <InfoIcon width={20} height={20} />
+                                    <Tooltip
+                                        placement="right"
+                                        title={tooltipText}
+                                        color="#4b5563"
+                                        arrow={false}
+                                        className="flex-center"
+                                    >
+                                        <div>
+                                            <InfoIcon width={20} height={20} />
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             )}
                         </span>
@@ -183,12 +229,14 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
             <RentalPeriod
                 car={car}
                 startDate={dayjs(startDate)}
+                onStartDateChange={setStartDate}
                 startTime={startTime}
-                onStartDateChange={undefined}
+                onStartTimeChange={setStartTime}
                 returnDate={dayjs(returnDate)}
                 returnTime={returnTime}
+                onReturnDateChange={setReturnDate}
+                onReturnTimeChange={setReturnTime}
                 daysCount={daysCount}
-                onReturnDateChange={undefined}
                 additionalOptions={additionalOptions}
                 additionalOptionsSelected={additionalOptionsSelected}
                 setAdditionalOptions={setAdditionalOptions}

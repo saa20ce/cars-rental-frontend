@@ -3,7 +3,8 @@ import { DeliveryPriceTable } from '@/components/common/Cars';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
-import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import { faqItems } from '@/lib/data/faqItems';
+import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import { GoIcon } from '@/lib/ui/icons/GoIcon';
 import Image from 'next/image';
@@ -203,7 +204,7 @@ export default async function ServicesPage() {
                 </article>
             </section>
 
-            <section className="flex flex-col-reverse  lg:flex-row-reverse gap-6 py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2] items-stretch mb-[42px] lg:mb-[68px]">
+            <section className="flex flex-col-reverse lg:flex-row-reverse gap-6 py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2] items-stretch mb-[42px] lg:mb-[68px]">
                 <div className="relative aspect-[360/188] mx-auto lg:aspect-auto w-full max-w-[618px] rounded-[20px] overflow-hidden flex-1">
                     <Image
                         fill
@@ -238,9 +239,12 @@ export default async function ServicesPage() {
                 </article>
             </section>
 
-            <div className="-mb-[42px] lg:-mb-[68px]">
-                <FaqCollapse />
-            </div>
+            <section>
+                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    Часто задаваемые вопросы:
+                </h2>
+                <Accordion items={faqItems} />
+            </section>
 
             <ContactCard
                 children={

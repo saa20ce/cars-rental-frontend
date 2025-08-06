@@ -46,7 +46,8 @@ export default async function newsDetailPage({
     const details: NewsDetail | undefined = data[0];
     const breadcrumbs = await fetchBreadcrumbs(`/news/${slug}`);
     const news: WPPost[] = details ? await fetchNews(data[0].id) : [];
-    console.log(news);
+    const image = data[0]._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+
     if (!details) {
         return <div>Новость не найдена</div>;
     }
@@ -56,14 +57,13 @@ export default async function newsDetailPage({
             <Breadcrumbs crumbs={breadcrumbs} />
             <div className="flex gap-0 lg:gap-6 flex-col lg:flex-row mt-6 lg:mt-8">
                 <article className="article" style={{ flex: 3 }}>
-                    <img
-                        src={
-                            data[0]._embedded?.['wp:featuredmedia']?.[0]
-                                ?.source_url || null
-                        }
-                        alt="Фото прикрепленное к новости"
-                        className="w-full block rounded-[32px] mb-5 lg:mb-6"
-                    />
+                    {image && (
+                        <img
+                            src={image}
+                            alt="Фото прикрепленное к новости"
+                            className="w-full block rounded-[32px] mb-5 lg:mb-6"
+                        />
+                    )}
                     <HtmlContent details={details} />
                 </article>
                 <aside className="mt-[42px] lg:mt-0 grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:block flex-1 lg:max-w-[297px]">

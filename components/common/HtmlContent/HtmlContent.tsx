@@ -1,7 +1,7 @@
 import { NewsDetail } from '@/app/news/[slug]/page';
 import classes from './HtmlContent.module.css';
 import { load } from 'cheerio';
-import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import { Accordion } from '@/lib/ui/common/Accordion';
 
 function extractH2Headings(html: string): string[] {
     const $ = load(html);
@@ -13,8 +13,19 @@ function extractH2Headings(html: string): string[] {
     return headings;
 }
 
+function replaceH1WithH2(html: string): string {
+    const $ = load(html);
+    $('h1').each((_, el) => {
+        const h1 = $(el);
+        const newEl = $('<h2></h2>').html(h1.html() || '');
+        h1.replaceWith(newEl);
+    });
+    return $.html();
+}
+
 export default function HtmlContent({ details }: { details: NewsDetail }) {
-    const headers = extractH2Headings(details.content.rendered);
+    const cleanedHtml = replaceH1WithH2(details.content.rendered);
+    const headers = extractH2Headings(cleanedHtml);
     const itemCollapse = [
         {
             key: '1',
@@ -36,22 +47,24 @@ export default function HtmlContent({ details }: { details: NewsDetail }) {
                 'bg-[#F6F6F633] border border-[#F6F6F633] rounded-[20px] mb-[10px]',
         },
     ];
-    console.log(details);
 
     return (
         <div className={classes.content}>
             <h1>{details.title.rendered}</h1>
-            <FaqCollapse items={itemCollapse} news={true} />
-            <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium text-[#F6F6F699] mb-6 lg:mb-8">
-                {new Date(details.date).toLocaleDateString('ru-RU', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric',
-                })}
+            <Accordion items={itemCollapse} />
+            <p className="date text-[16px]/[24px] lg:text-[18px]/[28px] font-medium text-[#F6F6F699] mb-6 lg:mb-8">
+                {new Date(details.date)
+                    .toLocaleDateString('ru-RU', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                    })
+                    .replace(/ г\.?$/, '')}{' '}
+                &mdash; Блог
             </p>
             <div
                 dangerouslySetInnerHTML={{
-                    __html: details.content.rendered,
+                    __html: cleanedHtml,
                 }}
             ></div>
         </div>

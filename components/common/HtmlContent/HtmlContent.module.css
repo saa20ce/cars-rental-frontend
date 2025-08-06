@@ -8,7 +8,7 @@
     h2:not(h2:first-child) {
         @apply mt-8 lg:mt-9;
     }
-    p {
+    p:not(:global(.date)) {
         @apply text-[14px]/[20px] lg:text-[16px]/[24px] font-normal mb-[10px] lg:mb-3;
     }
     ul,
@@ -43,5 +43,9 @@
     }
     tbody tr:last-child td:last-child {
         @apply rounded-br-[20px];
+    }
+    :global(.filter-blog),
+    :global(.post_list) {
+        @apply hidden;
     }
 }

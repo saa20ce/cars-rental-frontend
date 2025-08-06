@@ -11,12 +11,13 @@ import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { DownloadIcon } from '@/lib/ui/icons/DownloadIcon';
-import { FaqCollapse } from '@/lib/ui/common/Collapse';
+import { Accordion } from '@/lib/ui/common/Accordion';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { LineIcon } from '@/lib/ui/icons';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { steps } from '@/lib/data/emergencySteps';
+import { faqItems } from '@/lib/data/faqItems';
 
 export default async function TermsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/terms');
@@ -430,9 +431,12 @@ export default async function TermsPage() {
                 <DeliveryPriceTable deliveryPrice={deliveryPrice} />
             </section>
 
-            <div className="pt-[42px] lg:pt-[68px] border-t border-[#284B63B2] -mb-[36px] lg:-mb-[]">
-                <FaqCollapse />
-            </div>
+            <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
+                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    Часто задаваемые вопросы:
+                </h2>
+                <Accordion items={faqItems} />
+            </section>
 
             <WhyUs />
             <HaveQuestions />

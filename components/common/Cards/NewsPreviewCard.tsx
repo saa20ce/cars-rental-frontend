@@ -21,7 +21,7 @@ export default function NewsPreviewCard({ news }: NewsPreviewCardProps) {
                         className="w-full aspect-video object-cover"
                     />
                 ) : (
-                    <div className="bg-[#F6F6F699] rounded-[16px] w-full object-cover aspect-video flex-center">
+                    <div className="bg-[#F6F6F699] rounded-t-[16px] w-full object-cover aspect-video flex-center">
                         Изображение отсутствует
                     </div>
                 )}

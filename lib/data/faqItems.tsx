@@ -44,3 +44,20 @@ export const rawFaqItems = [
         answer: 'Да, предоставляем при наличии. Услуга бесплатна.',
     },
 ];
+
+export const faqItems = rawFaqItems.map((item, index) => ({
+    key: String(index + 1),
+    label: (
+        <span className="text-[#F6F6F6] text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
+            {item.question}
+        </span>
+    ),
+    children: (
+        <p className="text-[#F6F6F6] font-normal text-[14px]/[20px] lg:text-[16px]/[24px]">
+            {item.answer}
+        </p>
+    ),
+    className: `bg-[#F6F6F60D] border border-[#F6F6F633] rounded-[20px] ${
+        index !== rawFaqItems.length - 1 ? 'mb-[10px] lg:mb-[12px]' : ''
+    }`,
+}));

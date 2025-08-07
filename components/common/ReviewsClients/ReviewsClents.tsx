@@ -3,13 +3,19 @@
 import CarouselControls from '@/lib/ui/common/CarouselControls';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
-import { useRef, useState,useEffect } from 'react';
-import { fetchCustomerReviews, CustomerReview } from '@/lib/api/fetchCustomerReviews';
+import { useRef, useState } from 'react';
 
-export default function ReviewsClients() {
+type CustomerReview = {
+    id: number;
+    full_name: string;
+    review_text: string;
+    rating: number;
+    submitted_at: string;
+};
+
+export default function ReviewsClients({ reviews }: { reviews: CustomerReview[] }) {
     const scrollRef = useRef<HTMLUListElement>(null);
     const [expandedStates, setExpandedStates] = useState<{ [key: string]: boolean }>({});
-    const [reviews, setReviews] = useState<CustomerReview[]>([]);
 
     const toggleExpanded = (key: string) => {
         setExpandedStates((prev) => ({
@@ -17,12 +23,6 @@ export default function ReviewsClients() {
             [key]: !prev[key],
         }));
     };
-
-    useEffect(() => {
-        fetchCustomerReviews()
-            .then(setReviews)
-            .catch(console.error);
-    }, []);
 
     return (
         <section className="mt-[42px] lg:mt-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D]">

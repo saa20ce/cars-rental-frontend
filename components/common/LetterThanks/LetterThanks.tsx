@@ -1,19 +1,16 @@
 'use client';
 
 import CarouselControls from '@/lib/ui/common/CarouselControls';
-import { useRef,useEffect,useState } from 'react';
-import { fetchThankYouLetters, ThankYouLetter } from '@/lib/api/fetchThankLetters';
+import { useRef } from 'react';
 
+type Letter = {
+    id: number;
+    image: string;
+    description: string;
+};
 
-export default function LetterThanks() {
+export default function LetterThanks({ letters }: { letters: Letter[] }) {
     const scrollRef = useRef<HTMLUListElement>(null);
-    const [letters, setLetters] = useState<ThankYouLetter[]>([]);
-
-    useEffect(() => {
-        fetchThankYouLetters()
-            .then(setLetters)
-            .catch((err) => console.error('Ошибка загрузки писем:', err));
-    }, []);
     return (
         <section className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between mb-4 lg:mb-6">

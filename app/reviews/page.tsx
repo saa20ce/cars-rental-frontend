@@ -7,10 +7,17 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 export default async function ReviewsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/reviews');
 
+    const [reviewsRes, lettersRes] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/?status=published`, { cache: 'no-store' }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`, { cache: 'no-store' }),
+    ]);
+
+    const reviews = await reviewsRes.json();
+    const letters = await lettersRes.json();
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
-            <LetterThanks />
+            <LetterThanks letters={letters}/>
             <section className="my-[42px] lg:my-[68px]">
                 <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
                     Отзывы
@@ -31,7 +38,7 @@ export default async function ReviewsPage() {
                 }
             </section>
             <ReviewForm />
-            <ReviewsClents />
+            <ReviewsClents reviews={reviews}/>
         </>
     );
 }

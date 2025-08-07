@@ -6,24 +6,21 @@ import ModalTriggerCommercialProposalForm from '@/components/common/Modal/ModalT
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
 import { Accordion } from '@/lib/ui/common/Accordion';
-import {
-    AgeIcon,
-    CarIcon,
-    DocumentsIcon,
-    TelegramLogo,
-    WhatsappLogo,
-} from '@/lib/ui/icons';
-import { EmailIcon } from '@/lib/ui/icons/EmailIcon';
+import { TelegramLogo, WhatsappLogo } from '@/lib/ui/icons';
 import { ListIcon } from '@/lib/ui/icons/ListIcon';
-import { MarkerIcon } from '@/lib/ui/icons/MarkerIcon';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
 import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 import { PcIcon } from '@/lib/ui/icons/PcIcon';
-import Link from 'next/link';
 
 export default async function BusinessPage() {
     const breadcrumbs = await fetchBreadcrumbs('/business');
+    const lettersRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
+        { cache: 'no-store' },
+    );
+
+    const letters = await lettersRes.json();
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
@@ -141,7 +138,7 @@ export default async function BusinessPage() {
 
             <RentSteps />
 
-            <LetterThanks />
+            <LetterThanks letters={letters} />
 
             <section className="pt-[42px] lg:pt-[68px]">
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
@@ -152,7 +149,7 @@ export default async function BusinessPage() {
 
             <AnyQuestionsForm />
 
-            <section className='py-[42px] lg:py-[68px]'>
+            <section className="py-[42px] lg:py-[68px]">
                 <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold flex gap-4 lg:gap-5 flex-col lg:flex-row justify-center">
                     <a
                         href="tel:+7(913)-913-28-08"
@@ -174,7 +171,7 @@ export default async function BusinessPage() {
                     <a
                         href="https://t.me/Rentasib"
                         target="_blank"
-                         aria-label="Номер Telegram"
+                        aria-label="Номер Telegram"
                         className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
                     >
                         <TelegramLogo className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />

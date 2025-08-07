@@ -17,10 +17,10 @@ export const mainMenu = [
         href: '/services',
         items: [
             { title: 'Все услуги', href: '/services' },
-            { title: 'Аренда авто для Юр.лиц', href: '#' },
+            { title: 'Аренда авто для Юр.лиц', href: '/business' },
             { title: 'Аренда авто бизнес классы', href: '#' },
             { title: 'Аренда авто комфорт класса', href: '#' },
-            { title: 'Дополнительные услуги', href: '#' },
+            { title: 'Дополнительные услуги', href: '/additional-services' },
         ],
     },
     {

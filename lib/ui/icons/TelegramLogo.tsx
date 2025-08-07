@@ -1,9 +1,16 @@
-export const TelegramLogo = () => (
+
+
+import React from 'react';
+
+interface IconProps {
+    className?: string;
+}
+
+export const TelegramLogo: React.FC<IconProps> = ({ className = '' }) => (
     <svg
-        className="
-		w-4 h-4
+        className={`${className} w-4 h-4
 		lg:w-6 lg:h-6
-		fill-current"
+		fill-current`}
         viewBox="0 0 17 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -14,3 +21,4 @@ export const TelegramLogo = () => (
         />
     </svg>
 );
+

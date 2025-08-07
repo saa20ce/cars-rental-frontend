@@ -1,9 +1,14 @@
-export const WhatsappLogo = () => (
+import React from 'react';
+
+interface IconProps {
+    className?: string;
+}
+
+export const WhatsappLogo: React.FC<IconProps> = ({ className = '' }) => (
     <svg
-        className="
-		w-4 h-4
-		lg:w-6 lg:h-6
-		fill-current"
+        className={`${className} w-4 h-4
+        lg:w-6 lg:h-6
+        fill-current`}
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

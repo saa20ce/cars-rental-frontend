@@ -1,11 +1,7 @@
-import ContactCard from '@/components/common/Cards/ConactCard';
-import { DeliveryPriceTable } from '@/components/common/Cars';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { faqItems } from '@/lib/data/faqItems';
 import { Accordion } from '@/lib/ui/common/Accordion';
-import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import { GoIcon } from '@/lib/ui/icons/GoIcon';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,93 +9,50 @@ import Link from 'next/link';
 const servicesItems = [
     {
         key: '1',
-        title: 'Аренда авто для Юридических лиц',
+        title: 'Доставка авто по городу',
         href: '#',
         src: '/images/servicesImages/1.jpg',
     },
     {
         key: '2',
-        title: 'Аренда кроссовера',
+        title: 'Прокат авто с детским креслом',
         href: '#',
         src: '/images/servicesImages/2.jpg',
     },
     {
         key: '3',
-        title: 'Аренда внедорожниква',
+        title: 'Аренда авто без водителя',
         href: '#',
         src: '/images/servicesImages/3.jpg',
     },
     {
         key: '4',
-        title: 'Прокат минивэнов и микроавтобусов',
+        title: 'Аренда авто с боксом на крышу',
         href: '#',
         src: '/images/servicesImages/4.jpg',
     },
     {
         key: '5',
-        title: 'Аренда авто бизнес-класса',
+        title: 'Аренда авто в аэропорту',
         href: '#',
         src: '/images/servicesImages/5.jpg',
     },
-    {
-        key: '6',
-        title: 'Аренда авто комфорт-класса',
-        href: '#',
-        src: '/images/servicesImages/6.jpg',
-    },
-    {
-        key: '7',
-        title: 'Аренда авто эконом-класса',
-        href: '#',
-        src: '/images/servicesImages/7.jpg',
-    },
-    {
-        key: '8',
-        title: 'Аренда авто на месяц',
-        href: '#',
-        src: '/images/servicesImages/8.jpg',
-    },
-    {
-        key: '9',
-        title: 'Аренда авто на неделю',
-        href: '#',
-        src: '/images/servicesImages/9.jpg',
-    },
-    {
-        key: '10',
-        title: 'Аренда китайских авто',
-        href: '#',
-        src: '/images/servicesImages/10.jpg',
-    },
-    {
-        key: '11',
-        title: 'Аренда премиальных авто',
-        href: '#',
-        src: '/images/servicesImages/11.jpg',
-    },
-    {
-        key: '12',
-        title: 'Аренда седанов',
-        href: '#',
-        src: '/images/servicesImages/12.jpg',
-    },
 ];
 
-export default async function ServicesPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/services');
-    const deliveryPrice = await getDeliveryPrice();
-
+export default async function additionalServicesPage() {
+    const breadcrumbs = await fetchBreadcrumbs('/additional-services');
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
-            <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
-                Услуги автопроката в Новосибирске
+            <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
+                Дополнительные услуги при аренде авто в Новосибирске
             </h1>
-            <section className="pb-[42px] lg:pb-[68px]">
-                <h2 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold">
-                    Выберите из 70+ автомобилей самый подходящий под ваши
-                    потребности и бюджет
-                </h2>
+
+            <section>
+                <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
+                    Для удобства водителей и их пассажиров предлагаем
+                    дополнительные сервисы и возможности.
+                </h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 my-8 lg:my-9">
                     {servicesItems.map((item, i) => (
                         <Link
@@ -125,68 +78,14 @@ export default async function ServicesPage() {
                         </Link>
                     ))}
                 </div>
-                <div className="w-full sm:flex sm:justify-end">
-                    <Link
-                        href={'/additional-services'}
-                        className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
-                    >
-                        Дополнительные услуги
-                        <ArrowRightLinkIcon />
-                    </Link>
-                </div>
             </section>
 
             <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
                 <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-6 items-stretch">
                     <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal ">
                         <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Аренда авто без водителя:
+                            Доставка автомобилей:
                         </h2>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Аренда авто без водителя – это одна из наших
-                            основных услуг. Вы можете выбрать любой автомобиль
-                            из нашего парка и арендовать его на нужный вам срок.
-                            Мы предоставляем автомобили разных классов и
-                            моделей, так что вы сможете выбрать машину, которая
-                            идеально подойдет для ваших нужд.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Наши автомобили всегда в хорошем техническом
-                            состоянии и проходят регулярную техническую
-                            проверку, чтобы вы могли быть уверены в их
-                            надежности.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Кроме того, мы предоставляем услугу бесплатной
-                            доставки автомобиля в любое место Новосибирска, что
-                            сделает процесс аренды еще более удобным для вас.
-                        </p>
-                    </article>
-                    <div className="relative aspect-[3/2] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[618px] rounded-[20px] overflow-hidden min-h-[82px]">
-                        <Image
-                            fill
-                            alt="Рукопожатие, символизирующее сотрудничество"
-                            src={'/images/handshake.webp'}
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
-
-            <section className="pt-[42px] lg:pt-[68px]">
-                <div className="max-w-[1260px] flex flex-col lg:flex-row-reverse mx-auto gap-8 lg:gap-6 items-stretch mb-8 lg:mb-9">
-                    <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal ">
-                        <div className="flex items-center flex-row mb-5 lg:mb-6 gap-[10px] lg:gap-4">
-                            <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold ">
-                                Стоимость доставки авто:
-                            </h2>
-                            <div className="hidden xl:block">
-                                <LineIcon />
-                            </div>
-                            <div className="hidden xl:block text-[#FFD7A6] text-[18px]/[28px] lg:text-[24px]/[32px] font-medium ">
-                                Доставка 24/7
-                            </div>
-                        </div>
                         <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
                             Услуга доставки автомобилей в Рентасиб позволяет
                             нашим клиентам получить автомобиль в удобном для них
@@ -221,15 +120,14 @@ export default async function ServicesPage() {
                         />
                     </div>
                 </div>
-                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
             </section>
- 
-            <section className="flex flex-col-reverse lg:flex-row gap-6 mt-[42px] lg:mt-[68px]  py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2] items-stretch">
+
+            <section className="flex flex-col-reverse lg:flex-row gap-6 mt-[42px] lg:mt-[68px]  pb-[42px] lg:pb-[68px] border-b border-[#284B63B2] items-stretch">
                 <div className="relative w-full aspect-[3/2] mx-auto lg:aspect-auto lg:w-1/2 max-w-[618px] rounded-[20px] overflow-hidden flex-1">
                     <Image
                         fill
-                        alt="Девушка заключившая договор"
-                        src="/images/women.webp"
+                        alt="Мужчина открывает дверь автомобиля"
+                        src="/images/menAndCars.webp"
                         className="object-cover"
                     />
                 </div>
@@ -308,25 +206,6 @@ export default async function ServicesPage() {
                 </h2>
                 <Accordion items={faqItems} />
             </section>
-
-            <ContactCard
-                children={
-                    <>
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Наши контакты:
-                        </h2>
-                        <ul className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
-                            <li>
-                                Позвоните (номер на сайте) для консультации.
-                            </li>
-                            <li>Напишите на почту – ответ в течение часа.</li>
-                            <li>
-                                Оставьте заявку на аренду через форму на сайте.
-                            </li>
-                        </ul>
-                    </>
-                }
-            />
         </>
     );
 }

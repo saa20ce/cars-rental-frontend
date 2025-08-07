@@ -22,12 +22,11 @@ export default async function ReviewsPage() {
                 <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
                     Отзывы
                 </h1>
-                <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal">
+                <h3 className="h text-[16px]/[24px] lg:text-[20px]/[28px] font-normal mb-8 lg:mb-9">
                     О нашей компании пишут в популярных источниках:
                 </h3>
                 {
                     <div
-                        className="bg-[#fff] mt-8 lg:mt-9"
                         dangerouslySetInnerHTML={{
                             __html: `
       <review-lab data-widgetid="67454ca0eb335cf275d2a8f4"></review-lab>

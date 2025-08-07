@@ -84,6 +84,7 @@ export default function CustomButton({
                 {...variantProps}
                 className={className}
                 style={{
+                    boxShadow: 'none',
                     lineHeight: 'normal',
                     height: 'auto',
                     ...variantProps.style,

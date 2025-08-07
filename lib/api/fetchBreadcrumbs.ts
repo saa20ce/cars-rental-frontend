@@ -12,6 +12,8 @@ const staticPages: Record<string, string> = {
     contacts: 'Контакты',
     services: 'Услуги',
     reviews: 'Отзывы',
+    business: 'Аренда автомобилей для юридических лиц',
+    'additional-services': 'Дополнительные услуги',
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;

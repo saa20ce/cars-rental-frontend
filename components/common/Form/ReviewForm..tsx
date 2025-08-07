@@ -9,6 +9,8 @@ import { Modal } from 'antd';
 import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
+import { sendReview } from '@/lib/api/sendReview';
+
 
 export default function ReviewForm() {
     const [selected, setSelected] = useState<number | null>(null);
@@ -33,15 +35,22 @@ export default function ReviewForm() {
         e.preventDefault();
         setStatus('loading');
 
-        const res = true;
-
-        if (res) {
+        try {
+            await sendReview({
+                full_name: name,
+                phone: phone,
+                email,
+                review_text: review,
+                rating: selected ?? 5,
+            });
             setStatus('success');
             resetForm();
-        } else {
+        } catch (error) {
+            console.error(error);
             setStatus('error');
         }
     };
+
 
     return (
         <section className="mt-[42px] lg:mt-[68px] bg-[#1E384A] rounded-[24px] lg:rounded-[32px] py-7 px-6 lg:py-[68px] lg:px-12">

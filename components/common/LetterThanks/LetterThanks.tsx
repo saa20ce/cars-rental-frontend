@@ -1,12 +1,19 @@
 'use client';
 
 import CarouselControls from '@/lib/ui/common/CarouselControls';
-import { useRef } from 'react';
+import { useRef,useEffect,useState } from 'react';
+import { fetchThankYouLetters, ThankYouLetter } from '@/lib/api/fetchThankLetters';
 
-const arrayLetterThanks = [{ key: 1, src: '/images/LetterThanks.jpg' }];
 
 export default function LetterThanks() {
     const scrollRef = useRef<HTMLUListElement>(null);
+    const [letters, setLetters] = useState<ThankYouLetter[]>([]);
+
+    useEffect(() => {
+        fetchThankYouLetters()
+            .then(setLetters)
+            .catch((err) => console.error('Ошибка загрузки писем:', err));
+    }, []);
     return (
         <section className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between mb-4 lg:mb-6">
@@ -24,23 +31,18 @@ export default function LetterThanks() {
                     role="list"
                     aria-label="Список благодарственных писем"
                 >
-                    {Array.from({ length: 9 }, (_, i) => ({
-                        ...arrayLetterThanks[0],
-                        key: String(i + 1),
-                    })).map((item) => {
-                        return (
-                            <li
-                                key={item.key}
-                                className="min-w-[180px] lg:min-w-[250px]"
-                            >
-                                <img
-                                    src={item.src}
-                                    alt=""
-                                    className="aspect-[180/254] lg:aspect-[250/354]"
-                                />
-                            </li>
-                        );
-                    })}
+                    {letters.map((letter) => (
+                        <li
+                            key={letter.id}
+                            className="min-w-[180px] lg:min-w-[250px]"
+                        >
+                            <img
+                                src={letter.image}
+                                alt="Благодарственное письмо"
+                                className="aspect-[180/254] lg:aspect-[250/354] object-cover"
+                            />
+                        </li>
+                    ))}
                 </ul>
             </div>
         </section>

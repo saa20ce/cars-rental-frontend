@@ -65,9 +65,11 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                     border: isFocused
                         ? '1px solid #f6f6f6'
                         : '1px solid #f6f6f647',
-                    borderRadius: 12,
+                    borderRadius: 16,
                     height: 36,
                     color: '#f6f6f6',
+                    display: 'flex',
+                    alignItems: 'center',
                     ...style,
                 }}
                 {...rest}

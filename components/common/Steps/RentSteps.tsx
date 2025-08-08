@@ -49,10 +49,10 @@ export function RentSteps() {
                             className="flex gap-4 relative lg:pb-0 last:pb-0 lg:flex-col"
                         >
                             <div className="relative flex flex-col items-center lg:items-start">
-                                <div className="relative w-9 h-9 bg-[#5D6770] rounded-md text-white font-bold flex items-center justify-center">
+                                <div className="relative w-9 h-9 lg:w-11 lg:h-11 bg-[#F6F6F633] rounded-[8px] lg:rounded-[12px] text-white font-bold flex items-center justify-center">
                                     {index + 1}
                                 </div>
-                                <div className="hidden lg:block absolute top-[18px] left-[36px] right-[48px] h-px border-t-2 border-dashed border-gray-500 z-0" />
+                                <div className="hidden lg:block absolute top-[22px] left-[44px] right-0 h-px border-t-2 border-dashed border-gray-500 z-0" />
                                 <div className="h-2px border-l-2 border-dashed border-gray-500 flex-1 lg:w-full"></div>
                             </div>
                             <div

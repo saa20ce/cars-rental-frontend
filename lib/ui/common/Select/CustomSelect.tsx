@@ -24,7 +24,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
                         hoverBorderColor: '#f6f6f647',
                         colorBorder: '#f6f6f647',
                         colorTextPlaceholder: '#f6f6f675',
-                        borderRadius: 12,
+                        borderRadius: 16,
                         fontSizeIcon: 18,
                         fontFamily: '"lato", "lato Fallback"',
                         colorText: '#f6f6f6',

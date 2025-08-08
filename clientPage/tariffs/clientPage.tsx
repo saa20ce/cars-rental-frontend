@@ -273,8 +273,8 @@ export default function TariffsPageClient({
                                         }}
                                         isMobile={isMobile}
                                         style={{
-                                            borderTopLeftRadius: 12,
-                                            borderBottomLeftRadius: 12,
+                                            borderTopLeftRadius: 16,
+                                            borderBottomLeftRadius: 16,
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0,
                                         }}
@@ -311,8 +311,8 @@ export default function TariffsPageClient({
                                             setIsReturnDateOpen(open)
                                         }
                                         style={{
-                                            borderTopLeftRadius: 12,
-                                            borderBottomLeftRadius: 12,
+                                            borderTopLeftRadius: 16,
+                                            borderBottomLeftRadius: 16,
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0,
                                         }}

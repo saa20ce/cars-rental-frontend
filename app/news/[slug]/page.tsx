@@ -26,9 +26,9 @@ export type WPPost = {
 export default async function newsDetailPage({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }) {
-    const { slug } = params;
+    const { slug } = await params;
 
     const fetchNews = async (excludeId: number) => {
         const res = await fetch(

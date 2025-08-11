@@ -18,7 +18,6 @@ import { DeliveryOption } from '@/lib/types/Car';
 import { tooltipText } from './PriceCards';
 import SuccessRequest from '../../Modal/SuccessRequest';
 
-
 interface AdditionalOption {
     label: string;
     value: string;
@@ -309,7 +308,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             Оставить заявку
                         </Button>
                     </ConfigProvider>
-                    
                 </section>
             )}
 

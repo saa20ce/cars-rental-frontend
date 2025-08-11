@@ -1,13 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { Car, DeliveryPrice } from '@/lib/types/Car';
+import type { Car } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
-import { WhyUs } from '@/components/common/Cards/WhyUs';
-import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-import { RentSteps } from '@/components/common/Steps/RentSteps';
-import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
@@ -20,7 +16,8 @@ interface CarsPageClientProps {
     privodOptions: Array<{ value: string; label: string }>;
     dvigatelOptions: Array<{ value: string; label: string }>;
     colorOptions: Array<{ value: string; label: string }>;
-    deliveryPrice: DeliveryPrice | null;
+    defaultKlass?: string;
+    defaultKuzov?: string;
 }
 
 export default function CarsPageClient({
@@ -31,20 +28,15 @@ export default function CarsPageClient({
     privodOptions,
     dvigatelOptions,
     colorOptions,
-    deliveryPrice,
+    defaultKlass = '',
+    defaultKuzov = '',
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc',
     );
-    console.log(colorOptions);
-
-    const handleSortDesc = () => setSortOrder('desc');
-    const handleSortAsc = () => setSortOrder('asc');
-    const handleSortDiscount = () => setSortOrder('discount');
-
-    const [selectedKlass, setSelectedKlass] = useState('');
+    const [selectedKlass, setSelectedKlass] = useState(defaultKlass);
     const [selectedMarka, setSelectedMarka] = useState('');
-    const [selectedKuzov, setSelectedKuzov] = useState('');
+    const [selectedKuzov, setSelectedKuzov] = useState(defaultKuzov);
     const [selectedPrivod, setSelectedPrivod] = useState('');
     const [selectedDvigatel, setSelectedDvigatel] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
@@ -52,10 +44,14 @@ export default function CarsPageClient({
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
     const [selectedPassengers, setSelectedPassangers] = useState('');
 
+    const handleSortDesc = () => setSortOrder('desc');
+    const handleSortAsc = () => setSortOrder('asc');
+    const handleSortDiscount = () => setSortOrder('discount');
+
     const handleReset = () => {
-        setSelectedKlass('');
+        setSelectedKuzov(defaultKuzov);
+        setSelectedKlass(defaultKlass);
         setSelectedMarka('');
-        setSelectedKuzov('');
         setSelectedPrivod('');
         setSelectedDvigatel('');
         setSelectedColor('');
@@ -110,7 +106,6 @@ export default function CarsPageClient({
             passengerMatch
         );
     });
-    console.log(filteredCars);
 
     const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
         const discountA = parseInt(a.acf?.skidka || '0', 10);
@@ -361,31 +356,6 @@ export default function CarsPageClient({
                     )}
                 </div>
             </section>
-
-            <RentSteps />
-
-            <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
-
-            <section className="mt-10 lg:mt-[68px]">
-                <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
-                        Стоимость доставки авто:
-                    </h2>
-                    <div className="hidden lg:block ml-4 mt-[6px]">
-                        <LineIcon />
-                    </div>
-                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
-                        Доставка 24/7
-                    </div>
-                </div>
-                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
-            </section>
-
-            <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
-
-            <WhyUs />
-
-            <HaveQuestions />
         </>
     );
 }

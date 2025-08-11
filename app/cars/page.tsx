@@ -5,6 +5,10 @@ import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import CarsPageClient from '@/clientPage/cars/clientPage';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
+import { LineIcon } from '@/lib/ui/icons';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,8 +42,31 @@ export default async function CarsPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
-                deliveryPrice={deliveryPrice}
             />
+            <RentSteps />
+
+            <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
+
+            <section className="mt-10 lg:mt-[68px]">
+                <div className="flex flex-row">
+                    <h2 className="text-xl font-bold lg:text-3xl">
+                        Стоимость доставки авто:
+                    </h2>
+                    <div className="hidden lg:block ml-4 mt-[6px]">
+                        <LineIcon />
+                    </div>
+                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
+                        Доставка 24/7
+                    </div>
+                </div>
+                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
+            </section>
+
+            <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
+
+            <WhyUs />
+
+            <HaveQuestions />
         </>
     );
 }

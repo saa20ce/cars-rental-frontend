@@ -13,9 +13,15 @@ type CustomerReview = {
     submitted_at: string;
 };
 
-export default function ReviewsClients({ reviews }: { reviews: CustomerReview[] }) {
+export default function ReviewsClients({
+    reviews,
+}: {
+    reviews: CustomerReview[];
+}) {
     const scrollRef = useRef<HTMLUListElement>(null);
-    const [expandedStates, setExpandedStates] = useState<{ [key: string]: boolean }>({});
+    const [expandedStates, setExpandedStates] = useState<{
+        [key: string]: boolean;
+    }>({});
 
     const toggleExpanded = (key: string) => {
         setExpandedStates((prev) => ({
@@ -45,9 +51,10 @@ export default function ReviewsClients({ reviews }: { reviews: CustomerReview[] 
                         {reviews.map((item) => {
                             const isLong = item.review_text.length > 150;
                             const isExpanded = expandedStates[item.id] || false;
-                            const displayedText = isExpanded || !isLong
-                                ? item.review_text
-                                : item.review_text.slice(0, 150).trim();
+                            const displayedText =
+                                isExpanded || !isLong
+                                    ? item.review_text
+                                    : item.review_text.slice(0, 150).trim();
 
                             return (
                                 <li
@@ -58,8 +65,13 @@ export default function ReviewsClients({ reviews }: { reviews: CustomerReview[] 
                                         {item.full_name}
                                     </span>
                                     <div className="flex gap-1 mb-1">
-                                        {Array.from({ length: 5 }).map((_, i) =>
-                                            i < item.rating ? <FullStarIcon key={i} /> : <EmptyStarIcon key={i} />
+                                        {Array.from({ length: 5 }).map(
+                                            (_, i) =>
+                                                i < item.rating ? (
+                                                    <FullStarIcon key={i} />
+                                                ) : (
+                                                    <EmptyStarIcon key={i} />
+                                                ),
                                         )}
                                     </div>
                                     <span className="text-[14px]/[20px] font-medium text-[#F6F6F699] ">
@@ -77,11 +89,15 @@ export default function ReviewsClients({ reviews }: { reviews: CustomerReview[] 
                                         {isLong && (
                                             <button
                                                 onClick={() =>
-                                                    toggleExpanded(String(item.id))
+                                                    toggleExpanded(
+                                                        String(item.id),
+                                                    )
                                                 }
                                                 className={`${isExpanded ? 'md:ml-2' : ''} underline`}
                                             >
-                                                {isExpanded ? 'Показать меньше' : 'Показать больше'}
+                                                {isExpanded
+                                                    ? 'Показать меньше'
+                                                    : 'Показать больше'}
                                             </button>
                                         )}
                                     </p>

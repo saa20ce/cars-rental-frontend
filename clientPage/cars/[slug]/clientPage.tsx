@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import { ConfigProvider, Carousel, Tabs } from 'antd';
-import type { TabsProps } from 'antd';
 import './index.css';
 import {
     PriceCards,
@@ -32,6 +31,7 @@ import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/SimilarCars';
 import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
+import SaleInfo from '@/components/common/Cards/SaleInfo';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -114,7 +114,7 @@ export default function SingleCarPageClient({
             <section className="lg:flex lg:w-full lg:gap-6">
                 <article className="lg:flex-1 lg:min-w-0">
                     <section className="carousel-wrapper">
-                        <figure>
+                        <figure className="relative">
                             {galleryImages.length === 1 && (
                                 <img
                                     src={galleryImages[0]}
@@ -148,6 +148,7 @@ export default function SingleCarPageClient({
                                     </Carousel>
                                 </ConfigProvider>
                             )}
+                            {car.acf && <SaleInfo acf={car.acf} />}
                         </figure>
                     </section>
 
@@ -251,6 +252,7 @@ export default function SingleCarPageClient({
                     title="Похожие авто"
                     btnTitle="Все бизнес"
                     similarCars={similarCars}
+                    href="/services/arenda-avto-business"
                 />
             </div>
 

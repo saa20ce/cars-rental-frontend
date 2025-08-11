@@ -1,43 +1,10 @@
+import AdditionalServicesCards from '@/components/common/Cards/AdditionalServicesCards';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
+import { additionalServicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
-import { GoIcon } from '@/lib/ui/icons/GoIcon';
 import Image from 'next/image';
-import Link from 'next/link';
-
-const servicesItems = [
-    {
-        key: '1',
-        title: 'Доставка авто по городу',
-        href: '#',
-        src: '/images/servicesImages/1.jpg',
-    },
-    {
-        key: '2',
-        title: 'Прокат авто с детским креслом',
-        href: '#',
-        src: '/images/servicesImages/2.jpg',
-    },
-    {
-        key: '3',
-        title: 'Аренда авто без водителя',
-        href: '#',
-        src: '/images/servicesImages/3.jpg',
-    },
-    {
-        key: '4',
-        title: 'Аренда авто с боксом на крышу',
-        href: '#',
-        src: '/images/servicesImages/4.jpg',
-    },
-    {
-        key: '5',
-        title: 'Аренда авто в аэропорту',
-        href: '#',
-        src: '/images/servicesImages/5.jpg',
-    },
-];
 
 export default async function additionalServicesPage() {
     const breadcrumbs = await fetchBreadcrumbs('/additional-services');
@@ -53,31 +20,7 @@ export default async function additionalServicesPage() {
                     Для удобства водителей и их пассажиров предлагаем
                     дополнительные сервисы и возможности.
                 </h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 my-8 lg:my-9">
-                    {servicesItems.map((item, i) => (
-                        <Link
-                            href={item.href}
-                            key={item.key}
-                            className="group relative flex items-center gap-3 sm:gap-0 sm:items-stretch sm:flex-col sm:h-auto h-[92px] rounded-[16px] sm:border sm:border-[#F6F6F633] bg-[#F6F6F60D] overflow-hidden sm:aspect-[297/197]"
-                        >
-                            <div className="w-[139px] sm:w-full">
-                                <img
-                                    src={item.src}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="flex justify-between items-center flex-1 pr-4">
-                                <h3
-                                    className={` max-w-[155px] sm:max-w-none sm:absolute bottom-0  text-[#F6F6F6] text-[14px] lg:text-[16px] sm:w-full sm:text-center font-medium  py-3 sm:text-nowrap sm:text-center sm:bg-[#142632D6] sm:group-hover:bg-[#2D5355] transition-colors duration-300`}
-                                >
-                                    {item.title}
-                                </h3>
-                                <GoIcon className="sm:hidden" />
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                <AdditionalServicesCards items={additionalServicesItems} />
             </section>
 
             <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">

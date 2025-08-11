@@ -15,7 +15,10 @@ export default function ModalTriggerCommercialProposalForm({}: {}) {
                 Запросить коммерческое предложение
             </button>
 
-            <CommercialProposalForm isOpen={isOpen} setIsOpenAction={setIsOpen} />
+            <CommercialProposalForm
+                isOpen={isOpen}
+                setIsOpenAction={setIsOpen}
+            />
         </>
     );
 }

@@ -14,6 +14,12 @@ const staticPages: Record<string, string> = {
     reviews: 'Отзывы',
     business: 'Аренда автомобилей для юридических лиц',
     'additional-services': 'Дополнительные услуги',
+    'arenda-avto-business': 'Аренда авто бизнесс класса',
+    'arenda-avto-comfort': 'Аренда авто комфорт класса',
+    'arenda-avto-econom': 'Аренда авто эконом класса',
+    'arenda-avto-crossovers': 'Аренда кроссоверов',
+    'arenda-avto-suv': 'Аренда внедорожника',
+    'arenda-avto-minivan': 'Прокат минивэнов и микроавтобусов',
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;

@@ -1,89 +1,15 @@
+import AdditionalServicesCards from '@/components/common/Cards/AdditionalServicesCards';
 import ContactCard from '@/components/common/Cards/ConactCard';
 import { DeliveryPriceTable } from '@/components/common/Cars';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { faqItems } from '@/lib/data/faqItems';
+import { servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
-import { GoIcon } from '@/lib/ui/icons/GoIcon';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const servicesItems = [
-    {
-        key: '1',
-        title: 'Аренда авто для Юридических лиц',
-        href: '#',
-        src: '/images/servicesImages/1.jpg',
-    },
-    {
-        key: '2',
-        title: 'Аренда кроссовера',
-        href: '#',
-        src: '/images/servicesImages/2.jpg',
-    },
-    {
-        key: '3',
-        title: 'Аренда внедорожниква',
-        href: '#',
-        src: '/images/servicesImages/3.jpg',
-    },
-    {
-        key: '4',
-        title: 'Прокат минивэнов и микроавтобусов',
-        href: '#',
-        src: '/images/servicesImages/4.jpg',
-    },
-    {
-        key: '5',
-        title: 'Аренда авто бизнес-класса',
-        href: '#',
-        src: '/images/servicesImages/5.jpg',
-    },
-    {
-        key: '6',
-        title: 'Аренда авто комфорт-класса',
-        href: '#',
-        src: '/images/servicesImages/6.jpg',
-    },
-    {
-        key: '7',
-        title: 'Аренда авто эконом-класса',
-        href: '#',
-        src: '/images/servicesImages/7.jpg',
-    },
-    {
-        key: '8',
-        title: 'Аренда авто на месяц',
-        href: '#',
-        src: '/images/servicesImages/8.jpg',
-    },
-    {
-        key: '9',
-        title: 'Аренда авто на неделю',
-        href: '#',
-        src: '/images/servicesImages/9.jpg',
-    },
-    {
-        key: '10',
-        title: 'Аренда китайских авто',
-        href: '#',
-        src: '/images/servicesImages/10.jpg',
-    },
-    {
-        key: '11',
-        title: 'Аренда премиальных авто',
-        href: '#',
-        src: '/images/servicesImages/11.jpg',
-    },
-    {
-        key: '12',
-        title: 'Аренда седанов',
-        href: '#',
-        src: '/images/servicesImages/12.jpg',
-    },
-];
 
 export default async function ServicesPage() {
     const breadcrumbs = await fetchBreadcrumbs('/services');
@@ -92,7 +18,7 @@ export default async function ServicesPage() {
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
-            <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
+            <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
                 Услуги автопроката в Новосибирске
             </h1>
             <section className="pb-[42px] lg:pb-[68px]">
@@ -100,31 +26,7 @@ export default async function ServicesPage() {
                     Выберите из 70+ автомобилей самый подходящий под ваши
                     потребности и бюджет
                 </h2>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 my-8 lg:my-9">
-                    {servicesItems.map((item, i) => (
-                        <Link
-                            href={item.href}
-                            key={item.key}
-                            className="group relative flex items-center gap-3 sm:gap-0 sm:items-stretch sm:flex-col sm:h-auto h-[92px] rounded-[16px] sm:border sm:border-[#F6F6F633] bg-[#F6F6F60D] overflow-hidden sm:aspect-[297/197]"
-                        >
-                            <div className="w-[139px] sm:w-full">
-                                <img
-                                    src={item.src}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="flex justify-between items-center flex-1 pr-4">
-                                <h3
-                                    className={` max-w-[155px] sm:max-w-none sm:absolute bottom-0  text-[#F6F6F6] text-[14px] lg:text-[16px] sm:w-full sm:text-center font-medium  py-3 sm:text-nowrap sm:text-center sm:bg-[#142632D6] sm:group-hover:bg-[#2D5355] transition-colors duration-300`}
-                                >
-                                    {item.title}
-                                </h3>
-                                <GoIcon className="sm:hidden" />
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex sm:justify-end">
                     <Link
                         href={'/additional-services'}
@@ -223,7 +125,7 @@ export default async function ServicesPage() {
                 </div>
                 <DeliveryPriceTable deliveryPrice={deliveryPrice} />
             </section>
- 
+
             <section className="flex flex-col-reverse lg:flex-row gap-6 mt-[42px] lg:mt-[68px]  py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2] items-stretch">
                 <div className="relative w-full aspect-[3/2] mx-auto lg:aspect-auto lg:w-1/2 max-w-[618px] rounded-[20px] overflow-hidden flex-1">
                     <Image

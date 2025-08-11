@@ -220,16 +220,19 @@ export default async function Home() {
                 similarCars={comfortCars}
                 title="Комфорт:"
                 btnTitle="Все комфорт"
+                href="/services/arenda-avto-comfort"
             />
             <GalleryCars
                 similarCars={crossoversCars}
                 title="Кроссоверы:"
                 btnTitle="Все кроссоверы"
+                href="/services/arenda-avto-crossovers"
             />
             <GalleryCars
                 similarCars={businessCars}
                 title="Бизнес:"
                 btnTitle="Все бизнес"
+                href="/services/arenda-avto-business"
             />
 
             <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">

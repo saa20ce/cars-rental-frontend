@@ -11,7 +11,6 @@ import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import { sendReview } from '@/lib/api/sendReview';
 
-
 export default function ReviewForm() {
     const [selected, setSelected] = useState<number | null>(null);
     const [hovered, setHovered] = useState<number | null>(null);
@@ -50,7 +49,6 @@ export default function ReviewForm() {
             setStatus('error');
         }
     };
-
 
     return (
         <section className="mt-[42px] lg:mt-[68px] bg-[#1E384A] rounded-[24px] lg:rounded-[32px] py-7 px-6 lg:py-[68px] lg:px-12">

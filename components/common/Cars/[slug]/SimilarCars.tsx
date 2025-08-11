@@ -6,11 +6,12 @@ import { CarCard } from '@/components/common/Cards/CarCard';
 import type { Car } from '@/lib/types/Car';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import CarouselControls from '@/lib/ui/common/CarouselControls';
+import Link from 'next/link';
 
 interface SimilarCarsProps {
     similarCars: Car[];
     title: string;
-    href?: string;
+    href: string;
     btnTitle: string;
 }
 
@@ -28,41 +29,12 @@ export default function GalleryCars({
                 <h2 className="text-xl font-bold ml-4 lg:text-3xl">{title}</h2>
                 <div className="hidden lg:flex flex-row px-4 gap-4">
                     <CarouselControls ref={scrollRef} />
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Button: {
-                                    textHoverBg: '#f6f6f6',
-                                    colorPrimaryHover: '#f6f6f6',
-                                    colorPrimaryBorderHover: 'f6f6f6',
-                                    defaultHoverBorderColor: 'f6f6f6',
-                                    defaultActiveBorderColor: 'f6f6f6',
-                                    defaultActiveColor: '#f6f6f6',
-                                    colorBorder: 'transparent',
-                                },
-                            },
-                        }}
+                    <Link
+                        href={href}
+                        className="w-[260px] flex-center text-[18px]/[28px] font-bold gap-3 border border-[#F6F6F6] rounded-[16px]"
                     >
-                        <Button
-                            ghost
-                            className="filterButton"
-                            icon={
-                                <div className="mt-[-3px]">
-                                    <ArrowRightLinkIcon />
-                                </div>
-                            }
-                            aria-label={`Посмотреть все ${title} автомобили`}
-                            iconPosition="end"
-                            style={{
-                                height: '44px',
-                                width: '260px',
-                                fontSize: '16px',
-                                borderRadius: '16px',
-                            }}
-                        >
-                            <span className="mt-[-1px]">{btnTitle}</span>
-                        </Button>
-                    </ConfigProvider>
+                        {btnTitle} <ArrowRightLinkIcon />
+                    </Link>
                 </div>
             </div>
             <div className="flex w-full pb-5 xl:max-w-[1260px] mx-auto">
@@ -83,41 +55,12 @@ export default function GalleryCars({
                 </ul>
             </div>
             <div className="lg:hidden">
-                <ConfigProvider
-                    theme={{
-                        components: {
-                            Button: {
-                                textHoverBg: '#f6f6f6',
-                                colorPrimaryHover: '#f6f6f6',
-                                colorPrimaryBorderHover: 'f6f6f6',
-                                defaultHoverBorderColor: 'f6f6f6',
-                                defaultActiveBorderColor: 'f6f6f6',
-                                defaultActiveColor: '#f6f6f6',
-                                colorBorder: 'transparent',
-                            },
-                        },
-                    }}
+                <Link
+                    href={href}
+                    className="lg:hidden h-11 flex-center text-[16px]/[24px] font-bold gap-3 px-[48.5px] border border-[#F6F6F6] rounded-[16px]"
                 >
-                    <Button
-                        ghost
-                        className="filterButton"
-                        icon={
-                            <div className="mt-[-3px]">
-                                <ArrowRightLinkIcon />
-                            </div>
-                        }
-                        aria-label={`Посмотреть все ${title} автомобили`}
-                        iconPosition="end"
-                        style={{
-                            height: '44px',
-                            width: '100%',
-                            fontSize: '16px',
-                            borderRadius: '16px',
-                        }}
-                    >
-                        <span className="mt-[-1px]">{btnTitle}</span>
-                    </Button>
-                </ConfigProvider>
+                    {btnTitle} <ArrowRightLinkIcon />
+                </Link>
             </div>
         </section>
     );

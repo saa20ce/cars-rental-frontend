@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 interface IconProps {
@@ -21,4 +19,3 @@ export const TelegramLogo: React.FC<IconProps> = ({ className = '' }) => (
         />
     </svg>
 );
-

@@ -17,9 +17,15 @@ export const mainMenu = [
         href: '/services',
         items: [
             { title: 'Все услуги', href: '/services' },
-            { title: 'Аренда авто для Юр.лиц', href: '/business' },
-            { title: 'Аренда авто бизнес классы', href: '#' },
-            { title: 'Аренда авто комфорт класса', href: '#' },
+            { title: 'Аренда авто для Юр.лиц', href: '/services/business' },
+            {
+                title: 'Аренда авто бизнес класса',
+                href: '/services/arenda-avto-business',
+            },
+            {
+                title: 'Аренда авто комфорт класса',
+                href: '/services/arenda-avto-comfort',
+            },
             { title: 'Дополнительные услуги', href: '/additional-services' },
         ],
     },

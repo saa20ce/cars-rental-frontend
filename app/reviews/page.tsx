@@ -1,6 +1,7 @@
 import ReviewForm from '@/components/common/Form/ReviewForm.';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import LetterThanks from '@/components/common/LetterThanks/LetterThanks';
+import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
 import ReviewsClents from '@/components/common/ReviewsClients/ReviewsClents';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 
@@ -8,8 +9,12 @@ export default async function ReviewsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/reviews');
 
     const [reviewsRes, lettersRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/?status=published`, { cache: 'no-store' }),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`, { cache: 'no-store' }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/?status=published`, {
+            cache: 'no-store',
+        }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`, {
+            cache: 'no-store',
+        }),
     ]);
 
     const reviews = await reviewsRes.json();
@@ -17,27 +22,10 @@ export default async function ReviewsPage() {
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
-            <LetterThanks letters={letters}/>
-            <section className="my-[42px] lg:my-[68px]">
-                <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
-                    Отзывы
-                </h1>
-                <h3 className="h text-[16px]/[24px] lg:text-[20px]/[28px] font-normal mb-8 lg:mb-9">
-                    О нашей компании пишут в популярных источниках:
-                </h3>
-                {
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: `
-      <review-lab data-widgetid="67454ca0eb335cf275d2a8f4"></review-lab>
-      <script src="https://app.reviewlab.ru/widget/index-es2015.js" defer></script>
-    `,
-                        }}
-                    ></div>
-                }
-            </section>
+            <LetterThanks letters={letters} />
+            <ReviewsApi />
             <ReviewForm />
-            <ReviewsClents reviews={reviews}/>
+            <ReviewsClents reviews={reviews} />
         </>
     );
 }

@@ -1,3 +1,5 @@
+import ContactCardsLittle from '@/components/common/Cards/ContactCardsLittle';
+import InfoThreeCard from '@/components/common/Cards/InfoThreeCard';
 import { RentSteps } from '@/components/common/Cars';
 import AnyQuestionsForm from '@/components/common/Form/AnyQuestionsForm';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
@@ -5,16 +7,12 @@ import LetterThanks from '@/components/common/LetterThanks/LetterThanks';
 import ModalTriggerCommercialProposalForm from '@/components/common/Modal/ModalTriggerCommercialProposalForm';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
+import { infoThreeCardItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
-import { TelegramLogo, WhatsappLogo } from '@/lib/ui/icons';
-import { ListIcon } from '@/lib/ui/icons/ListIcon';
-import { MenIcon } from '@/lib/ui/icons/MenIcon';
-import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
 import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
-import { PcIcon } from '@/lib/ui/icons/PcIcon';
 
 export default async function BusinessPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/business');
+    const breadcrumbs = await fetchBreadcrumbs('/services/business');
     const lettersRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
         { cache: 'no-store' },
@@ -28,46 +26,13 @@ export default async function BusinessPage() {
                 Аренда авто для Юридических лиц
             </h1>
 
-            <section className="pb-[42px] lg:pb-[68px]  border-b border-[#284B63B2]">
-                <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
-                    Кратокосрочная и долгосрочная аренда автомобилей в
-                    Новосибирске для юридических лиц.
-                </h3>
+            <InfoThreeCard
+                header="Кратокосрочная и долгосрочная аренда автомобилей в
+                    Новосибирске для юридических лиц."
+                items={infoThreeCardItems}
+            />
 
-                <ul className="flex flex-col lg:flex-row lg:justify-between gap-3 lg:gap-6">
-                    <li className="md:flex-1 flex items-center gap-[14px] lg:gap-5 bg-[#FFFFFF0D] p-5 lg:py-5 lg:py-6 lg:px-10 rounded-[8px] lg:rounded-[16px]">
-                        <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
-                            <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />
-                        </div>
-                        <span className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
-                            Персональный <br className="hidden lg:block" />{' '}
-                            менеджер 24/7
-                        </span>
-                    </li>
-
-                    <li className="md:flex-1 flex items-center gap-[14px] lg:gap-5 bg-[#FFFFFF0D] p-5 lg:py-5 lg:py-6 lg:px-10 rounded-[8px] lg:rounded-[16px]">
-                        <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
-                            <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />
-                        </div>
-                        <span className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
-                            Оплата по счету <br className="hidden lg:block" /> с
-                            НДС 20%
-                        </span>
-                    </li>
-
-                    <li className="md:flex-1 flex items-center gap-[14px] lg:gap-5 bg-[#FFFFFF0D] p-5 lg:py-5 lg:py-6 lg:px-10 rounded-[8px] lg:rounded-[16px]">
-                        <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
-                            <PcIcon className="w-9 h-8 lg:w-12 lg:h-12" />
-                        </div>
-                        <span className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
-                            Электронный <br className="hidden lg:block" />{' '}
-                            документооборот
-                        </span>
-                    </li>
-                </ul>
-            </section>
-
-            <section className="py-[42px] lg:py-[68px]">
+            <section className="pb-[42px] lg:pb-[68px]">
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Долгосрочная аренда от 1 месяца для юридических лиц
                 </h2>
@@ -149,36 +114,8 @@ export default async function BusinessPage() {
 
             <AnyQuestionsForm />
 
-            <section className="py-[42px] lg:py-[68px]">
-                <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold flex gap-4 lg:gap-5 flex-col lg:flex-row justify-center">
-                    <a
-                        href="tel:+7(913)-913-28-08"
-                        aria-label="Позвонить по номеру +7 (913) 913-28-08"
-                        className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:py-[25px] lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-[14px] gap-3 grow"
-                    >
-                        <MobileIcon className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
-                        <span className="text-nowrap">+ 7(913)-913-28-08</span>
-                    </a>
-                    <a
-                        href="https://wa.me/79139132808"
-                        aria-label="Номер WhatsApp"
-                        target="_blank"
-                        className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center  lg:max-w-[230px] lg:justify-between lg:flex-col lg:gap-5 gap-3 grow"
-                    >
-                        <WhatsappLogo className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
-                        <span>+ 7(913)-913-28-08</span>
-                    </a>
-                    <a
-                        href="https://t.me/Rentasib"
-                        target="_blank"
-                        aria-label="Номер Telegram"
-                        className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
-                    >
-                        <TelegramLogo className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
-                        <span className="text-nowrap">+ 7(913)-913-28-08</span>
-                    </a>
-                </div>
-            </section>
+            <ContactCardsLittle />
+
             <section className="bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
                 <h3 className="lg:hidden text-[20px]/[28px] font-bold mb-4">
                     Более 5 лет опыта работы

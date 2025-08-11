@@ -8,6 +8,7 @@ import { RentalPeriod, tooltipText } from '../Cars';
 import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
 import classes from './ModalRentalCheckout.module.css';
 import { Tooltip } from 'antd';
+import SaleInfo from '../Cards/SaleInfo';
 
 interface ModalRentalCheckoutProps {
     car: Car;
@@ -89,7 +90,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                 <header
                     className={`${classes.flexBetween} lg:block lg:aspect-[5/3] lg:-mx-9 lg:-mt-7 lg:mb-0`}
                 >
-                    <figure className="text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
+                    <figure className="relative text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
                         {thumbUrl && (
                             <img
                                 src={thumbUrl}
@@ -107,6 +108,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 {kuzovName}
                             </span>
                         </figcaption>
+                        {car.acf && <SaleInfo acf={car.acf} />}
                     </figure>
 
                     <ArrowIcon

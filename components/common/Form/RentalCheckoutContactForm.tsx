@@ -202,8 +202,12 @@ export const RentalCheckoutContactForm: React.FC<
                         <Input disabled />
                     </Form.Item>
 
-                    <Form.Item className='mt-8 lg:mt-9'>
-                        <Checkbox className='flex items-center' checked={checked} onChange={onChange}>
+                    <Form.Item className="mt-8 lg:mt-9">
+                        <Checkbox
+                            className="flex items-center"
+                            checked={checked}
+                            onChange={onChange}
+                        >
                             Связаться через WhatsApp
                         </Checkbox>
                     </Form.Item>

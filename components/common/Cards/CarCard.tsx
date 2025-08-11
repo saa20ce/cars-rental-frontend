@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import type { Car as LibCar, CarACF } from '@/lib/types/Car';
+import type {
+    Car as LibCar,
+    CarACF,
+    SeasonData,
+    PriceRange,
+    DeliveryOptionsGrouped,
+    DeliveryOption,
+} from '@/lib/types/Car';
 import CustomButton from '@/lib/ui/common/Button';
+import SaleInfo from './SaleInfo';
+import {
+    buildPriceRangesFromACF,
+    getAdditionalOptions,
+    getDeliveryPrice,
+    getSeasonDates,
+} from '@/lib/api/fetchCarData';
+import dayjs, { Dayjs } from 'dayjs';
+import {
+    computeCostsChunked,
+    isDaySeason,
+} from '@/lib/helpers/RentalCheckoutHelper';
+import { ConfigProvider, Modal } from 'antd';
+import SuccessRequest from '../Modal/SuccessRequest';
+import { ModalRentalCheckout } from '../Modal/ModalRentalCheckout';
 
 interface CarCardProps {
     car: LibCar;
@@ -21,21 +43,132 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
         '';
 
     const carLink = `/cars/${car.slug}`;
+    const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
+        [],
+    );
+    const [seasonDates, setSeasonDates] = useState<SeasonData | null>(null);
+    const [priceRanges, setPriceRanges] = useState<PriceRange[]>([]);
+    const [deliveryPrice, setDeliveryPrice] =
+        useState<DeliveryOptionsGrouped | null>(null);
+    const [additionalOptions, setAdditionalOptions] = useState<
+        | {
+              label: string;
+              value: string;
+              price: number;
+          }[]
+        | null
+    >(null);
 
-    let discountStart;
-    let discountEnd;
+    useEffect(() => {
+        async function fetchData() {
+            const seasonDatesData = await getSeasonDates();
+            setSeasonDates(seasonDatesData);
 
-    if (acf.skidka && acf.skidka_start && acf.skidka_end) {
-        const [dayStart, monthStart, yearStart] = acf.skidka_start
-            .split('/')
-            .map(Number);
-        discountStart = new Date(yearStart, monthStart - 1, dayStart);
+            const priceRangesData = buildPriceRangesFromACF(car.acf || {});
+            setPriceRanges(priceRangesData);
 
-        const [dayEnd, monthEnd, yearEnd] = acf.skidka_end
-            .split('/')
-            .map(Number);
-        discountEnd = new Date(yearEnd, monthEnd - 1, dayEnd);
-    }
+            const deliveryPriceData = await getDeliveryPrice();
+            setDeliveryPrice(deliveryPriceData);
+
+            const additionalOptionsData = await getAdditionalOptions();
+            setAdditionalOptions(additionalOptionsData);
+        }
+        fetchData();
+    }, [car.acf]);
+
+    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
+    const [returnDate, setReturnDate] = useState<Dayjs | null>(dayjs());
+    const [startTime, setStartTime] = useState('');
+    const [returnTime, setReturnTime] = useState('');
+    const [daysCount, setDaysCount] = useState(0);
+    const [dailyCosts, setDailyCosts] = useState<number[]>([]);
+    const [hasSeasonDays, setHasSeasonDays] = useState(false);
+    const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
+        string[]
+    >([]);
+    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const openModal = () => setModalVisible(true);
+    const closeModal = () => setModalVisible(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const pricePerDay = dailyCosts[0] || 0;
+
+    const additionalOptionsTotal = useMemo(() => {
+        return additionalOptions
+            ?.filter((opt) => additionalOptionsSelected.includes(opt.value))
+            ?.reduce((sum, opt) => sum + (opt.price ?? 0), 0);
+    }, [additionalOptionsSelected, additionalOptions]);
+
+    const deliveryCost = useMemo(() => {
+        const selected = deliveryOptions.find(
+            (opt) => opt.value === deliveryOptionSelected,
+        );
+        return selected ? Number(selected.price) || 0 : 0;
+    }, [deliveryOptionSelected, deliveryOptions]);
+
+    const totalPrice =
+        dailyCosts.reduce((acc, val) => acc + val, 0) +
+        (additionalOptionsTotal ?? 0) +
+        deliveryCost;
+    useEffect(() => {
+        if (!startDate) {
+            setStartDate(dayjs());
+        }
+        if (startDate && returnDate) {
+            const startFull = startDate;
+            const endFull = returnDate;
+
+            const exactDiffHours = endFull.diff(startFull, 'hour', true);
+            let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+            if (totalDays < 3) {
+                const adjustedEnd = startFull.add(3, 'day');
+                setReturnDate(adjustedEnd);
+                totalDays = 3;
+            }
+            setDaysCount(totalDays);
+
+            let isSeasonal = false;
+            setHasSeasonDays(true);
+            if (seasonDates) {
+                let allDaysSeason = true;
+                let currentDay = startFull.startOf('day');
+                const endDay = endFull.startOf('day');
+
+                while (
+                    currentDay.isBefore(endDay) ||
+                    currentDay.isSame(endDay)
+                ) {
+                    if (!isDaySeason(currentDay, seasonDates)) {
+                        allDaysSeason = false;
+                        setHasSeasonDays(false);
+                        break;
+                    }
+                    currentDay = currentDay.add(1, 'day');
+                }
+                isSeasonal = allDaysSeason;
+            }
+
+            const costs = computeCostsChunked(
+                startFull,
+                endFull,
+                priceRanges,
+                seasonDates,
+            );
+            setDailyCosts(costs);
+        } else {
+            setDaysCount(0);
+            setDailyCosts([]);
+            setHasSeasonDays(false);
+        }
+    }, [startDate, returnDate, priceRanges, seasonDates]);
+
+    useEffect(() => {
+        const hour = parseInt(startTime.split(':')[0], 10);
+        const isNight = hour >= 20 || hour < 9;
+        const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;
+        if (options) setDeliveryOptions(options);
+    }, [startTime, deliveryPrice]);
 
     return (
         <article className="car-card  flex flex-col bg-[#f6f6f60e] rounded-2xl ">
@@ -50,16 +183,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
                         alt={acf.nazvanie_avto}
                         className="w-full min-w-[310px] max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px] lg:mb-4"
                     />
-                    {acf.skidka && (
-                        <div className="flex-center gap-2 h-7 absolute top-[10px] right-[20px] bg-[#0000008A] rounded-full text-[16px]/[24px] font-medium ">
-                            <span className="bg-[#9E4242AD] py-[2px] px-[18px] rounded-full">{`-${acf.skidka}%`}</span>
-                            {discountStart && discountEnd && (
-                                <span className="py-[5px] pr-[18px]">
-                                    {`с ${discountStart.getDate()} по ${discountEnd.toLocaleString('ru', { month: 'long', day: 'numeric' })}`}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    <SaleInfo acf={acf} />
                 </Link>
             </div>
 
@@ -92,10 +216,90 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
                         variant="default"
                         style={{ height: '40px' }}
                         className="font-medium hover:bg-[#f6f6f6] w-[103px]"
+                        onClick={openModal}
                     >
                         Оформить
                     </CustomButton>
                 </div>
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Modal: {
+                                contentBg: '#00000000',
+                                boxShadow: 'none',
+                            },
+                        },
+                    }}
+                >
+                    <Modal
+                        open={modalVisible}
+                        onCancel={closeModal}
+                        closeIcon={false}
+                        footer={null}
+                        width="100vw"
+                        style={{
+                            top: 0,
+                            left: 0,
+                            margin: 0,
+                            padding: 0,
+                        }}
+                        styles={{
+                            mask: {
+                                backdropFilter: 'blur(30px)',
+                                WebkitBackdropFilter: 'blur(30px)',
+                            },
+                            content: {
+                                padding: 8,
+                                color: '#f6f6f6',
+                            },
+                        }}
+                        centered
+                    >
+                        {isSubmitted && (
+                            <SuccessRequest
+                                reservation={true}
+                                onClick={() => {
+                                    setModalVisible(false);
+                                    setIsSubmitted(false);
+                                }}
+                            />
+                        )}
+
+                        {startDate && returnDate && !isSubmitted && (
+                            <ModalRentalCheckout
+                                car={car}
+                                additionalOptionsTotal={
+                                    additionalOptionsTotal ?? 0
+                                }
+                                deliveryCost={deliveryCost}
+                                startDate={startDate.format('YYYY-MM-DD')}
+                                returnDate={returnDate.format('YYYY-MM-DD')}
+                                startTime={startTime}
+                                returnTime={returnTime}
+                                hasSeasonDays={hasSeasonDays}
+                                additionalOptions={additionalOptions ?? []}
+                                additionalOptionsSelected={
+                                    additionalOptionsSelected
+                                }
+                                setAdditionalOptions={
+                                    setAdditionalOptionsSelected
+                                }
+                                deliveryOptions={deliveryOptions}
+                                deliveryOptionSelected={deliveryOptionSelected}
+                                setDeliveryOption={setDeliveryOption}
+                                daysCount={daysCount}
+                                pricePerDay={pricePerDay}
+                                totalPrice={totalPrice}
+                                setStartDate={setStartDate}
+                                setReturnDate={setReturnDate}
+                                setStartTime={setStartTime}
+                                setReturnTime={setReturnTime}
+                                closeModal={closeModal}
+                                setIsSubmitted={setIsSubmitted}
+                            />
+                        )}
+                    </Modal>
+                </ConfigProvider>
             </div>
         </article>
     );

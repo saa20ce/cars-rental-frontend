@@ -6,6 +6,7 @@ import InfoThreeCard from '@/components/common/Cards/InfoThreeCard';
 import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
+import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
@@ -13,10 +14,16 @@ import { faqItems } from '@/lib/data/faqItems';
 import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
-import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function ArendaAvtoCrossoverSPage() {
+const paragraphTextImageSection = [
+    'Кроссоверы обладают повышенной проходимостью и способны преодолевать сложные дорожные условия, такие как грунтовые дороги, пересеченная местность или снежные трассы.',
+    'Компания “Рентасиб” предлагает в аренду кроссоверы различных марок и моделей.',
+    'Кроссоверы в аренду обеспечивают не только безопасность и надежность, но и комфорт и удобство во время поездки.',
+    ' Если вы планируете взять с собой большое количество багажа или собираетесь отправиться в поездку с группой друзей, выберите автомобиль с достаточным пространством для всех пассажиров и багажа или возьмите в аренду автобокс на крышу',
+];
+
+export default async function CrossoverRentalPage() {
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -26,9 +33,7 @@ export default async function ArendaAvtoCrossoverSPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs(
-        '/services/arenda-avto-crossovers',
-    );
+    const breadcrumbs = await fetchBreadcrumbs('/services/crossover-rental');
 
     return (
         <>
@@ -49,47 +54,22 @@ export default async function ArendaAvtoCrossoverSPage() {
                 defaultKuzov="242"
             />
 
-            <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
-                <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-[68px] items-stretch">
-                    <article className="lg:max-w-[573px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal lg:py-9">
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Кроссоверы в аренду:
-                            <br className="hidden lg:block" /> надежность и
-                            комфорт на дороге
-                        </h2>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Кроссоверы обладают повышенной проходимостью и
-                            способны преодолевать сложные дорожные условия,
-                            такие как грунтовые дороги, пересеченная местность
-                            или снежные трассы.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Компания “Рентасиб” предлагает в аренду кроссоверы
-                            различных марок и моделей.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Кроссоверы в аренду обеспечивают не только
-                            безопасность и надежность, но и комфорт и удобство
-                            во время поездки.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium">
-                            Если вы планируете взять с собой большое количество
-                            багажа или собираетесь отправиться в поездку с
-                            группой друзей, выберите автомобиль с достаточным
-                            пространством для всех пассажиров и багажа или
-                            возьмите в аренду автобокс на крышу
-                        </p>
-                    </article>
-                    <div className="relative aspect-[4/2] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[618px] rounded-[20px] lg:rounded-[28px] overflow-hidden min-h-[82px]">
-                        <Image
-                            fill
-                            alt="Салон автомобиля"
-                            src={'/images/carinterior.jpg'}
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
+            <TextImageSection
+                sectionGray={true}
+                src="/images/carinterior.webp"
+                alt="Салон автомобиля"
+                aspect="2/1"
+                pyTextBlock="9"
+                maxWidthImage="618"
+                header={
+                    <>
+                        Кроссоверы в аренду:
+                        <br className="hidden lg:block" /> надежность и комфорт
+                        на дороге
+                    </>
+                }
+                paragraphs={paragraphTextImageSection}
+            />
 
             <RentalTerms
                 header="Условия аренды кроссовера:"

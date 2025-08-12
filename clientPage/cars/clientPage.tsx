@@ -18,6 +18,7 @@ interface CarsPageClientProps {
     colorOptions: Array<{ value: string; label: string }>;
     defaultKlass?: string;
     defaultKuzov?: string;
+    defaultMarka?: string[];
 }
 
 export default function CarsPageClient({
@@ -30,12 +31,13 @@ export default function CarsPageClient({
     colorOptions,
     defaultKlass = '',
     defaultKuzov = '',
+    defaultMarka = [],
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc',
     );
     const [selectedKlass, setSelectedKlass] = useState(defaultKlass);
-    const [selectedMarka, setSelectedMarka] = useState('');
+    const [selectedMarka, setSelectedMarka] = useState(defaultMarka);
     const [selectedKuzov, setSelectedKuzov] = useState(defaultKuzov);
     const [selectedPrivod, setSelectedPrivod] = useState('');
     const [selectedDvigatel, setSelectedDvigatel] = useState('');
@@ -51,7 +53,7 @@ export default function CarsPageClient({
     const handleReset = () => {
         setSelectedKuzov(defaultKuzov);
         setSelectedKlass(defaultKlass);
-        setSelectedMarka('');
+        setSelectedMarka(defaultMarka);
         setSelectedPrivod('');
         setSelectedDvigatel('');
         setSelectedColor('');
@@ -63,9 +65,12 @@ export default function CarsPageClient({
         const klassMatch = selectedKlass
             ? car.klass?.includes(Number(selectedKlass))
             : true;
-        const markaMatch = selectedMarka
-            ? car.marka?.includes(Number(selectedMarka))
-            : true;
+        const markaMatch =
+            selectedMarka.length > 0
+                ? selectedMarka.some((marka) =>
+                      car.marka?.includes(Number(marka)),
+                  )
+                : true;
         const kuzovMatch = selectedKuzov
             ? car.kuzov?.includes(Number(selectedKuzov))
             : true;
@@ -187,10 +192,11 @@ export default function CarsPageClient({
                                 options={markaOptions}
                                 className="filters-select"
                                 style={{ width: '100%' }}
-                                onChange={(value) =>
-                                    setSelectedMarka(value as string)
+                                onChange={(values) =>
+                                    setSelectedMarka(values as string[])
                                 }
-                                value={selectedMarka || undefined}
+                                value={selectedMarka}
+                                multiple={true}
                             />
                             <CustomSelect
                                 placeholder="Цена"

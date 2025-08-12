@@ -11,8 +11,8 @@ import { infoThreeCardItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 
-export default async function BusinessPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/services/business');
+export default async function СorporateRentalPage() {
+    const breadcrumbs = await fetchBreadcrumbs('/services/corporate-rental');
     const lettersRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
         { cache: 'no-store' },

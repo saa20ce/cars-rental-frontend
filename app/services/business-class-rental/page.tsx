@@ -6,17 +6,26 @@ import InfoThreeCard from '@/components/common/Cards/InfoThreeCard';
 import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
+import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
+import {
+    infoArendaAvtoBusinessPageItems,
+    rentalTermsBusinessItems,
+    servicesItems,
+} from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
-import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function ArendaAvtoEconomPage() {
+const paragraphTextImageSection = [
+    'Аренда автомобиля бизнес-класса — это превосходный выбор для тех, кто ценит комфорт, престиж и высокое качество во всем. Такие автомобили отличаются элегантным дизайном, современными технологиями и повышенным уровнем безопасности. Они идеально подходят для деловых поездок, важных встреч или особых событий, где важно произвести впечатление и подчеркнуть свой статус.',
+    'Аренда автомобиля бизнес-класса — это превосходный выбор для тех, кто ценит комфорт, престиж и высокое качество во всем. Такие автомобили отличаются элегантным дизайном, современными технологиями и повышенным уровнем безопасности. Они идеально подходят для деловых поездок, важных встреч или особых событий, где важно произвести впечатление и подчеркнуть свой статус.',
+];
+
+export default async function BusinessClassRentalPage() {
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -26,15 +35,17 @@ export default async function ArendaAvtoEconomPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/arenda-avto-econom');
+    const breadcrumbs = await fetchBreadcrumbs(
+        '/services/business-class-rental',
+    );
+
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Аренда авто эконом класса в Новосибирске
+                Аренда авто бизнесс класса в Новосибирске
             </h1>
-            <InfoThreeCard header="Арендуйте автомобиль в Новосибирске по самой выгодной цене от 1800 руб/сутки" />
-
+            <InfoThreeCard header="Арендуйте авто бизнес-класса в Новосибирске для важных встреч и путешествий от 4800 руб/сутки" />
             <CarsPageClient
                 cars={cars}
                 klassOptions={klassOptions}
@@ -43,42 +54,22 @@ export default async function ArendaAvtoEconomPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
-                defaultKlass="267"
+                defaultKlass="269"
             />
 
-            <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
-                <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-[68px] items-stretch">
-                    <article className="lg:max-w-[681px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal lg:py-9">
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Аренда седана: удобство без переплаты
-                        </h2>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:mb-6">
-                            Аренда седана эконом-класса — это практичный и
-                            доступный способ передвижения по городу и за его
-                            пределами. Такой автомобиль отличается низким
-                            расходом топлива и простотой управления. Подойдет
-                            для повседневных дел или краткосрочных поездок.
-                            Небольшие размеры позволяют легко маневрировать на
-                            городских улицах и находить парковку даже в самых
-                            загруженных районах. Арендуя такой автомобиль, вы
-                            получаете надежный транспорт, который отвечает всем
-                            базовым потребностям без переплаты за лишние опции.
-                        </p>
-                    </article>
-                    <div className="relative aspect-[359/205] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[512px] rounded-[20px] overflow-hidden min-h-[82px]">
-                        <Image
-                            fill
-                            alt="Автомобиль hyundai"
-                            src={'/images/hyundai.jpg'}
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
+            <TextImageSection
+                sectionGray={true}
+                src="/images/men.webp"
+                alt="Мужчина за рулем автомобиля"
+                aspect="3/2"
+                maxWidthImage="618"
+                header="Аренда автомобиля бизнес-класса: высокий уровень комфорта и уверенности на дороге"
+                paragraphs={paragraphTextImageSection}
+            />
 
             <RentalTerms
-                header="Условия аренды авто эконом класса:"
-                items={rentalTermsEconomItems}
+                header="Условия аренды авто бизнес класса:"
+                items={rentalTermsBusinessItems}
             />
 
             <section className="pt-[42px] pb-[10px] lg:pt-[68px] lg:pb-[32px] border-b border-t border-[#284B63B2]">
@@ -98,6 +89,28 @@ export default async function ArendaAvtoEconomPage() {
             </section>
 
             <section className="pt-[42px] lg:pt-[68px] border-b border-[#284B63B2]">
+                <div className="flex flex-col gap-4 lg:gap-6 mb-[42px] lg:mb-[68px]">
+                    {infoArendaAvtoBusinessPageItems.map(
+                        ({ title, desc, icon }) => (
+                            <div
+                                key={title}
+                                className="bg-[#F6F6F60D] flex items-center w-full gap-[14px] lg:gap-8 p-5 lg:px-9 lg:py-[38px] rounded-[16px]"
+                            >
+                                <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
+                                    {icon}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-[16px]/[24px] lg:text-[24px]/[32px] mb-[6px] lg:mb-[14px]">
+                                        {title}
+                                    </h4>
+                                    <p className="font-medium text-[14px]/[20px] lg:text-[18px]/[28px]">
+                                        {desc}
+                                    </p>
+                                </div>
+                            </div>
+                        ),
+                    )}
+                </div>
                 <p className="text-[14px]/[20px] lg:text-[20px]/[28px] font-medium bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
                     Рентасиб – это надежная компания по аренде автомобилей без
                     водителя в Новосибирске. Большой выбор автомобилей, выгодные

@@ -17,14 +17,17 @@ export const mainMenu = [
         href: '/services',
         items: [
             { title: 'Все услуги', href: '/services' },
-            { title: 'Аренда авто для Юр.лиц', href: '/services/business' },
+            {
+                title: 'Аренда авто для Юр.лиц',
+                href: '/services/corporate-rental',
+            },
             {
                 title: 'Аренда авто бизнес класса',
-                href: '/services/arenda-avto-business',
+                href: '/services/business-class-rental',
             },
             {
                 title: 'Аренда авто комфорт класса',
-                href: '/services/arenda-avto-comfort',
+                href: '/services/comfort-class-rental',
             },
             { title: 'Дополнительные услуги', href: '/additional-services' },
         ],

@@ -29,7 +29,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
-import GalleryCars from '@/components/common/Cars/[slug]/SimilarCars';
+import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
 interface SingleCarPageClientProps {
@@ -51,7 +51,6 @@ export default function SingleCarPageClient({
     similarCars,
     additionalOptions,
 }: SingleCarPageClientProps) {
-    console.log('car', car);
 
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
@@ -252,7 +251,7 @@ export default function SingleCarPageClient({
                     title="Похожие авто"
                     btnTitle="Все бизнес"
                     similarCars={similarCars}
-                    href="/services/arenda-avto-business"
+                    href="/services/business-class-rental"
                 />
             </div>
 

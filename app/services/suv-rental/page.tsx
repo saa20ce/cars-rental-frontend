@@ -6,6 +6,7 @@ import InfoThreeCard from '@/components/common/Cards/InfoThreeCard';
 import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
+import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
@@ -13,10 +14,16 @@ import { faqItems } from '@/lib/data/faqItems';
 import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
-import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function ArendaAvtoSuvSPage() {
+const paragraphTextImageSection = [
+    'Если вы планируете отправиться в увлекательное приключение на природу или просто исследовать непроходимые места, то аренда внедорожника – идеальное решение для вас.',
+    ' Внедорожники из нашего автопарка обладают высокой проходимостью, мощным двигателем и прочной конструкцией, что позволяет им без труда преодолевать любые преграды на своем пути. Благодаря специальной подвеске и большому клиренсу, наши внедорожники без проблем справятся с бездорожьем, грязью, речными переправами и другими сложными условиями.',
+    'Аренда внедорожников – это не только возможность испытать их возможности в деле, но и гарантия вашей безопасности во время путешествия. Все наши автомобили проходят регулярную проверку перед каждой арендой, что исключает возможность поломок и непредвиденных ситуаций во время поездки.',
+    'Кроме того, мы предоставляем полное страхование автомобилей, чтобы вы могли наслаждаться своими приключениями, не беспокоясь о возможных повреждениях.',
+];
+
+export default async function SuvRentalPage() {
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -26,8 +33,7 @@ export default async function ArendaAvtoSuvSPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/arenda-avto-suv');
-    console.log(kuzovOptions);
+    const breadcrumbs = await fetchBreadcrumbs('/services/suv-rental');
 
     return (
         <>
@@ -48,55 +54,23 @@ export default async function ArendaAvtoSuvSPage() {
                 defaultKuzov="241"
             />
 
-            <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
-                <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-[68px] items-stretch">
-                    <article className="lg:max-w-[573px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal">
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Внедорожники в прокат:
-                            <br className="hidden lg:block" /> готовы к
-                            экстремальным приключениям
-                        </h2>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Если вы планируете отправиться в увлекательное
-                            приключение на природу или просто исследовать
-                            непроходимые места, то аренда внедорожника –
-                            идеальное решение для вас.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Внедорожники из нашего автопарка обладают высокой
-                            проходимостью, мощным двигателем и прочной
-                            конструкцией, что позволяет им без труда
-                            преодолевать любые преграды на своем пути. Благодаря
-                            специальной подвеске и большому клиренсу, наши
-                            внедорожники без проблем справятся с бездорожьем,
-                            грязью, речными переправами и другими сложными
-                            условиями.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
-                            Аренда внедорожников – это не только возможность
-                            испытать их возможности в деле, но и гарантия вашей
-                            безопасности во время путешествия. Все наши
-                            автомобили проходят регулярную проверку перед каждой
-                            арендой, что исключает возможность поломок и
-                            непредвиденных ситуаций во время поездки.
-                        </p>
-                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium">
-                            Кроме того, мы предоставляем полное страхование
-                            автомобилей, чтобы вы могли наслаждаться своими
-                            приключениями, не беспокоясь о возможных
-                            повреждениях.
-                        </p>
-                    </article>
-                    <div className="relative aspect-[359/262] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[618px] rounded-[20px] lg:rounded-[28px] overflow-hidden min-h-[82px]">
-                        <Image
-                            fill
-                            alt="Внедорожник"
-                            src={'/images/suv.jpg'}
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
+            <TextImageSection
+                sectionGray={true}
+                src="/images/suv.webp"
+                alt="Внедорожник"
+                aspect="359/262"
+                pyTextBlock="0"
+                maxWidthImage="618"
+                maxWidthText="574"
+                header={
+                    <>
+                        Внедорожники в прокат:
+                        <br className="hidden lg:block" /> готовы к
+                        экстремальным приключениям
+                    </>
+                }
+                paragraphs={paragraphTextImageSection}
+            />
 
             <RentalTerms
                 header="Условия аренды внедорожника:"

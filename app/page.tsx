@@ -14,15 +14,15 @@ import {
 import Link from 'next/link';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-import GalleryCars from '@/components/common/Cars/[slug]/SimilarCars';
+import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 
 const classes = [
-    { title: 'Комфорт', src: '/images/whitecar.png', price: 9000 },
-    { title: 'Кроссоверы', src: '/images/whitecar.png', price: 9000 },
-    { title: 'Бизнес', src: '/images/whitecar.png', price: 9000 },
-    { title: 'Минивэн', src: '/images/whitecar.png', price: 9000 },
-    { title: 'Внедорожник', src: '/images/whitecar.png', price: 9000 },
-    { title: 'Седан', src: '/images/whitecar.png', price: 9000 },
+    { title: 'Комфорт', src: '/images/whitecar.webp', price: 9000 },
+    { title: 'Кроссоверы', src: '/images/whitecar.webp', price: 9000 },
+    { title: 'Бизнес', src: '/images/whitecar.webp', price: 9000 },
+    { title: 'Минивэн', src: '/images/whitecar.webp', price: 9000 },
+    { title: 'Внедорожник', src: '/images/whitecar.webp', price: 9000 },
+    { title: 'Седан', src: '/images/whitecar.webp', price: 9000 },
 ];
 
 export default async function Home() {
@@ -69,12 +69,12 @@ export default async function Home() {
                         </div>
 
                         <img
-                            src="/images/bgBanner.png"
+                            src="/images/bgBanner.webp"
                             alt="car"
                             className="absolute w-[260px] z-0 lg:w-auto bottom-0 right-0 "
                         />
                         <img
-                            src="/images/carBanner.png"
+                            src="/images/carBanner.webp"
                             alt="car"
                             className="absolute w-[220px] z-0 lg:w-auto bottom-0 right-0"
                         />
@@ -220,19 +220,19 @@ export default async function Home() {
                 similarCars={comfortCars}
                 title="Комфорт:"
                 btnTitle="Все комфорт"
-                href="/services/arenda-avto-comfort"
+                href="/services/comfort-class-rental"
             />
             <GalleryCars
                 similarCars={crossoversCars}
                 title="Кроссоверы:"
                 btnTitle="Все кроссоверы"
-                href="/services/arenda-avto-crossovers"
+                href="/services/crossover-rental"
             />
             <GalleryCars
                 similarCars={businessCars}
                 title="Бизнес:"
                 btnTitle="Все бизнес"
-                href="/services/arenda-avto-business"
+                href="/services/business-class-rental"
             />
 
             <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">

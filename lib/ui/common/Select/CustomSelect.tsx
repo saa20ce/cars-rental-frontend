@@ -6,9 +6,12 @@ import { ConfigProvider, Select } from 'antd';
 import { ChevronDownIcon } from '@/lib/ui/icons';
 import './styles.css';
 
-export type CustomSelectProps = SelectProps<unknown>;
+export type CustomSelectProps = SelectProps<unknown> & { multiple?: boolean };
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
+export const CustomSelect: React.FC<CustomSelectProps> = ({
+    multiple = false,
+    ...rest
+}) => {
     const [isSelectActive, setIsSelectActive] = useState(false);
 
     return (
@@ -38,17 +41,39 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ ...rest }) => {
                 },
             }}
         >
-            <Select
-                className="flex items-center lg:h-[44px!important]"
-                suffixIcon={<ChevronDownIcon active={isSelectActive} />}
-                style={{
-                    width: '50%',
-                    height: 36,
-                }}
-                onFocus={() => setIsSelectActive(true)}
-                onBlur={() => setIsSelectActive(false)}
-                {...rest}
-            />
+            {multiple ? (
+                <Select
+                    mode="multiple"
+                    showSearch={false}
+                    maxTagCount={0}
+                    maxTagPlaceholder={(omittedValues) =>
+                        omittedValues.length
+                            ? `Выбрано: ${omittedValues.length}`
+                            : ''
+                    }
+                    className="flex items-center lg:h-[44px!important]"
+                    suffixIcon={<ChevronDownIcon active={isSelectActive} />}
+                    style={{
+                        width: '50%',
+                        height: 36,
+                    }}
+                    onFocus={() => setIsSelectActive(true)}
+                    onBlur={() => setIsSelectActive(false)}
+                    {...rest}
+                />
+            ) : (
+                <Select
+                    className="flex items-center lg:h-[44px!important]"
+                    suffixIcon={<ChevronDownIcon active={isSelectActive} />}
+                    style={{
+                        width: '50%',
+                        height: 36,
+                    }}
+                    onFocus={() => setIsSelectActive(true)}
+                    onBlur={() => setIsSelectActive(false)}
+                    {...rest}
+                />
+            )}
         </ConfigProvider>
     );
 };

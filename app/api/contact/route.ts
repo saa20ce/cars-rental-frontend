@@ -49,8 +49,6 @@ export async function POST(req: NextRequest) {
 
         const wpData = await wpRes.json();
 
-        console.log('wpData', wpData);
-
         if (!wpRes.ok || wpData.status === 'validation_failed') {
             return NextResponse.json(
                 { message: wpData.message || 'Ошибка валидации на WP' },

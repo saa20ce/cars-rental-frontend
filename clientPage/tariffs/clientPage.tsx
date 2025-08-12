@@ -128,8 +128,6 @@ export default function TariffsPageClient({
                     priceMatch = price <= 4000;
                     break;
                 case '4000-6000':
-                    console.log('4000-6000');
-
                     priceMatch = price >= 4000 && price <= 6000;
                     break;
                 case '6000-10000':

@@ -53,73 +53,73 @@ export const servicesItems = [
     {
         key: '1',
         title: 'Аренда авто для Юридических лиц',
-        href: '/business',
+        href: '/services/corporate-rental',
         src: '/images/servicesImages/1.jpg',
     },
     {
         key: '2',
         title: 'Аренда кроссовера',
-        href: '/arenda-avto-crossovers',
+        href: '/services/crossover-rental',
         src: '/images/servicesImages/2.jpg',
     },
     {
         key: '3',
         title: 'Аренда внедорожниква',
-        href: '/arenda-avto-suv',
+        href: '/services/suv-rental',
         src: '/images/servicesImages/3.jpg',
     },
     {
         key: '4',
         title: 'Прокат минивэнов и микроавтобусов',
-        href: '/arenda-avto-minivan',
+        href: '/services/minivan-rental',
         src: '/images/servicesImages/4.jpg',
     },
     {
         key: '5',
         title: 'Аренда авто бизнес-класса',
-        href: '/arenda-avto-business',
+        href: '/services/business-class-rental',
         src: '/images/servicesImages/5.jpg',
     },
     {
         key: '6',
         title: 'Аренда авто комфорт-класса',
-        href: '/arenda-avto-comfort',
+        href: '/services/comfort-class-rental',
         src: '/images/servicesImages/6.jpg',
     },
     {
         key: '7',
         title: 'Аренда авто эконом-класса',
-        href: '/arenda-avto-econom',
+        href: '/services/economy-class-rental',
         src: '/images/servicesImages/7.jpg',
     },
     {
         key: '8',
         title: 'Аренда авто на месяц',
-        href: '#',
+        href: '/services/monthly-car-rental',
         src: '/images/servicesImages/8.jpg',
     },
     {
         key: '9',
         title: 'Аренда авто на неделю',
-        href: '#',
+        href: '/services/weekly-car-rental',
         src: '/images/servicesImages/9.jpg',
     },
     {
         key: '10',
         title: 'Аренда китайских авто',
-        href: '#',
+        href: 'services/chinese-car-rental',
         src: '/images/servicesImages/10.jpg',
     },
     {
         key: '11',
         title: 'Аренда премиальных авто',
-        href: '#',
+        href: 'services/premium-car-rental',
         src: '/images/servicesImages/11.jpg',
     },
     {
         key: '12',
         title: 'Аренда седанов',
-        href: '#',
+        href: 'services/sedan-rental',
         src: '/images/servicesImages/12.jpg',
     },
 ];
@@ -304,6 +304,56 @@ export const listItemsComfortPage1 = [
     {
         title: 'Скидки постоянным клиентам',
         icon: <HandshakeAndDocumentIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+];
+
+export const listItemsMonhtlyCarRentalPage1 = [
+    {
+        title: 'Офис в центре города',
+        icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Более 5 лет работы',
+        icon: <SertificateIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: '4000+ довольных клиентов',
+        icon: <FamilyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Скидки постоянным клиентам',
+        icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Аренда от 1800 рублей',
+        icon: <HandshakeAndDocumentIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Обновляемый автопарк из 70 автомобилей   ',
+        icon: <KeyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+];
+
+export const listItemsMonhtlyCarRentalPage2 = [
+    {
+        title: 'Выдача авто с полным баком',
+        icon: <RefuelingGunIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Работаем и доставляем по городу 24/7/365',
+        icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Детское кресло бесплатно',
+        icon: <FamilyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Скидки постоянным клиентам',
+        icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Аренда автобокса 300 руб',
+        icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];
 

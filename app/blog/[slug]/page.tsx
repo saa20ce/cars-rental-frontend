@@ -2,6 +2,7 @@ import NewsPreviewCard from '@/components/common/Cards/NewsPreviewCard';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import HtmlContent from '@/components/common/HtmlContent/HtmlContent';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export type NewsDetail = {
     content: { rendered: string };
@@ -22,6 +23,15 @@ export type WPPost = {
         ];
     };
 };
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+    return await fetchWPMetadata('/' + slug);
+}
 
 export default async function newsDetailPage({
     params,
@@ -44,7 +54,7 @@ export default async function newsDetailPage({
     );
     const data = await res.json();
     const details: NewsDetail | undefined = data[0];
-    const breadcrumbs = await fetchBreadcrumbs(`/news/${slug}`);
+    const breadcrumbs = await fetchBreadcrumbs(`/blog/${slug}`);
     const news: WPPost[] = details ? await fetchNews(data[0].id) : [];
     const image = data[0]._embedded?.['wp:featuredmedia']?.[0]?.source_url;
 

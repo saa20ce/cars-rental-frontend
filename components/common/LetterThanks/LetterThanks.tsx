@@ -31,12 +31,12 @@ export default function LetterThanks({ letters }: { letters: Letter[] }) {
                     {letters.map((letter) => (
                         <li
                             key={letter.id}
-                            className="min-w-[180px] lg:min-w-[250px]"
+                            className="min-w-[180px] max-w-[180px] lg:min-w-[250px] lg:max-w-[250px]"
                         >
                             <img
                                 src={letter.image}
                                 alt="Благодарственное письмо"
-                                className="aspect-[180/254] lg:aspect-[250/354] object-cover"
+                                className="h-full object-cover"
                             />
                         </li>
                     ))}

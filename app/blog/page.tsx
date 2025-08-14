@@ -2,7 +2,12 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { NewsGrid } from '@/components/common/NewsGrid/NewsGrid';
 import Pagination from '@/components/common/NewsGrid/Pagination';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { notFound } from 'next/navigation';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/blog');
+}
 
 async function getNews(page: number) {
     const PER_PAGE = 9;
@@ -25,7 +30,7 @@ export default async function NewsPage({
     searchParams: Promise<{ page?: string }>;
 }) {
     const { page } = await searchParams;
-    const breadcrumbs = await fetchBreadcrumbs('/news');
+    const breadcrumbs = await fetchBreadcrumbs('/blog');
     const currentPage = Number(page) || 1;
     const { posts, totalPages } = await getNews(currentPage);
 
@@ -39,7 +44,7 @@ export default async function NewsPage({
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                basePath="/news"
+                basePath="/blog"
             />
         </>
     );

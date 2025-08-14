@@ -12,9 +12,6 @@ import CustomButton from '@/lib/ui/common/Button';
 import SaleInfo from './SaleInfo';
 import {
     buildPriceRangesFromACF,
-    getAdditionalOptions,
-    getDeliveryPrice,
-    getSeasonDates,
 } from '@/lib/api/fetchCarData';
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -27,9 +24,21 @@ import { ModalRentalCheckout } from '../Modal/ModalRentalCheckout';
 
 interface CarCardProps {
     car: LibCar;
+    additionalOptions?: {
+        label: string;
+        value: string;
+        price: number;
+    }[];
+    deliveryPrice?: DeliveryOptionsGrouped;
+    seasonDates?: SeasonData | null;
 }
 
-export const CarCard: React.FC<CarCardProps> = ({ car }) => {
+export const CarCard: React.FC<CarCardProps> = ({
+    car,
+    additionalOptions,
+    deliveryPrice = { day: [], night: [] },
+    seasonDates = null,
+}) => {
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const price = Number(acf['30_dnej']);
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
@@ -46,39 +55,20 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
         [],
     );
-    const [seasonDates, setSeasonDates] = useState<SeasonData | null>(null);
     const [priceRanges, setPriceRanges] = useState<PriceRange[]>([]);
-    const [deliveryPrice, setDeliveryPrice] =
-        useState<DeliveryOptionsGrouped | null>(null);
-    const [additionalOptions, setAdditionalOptions] = useState<
-        | {
-              label: string;
-              value: string;
-              price: number;
-          }[]
-        | null
-    >(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            const seasonDatesData = await getSeasonDates();
-            setSeasonDates(seasonDatesData);
-
+    const handleOrderClick = async () => {
+        try {
             const priceRangesData = buildPriceRangesFromACF(car.acf || {});
             setPriceRanges(priceRangesData);
-
-            const deliveryPriceData = await getDeliveryPrice();
-            setDeliveryPrice(deliveryPriceData);
-
-            const additionalOptionsData = await getAdditionalOptions();
-            setAdditionalOptions(additionalOptionsData);
+        } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
         }
-        fetchData();
-    }, [car.acf]);
+    };
 
     const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
     const [returnDate, setReturnDate] = useState<Dayjs | null>(dayjs());
-    const [startTime, setStartTime] = useState('');
+    const [startTime, setStartTime] = useState('15:00');
     const [returnTime, setReturnTime] = useState('');
     const [daysCount, setDaysCount] = useState(0);
     const [dailyCosts, setDailyCosts] = useState<number[]>([]);
@@ -88,7 +78,6 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
     >([]);
     const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
     const [modalVisible, setModalVisible] = useState(false);
-    const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -111,64 +100,126 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         (additionalOptionsTotal ?? 0) +
         deliveryCost;
+    // useEffect(() => {
+    //     if (!startDate) {
+    //         setStartDate(dayjs());
+    //     }
+    //     if (startDate && returnDate) {
+    //         const startFull = startDate;
+    //         const endFull = returnDate;
+
+    //         const exactDiffHours = endFull.diff(startFull, 'hour', true);
+    //         let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+    //         if (totalDays < 3) {
+    //             const adjustedEnd = startFull.add(3, 'day');
+    //             setReturnDate(adjustedEnd);
+    //             totalDays = 3;
+    //         }
+    //         setDaysCount(totalDays);
+
+    //         let isSeasonal = false;
+    //         setHasSeasonDays(true);
+    //         if (seasonDates) {
+    //             let allDaysSeason = true;
+    //             let currentDay = startFull.startOf('day');
+    //             const endDay = endFull.startOf('day');
+
+    //             while (
+    //                 currentDay.isBefore(endDay) ||
+    //                 currentDay.isSame(endDay)
+    //             ) {
+    //                 if (!isDaySeason(currentDay, seasonDates)) {
+    //                     allDaysSeason = false;
+    //                     setHasSeasonDays(false);
+    //                     break;
+    //                 }
+    //                 currentDay = currentDay.add(1, 'day');
+    //             }
+    //             isSeasonal = allDaysSeason;
+    //         }
+
+    //         const costs = computeCostsChunked(
+    //             startFull,
+    //             endFull,
+    //             priceRanges,
+    //             seasonDates,
+    //         );
+    //         setDailyCosts(costs);
+    //     } else {
+    //         setDaysCount(0);
+    //         setDailyCosts([]);
+    //         setHasSeasonDays(false);
+    //     }
+    // }, [startDate, returnDate, priceRanges, seasonDates]);
+
+    // useEffect(() => {
+    //     const hour = parseInt(startTime.split(':')[0], 10);
+    //     const isNight = hour >= 20 || hour < 9;
+    //     const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;
+    //     if (options) setDeliveryOptions(options);
+    // }, [startTime, deliveryPrice]);
+
     useEffect(() => {
-        if (!startDate) {
-            setStartDate(dayjs());
-        }
-        if (startDate && returnDate) {
-            const startFull = startDate;
-            const endFull = returnDate;
+        if (!startDate) return;
 
-            const exactDiffHours = endFull.diff(startFull, 'hour', true);
-            let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
-            if (totalDays < 3) {
-                const adjustedEnd = startFull.add(3, 'day');
+        const startFull = startDate;
+        let endFull = returnDate ?? startDate;
+
+        const exactDiffHours = endFull.diff(startFull, 'hour', true);
+        let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+
+        if (totalDays < 1) {
+            const adjustedEnd = startFull.add(1, 'day');
+            if (!endFull.isSame(adjustedEnd)) {
+                endFull = adjustedEnd;
                 setReturnDate(adjustedEnd);
-                totalDays = 3;
             }
-            setDaysCount(totalDays);
-
-            let isSeasonal = false;
-            setHasSeasonDays(true);
-            if (seasonDates) {
-                let allDaysSeason = true;
-                let currentDay = startFull.startOf('day');
-                const endDay = endFull.startOf('day');
-
-                while (
-                    currentDay.isBefore(endDay) ||
-                    currentDay.isSame(endDay)
-                ) {
-                    if (!isDaySeason(currentDay, seasonDates)) {
-                        allDaysSeason = false;
-                        setHasSeasonDays(false);
-                        break;
-                    }
-                    currentDay = currentDay.add(1, 'day');
-                }
-                isSeasonal = allDaysSeason;
-            }
-
-            const costs = computeCostsChunked(
-                startFull,
-                endFull,
-                priceRanges,
-                seasonDates,
-            );
-            setDailyCosts(costs);
-        } else {
-            setDaysCount(0);
-            setDailyCosts([]);
-            setHasSeasonDays(false);
+            totalDays = 1;
         }
+
+        if (daysCount !== totalDays) setDaysCount(totalDays);
+
+        let allDaysSeason = true;
+        if (seasonDates) {
+            let currentDay = startFull.startOf('day');
+            const endDay = endFull.startOf('day');
+            
+            while (currentDay.isBefore(endDay) || currentDay.isSame(endDay)) {
+                if (!isDaySeason(currentDay, seasonDates)) {
+                    allDaysSeason = false;
+                    break;
+                }
+                currentDay = currentDay.add(1, 'day');
+            }
+        }
+
+        if (hasSeasonDays !== allDaysSeason) setHasSeasonDays(allDaysSeason);
+
+        const costs = computeCostsChunked(
+            startFull,
+            endFull,
+            priceRanges,
+            seasonDates,
+        );
+        if (dailyCosts.toString() !== costs.toString()) setDailyCosts(costs);
     }, [startDate, returnDate, priceRanges, seasonDates]);
 
     useEffect(() => {
+        if (!startTime) return;
+        
         const hour = parseInt(startTime.split(':')[0], 10);
         const isNight = hour >= 20 || hour < 9;
         const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;
-        if (options) setDeliveryOptions(options);
-    }, [startTime, deliveryPrice]);
+
+        const changed =
+            options &&
+            (options.length !== deliveryOptions.length ||
+                options.some(
+                    (opt, i) => opt.value !== deliveryOptions[i]?.value,
+                ));
+
+        if (changed) setDeliveryOptions(options);
+    }, [startTime, deliveryPrice, deliveryOptions]);
 
     return (
         <article className="car-card  flex flex-col bg-[#f6f6f60e] rounded-2xl ">
@@ -216,7 +267,10 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
                         variant="default"
                         style={{ height: '40px' }}
                         className="font-medium hover:bg-[#f6f6f6] w-[103px]"
-                        onClick={openModal}
+                        onClick={() => {
+                            handleOrderClick();
+                            setModalVisible(true);
+                        }}
                     >
                         Оформить
                     </CustomButton>

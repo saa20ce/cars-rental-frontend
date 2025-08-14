@@ -39,7 +39,7 @@ interface SingleCarPageClientProps {
     deliveryPrice: DeliveryPrice;
     taxonomyValues: Record<string, string>;
     similarCars: Car[];
-    additionalOptions: { label: string; value: string }[];
+    additionalOptions: { label: string; value: string; price: number }[];
 }
 
 export default function SingleCarPageClient({
@@ -251,6 +251,9 @@ export default function SingleCarPageClient({
                     btnTitle="Все бизнес"
                     similarCars={similarCars}
                     href="/services/business-class-rental"
+                    seasonDates={seasonDates}
+                    deliveryPrice={deliveryPrice}
+                    additionalOptions={additionalOptions}
                 />
             </div>
 

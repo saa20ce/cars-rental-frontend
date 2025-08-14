@@ -19,6 +19,11 @@ import {
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/arenda-avto-biznes-klassa');
+}
 
 const paragraphTextImageSection = [
     'Аренда автомобиля бизнес-класса — это превосходный выбор для тех, кто ценит комфорт, престиж и высокое качество во всем. Такие автомобили отличаются элегантным дизайном, современными технологиями и повышенным уровнем безопасности. Они идеально подходят для деловых поездок, важных встреч или особых событий, где важно произвести впечатление и подчеркнуть свой статус.',

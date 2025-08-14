@@ -10,6 +10,11 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/service');
+}
 
 export default async function ServicesPage() {
     const breadcrumbs = await fetchBreadcrumbs('/services');

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { Car } from '@/lib/types/Car';
+import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
@@ -19,6 +19,13 @@ interface CarsPageClientProps {
     defaultKlass?: string;
     defaultKuzov?: string;
     defaultMarka?: string[];
+    additionalOptions?: {
+        label: string;
+        value: string;
+        price: number;
+    }[];
+    deliveryPrice?: DeliveryOptionsGrouped;
+    seasonDates?: SeasonData | null;
 }
 
 export default function CarsPageClient({
@@ -32,6 +39,9 @@ export default function CarsPageClient({
     defaultKlass = '',
     defaultKuzov = '',
     defaultMarka = [],
+    additionalOptions,
+    deliveryPrice,
+    seasonDates,
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc',
@@ -354,7 +364,12 @@ export default function CarsPageClient({
                                         <SaleCard />
                                     </div>
                                 )}
-                                <CarCard car={car} />
+                                <CarCard
+                                    car={car}
+                                    additionalOptions={additionalOptions}
+                                    deliveryPrice={deliveryPrice}
+                                    seasonDates={seasonDates}
+                                />
                             </React.Fragment>
                         ))
                     ) : (

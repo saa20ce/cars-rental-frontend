@@ -1,5 +1,5 @@
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getAdditionalOptions, getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import CarsPageClient from '@/clientPage/cars/clientPage';
@@ -30,6 +30,8 @@ export default async function CarsPage() {
 
     const deliveryPrice = await getDeliveryPrice();
     const breadcrumbs = await fetchBreadcrumbs('/cars');
+    const additionalOptions = await getAdditionalOptions();
+    const seasonDates = await getSeasonDates();
 
     return (
         <>
@@ -42,6 +44,9 @@ export default async function CarsPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
+                additionalOptions={additionalOptions}
+                deliveryPrice={deliveryPrice}
+                seasonDates={seasonDates}
             />
             <RentSteps />
 

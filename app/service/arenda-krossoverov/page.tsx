@@ -15,6 +15,12 @@ import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/arenda-krossoverov');
+}
+
 
 const paragraphTextImageSection = [
     'Кроссоверы обладают повышенной проходимостью и способны преодолевать сложные дорожные условия, такие как грунтовые дороги, пересеченная местность или снежные трассы.',

@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { Button, ConfigProvider } from 'antd';
 import { CarCard } from '@/components/common/Cards/CarCard';
-import type { Car } from '@/lib/types/Car';
+import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import CarouselControls from '@/lib/ui/common/CarouselControls';
 import Link from 'next/link';
@@ -13,6 +13,13 @@ interface SimilarCarsProps {
     title: string;
     href: string;
     btnTitle: string;
+    additionalOptions?: {
+        label: string;
+        value: string;
+        price: number;
+    }[];
+    deliveryPrice?: DeliveryOptionsGrouped;
+    seasonDates?: SeasonData | null;
 }
 
 export default function GalleryCars({
@@ -20,6 +27,9 @@ export default function GalleryCars({
     title,
     href,
     btnTitle,
+    additionalOptions,
+    deliveryPrice = { day: [], night: [] },
+    seasonDates = null,
 }: SimilarCarsProps) {
     const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -49,7 +59,12 @@ export default function GalleryCars({
                             key={c.id}
                             className="min-w-[360px] lg:min-w-[404px] lg:first:pl-0"
                         >
-                            <CarCard car={c} />
+                            <CarCard
+                                car={c}
+                                additionalOptions={additionalOptions}
+                                deliveryPrice={deliveryPrice}
+                                seasonDates={seasonDates}
+                            />
                         </li>
                     ))}
                 </ul>

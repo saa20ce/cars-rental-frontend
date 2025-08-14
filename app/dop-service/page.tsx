@@ -5,6 +5,11 @@ import { faqItems } from '@/lib/data/faqItems';
 import { additionalServicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import Image from 'next/image';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/dop-service');
+}
 
 export default async function additionalServicesPage() {
     const breadcrumbs = await fetchBreadcrumbs('/additional-services');

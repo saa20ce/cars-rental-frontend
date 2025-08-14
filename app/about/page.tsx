@@ -2,6 +2,7 @@ import ContactCard from '@/components/common/Cards/ConactCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import CustomButton from '@/lib/ui/common/Button';
 import { ArrowRight } from '@/lib/ui/icons/ArrowRight';
 import { AutorealIcon } from '@/lib/ui/icons/AutorealIcon';
@@ -10,6 +11,10 @@ import { GardenIcon } from '@/lib/ui/icons/GardenIcon';
 import { GazOilIcon } from '@/lib/ui/icons/GazOilIcon';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/about');
+}
 
 export default async function AboutPage() {
     const breadcrumbs = await fetchBreadcrumbs('/about');

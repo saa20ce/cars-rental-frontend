@@ -6,11 +6,11 @@ export interface BreadcrumbItem {
 
 const staticPages: Record<string, string> = {
     cars: 'Автопарк',
-    tariffs: 'Тарифы',
-    terms: 'Условия',
-    news: 'Новости',
+    tarify: 'Тарифы',
+    require: 'Условия',
+    blog: 'Новости',
     contacts: 'Контакты',
-    services: 'Услуги',
+    service: 'Услуги',
     reviews: 'Отзывы',
     'corporate-rental': 'Аренда автомобилей для юридических лиц',
     'additional-services': 'Дополнительные услуги',
@@ -73,7 +73,7 @@ export async function fetchBreadcrumbs(
         } else {
             if (segments[0] === 'cars' && i === 1) {
                 title = await fetchTitleBySlug(slug, 'cars');
-            } else if (segments[0] === 'news' && i === 1) {
+            } else if (segments[0] === 'blog' && i === 1) {
                 title = await fetchTitleBySlug(slug, 'posts');
             } else {
                 title = await fetchTitleBySlug(slug, 'pages');

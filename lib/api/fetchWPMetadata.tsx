@@ -5,8 +5,9 @@ export async function fetchWPMetadata(pagePath: string) {
         const pageUrl = `${WP_API_URL}${pagePath}`;
         const res = await fetch(
             `${WP_API_URL}/wp-json/rankmath/v1/getHead?url=${encodeURIComponent(pageUrl)}`,
-            { cache: 'no-store' },
+            { next: { revalidate: 3600 } },
         );
+        
         if (!res.ok) return {};
 
         const { head } = await res.json();

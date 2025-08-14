@@ -9,7 +9,7 @@ export default function NewsPreviewCard({ news }: NewsPreviewCardProps) {
     const title = news.title.rendered;
     const date = news.date;
     const image = news._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-    const link = `/news/${news.slug}`;
+    const link = `/blog/${news.slug}`;
 
     return (
         <article className="flex flex-col bg-[#F6F6F60D] mb-4 rounded-[16px] overflow-hidden">

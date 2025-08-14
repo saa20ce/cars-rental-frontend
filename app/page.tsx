@@ -7,14 +7,21 @@ import {
     LineIcon,
 } from '@/lib/ui/icons';
 import {
+    getAdditionalOptions,
     getCarsByClass,
     getCarsByKuzov,
     getDeliveryPrice,
+    getSeasonDates,
 } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/');
+}
 
 const classes = [
     { title: 'Комфорт', src: '/images/whitecar.webp', price: 9000 },
@@ -30,6 +37,8 @@ export default async function Home() {
     const businessCars = await getCarsByClass(269);
     const comfortCars = await getCarsByClass(268);
     const crossoversCars = await getCarsByKuzov(242);
+    const additionalOptions = await getAdditionalOptions();
+    const seasonDates = await getSeasonDates();
 
     return (
         <>
@@ -221,18 +230,27 @@ export default async function Home() {
                 title="Комфорт:"
                 btnTitle="Все комфорт"
                 href="/services/comfort-class-rental"
+                additionalOptions={additionalOptions}
+                deliveryPrice={deliveryPrice}
+                seasonDates={seasonDates}
             />
             <GalleryCars
                 similarCars={crossoversCars}
                 title="Кроссоверы:"
                 btnTitle="Все кроссоверы"
                 href="/services/crossover-rental"
+                additionalOptions={additionalOptions}
+                deliveryPrice={deliveryPrice}
+                seasonDates={seasonDates}
             />
             <GalleryCars
                 similarCars={businessCars}
                 title="Бизнес:"
                 btnTitle="Все бизнес"
                 href="/services/business-class-rental"
+                additionalOptions={additionalOptions}
+                deliveryPrice={deliveryPrice}
+                seasonDates={seasonDates}
             />
 
             <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">

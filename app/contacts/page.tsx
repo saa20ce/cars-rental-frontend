@@ -2,7 +2,13 @@ import ContactCard from '@/components/common/Cards/ConactCard';
 import ContactForm from '@/components/common/Form/ContactForm';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import Image from 'next/image';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/contacts');
+}
+
 
 export default async function ContactsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/contacts');

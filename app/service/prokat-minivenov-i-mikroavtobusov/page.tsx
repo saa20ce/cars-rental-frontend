@@ -15,6 +15,11 @@ import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/prokat-minivenov-i-mikroavtobusov');
+}
 
 const paragraphTextImageSection = [
     'Аренда минивэна – это отличный выбор для путешествий большой семьей, корпоративных поездок или трансфера на мероприятия. Минивэн сочетает в себе простор, комфорт и универсальность. Вместительный салон и гибкая система сидений позволяют разместить до 7-8 пассажиров с багажом, что особенно удобно для дальних поездок или путешествий за город.',

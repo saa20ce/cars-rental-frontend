@@ -3,6 +3,12 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
 import { Accordion } from '@/lib/ui/common/Accordion';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/faq');
+}
+
 
 export default async function FAQPage() {
     const breadcrumbs = await fetchBreadcrumbs('/faq');

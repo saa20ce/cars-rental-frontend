@@ -18,6 +18,11 @@ import { LineIcon } from '@/lib/ui/icons';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { steps } from '@/lib/data/emergencySteps';
 import { faqItems } from '@/lib/data/faqItems';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/require');
+}
 
 export default async function TermsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/terms');

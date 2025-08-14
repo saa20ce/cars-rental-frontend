@@ -15,6 +15,11 @@ import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/arenda-avto-ekonom-klassa');
+}
 
 export default async function EconomyClassRentalPage() {
     const cars = await getCars({ per_page: '100' });

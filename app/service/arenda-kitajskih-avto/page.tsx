@@ -17,6 +17,11 @@ import {
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/arenda-kitajskih-avto');
+}
 
 export default async function ChineseCarRentalPage() {
     const cars = await getCars({ per_page: '100' });

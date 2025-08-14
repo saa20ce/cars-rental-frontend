@@ -15,6 +15,11 @@ import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
+import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+
+export async function generateMetadata() {
+    return await fetchWPMetadata('/arenda-vnedorozhnika');
+}
 
 const paragraphTextImageSection = [
     'Если вы планируете отправиться в увлекательное приключение на природу или просто исследовать непроходимые места, то аренда внедорожника – идеальное решение для вас.',

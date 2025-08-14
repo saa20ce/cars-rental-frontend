@@ -63,8 +63,13 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const thumbUrl =
-        car._embedded?.['wp:featuredmedia']?.[0]?.media_details?.sizes?.large
-            ?.source_url;
+        car.acf?.white_gallery?.[0] ||
+        car.acf?.black_gallery?.[0] ||
+        car.acf?.gray_gallery?.[0] ||
+        car.acf?.blue_gallery?.[0] ||
+        car.acf?.red_gallery?.[0] ||
+        '';
+            
 
     const allTerms = car._embedded?.['wp:term'] || [];
     const kuzovTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'kuzov');

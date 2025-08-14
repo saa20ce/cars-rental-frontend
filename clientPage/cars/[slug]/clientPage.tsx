@@ -51,7 +51,6 @@ export default function SingleCarPageClient({
     similarCars,
     additionalOptions,
 }: SingleCarPageClientProps) {
-
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
     const galleryImages = useMemo(
@@ -182,7 +181,7 @@ export default function SingleCarPageClient({
                                 Условия аренды:
                             </h2>
                             <Link
-                                href={'/terms'}
+                                href={'/require'}
                                 className="lg:hidden underline text-[16px]/[24px] font-normal"
                             >
                                 Полные условия
@@ -232,7 +231,7 @@ export default function SingleCarPageClient({
                             <p>
                                 Полные условия аренды вы можете прочитать{' '}
                                 <Link
-                                    href="/terms"
+                                    href="/require"
                                     className="font-semibold underline underline-offset-4"
                                 >
                                     ЗДЕСЬ

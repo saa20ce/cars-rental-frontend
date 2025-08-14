@@ -65,7 +65,7 @@ export default async function ComfortClassRentalPage() {
                 src="/images/carpark.jpg"
                 alt="Автопарк"
                 aspect="3/2"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="512"
                 header="Большой выбор автомобилей"
                 paragraphs={[
@@ -109,7 +109,7 @@ export default async function ComfortClassRentalPage() {
                 src="/images/writecontract.jpg"
                 alt="Подписание договора"
                 aspect="3/2"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="512"
                 flexRowReverse={true}
                 header="Выгодные условия аренды"
@@ -125,7 +125,7 @@ export default async function ComfortClassRentalPage() {
                 src="/images/cars.webp"
                 alt="Вручение авто"
                 aspect="3/2"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="512"
                 header="Быстрое оформление и отличный сервис"
                 paragraphs={[
@@ -155,7 +155,7 @@ export default async function ComfortClassRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

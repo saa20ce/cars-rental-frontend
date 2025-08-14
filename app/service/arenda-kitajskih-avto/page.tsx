@@ -64,7 +64,7 @@ export default async function ChineseCarRentalPage() {
                 src="/images/tank.webp"
                 alt="Автомобиль"
                 aspect="359/159"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 flexRowReverse={true}
                 maxWidthImage="511"
                 header="Выбор китайского авто в Новосибирске"
@@ -80,7 +80,7 @@ export default async function ChineseCarRentalPage() {
                 src="/images/seller.webp"
                 alt="Консультант"
                 aspect="359/192"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="510"
                 border="border-t"
                 flexRowReverse={false}
@@ -97,7 +97,7 @@ export default async function ChineseCarRentalPage() {
                 src="/images/interierhaval.webp"
                 alt="Интерьер автомобиля"
                 aspect="359/150"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="511"
                 border="border-t"
                 flexRowReverse={true}
@@ -135,7 +135,7 @@ export default async function ChineseCarRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

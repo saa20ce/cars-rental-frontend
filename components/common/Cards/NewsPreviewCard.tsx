@@ -1,4 +1,4 @@
-import { WPPost } from '@/app/news/[slug]/page';
+import { WPPost } from '@/app/blog/[slug]/page';
 import Link from 'next/link';
 
 type NewsPreviewCardProps = {

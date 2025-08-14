@@ -61,7 +61,7 @@ export default async function WeeklyCarRentalPage() {
                 src="/images/menandwomen.webp"
                 alt="Мужчина и женщина выбирают авто"
                 aspect="359/191"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="516"
                 header="Широкий выбор автомобилей для аренды на неделю"
                 paragraphs={[
@@ -77,8 +77,8 @@ export default async function WeeklyCarRentalPage() {
                 alt="Деньги"
                 maxWidthText="574"
                 aspect="359/191"
-                pyTextBlock="9"
-                maxWidthImage="618"
+                pyTextBlock="36"
+                maxWidthImage="511"
                 border="border-t"
                 flexRowReverse={true}
                 header="Низкие цены на прокат авто в Новосибирске"
@@ -93,7 +93,7 @@ export default async function WeeklyCarRentalPage() {
                 alt="Каталог"
                 maxWidthText="681"
                 aspect="359/150"
-                pyTextBlock="7"
+                pyTextBlock="28"
                 maxWidthImage="511"
                 flexRowReverse={false}
                 header="Почему аренда авто на неделю - выгодное решение?"
@@ -132,7 +132,7 @@ export default async function WeeklyCarRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

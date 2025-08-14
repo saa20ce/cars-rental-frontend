@@ -11,21 +11,17 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import {
-    infoArendaAvtoBusinessPageItems,
-    rentalTermsBusinessItems,
-    servicesItems,
-} from '@/lib/data/iemsCards';
+import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 
 const paragraphTextImageSection = [
-    'Аренда автомобиля бизнес-класса — это превосходный выбор для тех, кто ценит комфорт, престиж и высокое качество во всем. Такие автомобили отличаются элегантным дизайном, современными технологиями и повышенным уровнем безопасности. Они идеально подходят для деловых поездок, важных встреч или особых событий, где важно произвести впечатление и подчеркнуть свой статус.',
-    'Аренда автомобиля бизнес-класса — это превосходный выбор для тех, кто ценит комфорт, престиж и высокое качество во всем. Такие автомобили отличаются элегантным дизайном, современными технологиями и повышенным уровнем безопасности. Они идеально подходят для деловых поездок, важных встреч или особых событий, где важно произвести впечатление и подчеркнуть свой статус.',
+    'Аренда минивэна – это отличный выбор для путешествий большой семьей, корпоративных поездок или трансфера на мероприятия. Минивэн сочетает в себе простор, комфорт и универсальность. Вместительный салон и гибкая система сидений позволяют разместить до 7-8 пассажиров с багажом, что особенно удобно для дальних поездок или путешествий за город.',
+    'Арендуя минивэн, вы получаете надежный и маневренный автомобиль, способный с легкостью справляться как с городскими, так и с междугородними маршрутами',
 ];
 
-export default async function BusinessClassRentalPage() {
+export default async function MinivanRentalPage() {
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -35,17 +31,16 @@ export default async function BusinessClassRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs(
-        '/services/business-class-rental',
-    );
+    const breadcrumbs = await fetchBreadcrumbs('/services/minivan-rental');
 
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Аренда авто бизнесс класса в Новосибирске
+                Аренда минивэнов и микроавтобусов в Новосибирске
             </h1>
-            <InfoThreeCard header="Арендуйте авто бизнес-класса в Новосибирске для важных встреч и путешествий от 4800 руб/сутки" />
+            <InfoThreeCard header="Арендуйте минивэн в Новосибирске и путешествуйте большой компанией от 2500 руб/сутки" />
+
             <CarsPageClient
                 cars={cars}
                 klassOptions={klassOptions}
@@ -54,22 +49,30 @@ export default async function BusinessClassRentalPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
-                defaultKlass="269"
+                defaultKuzov="243"
             />
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/men.webp"
-                alt="Мужчина за рулем автомобиля"
-                aspect="3/2"
+                src="/images/minivaninterier.webp"
+                alt="Салон автомобиля минивен"
+                aspect="359/262"
+                pyTextBlock="24"
                 maxWidthImage="618"
-                header="Аренда автомобиля бизнес-класса: высокий уровень комфорта и уверенности на дороге"
+                maxWidthText="574"
+                header={
+                    <>
+                        Минивэны и микроавтобусы в аренду:
+                        <br className="hidden lg:block" /> комфорт для большой
+                        компании
+                    </>
+                }
                 paragraphs={paragraphTextImageSection}
             />
 
             <RentalTerms
-                header="Условия аренды авто бизнес класса:"
-                items={rentalTermsBusinessItems}
+                header="Условия аренды внедорожника:"
+                items={rentalTermsEconomItems}
             />
 
             <section className="pt-[42px] pb-[10px] lg:pt-[68px] lg:pb-[32px] border-b border-t border-[#284B63B2]">
@@ -79,7 +82,7 @@ export default async function BusinessClassRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги
@@ -88,29 +91,7 @@ export default async function BusinessClassRentalPage() {
                 </div>
             </section>
 
-            <section className="pt-[42px] lg:pt-[68px] border-b border-[#284B63B2]">
-                <div className="flex flex-col gap-4 lg:gap-6 mb-[42px] lg:mb-[68px]">
-                    {infoArendaAvtoBusinessPageItems.map(
-                        ({ title, desc, icon }) => (
-                            <div
-                                key={title}
-                                className="bg-[#F6F6F60D] flex items-center w-full gap-[14px] lg:gap-8 p-5 lg:px-9 lg:py-[38px] rounded-[16px]"
-                            >
-                                <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
-                                    {icon}
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-[16px]/[24px] lg:text-[24px]/[32px] mb-[6px] lg:mb-[14px]">
-                                        {title}
-                                    </h4>
-                                    <p className="font-medium text-[14px]/[20px] lg:text-[18px]/[28px]">
-                                        {desc}
-                                    </p>
-                                </div>
-                            </div>
-                        ),
-                    )}
-                </div>
+            <section className="pt-[42px] lg:pt-[68px] -mb-[42px] lg:-mb-[68px] border-[#284B63B2]">
                 <p className="text-[14px]/[20px] lg:text-[20px]/[28px] font-medium bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
                     Рентасиб – это надежная компания по аренде автомобилей без
                     водителя в Новосибирске. Большой выбор автомобилей, выгодные
@@ -121,7 +102,6 @@ export default async function BusinessClassRentalPage() {
                     вашего пребывания в городе. Сделайте заказ прямо сейчас,
                     используя контактные данные:
                 </p>
-
                 <ContactCardsLittle />
             </section>
 

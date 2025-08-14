@@ -36,7 +36,7 @@ export function RentSteps() {
                         <LineIcon />
                     </div>
                     <Link
-                        href="/terms"
+                        href="/require"
                         className="hidden lg:block text-2xl underline underline-offset-4 ml-4 text-[24px]/[32px] font-medium"
                     >
                         Полные условия
@@ -69,7 +69,7 @@ export function RentSteps() {
                     ))}
                 </ol>
                 <Link
-                    href="/terms"
+                    href="/require"
                     className="block lg:hidden underline underline-offset-4 text-center text-[20px]/[28px] font-semibold mt-5"
                 >
                     Полные условия

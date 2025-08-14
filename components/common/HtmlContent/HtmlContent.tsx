@@ -1,4 +1,4 @@
-import { NewsDetail } from '@/app/news/[slug]/page';
+import { NewsDetail } from '@/app/blog/[slug]/page';
 import classes from './HtmlContent.module.css';
 import { load } from 'cheerio';
 import { Accordion } from '@/lib/ui/common/Accordion';

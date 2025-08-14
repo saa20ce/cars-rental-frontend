@@ -27,7 +27,7 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
 
                 return (
                     <Link
-                        href={`/news/${post.slug}`}
+                        href={`/blog/${post.slug}`}
                         key={post.id}
                         className="bg-[#1C2B35] p-4 rounded-2xl shadow hover:scale-[1.01] hover:text-[#F6F6F6] transition-transform duration-300"
                     >

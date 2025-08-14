@@ -90,16 +90,16 @@ export const Footer: React.FC = () => {
                             <Link href="/cars">Автопарк</Link>
                         </li>
                         <li>
-                            <Link href="/tariffs">Тарифы</Link>
+                            <Link href="/tarify">Тарифы</Link>
                         </li>
                         <li>
-                            <Link href="#">Услуги</Link>
+                            <Link href="/service">Услуги</Link>
                         </li>
                         <li>
                             <Link href="/about">О нас</Link>
                         </li>
                         <li>
-                            <Link href="#">Отзывы</Link>
+                            <Link href="/reviews">Отзывы</Link>
                         </li>
                     </ul>
                 </nav>
@@ -109,13 +109,15 @@ export const Footer: React.FC = () => {
                             <Link href="/faq">Вопрос-ответ</Link>
                         </li>
                         <li>
-                            <Link href="#">Аренда для юридических лиц</Link>
+                            <Link href="/dop-service">
+                                Аренда для юридических лиц
+                            </Link>
                         </li>
                         <li>
                             <Link href="#">Договор аренды</Link>
                         </li>
                         <li>
-                            <Link href="/terms">Условия</Link>
+                            <Link href="/require">Условия</Link>
                         </li>
                     </ul>
                 </nav>
@@ -130,16 +132,16 @@ export const Footer: React.FC = () => {
                             <Link href="/cars">Автопарк</Link>
                         </li>
                         <li>
-                            <Link href="/tariffs">Тарифы</Link>
+                            <Link href="/tarify">Тарифы</Link>
                         </li>
                         <li>
-                            <Link href="#">Услуги</Link>
+                            <Link href="/service">Услуги</Link>
                         </li>
                         <li>
                             <Link href="/about">О нас</Link>
                         </li>
                         <li>
-                            <Link href="#">Отзывы</Link>
+                            <Link href="/reviews">Отзывы</Link>
                         </li>
                     </ul>
                     <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[165px]">
@@ -147,13 +149,15 @@ export const Footer: React.FC = () => {
                             <Link href="/faq">Вопрос-ответ</Link>
                         </li>
                         <li>
-                            <Link href="#">Аренда для юридических лиц</Link>
+                            <Link href="/dop-service">
+                                Аренда для юридических лиц
+                            </Link>
                         </li>
                         <li>
                             <Link href="#">Договор аренды</Link>
                         </li>
                         <li>
-                            <Link href="/terms">Условия</Link>
+                            <Link href="/require">Условия</Link>
                         </li>
                     </ul>
                 </nav>

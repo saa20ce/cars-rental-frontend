@@ -66,7 +66,7 @@ export default async function PremiumCarRentalPage() {
                 src="/images/camry.webp"
                 alt="Toyota Camry"
                 aspect="2/1"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="509"
                 header="Возможности аренды Toyota Camry"
                 paragraphs={[
@@ -79,7 +79,7 @@ export default async function PremiumCarRentalPage() {
                 src="/images/interiercamry.webp"
                 alt="Интерьер Toyota Camry"
                 aspect="359/196"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="513"
                 flexRowReverse={true}
                 header="Полный комфорт с Toyota Camry Hybrid"
@@ -95,7 +95,7 @@ export default async function PremiumCarRentalPage() {
                 src="/images/emblemTank.webp"
                 alt="Емблема Tank 300"
                 aspect="359/133"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="511"
                 header="Идеальный выбор: Tank 300"
                 paragraphs={[
@@ -110,7 +110,7 @@ export default async function PremiumCarRentalPage() {
                 src="/images/handle.webp"
                 alt="За рулем авто"
                 aspect="359/196"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="511"
                 maxWidthText="681"
                 flexRowReverse={true}
@@ -146,7 +146,7 @@ export default async function PremiumCarRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

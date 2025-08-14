@@ -9,27 +9,27 @@ export const mainMenu = [
             { title: 'от 10000 руб.', href: '/cars10000' },
         ],
     },
-    { title: 'Тарифы', href: '/tariffs' },
-    { title: 'Условия', mobTitle: 'Условия аренды', href: '/terms' },
+    { title: 'Тарифы', href: '/tarify' },
+    { title: 'Условия', mobTitle: 'Условия аренды', href: '/require' },
     {
         title: 'Услуги',
         mobTitle: 'Наши услуги',
-        href: '/services',
+        href: '/service',
         items: [
-            { title: 'Все услуги', href: '/services' },
+            { title: 'Все услуги', href: '/service' },
             {
                 title: 'Аренда авто для Юр.лиц',
-                href: '/services/corporate-rental',
+                href: '/service/arenda-avtomobilej-dlya-biznesa',
             },
             {
                 title: 'Аренда авто бизнес класса',
-                href: '/services/business-class-rental',
+                href: '/service/arenda-avto-biznes-klassa',
             },
             {
                 title: 'Аренда авто комфорт класса',
-                href: '/services/comfort-class-rental',
+                href: '/service/arenda-avto-komfort-klassa',
             },
-            { title: 'Дополнительные услуги', href: '/additional-services' },
+            { title: 'Дополнительные услуги', href: '/dop-service' },
         ],
     },
     {
@@ -39,8 +39,8 @@ export const mainMenu = [
             { title: 'О компании', href: '/about' },
             { title: 'Отзывы', href: '/reviews' },
             { title: 'Контакты', href: '/contacts' },
-            { title: 'Новости', href: '/news' },
-            { title: 'Соц. сети', href: '#' },
+            { title: 'Новости', href: '/blog' },
+            { title: 'Соц. сети', href: '/social' },
         ],
     },
     {

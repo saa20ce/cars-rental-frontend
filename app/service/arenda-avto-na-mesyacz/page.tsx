@@ -64,7 +64,7 @@ export default async function MonthlyCarRentalPage() {
                 src="/images/montly-car-rental.webp"
                 alt="Автопарк"
                 aspect="359/166"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="618"
                 maxWidthText="574"
                 header="Широкий выбор автомобилей на месяц в Новосибирске"
@@ -81,7 +81,7 @@ export default async function MonthlyCarRentalPage() {
                 alt="Автомобиль"
                 maxWidthText="574"
                 aspect="359/191"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="618"
                 flexRowReverse={true}
                 border="border-t"
@@ -99,7 +99,7 @@ export default async function MonthlyCarRentalPage() {
                 alt="Автомобиль"
                 maxWidthText="684"
                 aspect="359/150"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="508"
                 border="border-t"
                 flexRowReverse={false}
@@ -134,7 +134,7 @@ export default async function MonthlyCarRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

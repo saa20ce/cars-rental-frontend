@@ -105,7 +105,7 @@ export default async function Home() {
                             </Link>
                         </div>
                         <Link
-                            href="#"
+                            href="service/arenda-avtomobilej-dlya-biznesa"
                             className="block mt-4 underline text-[16px]/[24px] lg:text-[20px]/[28px] font-bold text-center lg:text-left"
                         >
                             Аренда для Юридических лиц
@@ -149,7 +149,7 @@ export default async function Home() {
                         Условия аренды:
                     </h2>
                     <Link
-                        href={'/terms'}
+                        href={'/require'}
                         className="lg:hidden underline text-[16px]/[24px] font-normal"
                     >
                         Полные условия
@@ -205,7 +205,7 @@ export default async function Home() {
                     <p>
                         Полные условия аренды вы можете прочитать{' '}
                         <Link
-                            href="/terms"
+                            href="/require"
                             className="font-semibold underline underline-offset-4"
                         >
                             ЗДЕСЬ

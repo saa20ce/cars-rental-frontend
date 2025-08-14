@@ -37,7 +37,10 @@ export default function TextImageSection({
                 className={`max-w-[1260px] ${sectionGray ? 'px-[16px] xl:px-0 ' : ''} flex ${flexColReverse ? 'flex-col-reverse' : 'flex-col'} lg:${flexRowReverse ? 'flex-row-reverse' : 'flex-row'} mx-auto gap-8 lg:gap-[68px] items-stretch`}
             >
                 <article
-                    className={`lg:max-w-[${maxWidthText}px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal lg:py-${pyTextBlock}`}
+                    className={`lg:max-w-[${maxWidthText}px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal lg:py-[var(--py-lg)]`}
+                    style={
+                        { '--py-lg': `${pyTextBlock}px` } as React.CSSProperties
+                    }
                 >
                     <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         {header}
@@ -61,7 +64,13 @@ export default function TextImageSection({
                     )}
                 </article>
                 <div
-                    className={`relative aspect-[${aspect}] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[${maxWidthImage}px] rounded-[28px] overflow-hidden`}
+                    style={
+                        {
+                            '--aspectRatio': aspect,
+                            maxWidth: `${maxWidthImage}px`,
+                        } as React.CSSProperties
+                    }
+                    className={`relative aspect-[var(--aspectRatio)] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto rounded-[28px] overflow-hidden`}
                 >
                     <Image fill alt={alt} src={src} className="object-cover" />
                 </div>

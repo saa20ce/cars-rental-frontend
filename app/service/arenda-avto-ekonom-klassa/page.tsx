@@ -53,7 +53,7 @@ export default async function EconomyClassRentalPage() {
                 src="/images/hyundai.webp"
                 alt="Автомобиль hyundai"
                 aspect="359/205"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="512"
                 header="Аренда седана: удобство без переплаты"
                 paragraphs={[
@@ -73,7 +73,7 @@ export default async function EconomyClassRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

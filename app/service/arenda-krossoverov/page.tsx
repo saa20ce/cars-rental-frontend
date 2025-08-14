@@ -59,7 +59,7 @@ export default async function CrossoverRentalPage() {
                 src="/images/carinterior.webp"
                 alt="Салон автомобиля"
                 aspect="2/1"
-                pyTextBlock="9"
+                pyTextBlock="36"
                 maxWidthImage="618"
                 header={
                     <>
@@ -101,7 +101,7 @@ export default async function CrossoverRentalPage() {
                 <AdditionalServicesCards items={servicesItems} />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
-                        href={'/additional-services'}
+                        href={'/dop-service'}
                         className="h-[44px] px-4 w-full sm:w-auto inline-flex justify-center items-center gap-4 border border-[#F6F6F6] rounded-[12px] text-[18px]/[28px] font-medium hover:text-[#f6f6f6]"
                     >
                         Дополнительные услуги

@@ -13,14 +13,14 @@ import {
     listItemsMonhtlyCarRentalPage1,
     listItemsMonhtlyCarRentalPage2,
     servicesItems,
-} from '@/lib/data/iemsCards';
+} from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-avto-na-mesyacz');
+    return await fetchWPMetadata('/service/arenda-avto-na-mesyacz');
 }
 
 export default async function MonthlyCarRentalPage() {
@@ -33,7 +33,7 @@ export default async function MonthlyCarRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/monthly-car-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/monthly-car-rental');
 
     return (
         <>

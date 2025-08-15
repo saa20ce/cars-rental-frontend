@@ -1,5 +1,6 @@
 import { ClockIcon } from '../ui/icons/ClockIcon';
 import { DocumentCar } from '../ui/icons/DocumentCar';
+import { DocumentsUser } from '../ui/icons/DocumentsUser';
 import { FamilyIcon } from '../ui/icons/FamilyIcon';
 import { GrayPhoneIcon } from '../ui/icons/GrayPhoneIcon';
 import { HandshakeAndDocumentIcon } from '../ui/icons/HandshakeAndDocumentIcon';
@@ -14,37 +15,38 @@ import { SafeIcon } from '../ui/icons/SafeIcon';
 import { SaleIcon } from '../ui/icons/SaleIcon';
 import { SertificateIcon } from '../ui/icons/SertificateIcon';
 import { SteeringWheelIcon } from '../ui/icons/SteeringWheelIcon';
+import { WarningIcon } from '../ui/icons/WarningIcon';
 import { WheelIcon } from '../ui/icons/WheelIcon';
 
 export const additionalServicesItems = [
     {
         key: '1',
         title: 'Доставка авто по городу',
-        href: '#',
+        href: '/service/dostavka-avto',
         src: '/images/servicesImages/1.jpg',
     },
     {
         key: '2',
         title: 'Прокат авто с детским креслом',
-        href: '#',
+        href: '/service/arenda-avto-s-detskim-kreslom',
         src: '/images/servicesImages/2.jpg',
     },
     {
         key: '3',
         title: 'Аренда авто без водителя',
-        href: '#',
+        href: '/service/arenda-avto-bez-voditelya',
         src: '/images/servicesImages/3.jpg',
     },
     {
         key: '4',
         title: 'Аренда авто с боксом на крышу',
-        href: '#',
+        href: '/service/arenda-avtomobilya-s-boksom-na-kryshu',
         src: '/images/servicesImages/4.jpg',
     },
     {
         key: '5',
         title: 'Аренда авто в аэропорту',
-        href: '#',
+        href: '/service/arenda-avto-v-aeroportu',
         src: '/images/servicesImages/5.jpg',
     },
 ];
@@ -330,6 +332,32 @@ export const listItemsMonhtlyCarRentalPage1 = [
     },
     {
         title: 'Обновляемый автопарк из 70 автомобилей   ',
+        icon: <KeyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+];
+export const listCarRentalWithDelivery = [
+    {
+        title: 'Более 5 лет работы',
+        icon: <SertificateIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Прозрачный договор',
+        icon: <DocumentsUser className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Замена авто при поломке',
+        icon: <WarningIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Приемлемые цены',
+        icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'We work with foreigners',
+        icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
+        title: 'Новые автомобили',
         icon: <KeyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

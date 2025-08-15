@@ -15,14 +15,14 @@ import {
     infoArendaAvtoBusinessPageItems,
     rentalTermsBusinessItems,
     servicesItems,
-} from '@/lib/data/iemsCards';
+} from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-avto-biznes-klassa');
+    return await fetchWPMetadata('/service/arenda-avto-biznes-klassa');
 }
 
 const paragraphTextImageSection = [
@@ -41,7 +41,7 @@ export default async function BusinessClassRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const breadcrumbs = await fetchBreadcrumbs(
-        '/services/business-class-rental',
+        '/service/business-class-rental',
     );
 
     return (

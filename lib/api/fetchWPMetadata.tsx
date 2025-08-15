@@ -7,7 +7,7 @@ export async function fetchWPMetadata(pagePath: string) {
             `${WP_API_URL}/wp-json/rankmath/v1/getHead?url=${encodeURIComponent(pageUrl)}`,
             { next: { revalidate: 3600 } },
         );
-        
+
         if (!res.ok) return {};
 
         const { head } = await res.json();

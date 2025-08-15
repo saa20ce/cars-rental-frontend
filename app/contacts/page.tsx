@@ -9,7 +9,6 @@ export async function generateMetadata() {
     return await fetchWPMetadata('/contacts');
 }
 
-
 export default async function ContactsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/contacts');
     return (

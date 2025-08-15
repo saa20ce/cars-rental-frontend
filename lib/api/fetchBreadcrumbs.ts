@@ -25,6 +25,11 @@ const staticPages: Record<string, string> = {
     'chinese-car-rental': 'Аренда китайских авто',
     'premium-car-rental': 'Аренда премиальных авто',
     'sedan-rental': 'Аренда седанов',
+    'arenda-avto-s-detskim-kreslom': 'Аренда авто с детским креслом',
+    'dostavka-avto': 'Аренда авто с доставкой',
+    'arenda-avto-bez-voditelya': 'Аренда авто без водителя',
+    'arenda-avtomobilya-s-boksom-na-kryshu': 'Аренда авто с боксом на крышу',
+    'arenda-avto-v-aeroportu': 'Аренда авто в аэропорту',
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;

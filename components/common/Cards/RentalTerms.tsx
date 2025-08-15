@@ -11,9 +11,11 @@ type RentalTermsProps = {
 export default function RentalTerms({ header, items }: RentalTermsProps) {
     return (
         <section className="py-[42px] lg:py-[68px]">
-            <h2 className="hidden lg:block text-[30px]/[36px] font-bold  mb-6">
-                {header}
-            </h2>
+            {header && (
+                <h2 className="hidden lg:block text-[30px]/[36px] font-bold  mb-6">
+                    {header}
+                </h2>
+            )}
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6">
                 {items.map(({ title, icon }, i) => (

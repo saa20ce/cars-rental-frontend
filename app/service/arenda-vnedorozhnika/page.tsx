@@ -11,14 +11,14 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
+import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-vnedorozhnika');
+    return await fetchWPMetadata('/service/arenda-vnedorozhnika');
 }
 
 const paragraphTextImageSection = [
@@ -38,7 +38,7 @@ export default async function SuvRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/suv-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/suv-rental');
 
     return (
         <>

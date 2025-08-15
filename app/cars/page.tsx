@@ -1,5 +1,9 @@
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import { getAdditionalOptions, getCars, getSeasonDates } from '@/lib/api/fetchCarData';
+import {
+    getAdditionalOptions,
+    getCars,
+    getSeasonDates,
+} from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import CarsPageClient from '@/clientPage/cars/clientPage';

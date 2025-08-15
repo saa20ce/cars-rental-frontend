@@ -71,7 +71,7 @@ export default function TariffsPageClient({
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
     const [advancedVisible, setAdvancedVisible] = useState(false);
     const [openId, setOpenId] = useState<number | null>(null);
-    const [isMobile, setIsMobile] = useState(false);    
+    const [isMobile, setIsMobile] = useState(false);
 
     const handleApplyFilters = () => {
         if (!startDate || !returnDate) return;

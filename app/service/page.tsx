@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { faqItems } from '@/lib/data/faqItems';
-import { servicesItems } from '@/lib/data/iemsCards';
+import { servicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import Image from 'next/image';
@@ -17,7 +17,7 @@ export async function generateMetadata() {
 }
 
 export default async function ServicesPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/services');
+    const breadcrumbs = await fetchBreadcrumbs('/service');
     const deliveryPrice = await getDeliveryPrice();
 
     return (

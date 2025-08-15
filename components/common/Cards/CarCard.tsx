@@ -10,9 +10,7 @@ import type {
 } from '@/lib/types/Car';
 import CustomButton from '@/lib/ui/common/Button';
 import SaleInfo from './SaleInfo';
-import {
-    buildPriceRangesFromACF,
-} from '@/lib/api/fetchCarData';
+import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     computeCostsChunked,
@@ -183,7 +181,7 @@ export const CarCard: React.FC<CarCardProps> = ({
         if (seasonDates) {
             let currentDay = startFull.startOf('day');
             const endDay = endFull.startOf('day');
-            
+
             while (currentDay.isBefore(endDay) || currentDay.isSame(endDay)) {
                 if (!isDaySeason(currentDay, seasonDates)) {
                     allDaysSeason = false;
@@ -206,7 +204,7 @@ export const CarCard: React.FC<CarCardProps> = ({
 
     useEffect(() => {
         if (!startTime) return;
-        
+
         const hour = parseInt(startTime.split(':')[0], 10);
         const isNight = hour >= 20 || hour < 9;
         const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;

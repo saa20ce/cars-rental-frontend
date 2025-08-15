@@ -2,7 +2,7 @@ import AdditionalServicesCards from '@/components/common/Cards/AdditionalService
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
-import { additionalServicesItems } from '@/lib/data/iemsCards';
+import { additionalServicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import Image from 'next/image';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';

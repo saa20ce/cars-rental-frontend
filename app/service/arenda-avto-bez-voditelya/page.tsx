@@ -1,29 +1,26 @@
 import CarsPageClient from '@/clientPage/cars/clientPage';
 import AdditionalServicesCards from '@/components/common/Cards/AdditionalServicesCards';
 import ContactCardsLittle from '@/components/common/Cards/ContactCardsLittle';
-import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
-import { faqItems } from '@/lib/data/faqItems';
 import {
-    listItemsComfortPage1,
-    listItemsComfortPage2,
+    listItemsMonhtlyCarRentalPage1,
+    listItemsMonhtlyCarRentalPage2,
     servicesItems,
 } from '@/lib/data/itemsCards';
-import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-komfort-klassa');
+    return await fetchWPMetadata('/service/arenda-avto-bez-voditelya');
 }
 
-export default async function ComfortClassRentalPage() {
+export default async function CarRentalWithoutDriverPage() {
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -33,14 +30,16 @@ export default async function ComfortClassRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/service/comfort-class-rental');
+    const breadcrumbs = await fetchBreadcrumbs(
+        '/service/arenda-avto-bez-voditelya',
+    );
 
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
 
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Аренда авто комфорт класса в Новосибирске
+                Аренда авто без водителя в Новосибирске
             </h1>
 
             <p className="font-semibold text-[16px]/[24px] lg:text-[20px]/[28px] pb-[42px] lg:pb-[36px] mb-[42px] border-b border-[#284B63B2] -tracking-[0.2px]">
@@ -49,7 +48,7 @@ export default async function ComfortClassRentalPage() {
                 выбрать? Если вам нужно надежное и профессиональное агентство по
                 аренде автомобилей, то обратите внимание на Рентасиб. Наша
                 компания предлагает широкий выбор автомобилей, более 5 лет опыта
-                работы и уже более 4000 довольных клиентов.{' '}
+                работы и уже более 4000 довольных клиентов.
             </p>
 
             <CarsPageClient
@@ -60,7 +59,6 @@ export default async function ComfortClassRentalPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
-                defaultKlass="268"
             />
 
             <TextImageSection
@@ -68,15 +66,15 @@ export default async function ComfortClassRentalPage() {
                 src="/images/carpark.jpg"
                 alt="Автопарк"
                 aspect="3/2"
-                pyTextBlock="36"
-                maxWidthImage="512"
+                pyTextBlock="78"
+                maxWidthImage="511"
                 header="Большой выбор автомобилей"
                 paragraphs={[
                     'Одним из главных преимуществ аренды автомобиля в компании является большой выбор автомобилей. Независимо от того, нужен ли вам небольшой и экономичный автомобиль, минивэн или большой внедорожник, здесь вы сможете найти подходящий вариант. Весь автопарк компании может быть найден на их странице Автопарк, где вы сможете ознакомиться с различными моделями и ценами.',
                 ]}
             />
 
-            <section className="pt-[42px] lg:pt-[68px]">
+            <section className="py-[42px] lg:py-[68px] border-b border-[#284B63B2]">
                 <div className="bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
                     <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                         Более 5 лет опыта работы
@@ -92,7 +90,7 @@ export default async function ComfortClassRentalPage() {
                 </div>
             </section>
 
-            <RentalTerms items={listItemsComfortPage1} />
+            <RentalTerms items={listItemsMonhtlyCarRentalPage2} />
 
             <section className="py-[42px] lg:py-[68px] border-b border-t border-[#284B63B2]">
                 <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-5 lg:mb-6">
@@ -121,7 +119,7 @@ export default async function ComfortClassRentalPage() {
                 ]}
             />
 
-            <RentalTerms items={listItemsComfortPage2} />
+            <RentalTerms items={listItemsMonhtlyCarRentalPage1} />
 
             <TextImageSection
                 sectionGray={true}
@@ -136,22 +134,22 @@ export default async function ComfortClassRentalPage() {
                 ]}
             />
 
-            <section className="pt-[42px] lg:pt-[68px] border-b border-[#284B63B2]">
+            <section className="pt-[42px] lg:pt-[68px]">
                 <p className="text-[14px]/[20px] lg:text-[20px]/[28px] font-medium bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
                     Рентасиб – это надежная компания по аренде автомобилей без
-                    водителя в Новосибирске. Большой выбор автомобилей, выгодные
-                    условия аренды и отличный сервис – все это делает Рентасиб
-                    отличным выбором для тех, кто ищет автомобиль в
-                    Новосибирске. Не упустите возможность арендовать автомобиль
-                    у Рентасиб и насладиться комфортом и независимостью во время
-                    вашего пребывания в городе. Сделайте заказ прямо сейчас,
-                    используя контактные данные:
+                    водителя в Новосибирске.
+                    <br /> Большой выбор автомобилей, выгодные условия аренды и
+                    отличный сервис – все это делает Рентасиб отличным выбором
+                    для тех, кто ищет автомобиль в Новосибирске. Не упустите
+                    возможность арендовать автомобиль у Рентасиб и насладиться
+                    комфортом и независимостью во время вашего пребывания в
+                    городе. <br />
+                    Сделайте заказ прямо сейчас, используя контактные данные:
                 </p>
-
                 <ContactCardsLittle />
             </section>
 
-            <section className="py-[42px] lg:py-[68px] border-b border-t border-[#284B63B2]">
+            <section className="pt-[42px] lg:pt-[68px] border-t border-[#284B63B2]">
                 <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] ">
                     Дополнительные услуги
                 </h2>
@@ -166,15 +164,6 @@ export default async function ComfortClassRentalPage() {
                     </Link>
                 </div>
             </section>
-
-            <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                    Часто задаваемые вопросы:
-                </h2>
-                <Accordion items={faqItems} />
-            </section>
-
-            <HaveQuestions />
         </>
     );
 }

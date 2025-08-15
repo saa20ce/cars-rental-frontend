@@ -7,6 +7,7 @@ import type {
     DeliveryOptionsGrouped,
     DeliveryOption,
 } from '@/lib/types/Car';
+import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
@@ -249,4 +250,19 @@ export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
 
     const data: Car[] = await res.json();
     return data;
+}
+
+export async function getCrossoverAndMinivanCars(): Promise<Car[]> {
+    const kuzovOptions = await fetchTaxonomyOptions('kuzov');
+    const crossover = kuzovOptions.find((o) => o.label === 'Кроссовер');
+    const minivan = kuzovOptions.find((o) => o.label === 'Минивэн');
+
+    if (!crossover || !minivan) return [];
+
+    const [crossoverCars, minivanCars] = await Promise.all([
+        getCarsByKuzov(Number(crossover.value)),
+        getCarsByKuzov(Number(minivan.value)),
+    ]);
+
+    return [...crossoverCars.slice(0, 3), ...minivanCars.slice(0, 3)];
 }

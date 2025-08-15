@@ -9,7 +9,6 @@ export async function generateMetadata() {
     return await fetchWPMetadata('/faq');
 }
 
-
 export default async function FAQPage() {
     const breadcrumbs = await fetchBreadcrumbs('/faq');
 

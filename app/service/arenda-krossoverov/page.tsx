@@ -11,16 +11,15 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
+import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-krossoverov');
+    return await fetchWPMetadata('/service/arenda-krossoverov');
 }
-
 
 const paragraphTextImageSection = [
     'Кроссоверы обладают повышенной проходимостью и способны преодолевать сложные дорожные условия, такие как грунтовые дороги, пересеченная местность или снежные трассы.',
@@ -39,7 +38,7 @@ export default async function CrossoverRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/crossover-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/crossover-rental');
 
     return (
         <>

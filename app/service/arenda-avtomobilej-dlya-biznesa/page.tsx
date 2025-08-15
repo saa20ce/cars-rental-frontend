@@ -7,19 +7,19 @@ import LetterThanks from '@/components/common/LetterThanks/LetterThanks';
 import ModalTriggerCommercialProposalForm from '@/components/common/Modal/ModalTriggerCommercialProposalForm';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { faqItems } from '@/lib/data/faqItems';
-import { infoThreeCardItems } from '@/lib/data/iemsCards';
+import { infoThreeCardItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-avtomobilej-dlya-biznesa');
+    return await fetchWPMetadata('/service/arenda-avtomobilej-dlya-biznesa');
 }
 
 export default async function СorporateRentalPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/services/corporate-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/corporate-rental');
     const lettersRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`
+        `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
     );
 
     const letters = await lettersRes.json();

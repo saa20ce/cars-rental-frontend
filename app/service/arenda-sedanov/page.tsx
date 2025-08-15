@@ -13,14 +13,14 @@ import {
     listItemsMonhtlyCarRentalPage1,
     listItemsMonhtlyCarRentalPage2,
     servicesItems,
-} from '@/lib/data/iemsCards';
+} from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/arenda-sedanov');
+    return await fetchWPMetadata('/service/arenda-sedanov');
 }
 
 export default async function SedanRentalPage() {
@@ -33,8 +33,7 @@ export default async function SedanRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/weekly-car-rental');
-    console.log(kuzovOptions);
+    const breadcrumbs = await fetchBreadcrumbs('/service/weekly-car-rental');
 
     return (
         <>

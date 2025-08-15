@@ -11,14 +11,14 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import { rentalTermsEconomItems, servicesItems } from '@/lib/data/iemsCards';
+import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/prokat-minivenov-i-mikroavtobusov');
+    return await fetchWPMetadata('/service/prokat-minivenov-i-mikroavtobusov');
 }
 
 const paragraphTextImageSection = [
@@ -36,7 +36,7 @@ export default async function MinivanRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
-    const breadcrumbs = await fetchBreadcrumbs('/services/minivan-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/minivan-rental');
 
     return (
         <>

@@ -19,7 +19,6 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
     openId,
     onToggle,
 }) => {
-    
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const imageUrl =
         acf.white_gallery?.[0] ||

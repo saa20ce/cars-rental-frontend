@@ -69,7 +69,6 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
         car.acf?.blue_gallery?.[0] ||
         car.acf?.red_gallery?.[0] ||
         '';
-            
 
     const allTerms = car._embedded?.['wp:term'] || [];
     const kuzovTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'kuzov');

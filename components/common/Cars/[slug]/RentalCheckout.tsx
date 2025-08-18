@@ -147,6 +147,11 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         setDeliveryOptions(options);
     }, [startTime, deliveryPrice]);
 
+    const discount = car.acf?.skidka;
+    const discountedPrice = discount
+        ? totalPrice * (1 - Number(discount) / 100)
+        : null;
+
     return (
         <section className="lg:w-full">
             <RentalPeriod
@@ -252,27 +257,31 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                     </div> */}
 
                     <div className="flex items-center justify-between mb-5 mt-8">
-                        <div className="font-bold lg:text-xl">
-                            Итоговая стоимость:
-                            {hasSeasonDays && (
-                                <div className="flex-center font-semibold items-center gap-2 lg:text-lg">
-                                    с учетом сезонности <LineIcon />{' '}
-                                    <Tooltip
-                                        placement="right"
-                                        title={tooltipText}
-                                        color="#4b5563"
-                                        arrow={false}
-                                        className="flex-center"
-                                    >
-                                        <div>
-                                            <InfoIcon width={20} height={20} />
-                                        </div>
-                                    </Tooltip>
-                                </div>
+                        <div className="flex flex-col">
+                            <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
+                                Итоговая стоимость:
+                            </span>
+                            {discountedPrice && (
+                                <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
+                                    С учетом скидки
+                                </span>
                             )}
                         </div>
-                        <div className="font-bold text-2xl lg:text-4xl">
-                            {totalPrice} ₽
+                        <div className="flex flex-col items-end">
+                            {discountedPrice ? (
+                                <>
+                                    <span className="font-bold text-[24px]/[32px] xl:text-[36px]/[40px] text-[#FFD7A6]">
+                                        {discountedPrice} ₽
+                                    </span>
+                                    <span className="line-through text-[14px]/[20px] xl:text-[24px]/[32px] text-[#F6F6F699]">
+                                        {totalPrice} ₽
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
+                                    {totalPrice} ₽
+                                </span>
+                            )}
                         </div>
                     </div>
 

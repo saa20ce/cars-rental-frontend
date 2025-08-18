@@ -75,6 +75,11 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
     const kuzovName = kuzovTerm ? kuzovTerm.name : '—';
 
+    const discount = car.acf?.skidka;
+    const discountedPrice = discount
+        ? totalPrice * (1 - Number(discount) / 100)
+        : null;
+
     return (
         <article className={classes.carPriceInfo}>
             <section
@@ -206,28 +211,32 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                     <div
                         className={`${classes.flexBetween} items-center mt-8 lg:mt-9`}
                     >
-                        <span className="font-bold text-[16px]/[24px] lg:text-[24px]/[32px]">
-                            Итого:
-                            {hasSeasonDays && (
-                                <div className="flex font-semibold items-center gap-2 text-[10px]/[18px]  lg:text-[12px]/[18px]">
-                                    с учетом сезонности <LineIcon />{' '}
-                                    <Tooltip
-                                        placement="right"
-                                        title={tooltipText}
-                                        color="#4b5563"
-                                        arrow={false}
-                                        className="flex-center"
-                                    >
-                                        <div>
-                                            <InfoIcon width={20} height={20} />
-                                        </div>
-                                    </Tooltip>
-                                </div>
+                       <div className="flex flex-col">
+                            <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
+                                Итого:
+                            </span>
+                            {discountedPrice && (
+                                <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
+                                    С учетом скидки
+                                </span>
                             )}
-                        </span>
-                        <span className="font-bold text-2xl lg:text-4xl">
-                            {totalPrice} ₽
-                        </span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                            {discountedPrice ? (
+                                <>
+                                    <span className="font-bold text-[24px]/[32px] xl:text-[30px]/[36px] text-[#FFD7A6]">
+                                        {discountedPrice} ₽
+                                    </span>
+                                    <span className="line-through text-[14px]/[20px] xl:text-[20px]/[28px] text-[#F6F6F699]">
+                                        {totalPrice} ₽
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
+                                    {totalPrice} ₽
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </section>
             </section>

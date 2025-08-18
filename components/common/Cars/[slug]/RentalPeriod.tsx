@@ -95,8 +95,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     const [isChainActive, setIsChainActive] = useState(false);
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
-    const [isMobile, setIsMobile] = useState(false);
-
     const timeOptions = Array.from({ length: 24 }, (_, i) => {
         const hour = i.toString().padStart(2, '0');
         return { value: `${hour}:00`, label: `${hour}:00` };
@@ -107,16 +105,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
         const hour =
             now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
         return `${hour.toString().padStart(2, '0')}:00`;
-    }, []);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mediaQuery.matches);
-        const handleChange = (e: MediaQueryListEvent) => {
-            setIsMobile(e.matches);
-        };
-        mediaQuery.addEventListener('change', handleChange);
-        return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
     // const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -174,14 +162,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                                 }
                             }
                         }}
-                        width="58%"
-                        isMobile={isMobile}
-                        style={{
-                            borderTopLeftRadius: 12,
-                            borderBottomLeftRadius: 12,
-                            borderTopRightRadius: 0,
-                            borderBottomRightRadius: 0,
-                        }}
+                        width="58%"  
                     />
 
                     <CustomSelect
@@ -200,15 +181,8 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                         value={returnDate}
                         onChange={(date) => onReturnDateChange?.(date)}
                         width="58%"
-                        isMobile={isMobile}
                         open={isChainActive ? isReturnDateOpen : undefined}
                         onOpenChange={(open) => setIsReturnDateOpen(open)}
-                        style={{
-                            borderTopLeftRadius: 12,
-                            borderBottomLeftRadius: 12,
-                            borderTopRightRadius: 0,
-                            borderBottomRightRadius: 0,
-                        }}
                         disabled={!startDate}
                     />
 

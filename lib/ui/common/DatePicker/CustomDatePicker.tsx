@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ConfigProvider, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import 'dayjs/locale/ru';
@@ -10,12 +10,10 @@ import './CustomDatePicker.css';
 
 export type CustomDatePickerProps = DatePickerProps & {
     width?: string | number;
-    isMobile?: boolean;
 };
 
 export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
     width = '100%',
-    isMobile = false,
     onOpenChange,
     style,
     ...rest
@@ -27,6 +25,18 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
         setIsOpen(open);
         onOpenChange?.(open);
     };
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     return (
         <ConfigProvider
@@ -47,6 +57,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                         activeBorderColor: '#f6f6f675',
                         cellActiveWithRangeBg: '#284b63',
                         paddingInline: 16,
+                        borderRadius: isMobile ? 12 : 16,
                     },
                 },
             }}
@@ -65,7 +76,6 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                     border: isFocused
                         ? '1px solid #f6f6f6'
                         : '1px solid #f6f6f647',
-                    borderRadius: 16,
                     height: 36,
                     color: '#f6f6f6',
                     display: 'flex',

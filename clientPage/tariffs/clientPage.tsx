@@ -269,10 +269,9 @@ export default function TariffsPageClient({
                                                 }
                                             }
                                         }}
-                                        isMobile={isMobile}
                                         style={{
-                                            borderTopLeftRadius: 16,
-                                            borderBottomLeftRadius: 16,
+                                            borderTopLeftRadius:  isMobile ? 12 : 16,
+                                            borderBottomLeftRadius:  isMobile ? 12 : 16,
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0,
                                         }}
@@ -299,7 +298,6 @@ export default function TariffsPageClient({
                                         onChange={(date) =>
                                             setReturnDate?.(date)
                                         }
-                                        isMobile={isMobile}
                                         open={
                                             isChainActive
                                                 ? isReturnDateOpen

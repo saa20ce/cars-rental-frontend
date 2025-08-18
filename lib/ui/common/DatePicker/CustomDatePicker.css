@@ -1,7 +1,8 @@
-.datePicker.ant-picker .ant-picker-input > input {
-    margin-bottom: 2px;
-}
-
 .ant-picker-input > input::placeholder {
     color: #f6f6f666 !important;
+}
+
+.ant-picker.ant-picker-outlined {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }

@@ -162,7 +162,11 @@ export default function ContactForm() {
                     },
                 }}
             >
-                <SuccessRequest onClick={() => setStatus('idle')} />
+                <SuccessRequest
+                    header="Ваша заявка принята!"
+                    text="Мы свяжемся с вами в течение 5 минут"
+                    onClick={() => setStatus('idle')}
+                />
             </Modal>
 
             {status === 'error' && <ErrorBanner />}

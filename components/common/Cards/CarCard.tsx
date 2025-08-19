@@ -98,64 +98,6 @@ export const CarCard: React.FC<CarCardProps> = ({
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         (additionalOptionsTotal ?? 0) +
         deliveryCost;
-    // useEffect(() => {
-    //     if (!startDate) {
-    //         setStartDate(dayjs());
-    //     }
-    //     if (startDate && returnDate) {
-    //         const startFull = startDate;
-    //         const endFull = returnDate;
-
-    //         const exactDiffHours = endFull.diff(startFull, 'hour', true);
-    //         let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
-    //         if (totalDays < 3) {
-    //             const adjustedEnd = startFull.add(3, 'day');
-    //             setReturnDate(adjustedEnd);
-    //             totalDays = 3;
-    //         }
-    //         setDaysCount(totalDays);
-
-    //         let isSeasonal = false;
-    //         setHasSeasonDays(true);
-    //         if (seasonDates) {
-    //             let allDaysSeason = true;
-    //             let currentDay = startFull.startOf('day');
-    //             const endDay = endFull.startOf('day');
-
-    //             while (
-    //                 currentDay.isBefore(endDay) ||
-    //                 currentDay.isSame(endDay)
-    //             ) {
-    //                 if (!isDaySeason(currentDay, seasonDates)) {
-    //                     allDaysSeason = false;
-    //                     setHasSeasonDays(false);
-    //                     break;
-    //                 }
-    //                 currentDay = currentDay.add(1, 'day');
-    //             }
-    //             isSeasonal = allDaysSeason;
-    //         }
-
-    //         const costs = computeCostsChunked(
-    //             startFull,
-    //             endFull,
-    //             priceRanges,
-    //             seasonDates,
-    //         );
-    //         setDailyCosts(costs);
-    //     } else {
-    //         setDaysCount(0);
-    //         setDailyCosts([]);
-    //         setHasSeasonDays(false);
-    //     }
-    // }, [startDate, returnDate, priceRanges, seasonDates]);
-
-    // useEffect(() => {
-    //     const hour = parseInt(startTime.split(':')[0], 10);
-    //     const isNight = hour >= 20 || hour < 9;
-    //     const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;
-    //     if (options) setDeliveryOptions(options);
-    // }, [startTime, deliveryPrice]);
 
     useEffect(() => {
         if (!startDate) return;
@@ -309,6 +251,8 @@ export const CarCard: React.FC<CarCardProps> = ({
                     >
                         {isSubmitted && (
                             <SuccessRequest
+                                header="Ваша заявка принята!"
+                                text="Мы свяжемся с вами в течение 5 минут"
                                 reservation={true}
                                 onClick={() => {
                                     setModalVisible(false);

@@ -229,7 +229,7 @@ export default async function Home() {
                 similarCars={comfortCars}
                 title="Комфорт:"
                 btnTitle="Все комфорт"
-                href="/services/comfort-class-rental"
+                href="/service/arenda-avto-komfort-klassa"
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
@@ -238,7 +238,7 @@ export default async function Home() {
                 similarCars={crossoversCars}
                 title="Кроссоверы:"
                 btnTitle="Все кроссоверы"
-                href="/services/crossover-rental"
+                href="/service/arenda-krossoverov"
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
@@ -247,7 +247,7 @@ export default async function Home() {
                 similarCars={businessCars}
                 title="Бизнес:"
                 btnTitle="Все бизнес"
-                href="/services/business-class-rental"
+                href="/service/arenda-avto-biznes-klassa"
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}

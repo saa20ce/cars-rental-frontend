@@ -199,7 +199,11 @@ export default function ReviewForm() {
                     },
                 }}
             >
-                <SuccessRequest onClick={() => setStatus('idle')} />
+                <SuccessRequest
+                    header="Спасибо за отзыв!"
+                    text="Мы приняли ваш отзыв и ознакомимся с ним в ближайшее время."
+                    onClick={() => setStatus('idle')}
+                />
             </Modal>
 
             {status === 'error' && <ErrorBanner />}

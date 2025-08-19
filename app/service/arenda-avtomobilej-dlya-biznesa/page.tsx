@@ -11,6 +11,7 @@ import { infoThreeCardItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/service/arenda-avtomobilej-dlya-biznesa');
@@ -21,6 +22,7 @@ export default async function СorporateRentalPage() {
     const lettersRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
     );
+    const { klassOptions } = await getAllTaxonomyOptions();
 
     const letters = await lettersRes.json();
     return (
@@ -102,7 +104,7 @@ export default async function СorporateRentalPage() {
                         </ul>
                     </article>
                 </div>
-                <ModalTriggerCommercialProposalForm />
+                <ModalTriggerCommercialProposalForm klassOptions={klassOptions}/>
             </section>
 
             <RentSteps />

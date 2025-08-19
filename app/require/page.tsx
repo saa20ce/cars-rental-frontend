@@ -25,7 +25,7 @@ export async function generateMetadata() {
 }
 
 export default async function TermsPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/terms');
+    const breadcrumbs = await fetchBreadcrumbs('/require');
     const deliveryPrice = await getDeliveryPrice();
 
     return (

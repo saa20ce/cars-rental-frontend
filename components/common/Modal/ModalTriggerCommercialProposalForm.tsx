@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import CommercialProposalForm from '../Form/CommercialProposalForm';
 
-export default function ModalTriggerCommercialProposalForm({}: {}) {
+export default function ModalTriggerCommercialProposalForm({
+    klassOptions,
+}: {
+    klassOptions: {
+        value: string;
+        label: string;
+    }[];
+}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -16,6 +23,7 @@ export default function ModalTriggerCommercialProposalForm({}: {}) {
             </button>
 
             <CommercialProposalForm
+                klassOptions={klassOptions}
                 isOpen={isOpen}
                 setIsOpenAction={setIsOpen}
             />

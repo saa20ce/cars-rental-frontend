@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { DownIcon } from '@/lib/ui/icons/DownIcon';
+import ModalTriggerContactDirector from '../../Modal/ModalTriggerContactDirector';
 
 export default function NavbarClient({
     menuItems,
@@ -14,6 +15,7 @@ export default function NavbarClient({
     }[];
 }) {
     const [openKey, setOpenKey] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <nav className="max-w-[731px] w-full hidden lg:flex gap-[6px] text-[16px]/[24px] font-medium">
@@ -22,7 +24,9 @@ export default function NavbarClient({
                     key={item.title}
                     className="relative group"
                     onMouseEnter={() => setOpenKey(item.title)}
-                    onMouseLeave={() => setOpenKey(null)}
+                    onMouseLeave={() => {
+                        if (!modalOpen) setOpenKey(null); 
+                    }}
                 >
                     <Link
                         href={item.href || '#'}
@@ -42,15 +46,23 @@ export default function NavbarClient({
 
                     {item.items && openKey === item.title && (
                         <div className="absolute left-0 top-full min-w-[256px] bg-[#284152] rounded-md z-50 py-1">
-                            {item.items.map((subItem) => (
-                                <Link
-                                    key={subItem.title}
-                                    href={subItem.href || '#'}
-                                    className="block px-4 py-2 mx-[7px] hover:bg-[#F6F6F633] hover:text-[#F6F6F6] rounded-md text-[16px]/[24px] text-normal text-nowrap "
-                                >
-                                    {subItem.title}
-                                </Link>
-                            ))}
+                            {item.items.map((subItem) =>
+                                subItem.title === 'Связь с директором' ? (
+                                    <ModalTriggerContactDirector
+                                        key={subItem.title}
+                                        isOpen={modalOpen}
+                                        setIsOpenAction={setModalOpen}
+                                    />
+                                ) : (
+                                    <Link
+                                        key={subItem.title}
+                                        href={subItem.href || '#'}
+                                        className="block px-4 py-2 mx-[7px] hover:bg-[#F6F6F633] hover:text-[#F6F6F6] rounded-md text-[16px]/[24px] text-normal text-nowrap"
+                                    >
+                                        {subItem.title}
+                                    </Link>
+                                ),
+                            )}
                         </div>
                     )}
                 </div>

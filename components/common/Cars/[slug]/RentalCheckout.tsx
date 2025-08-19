@@ -356,6 +356,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 >
                     {isSubmitted && (
                         <SuccessRequest
+                            header="Ваша заявка принята!"
+                            text="Мы свяжемся с вами в течение 5 минут"
                             reservation={true}
                             onClick={() => {
                                 setModalVisible(false);

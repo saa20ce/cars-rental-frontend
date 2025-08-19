@@ -250,7 +250,7 @@ export default function SingleCarPageClient({
                     title="Похожие авто"
                     btnTitle="Все бизнес"
                     similarCars={similarCars}
-                    href="/services/business-class-rental"
+                    href="/service/arenda-avto-biznes-klassa"
                     seasonDates={seasonDates}
                     deliveryPrice={deliveryPrice}
                     additionalOptions={additionalOptions}

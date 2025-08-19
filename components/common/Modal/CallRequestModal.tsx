@@ -137,6 +137,8 @@ export default function CallRequestModal({
                     )}
                     {status === 'success' && (
                         <SuccessRequest
+                            header="Ваша заявка принята!"
+                            text="Мы свяжемся с вами в течение 5 минут"
                             onClick={() => {
                                 setIsOpenAction(false);
                                 setStatus('idle');

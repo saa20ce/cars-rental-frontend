@@ -191,8 +191,8 @@ export const Footer: React.FC = () => {
                 </section>
 
                 <section className="lg:flex lg:flex-col lg:justify-start mt-6 lg:mt-0">
-                    <div className="flex gap-5 text-[20px] font-regular lg:flex-col lg:gap-3 ml-1 lg:ml-0 mt-1 lg:mt-0">
-                        <div className="flex-center gap-3 ">
+                    <div className="flex gap-5 text-[20px] justify-start font-regular lg:flex-col lg:gap-3 ml-1 lg:ml-0 mt-1 lg:mt-0">
+                        <div className="flex-center lg:justify-start gap-3 ">
                             <VkMiniIcon />
                             <a
                                 className="underline decoration-1 underline-offset-[6px] text-[20px] lg:text-[18px]"

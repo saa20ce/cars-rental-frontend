@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SuccessRequest from '../Modal/SuccessRequest';
 import { Modal } from 'antd';
-import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
-import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 
 export default function AnyQuestionsForm() {
@@ -130,7 +128,11 @@ export default function AnyQuestionsForm() {
                     },
                 }}
             >
-                <SuccessRequest onClick={() => setStatus('idle')} />
+                <SuccessRequest
+                    header="Ваша заявка принята!"
+                    text="Мы свяжемся с вами в течение 5 минут"
+                    onClick={() => setStatus('idle')}
+                />
             </Modal>
 
             {status === 'error' && <ErrorBanner />}

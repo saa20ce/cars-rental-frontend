@@ -26,7 +26,7 @@ export default async function TariffsPage() {
     const deliveryPrice = await getDeliveryPrice();
 
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/tariffs');
+    const breadcrumbs = await fetchBreadcrumbs('/tarify');
 
     return (
         <>

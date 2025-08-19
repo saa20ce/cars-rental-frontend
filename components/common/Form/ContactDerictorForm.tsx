@@ -7,33 +7,29 @@ import Link from 'next/link';
 import { useState } from 'react';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import SuccessRequest from '../Modal/SuccessRequest';
-import { ChevronDownFormIcon } from '@/lib/ui/icons/ChevronDownFormIcon';
-import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 
-export default function CommercialProposalForm({
+export default function ContactDerictorForm({
     isOpen,
     setIsOpenAction,
-    klassOptions,
 }: {
     isOpen: boolean;
     setIsOpenAction: (isOpen: boolean) => void;
-    klassOptions: {
-        value: string;
-        label: string;
-    }[];
 }) {
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [selectedKlass, setSelectedKlass] = useState('');
-    const [selcetedBudget, setSelectedBudget] = useState('');
+    const [letter, setLetter] = useState('');
     const [status, setStatus] = useState<
         'idle' | 'loading' | 'success' | 'error'
     >('idle');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // setStatus('loading');
 
-        setStatus('success');
+        if (true) {
+            setStatus('success');
+        } else {
+            // setStatus('error');
+        }
     };
 
     return (
@@ -72,63 +68,16 @@ export default function CommercialProposalForm({
                     {(status === 'idle' ||
                         status === 'loading' ||
                         status === 'error') && (
-                        <div className="py-[28px]  px-6 lg:py-[38px] lg:px-9 bg-[#284B63] rounded-[16px] lg:rounded-[32px]  text-[#F6F6F6] w-[360px] lg:w-[456px]">
-                            <div className="flex justify-between items-start">
+                        <div className="pb-[28px] pt-6  px-6 lg:pt-8 lg:pb-[38px] lg:px-9 bg-[#284B63] rounded-[16px] lg:rounded-[32px]  text-[#F6F6F6] w-[360px] lg:w-[456px]">
+                            <div className="flex justify-between items-center">
                                 <h2 className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
-                                    Заказать коммерческое предложение
+                                    Обращение к директору
                                 </h2>
                                 <button onClick={() => setIsOpenAction(false)}>
                                     <CloseModalBtnIcon className="w-[36px] h-[36px] lg:w-[48px] lg:h-[48px]" />
                                 </button>
                             </div>
-                            <form onSubmit={handleSubmit} className="mt-4 lg:mt-5">
-                                <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]">
-                                    Класс авто
-                                </label>
-                                <div className="relative w-full mt-2 mb-[14px] lg:mb-4">
-                                    <CustomSelect
-                                        placeholder="Выберите..."
-                                        options={klassOptions}
-                                        className="filters-select"
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={(value) =>
-                                            setSelectedKlass(value as string)
-                                        }
-                                        value={selectedKlass || undefined}
-                                    />
-                                </div>
-                                <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]">
-                                    Бюджет
-                                </label>
-                                <div className="relative w-full mt-2 mb-[14px] lg:mb-4 ">
-                                    <CustomSelect
-                                        placeholder="Выберите..."
-                                        className="filters-select"
-                                        style={{ width: '100%', height: '40px' }}
-                                        options={[
-                                            {
-                                                label: 'До 4000',
-                                                value: 'До 4000',
-                                            },
-                                            {
-                                                label: '4000–6000',
-                                                value: '4000–6000',
-                                            },
-                                            {
-                                                label: '6000–10000',
-                                                value: '6000–10000',
-                                            },
-                                            {
-                                                label: 'От 10000 ',
-                                                value: 'От 10000',
-                                            },
-                                        ]}
-                                        value={selcetedBudget || undefined}
-                                        onChange={(value) =>
-                                            setSelectedBudget(value as string)
-                                        }
-                                    />
-                                </div>
+                            <form onSubmit={handleSubmit} className="mt-[10px]">
                                 <label
                                     htmlFor="name"
                                     className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]"
@@ -136,7 +85,7 @@ export default function CommercialProposalForm({
                                     Фамилия и имя
                                 </label>
                                 <input
-                                    className="w-full mt-2 mb-[14px] lg:mb-4 px-4 py-[7px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[16px] outline-none border border-[#f6f6f647]"
+                                    className="w-full mt-2 mb-[14px] lg:mb-4 py-2 px-4 lg:py-[10px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[20px] outline-none"
                                     type="text"
                                     id="name"
                                     name="name"
@@ -145,20 +94,20 @@ export default function CommercialProposalForm({
                                     onChange={(e) => setName(e.target.value)}
                                 />
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="letter"
                                     className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]"
                                 >
-                                    Электронная почта
+                                    Ваше письмо
                                 </label>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    className="w-full mt-2 px-4 py-[7px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[16px] outline-none border border-[#f6f6f647]"
-                                    type="email"
-                                    placeholder="user@email.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
+                                <textarea
+                                    id="letter"
+                                    name="letter"
+                                    className="w-full min-h-[131px] lg:min-h-[184px] mt-[10px] lg:mt-3 py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px] flex-1 resize-none outline-none"
+                                    placeholder="Введите.."
+                                    value={letter}
+                                    onChange={(e) => setLetter(e.target.value)}
+                                ></textarea>
+
                                 <CustomButton
                                     variant="default"
                                     className="p-3 lg:p-[18px] mt-8 lg:mt-9 lg:text-[20px]/[28px]"
@@ -168,7 +117,7 @@ export default function CommercialProposalForm({
                                     type="submit"
                                     loading={status === 'loading'}
                                 >
-                                    Оставить заявку
+                                    Отправить
                                 </CustomButton>
                                 <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699] mt-[10px] lg:mt-[14px]">
                                     При нажатии кнопки &quot;Отправить&quot;, я
@@ -187,8 +136,8 @@ export default function CommercialProposalForm({
                     )}
                     {status === 'success' && (
                         <SuccessRequest
-                            header="Ваша заявка принята!"
-                            text="Мы свяжемся с вами в течение 5 минут"
+                            header="Обращение принято!"
+                            text="Письмо будет доставлено напрямую к директору. Ожидайте ответа на почте."
                             onClick={() => {
                                 setIsOpenAction(false);
                                 setStatus('idle');

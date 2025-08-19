@@ -3,9 +3,13 @@ import { Button, ConfigProvider } from 'antd';
 
 export default function SuccessRequest({
     onClick,
+    header,
+    text,
     reservation = false,
 }: {
     onClick: () => void;
+    header: string;
+    text:string;
     reservation?: boolean;
 }) {
     return (
@@ -16,13 +20,13 @@ export default function SuccessRequest({
                         <div className="flex-center gap-4 mb-4 lg:mb-5">
                             <SucsessIcon className="w-[42px] h-[42px] lg:w-[48px] lg:h-[48px]" />
                             <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
-                                Ваша заявка принята!
+                            {header}
                             </h2>
                         </div>
                         <p
-                            className={`text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold ${reservation ? 'mb-2 lg:mb-[10px]' : ''}  tracking-normal text-nowrap`}
+                            className={`text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold ${reservation ? 'mb-2 lg:mb-[10px]' : ''}  tracking-normal `}
                         >
-                            Мы свяжемся с вами в течение 5 минут
+                            {text}
                         </p>
                         {reservation && (
                             <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-normal">

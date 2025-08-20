@@ -174,12 +174,12 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             />
 
             {showCost && (
-                <section className="p-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-2xl transition-all lg:px-7 lg:pb-8 lg:pt-11 lg:mt-[-28]">
-                    <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4">
+                <section className="p-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-[16px] lg:rounded-b-[32px] transition-all lg:px-7 lg:pb-[38px] lg:pt-12 lg:-mt-[28px]">
+                    <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
                         Расчет стоимости
                     </h2>
 
-                    <dl className="space-y-2 text-sm lg:text-lg">
+                    <dl className="space-y-2 text-[14px]/[20px] lg:text-[16px]/[24px]">
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                             <dt>Продолжительность</dt>
                             <dd className="font-bold">
@@ -256,7 +256,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         </ConfigProvider>
                     </div> */}
 
-                    <div className="flex items-center justify-between mb-5 mt-8">
+                    <div className="flex items-center justify-between mb-4 lg:mb-5 mt-8 lg:mt-9">
                         <div className="flex flex-col">
                             <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
                                 Итоговая стоимость:
@@ -273,7 +273,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                                     <span className="font-bold text-[24px]/[32px] xl:text-[36px]/[40px] text-[#FFD7A6]">
                                         {discountedPrice} ₽
                                     </span>
-                                    <span className="line-through text-[14px]/[20px] xl:text-[24px]/[32px] text-[#F6F6F699]">
+                                    <span className="font-bold line-through text-[14px]/[20px] xl:text-[24px]/[32px] text-[#F6F6F699]">
                                         {totalPrice} ₽
                                     </span>
                                 </>

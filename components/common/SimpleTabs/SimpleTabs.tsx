@@ -15,7 +15,7 @@ export const SimpleTabs = ({ tabs }: SimpleTabsProps) => {
 
     return (
         <div className="w-full ">
-            <div className="text-[16px]/[24px] xl:text-[18px]/[28px] lg:font-semibold font-medium flex lg:justify-between gap-1 xl:gap-2 mb-4 relative lg:rounded-[20px] lg:border-2 lg:border-[#F6F6F633] lg:p-4">
+            <div className="flex gap-1 xl:gap-2 mb-4 relative lg:rounded-[20px] lg:border-2 lg:border-[#F6F6F633] lg:p-4">
                 {tabs.map((tab) => {
                     const isActive = activeKey === tab.key;
 
@@ -23,11 +23,11 @@ export const SimpleTabs = ({ tabs }: SimpleTabsProps) => {
                         <button
                             key={tab.key}
                             onClick={() => setActiveKey(tab.key)}
-                            className={`relative px-3 lg:px-4 xl:px-[26px] h-10 lg:h-11 rounded-[12px] lg:rounded-[16px] transition-all duration-200
+                            className={`text-[16px]/[24px] xl:text-[18px]/[28px] lg:font-semibold font-medium relative h-10 lg:h-11 rounded-[12px] flex-1 lg:rounded-[16px] 
                                 ${
                                     isActive
                                         ? 'bg-[#3C6E71] text-[#f6f6f6]'
-                                        : 'bg-transparent text-[#f6f6f6]/60 hover:text-[#f6f6f6] hover:bg-[#f6f6f638]'
+                                        : 'bg-transparent text-[#f6f6f6]/60'
                                 }
                             `}
                         >

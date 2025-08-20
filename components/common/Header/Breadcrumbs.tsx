@@ -7,7 +7,7 @@ export default function Breadcrumbs({
     crumbs: { title: string; href?: string }[];
 }) {
     return (
-        <nav className="bg-[#1e384a] py-[10px] px-5 lg:py-3 lg:px-7 rounded-[24px] text-[16px]/[24px] lg:text-[18px]/[28px] font-normal mb-[12px] lg:mb-5">
+        <nav className="bg-[#1e384a] py-[10px] px-5 lg:py-3 lg:px-7 rounded-[24px] text-[16px]/[24px] lg:text-[18px]/[28px] font-normal mb-6 lg:mb-8">
             <div className="flex items-center overflow-hidden">
                 {crumbs.map((crumb, index) => {
                     const isLast = index === crumbs.length - 1;

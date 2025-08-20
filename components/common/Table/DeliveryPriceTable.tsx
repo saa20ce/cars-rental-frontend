@@ -146,7 +146,7 @@ export const DeliveryPriceTable = ({
                                 return (
                                     <tr key={districts}>
                                         <td
-                                            className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 ${
+                                            className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 lg:text-center ${
                                                 isLast ? 'border-b-0' : ''
                                             }`}
                                         >

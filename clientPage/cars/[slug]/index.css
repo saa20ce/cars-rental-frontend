@@ -37,7 +37,36 @@
     inset-inline-end: 18px;
 }
 
-@media (width >= 64rem) {
+.custom-carousel .slick-dots .slick-active::after {
+    content: none !important;
+    display: none !important;
+}
+
+.custom-carousel .slick-dots {
+    bottom: 14px;
+}
+
+.custom-carousel .slick-dots li,
+.custom-carousel .slick-dots li.slick-active {
+    width: auto;
+    height: auto;
+    margin: 0 3px;
+}
+
+.custom-carousel .slick-dots li button {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f6f6f633;
+    opacity: 1;
+    transition: background 0.3s;
+}
+
+.custom-carousel .slick-dots li.slick-active button {
+    background: #f6f6f6;
+}
+
+@media (min-width: 1024px) {
     .ant-tabs .ant-tabs-tab {
         font-size: 18px;
         padding: 9px 28px;
@@ -59,5 +88,16 @@
         border: 2px solid #f6f6f638;
         border-radius: 20px;
         padding: 16px;
+    }
+    .custom-carousel .slick-dots li button {
+        width: 12px;
+        height: 12px;
+    }
+    .custom-carousel .slick-dots li,
+    .custom-carousel .slick-dots li.slick-active {
+        margin: 0 5px;
+    }
+    .custom-carousel .slick-dots {
+        bottom: 16px;
     }
 }

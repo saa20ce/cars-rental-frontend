@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface IconProps {
+interface CloseIconProps {
     className?: string;
 }
 
-export const CarDescIcon: React.FC<IconProps> = ({ className = '' }) => (
+export const CarIconHomePage: React.FC<CloseIconProps> = ({ className }) => (
     <svg
         className={className}
         width="41"

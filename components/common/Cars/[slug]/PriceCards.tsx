@@ -27,15 +27,15 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
 }) => {
     return (
         <section>
-            <div className="flex items-center gap-2 mt-5 lg:ml-6 lg:text-lg">
-                <Switch checked={seasonModeSwitch} />
-                <span className="lg:mt-[4px]">Сезон</span>
+            <div className="flex items-center gap-2 lg:gap-[10px] mt-5 ml-2 lg:ml-6">
+                <Switch checked={seasonModeSwitch} className="custom-switch" />
+                <span className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal">Сезон</span>
                 <LineIcon />
                 <Tooltip
-                    placement="right"
                     title={tooltipText}
                     color="#4b5563"
                     arrow={false}
+                    
                 >
                     <div>
                         <InfoIcon />
@@ -45,7 +45,7 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
 
             <div className="-mx-4 lg:mx-0 mt-4 overflow-x-auto lg:overflow-visible scrollbar-hide">
                 <ul
-                    className="flex gap-3 min-w-max px-4 lg:grid lg:gap-3 lg:w-full"
+                    className="flex gap-3 min-w-max px-4 lg:px-0 lg:grid lg:gap-3 lg:w-full"
                     style={{
                         gridTemplateColumns:
                             'repeat(auto-fit, minmax(150px, 1fr))',

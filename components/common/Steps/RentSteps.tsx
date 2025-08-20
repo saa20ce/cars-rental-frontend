@@ -70,7 +70,7 @@ export function RentSteps() {
                 </ol>
                 <Link
                     href="/require"
-                    className="block lg:hidden underline underline-offset-4 text-center text-[20px]/[28px] font-semibold mt-5"
+                    className="block lg:hidden underline underline-offset-[5px] text-center text-[20px]/[28px] font-semibold mt-5"
                 >
                     Полные условия
                 </Link>

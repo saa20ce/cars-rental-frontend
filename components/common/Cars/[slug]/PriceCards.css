@@ -11,3 +11,19 @@
 .ant-tooltip .ant-tooltip-inner {
     padding: 8px 10px;
 }
+
+.custom-switch {
+  width: 56px !important;
+  height: 28px !important;
+}
+
+.custom-switch .ant-switch-handle {
+  width: 20px !important;
+  height: 20px !important;
+  top: 4px !important; 
+  left: 4px !important;
+}
+
+.custom-switch.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 20px - 4px) !important; 
+}

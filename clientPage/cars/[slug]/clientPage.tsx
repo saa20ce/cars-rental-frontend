@@ -32,6 +32,8 @@ import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
+import { Accordion } from '@/lib/ui/common/Accordion';
+import { faqItems } from '@/lib/data/faqItems';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -77,18 +79,13 @@ export default function SingleCarPageClient({
             label: 'Комплектация',
             children: 'Content of Tab Pane 2',
         },
-        {
-            key: '3',
-            label: 'F.A.Q',
-            children: 'Content of Tab Pane 3',
-        },
     ];
 
     const MyPrevArrow = (props: any) => {
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>
-                <ArrowLeftIcon className="w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current" />
+                <ArrowLeftIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" />
             </div>
         );
     };
@@ -97,7 +94,7 @@ export default function SingleCarPageClient({
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>
-                <ArrowRightIcon className="w-8 h-8 lg:w-[30px] lg:h-[48px] fill-current" />
+                <ArrowRightIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" />
             </div>
         );
     };
@@ -105,19 +102,19 @@ export default function SingleCarPageClient({
     return (
         <>
             {car.acf?.nazvanie_avto && (
-                <h1 className="text-2xl uppercase font-bold mb-5 ml-3 lg:text-4xl lg:ml-0">
+                <h1 className="text-[24px]/[32px] lg:text-[36px]/[100%] uppercase font-extrabold mb-5 ml-3 lg:mb-6 lg:ml-0 tracking-[0.6px] lg:tracking-[1.1px]">
                     {car.acf.nazvanie_avto}
                 </h1>
             )}
             <section className="lg:flex lg:w-full lg:gap-6">
                 <article className="lg:flex-1 lg:min-w-0">
                     <section className="carousel-wrapper">
-                        <figure className="relative">
+                        <figure className="relative rounded-[20px] lg:rounded-[32px] overflow-hidden">
                             {galleryImages.length === 1 && (
                                 <img
                                     src={galleryImages[0]}
                                     alt={car.acf?.nazvanie_avto || 'car image'}
-                                    className="w-full h-[225px] rounded-2xl object-cover lg:h-[385px]"
+                                    className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
                                 />
                             )}
                             {galleryImages.length > 1 && (
@@ -132,14 +129,15 @@ export default function SingleCarPageClient({
                                         arrows
                                         prevArrow={<MyPrevArrow />}
                                         nextArrow={<MyNextArrow />}
-                                        dots={false}
+                                        dots
+                                        className="custom-carousel"
                                     >
                                         {galleryImages.map((imgUrl) => (
                                             <div key={imgUrl}>
                                                 <img
                                                     src={imgUrl}
                                                     alt={imgUrl}
-                                                    className="w-full h-[225px] rounded-2xl object-cover lg:h-[385px]"
+                                                    className="w-full h-[225px]  object-cover lg:h-[385px]"
                                                 />
                                             </div>
                                         ))}
@@ -157,8 +155,8 @@ export default function SingleCarPageClient({
                         />
                     )}
 
-                    <section className="mt-6 hidden lg:block lg:text-[18px] lg:border-2 lg:border-solid lg:border-[#f6f6f638] lg:rounded-[32px] lg:p-7">
-                        <h2 className="lg:text-2xl lg:font-bold lg:mb-6">
+                    <section className="mt-8 hidden lg:block border-2 border-[#f6f6f638] rounded-[32px] px-9 py-[38px]">
+                        <h2 className="text-[24px]/[32px] font-bold mb-5">
                             Информация
                         </h2>
                         <SimpleTabs tabs={TAB_ITEMS} />
@@ -182,13 +180,13 @@ export default function SingleCarPageClient({
                             </h2>
                             <Link
                                 href={'/require'}
-                                className="lg:hidden underline text-[16px]/[24px] font-normal"
+                                className="lg:hidden underline underline-offset-4 text-[16px]/[24px] font-normal"
                             >
                                 Полные условия
                             </Link>
                         </div>
 
-                        <ul className="flex justify-between mt-4 text-[#F6F6F699] border-[#f6f6f638] border-b py-6 lg:mt-5 lg:border-0 lg:py-0">
+                        <ul className="flex flex-wrap justify-between mt-4 text-[#F6F6F699] border-[#f6f6f638] border-b pb-8 lg:mt-5 lg:border-0 lg:py-0">
                             <li className="flex items-center gap-[6px] lg:gap-[10px]">
                                 <DocumentsIcon className="w-9 h-9 xl:w-[52px] xl:h-[52px]" />
                                 <div className="flex flex-col">
@@ -224,20 +222,17 @@ export default function SingleCarPageClient({
                                     </span>
                                 </div>
                             </li>
-                        </ul>
-
-                        {/* (для десктопа) */}
-                        <div className="hidden lg:block mt-[18px] text-lg">
-                            <p>
+                            {/* (для десктопа) */}
+                            <li className="hidden lg:list-item list-disc mt-4 text-[#f6f6f6] text-[18px]/[28px] font-normal w-full ml-6">
                                 Полные условия аренды вы можете прочитать{' '}
                                 <Link
                                     href="/require"
-                                    className="font-semibold underline underline-offset-4"
+                                    className="font-semibold underline underline-offset-[5px]"
                                 >
                                     ЗДЕСЬ
                                 </Link>
-                            </p>
-                        </div>
+                            </li>
+                        </ul>
                     </section>
                     <section className="mt-6 block lg:hidden">
                         <SimpleTabs tabs={TAB_ITEMS} />
@@ -279,6 +274,13 @@ export default function SingleCarPageClient({
             <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
             <WhyUs />
+
+            <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
+                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    Часто задаваемые вопросы:
+                </h2>
+                <Accordion items={faqItems} />
+            </section>
 
             <HaveQuestions />
         </>

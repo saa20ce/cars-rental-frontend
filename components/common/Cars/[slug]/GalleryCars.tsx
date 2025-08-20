@@ -35,13 +35,13 @@ export default function GalleryCars({
 
     return (
         <section className="pt-[42px] lg:pt-[68px]">
-            <div className="flex flew-row justify-between pb-6">
-                <h2 className="text-xl font-bold ml-4 lg:text-3xl">{title}</h2>
+            <div className="flex flew-row justify-between mb-5 lg:mb-6">
+                <h2 className="text-xl font-bold lg:text-3xl self-end">{title}</h2>
                 <div className="hidden lg:flex flex-row px-4 gap-4">
                     <CarouselControls ref={scrollRef} />
                     <Link
                         href={href}
-                        className="w-[260px] flex-center text-[18px]/[28px] font-bold gap-3 border border-[#F6F6F6] rounded-[16px]"
+                        className="w-[260px] flex-center text-[18px]/[28px] font-medium gap-3 border border-[#F6F6F6] border-[1.5px] rounded-[16px]"
                     >
                         {btnTitle} <ArrowRightLinkIcon />
                     </Link>
@@ -72,7 +72,7 @@ export default function GalleryCars({
             <div className="lg:hidden">
                 <Link
                     href={href}
-                    className="lg:hidden h-11 flex-center text-[16px]/[24px] font-bold gap-3 px-[48.5px] border border-[#F6F6F6] rounded-[16px]"
+                    className="lg:hidden h-10 flex-center text-[16px]/[24px] font-medium gap-3 border border-[#F6F6F6] rounded-[16px]"
                 >
                     {btnTitle} <ArrowRightLinkIcon />
                 </Link>

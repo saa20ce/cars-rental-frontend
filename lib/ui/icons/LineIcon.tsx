@@ -1,8 +1,8 @@
 export const LineIcon = () => (
     <svg
         width="1"
-        height="25"
-        viewBox="0 0 1 25"
+        height="20"
+        viewBox="0 0 1 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
     >
@@ -10,9 +10,9 @@ export const LineIcon = () => (
             x1="0.5"
             y1="-2.18558e-08"
             x2="0.500001"
-            y2="25"
+            y2="20"
             stroke="#F6F6F6"
-            strokeOpacity="0.8"
+            strokeOpacity="0.2"
         />
     </svg>
 );

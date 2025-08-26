@@ -36,7 +36,7 @@ export default function LetterThanks({ letters }: { letters: Letter[] }) {
                             <img
                                 src={letter.image}
                                 alt="Благодарственное письмо"
-                                className="h-full h-max-[250px] object-cover"
+                                className="h-full max-h-[250px] object-cover"
                             />
                         </li>
                     ))}

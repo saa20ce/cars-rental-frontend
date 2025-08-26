@@ -1,21 +1,25 @@
-export async function sendReview(data: {
-    full_name: string;
-    phone: string;
-    email: string;
-    review_text: string;
-    rating: number;
-}) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+export type ReviewPayload = {
+  full_name: string;
+  phone: string;
+  email: string;
+  review_text: string;
+  rating: number; 
+};
 
-    if (!res.ok) {
-        throw new Error('Ошибка при отправке отзыва');
-    }
+export async function sendReview(data: ReviewPayload) {
+  const base = process.env.NEXT_PUBLIC_API_URL;
+  if (!base) throw new Error('NEXT_PUBLIC_API_URL is not set');
 
-    return await res.json();
+  const res = await fetch(`${base}/api/reviews/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Ошибка при отправке отзыва (${res.status}): ${text}`);
+  }
+  return res.json();
 }

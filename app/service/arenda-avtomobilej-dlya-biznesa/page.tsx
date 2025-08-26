@@ -20,7 +20,7 @@ export async function generateMetadata() {
 export default async function СorporateRentalPage() {
     const breadcrumbs = await fetchBreadcrumbs('/service/corporate-rental');
     const lettersRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/thank-you-letters/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/thank-you-letters/`,
     );
     const { klassOptions } = await getAllTaxonomyOptions();
 

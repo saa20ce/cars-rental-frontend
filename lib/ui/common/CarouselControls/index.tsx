@@ -48,7 +48,7 @@ export default function CarouselControls({
                 <Button
                     onClick={goPrev}
                     icon={
-                        <ArrowLeftIcon />
+                        <ArrowLeftIcon className='w-[15px] h-6' />
                     }
                     aria-label="Прокрутить назад"
                     style={{
@@ -61,7 +61,7 @@ export default function CarouselControls({
                 <Button
                     onClick={goNext}
                     icon={
-                        <ArrowRightIcon />
+                        <ArrowRightIcon className='w-[15px] h-6' />
                     }
                     aria-label="Прокрутить вперед"
                     style={{

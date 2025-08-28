@@ -2,10 +2,12 @@ import React from 'react';
 
 interface ArrowLeftIconProps extends React.SVGProps<SVGSVGElement> {
     className?: string;
+    shadow?: boolean;
 }
 
 export const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
     className = '',
+    shadow = false,
 }) => (
     <svg
         className={className}
@@ -32,12 +34,14 @@ export const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
                 colorInterpolationFilters="sRGB"
             >
                 <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                    in="SourceAlpha"
-                    type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                    result="hardAlpha"
-                />
+                {shadow &&
+                    <feColorMatrix
+                        in="SourceAlpha"
+                        type="matrix"
+                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha"
+                    />
+                }
                 <feOffset dy="4" />
                 <feGaussianBlur stdDeviation="2" />
                 <feComposite in2="hardAlpha" operator="out" />

@@ -8,7 +8,7 @@ export const mainMenu = [
     {
         title: 'Услуги',
         mobTitle: 'Наши услуги',
-        href: '/service',
+        href: '#',
         items: [
             { title: 'Все услуги', href: '/service' },
             {
@@ -28,7 +28,7 @@ export const mainMenu = [
     },
     {
         title: 'О нас',
-        href: '/about',
+        href: '#',
         items: [
             { title: 'О компании', href: '/about' },
             { title: 'Отзывы', href: '/reviews' },
@@ -45,7 +45,7 @@ export const mainMenu = [
     },
     {
         title: 'Поддержка',
-        href: '/faq',
+        href: '#',
         items: [
             { title: 'Вопрос-ответ', href: '/faq' },
             { title: 'Связь с директором', href: '#' },

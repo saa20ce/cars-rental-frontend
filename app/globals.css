@@ -50,6 +50,7 @@ a:hover {
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f6f6f638;
+    border-radius: 100px;
 }
 
 /* Handle */
@@ -60,7 +61,7 @@ a:hover {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #f6f6f651;
 }
 
 /*  scrollbar for Chrome, Safari and Opera */
@@ -118,4 +119,11 @@ textarea::placeholder,
 input::placeholder,
 textarea::placeholder {
     color: #f6f6f699;
+}
+
+/* Desktop */
+@media (width >= 64rem) {
+    ::-webkit-scrollbar {
+        height: 8px;
+    }
 }

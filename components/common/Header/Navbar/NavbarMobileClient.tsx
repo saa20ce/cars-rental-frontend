@@ -6,6 +6,7 @@ import { MenuIcon, SmallCross } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { DownIcon } from '@/lib/ui/icons/DownIcon';
 import ModalTrigger from '../../Modal/ModalTrigger';
+import ModalTriggerContactDirector from '../../Modal/ModalTriggerContactDirector';
 
 export default function NavbarMobileClient({
     menuItems,
@@ -21,6 +22,12 @@ export default function NavbarMobileClient({
     const [open, setOpen] = useState(false);
     const [openKey, setOpenKey] = useState<string | null>(null);
     const [visibleKey, setVisibleKey] = useState<string | null>(null);
+
+    const [directorModalOpen, setDirectorModalOpen] = useState(false);
+    const handleDirectorToggle = (v: boolean) => {
+        setDirectorModalOpen(v);
+    };
+
     const handleToggle = (key: string) => {
         if (openKey === key) {
             setOpenKey(null);
@@ -59,20 +66,13 @@ export default function NavbarMobileClient({
                     footer={null}
                     closeIcon={false}
                     width="100vw"
-                    style={{
-                        top: 0,
-                        left: 0,
-                        margin: 0,
-                        padding: 0,
-                    }}
+                    style={{ top: 0, left: 0, margin: 0, padding: 0 }}
                     styles={{
                         mask: {
                             backdropFilter: 'blur(30px)',
                             WebkitBackdropFilter: 'blur(30px)',
                         },
-                        content: {
-                            color: '#f6f6f6',
-                        },
+                        content: { color: '#f6f6f6' },
                     }}
                     centered
                 >
@@ -93,13 +93,9 @@ export default function NavbarMobileClient({
                                 <div key={item.title} className="relative">
                                     <div className="flex items-center justify-center px-3 py-[6px] rounded-[8px] transition-colors duration-300">
                                         <Link
-                                            href={
-                                                item.mobHref || item.href || '#'
-                                            }
-                                            className="whitespace-nowrap  text-[20px]/[28px] text-medium hover:text-[#f6f6f6]"
-                                            onClick={() => {
-                                                setOpen(false);
-                                            }}
+                                            href={item.mobHref || item.href || '#'}
+                                            className="whitespace-nowrap text-[20px]/[28px] text-medium hover:text-[#f6f6f6]"
+                                            onClick={() => setOpen(false)}
                                         >
                                             {item.mobTitle || item.title}
                                         </Link>
@@ -107,52 +103,47 @@ export default function NavbarMobileClient({
                                         {item.items && (
                                             <button
                                                 type="button"
-                                                onClick={() =>
-                                                    handleToggle(item.title)
-                                                }
+                                                onClick={() => handleToggle(item.title)}
                                                 className="ml-2 outline-none"
                                             >
                                                 <DownIcon
-                                                    className={`w-3 h-6 transition-transform duration-300 ${
-                                                        isOpen
-                                                            ? 'rotate-180'
-                                                            : 'rotate-0'
-                                                    }`}
+                                                    className={`w-3 h-6 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'
+                                                        }`}
                                                 />
                                             </button>
                                         )}
                                     </div>
 
-                                    {item.items &&
-                                        visibleKey === item.title && (
-                                            <div
-                                                className={`overflow-hidden transition-all duration-300 ${
-                                                    isOpen
-                                                        ? 'animate-expand'
-                                                        : 'animate-collapse'
+                                    {item.items && visibleKey === item.title && (
+                                        <div
+                                            className={`overflow-hidden transition-all duration-300 ${isOpen ? 'animate-expand' : 'animate-collapse'
                                                 } flex flex-col gap-2 mt-3`}
-                                            >
-                                                {item.items.map((subItem) => (
+                                        >
+                                            {item.items.map((subItem) =>
+                                                subItem.title === 'Связь с директором' ? (
+                                                    <ModalTriggerContactDirector
+                                                        isOpen={directorModalOpen}
+                                                        setIsOpenAction={handleDirectorToggle}
+                                                    />
+                                                ) : (
                                                     <Link
                                                         key={subItem.title}
-                                                        href={
-                                                            subItem.href || '#'
-                                                        }
+                                                        href={subItem.href || '#'}
                                                         className="text-[16px]/[24px] text-medium py-2 text-center hover:text-[#f6f6f6]"
-                                                        onClick={() =>
-                                                            setOpen(false)
-                                                        }
+                                                        onClick={() => setOpen(false)}
                                                     >
                                                         {subItem.title}
                                                     </Link>
-                                                ))}
-                                            </div>
-                                        )}
+                                                )
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
                     </nav>
 
+                    {/* Кнопка общей модалки (как было) */}
                     <ModalTrigger className="flex-center mx-auto mt-8 w-[196px] py-[10px] text-[18px]/[30px]" />
                 </Modal>
             </ConfigProvider>

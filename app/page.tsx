@@ -111,13 +111,13 @@ export default async function Home() {
                         <div className="flex gap-3 justify-center md:justify-start lg:mb-9">
                             <Link
                                 href={'/cars'}
-                                className="bg-[#3C6E71] h-10 lg:h-11 lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-[12px] lg:rounded-[16px] font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[28px] text-center"
+                                className="bg-[#3C6E71] h-10 lg:h-11 lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-[12px] lg:rounded-[16px] font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[30px] text-center"
                             >
                                 Автопарк
                             </Link>
                             <Link
                                 href={'#'}
-                                className="border h-10 lg:h-11 text-center lg:max-w-[194px] flex-1 md:flex-0 py-2 rounded-[12px] lg:rounded-[16px] text-[16px]/[24px] font-medium lg:text-[18px]/[28px]"
+                                className="border h-10 lg:h-11 text-center lg:max-w-[194px] flex-1 md:flex-0 py-2 rounded-[12px] lg:rounded-[16px] text-[16px]/[24px] font-medium lg:text-[18px]/[30px]"
                             >
                                 Трансфер
                             </Link>
@@ -136,7 +136,7 @@ export default async function Home() {
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-6">
                     Классы:
                 </h2>
-                <div className="flex gap-3 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-4 lg:overflow-visible">
+                <div className="flex gap-3 overflow-x-auto pb-4 lg:pb-0 lg:grid lg:grid-cols-6 lg:gap-4 lg:overflow-visible">
                     {classes.map((c) => (
                         <Link
                             href={c.href}
@@ -173,14 +173,14 @@ export default async function Home() {
                     </Link>
                 </div>
 
-                <ul className="flex flex-wrap justify-between gap-[14px] lg:gap-6 mt-4 border-[#f6f6f638] lg:mt-5 text-[#F6F6F699] lg:text-[#F6F6F699]">
+                <ul className="flex flex-wrap justify-between gap-[14px] lg:gap-6 mt-4 border-[#f6f6f638] lg:mt-5 text-[#fff]">
                     <li className="md:flex-1 flex items-center gap-[6px] lg:gap-[20px] md:bg-[#FFFFFF0D] md:py-5 lg:py-6 md:px-10 rounded-[16px] lg:h-[118px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <DocumentIconHomePage className="hidden lg:block w-10 h-10" />
-                            <DocumentsIcon className="lg:hidden w-9 h-9 "/>
+                            <DocumentsIcon className="lg:hidden w-9 h-9 " />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-bold lg:mb-[6px]"> 
+                            <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-bold lg:mb-[6px] ">
                                 Документы
                             </span>
                             <span className="text-[12px] lg:text-[18px] font-normal">
@@ -192,7 +192,7 @@ export default async function Home() {
                     <li className="md:flex-1 flex items-center gap-[6px] lg:gap-[20px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px] lg:h-[118px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <CarIconHomePage className="hidden lg:block w-10 h-10" />
-                            <CarIcon className="lg:hidden w-9 h-9 "/>
+                            <CarIcon className="lg:hidden w-9 h-9 " />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-bold lg:mb-[6px]">
@@ -207,7 +207,7 @@ export default async function Home() {
                     <li className="md:flex-1  flex items-center gap-[6px] lg:gap-[20px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px] lg:h-[118px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
                             <NumberIconHomePage className="hidden lg:block w-10 h-10" />
-                            <AgeIcon className="lg:hidden w-9 h-9 "/>
+                            <AgeIcon className="lg:hidden w-9 h-9 " />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-bold lg:mb-[6px]">

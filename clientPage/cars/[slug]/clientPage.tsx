@@ -85,7 +85,7 @@ export default function SingleCarPageClient({
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>
-                <ArrowLeftIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" />
+                <ArrowLeftIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
             </div>
         );
     };
@@ -94,7 +94,7 @@ export default function SingleCarPageClient({
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>
-                <ArrowRightIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" />
+                <ArrowRightIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
             </div>
         );
     };

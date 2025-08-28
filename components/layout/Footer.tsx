@@ -18,8 +18,12 @@ export const Footer: React.FC = () => {
             <section className="flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5">
                 <div className="flex text-[18px] lg:text-[24px] font-[600] justify-between">
                     <h2>
-                        Разделы сайта{' '}
-                        <ChevronRightIcon width={10} height={32} />
+                        <Link
+                            href="/karta-sajta"
+                        >
+                            Разделы сайта{' '}
+                            <ChevronRightIcon width={10} height={32} />
+                        </Link>
                     </h2>
                     <Link
                         href="/faq"
@@ -114,7 +118,7 @@ export const Footer: React.FC = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="#">Договор аренды</Link>
+                            <Link href="/dogovor-arendy">Договор аренды</Link>
                         </li>
                         <li>
                             <Link href="/require">Условия</Link>
@@ -154,7 +158,7 @@ export const Footer: React.FC = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="#">Договор аренды</Link>
+                            <Link href="/dogovor-arendy">Договор аренды</Link>
                         </li>
                         <li>
                             <Link href="/require">Условия</Link>
@@ -223,15 +227,15 @@ export const Footer: React.FC = () => {
                     © ООО «Рентасиб», 2020—2025
                 </div>
                 <div className="flex flex-col lg:flex-row lg:items-center lg:gap-6 mt-3 lg:mt-0">
-                    <a
-                        href="#"
+                    <Link
+                        href={'/privacy'}
                         className="underline underline-offset-4 mb-1 lg:mb-0"
                     >
-                        Политика конфиденциальности
-                    </a>
-                    <a href="#" className="underline underline-offset-4">
-                        Условия обработки персональных данных
-                    </a>
+                        Политика в отношении обработки персональных данных
+                    </Link>
+                    <Link href={"/soglasie"} className="underline underline-offset-4">
+                        Согласие на обработку данных
+                    </Link>
                 </div>
             </section>
         </footer>

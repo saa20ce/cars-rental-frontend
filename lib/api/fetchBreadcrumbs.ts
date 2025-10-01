@@ -65,7 +65,7 @@ export async function fetchBreadcrumbs(
         if (Array.isArray(homeData) && homeData[0]?.title?.rendered) {
             homeTitle = homeData[0].title.rendered;
         }
-    } catch {}
+    } catch { }
 
     items.push({ href: '/', title: homeTitle, isLast: segments.length === 0 });
 

@@ -38,6 +38,13 @@ const lato = localFont({
     display: 'swap',
 });
 
+export const metadata = {
+    metadataBase: new URL('https://rentasib.ru'),
+    alternates: {
+        canonical: './',
+    },
+};
+
 export const viewport: Viewport = {
     initialScale: 1,
     maximumScale: 1,
@@ -49,7 +56,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="ru">
             <body
                 className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5 min-h-screen`}
             >

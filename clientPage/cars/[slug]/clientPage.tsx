@@ -113,6 +113,7 @@ export default function SingleCarPageClient({
                             {galleryImages.length === 1 && (
                                 <img
                                     src={galleryImages[0]}
+                                    loading='lazy'
                                     alt={car.acf?.nazvanie_avto || 'car image'}
                                     className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
                                 />
@@ -135,6 +136,7 @@ export default function SingleCarPageClient({
                                         {galleryImages.map((imgUrl) => (
                                             <div key={imgUrl}>
                                                 <img
+                                                    loading='lazy'
                                                     src={imgUrl}
                                                     alt={imgUrl}
                                                     className="w-full h-[225px]  object-cover lg:h-[385px]"

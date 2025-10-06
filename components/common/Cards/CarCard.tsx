@@ -41,13 +41,9 @@ export const CarCard: React.FC<CarCardProps> = ({
     const price = Number(acf['30_dnej']);
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
 
-    const imageUrl =
-        (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
-        (Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
-        (Array.isArray(acf.gray_gallery) && acf.gray_gallery[0]) ||
-        (Array.isArray(acf.blue_gallery) && acf.blue_gallery[0]) ||
-        (Array.isArray(acf.red_gallery) && acf.red_gallery[0]) ||
-        '';
+    const featured = car._embedded?.['wp:featuredmedia']?.[0];
+    const sizes = featured?.media_details?.sizes;
+    const imageUrl = sizes?.medium_large?.source_url;
 
     const carLink = `/cars/${car.slug}`;
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
@@ -170,6 +166,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                     className="contents hover:text-[#f6f6f6]"
                 >
                     <img
+                        loading="lazy"
                         src={imageUrl}
                         alt={acf.nazvanie_avto}
                         className="w-full min-w-[310px] max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px] lg:mb-4"

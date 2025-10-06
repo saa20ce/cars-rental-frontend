@@ -1,24 +1,17 @@
-import AdditionalServicesCards from '@/components/common/Cards/AdditionalServicesCards';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import {
     getAdditionalOptions,
-    getCars,
-    getCarsByKuzov,
     getCrossoverAndMinivanCars,
     getDeliveryPrice,
     getSeasonDates,
 } from '@/lib/api/fetchCarData';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import { servicesItems } from '@/lib/data/itemsCards';
-import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import { Number1Icon } from '@/lib/ui/icons/Number1Icon';
 import { Number2Icon } from '@/lib/ui/icons/Number2Icon';
 import { Number3Icon } from '@/lib/ui/icons/Number3Icon';
-import { Number4Icon } from '@/lib/ui/icons/Number4Icon';
-import Link from 'next/link';
 
 const paragraphsSection1 = [
     'Аренда автомобиля с боксом на крышу имеет множество преимуществ, среди которых дополнительное пространство для багажа, безопасный транспорт для багажа, а также удобный и просторный багажник на крыше автомобиля. Особенно важно это для тех, кто планирует длительное путешествие на автомобиле и нуждается в перевозке большого количества вещей.',

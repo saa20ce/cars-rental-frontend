@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { Button, ConfigProvider } from 'antd';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';

@@ -146,7 +146,7 @@ export default async function Home() {
                             <img
                                 src={c.src}
                                 alt="фото автомобиля"
-                                className="w-full h-[84px] md:h-[131px] rounded-[8px] lg:rounded-[12px]"
+                                className="w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]"
                             />
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
                                 <h4 className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">

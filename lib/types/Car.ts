@@ -42,6 +42,7 @@ export type Car = {
                 sizes: {
                     thumbnail: { source_url: string };
                     medium?: { source_url: string };
+                    medium_large?: { source_url: string };
                     large?: { source_url: string };
                     full?: { source_url: string };
                 };

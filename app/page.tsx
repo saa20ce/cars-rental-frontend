@@ -1,4 +1,5 @@
 import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
+import Image from 'next/image';
 import {
     AgeIcon,
     CarIcon,
@@ -143,11 +144,16 @@ export default async function Home() {
                             key={c.title}
                             className="min-w-[126px] md:min-w-[171px] lg:min-w-0 bg-[#F6F6F60D] hover:bg-[#1E384A] rounded-[16px] transition-colors duration-300 cursor-pointer hover:text-[#f6f6f6]"
                         >
-                            <img
-                                src={c.src}
-                                alt="фото автомобиля"
-                                className="w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]"
-                            />
+                            <div className="relative w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]">
+                                <Image
+                                    src={c.src}
+                                    alt='фото автомобиля'
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    style={{ objectFit: 'cover', borderRadius: '8px' }}
+                                    loading={'lazy'}
+                                />
+                            </div>
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
                                 <h4 className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
                                     {c.title}

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ConfigProvider, Carousel, Tabs } from 'antd';
+import { ConfigProvider, Carousel, } from 'antd';
+import Image from 'next/image';
 import './index.css';
 import {
     PriceCards,
@@ -116,6 +117,7 @@ export default function SingleCarPageClient({
                                     loading='lazy'
                                     alt={car.acf?.nazvanie_avto || 'car image'}
                                     className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                             )}
                             {galleryImages.length > 1 && (
@@ -133,13 +135,18 @@ export default function SingleCarPageClient({
                                         dots
                                         className="custom-carousel"
                                     >
-                                        {galleryImages.map((imgUrl) => (
-                                            <div key={imgUrl}>
-                                                <img
-                                                    loading='lazy'
+                                        {galleryImages.map((imgUrl, i) => (
+                                            <div key={i}
+                                                className="relative w-full h-[225px]  object-cover lg:h-[385px]"
+                                            >
+                                                <Image
                                                     src={imgUrl}
-                                                    alt={imgUrl}
-                                                    className="w-full h-[225px]  object-cover lg:h-[385px]"
+                                                    alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                    style={{ objectFit: 'cover' }}
+                                                    priority={i === 0}
+                                                    loading={i === 0 ? 'eager' : 'lazy'}
                                                 />
                                             </div>
                                         ))}

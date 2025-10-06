@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type {
     Car as LibCar,
     CarACF,
@@ -41,9 +42,16 @@ export const CarCard: React.FC<CarCardProps> = ({
     const price = Number(acf['30_dnej']);
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
 
-    const featured = car._embedded?.['wp:featuredmedia']?.[0];
-    const sizes = featured?.media_details?.sizes;
-    const imageUrl = sizes?.medium_large?.source_url;
+    // const featured = car._embedded?.['wp:featuredmedia']?.[0];
+    // const sizes = featured?.media_details?.sizes;
+    // const imageUrl = sizes?.medium_large?.source_url;
+    const imageUrl =
+        (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
+        (Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
+        (Array.isArray(acf.gray_gallery) && acf.gray_gallery[0]) ||
+        (Array.isArray(acf.blue_gallery) && acf.blue_gallery[0]) ||
+        (Array.isArray(acf.red_gallery) && acf.red_gallery[0]) ||
+        '';
 
     const carLink = `/cars/${car.slug}`;
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
@@ -165,12 +173,18 @@ export const CarCard: React.FC<CarCardProps> = ({
                     passHref
                     className="contents hover:text-[#f6f6f6]"
                 >
-                    <img
-                        loading="lazy"
-                        src={imageUrl}
-                        alt={acf.nazvanie_avto}
-                        className="w-full min-w-[310px] max-h-[207px] object-cover mb-[14px] rounded-2xl lg:max-h-[252px] lg:mb-4"
-                    />
+                    <div
+                        className="relative w-full min-w-[310px] z-0 mb-[14px] rounded-2xl h-[252px] max-h-[252px] lg:mb-4"
+                    >
+                        <Image
+                            src={imageUrl ?? ''}
+                            alt={`${car.acf?.nazvanie_avto ?? 'car'}`}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            style={{ objectFit: 'cover', zIndex: -1, borderRadius: '1rem' }}
+                            loading={'lazy'}
+                        />
+                    </div>
                     <SaleInfo acf={acf} />
                 </Link>
             </div>

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
+    images: {
+        domains: ['demo.rentasib.ru'],
+    },
     async rewrites() {
         return [
             {
@@ -13,3 +16,5 @@ module.exports = {
         ];
     },
 };
+
+module.exports = nextConfig;

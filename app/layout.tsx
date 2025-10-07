@@ -13,18 +13,8 @@ const lato = localFont({
             style: 'normal',
         },
         {
-            path: '../public/fonts/Lato-Medium.woff2',
-            weight: '500',
-            style: 'normal',
-        },
-        {
             path: '../public/fonts/Lato-Semibold.woff2',
             weight: '600',
-            style: 'normal',
-        },
-        {
-            path: '../public/fonts/Lato-Bold.woff2',
-            weight: '700',
             style: 'normal',
         },
     ],

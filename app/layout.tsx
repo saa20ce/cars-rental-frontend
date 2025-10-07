@@ -20,7 +20,6 @@ const lato = localFont({
     ],
     variable: '--font-lato',
     display: 'swap',
-    preload: true,
 });
 
 export const metadata = {

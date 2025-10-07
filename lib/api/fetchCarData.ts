@@ -19,7 +19,7 @@ export async function getCarBySlug(slug: string): Promise<Car | null> {
     const fields = buildFieldsParam([
         'id', 'slug', 'title',
         'acf.nazvanie_avto',
-        // 'acf.white_gallery', 'acf.black_gallery', 'acf.gray_gallery', 'acf.blue_gallery', 'acf.red_gallery',
+        'acf.white_gallery', 'acf.black_gallery', 'acf.gray_gallery', 'acf.blue_gallery', 'acf.red_gallery',
         'acf.skidka',
         'acf.1-3_dnya', 'acf.4-9_dnej', 'acf.10-18_dnej', 'acf.19-29_dnej', 'acf.30_dnej',
         'acf.1-3_dnya_S', 'acf.4-9_dnej_S', 'acf.10-18_dnej_S', 'acf.19-29_dnej_S', 'acf.30_dnej_S',

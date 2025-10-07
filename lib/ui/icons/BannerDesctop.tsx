@@ -9,8 +9,6 @@ export const BannerDesctop: React.FC<ArrowRightIconProps> = ({
 }) => (
     <svg
         className={className}
-        // width="725"
-        // height="360"
         viewBox="0 0 725 360"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -23,8 +21,6 @@ export const BannerDesctop: React.FC<ArrowRightIconProps> = ({
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"
-                // width="725"
-                // height="360"
             >
                 <path
                     d="M0 32C0 14.3269 14.3269 0 32 0H693C710.673 0 725 14.3269 725 32V328C725 345.673 710.673 360 693 360H32C14.3269 360 0 345.673 0 328V32Z"

@@ -11,7 +11,6 @@ import {
     CheckboxChangeEvent,
 } from 'antd';
 import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
-import './RentalCheckoutContactForm.css';
 import { InputMask } from '@react-input/mask';
 import Link from 'next/link';
 
@@ -257,6 +256,72 @@ export const RentalCheckoutContactForm: React.FC<
                     </Link>
                     .
                 </p>
+
+                <style jsx global>{`
+                    .ant-form * {
+                        font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+                        & label {
+                            @apply text-[12px]/[16px] lg:text-[14px]/[20px] font-medium;
+                        }
+                    }
+                    .ant-form .ant-form-item-control .ant-form-item-control-input-content input,
+                    .ant-form-item-control-input-content textarea {
+                        margin: 0 !important;
+                    }
+
+                    label.ant-form-item-required::before {
+                        display: none !important;
+                    }
+
+                    .ant-form-item-control-input-content input::placeholder,
+                    .ant-form-item-control-input-content textarea::placeholder {
+                        color: #f6f6f699;
+                    }
+
+                    textarea.ant-input:focus,
+                    textarea.ant-input:hover {
+                        background-color: #f6f6f633 !important;
+                        border: none !important;
+                        box-shadow: none !important;
+                    }
+
+                    .ant-form-item-control-input-content input,
+                    .ant-form-item-control-input-content textarea {
+                        width: 100%;
+                        margin-top: 10px;
+                        margin-bottom: 12px;
+                        color: #f6f6f6;
+                        padding: 0.5rem 1rem;
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 20px;
+                        background-color: #f6f6f633;
+                        border-radius: 16px;
+                        height: 36px;
+                        border: none;
+                        outline: none;
+                    }
+                    .custom-textarea {
+                        min-height: 78px !important;
+                    }
+
+                    @media (min-width: 1024px) {
+                        .ant-form-item-control-input-content input,
+                        .ant-form-item-control-input-content textarea {
+                            margin-top: 0.75rem;
+                            margin-bottom: 14px;
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                            font-size: 16px;
+                            line-height: 24px;
+                            height: 48px;
+                        }
+                        .custom-textarea {
+                            min-height: 100px !important;
+                        }
+                    }
+
+                `}</style>
             </>
         );
     };

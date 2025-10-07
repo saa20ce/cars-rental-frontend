@@ -6,7 +6,6 @@ import type { DatePickerProps } from 'antd';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
 import { CalendarIcon } from '@/lib/ui/icons';
-import './CustomDatePicker.css';
 
 export type CustomDatePickerProps = DatePickerProps & {
     width?: string | number;
@@ -57,7 +56,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                         activeBorderColor: '#f6f6f675',
                         cellActiveWithRangeBg: '#284b63',
                         paddingInline: 16,
-                        borderRadius: isMobile ? 12 : 16,
+                        borderRadius: isMobile ? 12 : 16
                     },
                 },
             }}
@@ -84,6 +83,17 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                 }}
                 {...rest}
             />
+            <style jsx global>{`
+                .ant-picker-input > input::placeholder {
+                    color: #f6f6f666 !important;
+                }
+
+                .ant-picker.ant-picker-outlined {
+                    border-top-right-radius: 0 !important;
+                    border-bottom-right-radius: 0 !important;
+                }
+
+            `}</style>
         </ConfigProvider>
     );
 };

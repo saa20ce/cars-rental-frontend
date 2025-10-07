@@ -1,9 +1,15 @@
 'use client';
 
 import type { DeliveryOption, DeliveryPrice } from '@/lib/types/Car';
-import { DefaultOptionType } from 'antd/es/select';
+import type { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useMemo, useState } from 'react';
-import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
+
+import dynamic from 'next/dynamic';
+const CustomSelect = dynamic(
+    () => import('@/lib/ui/common/Select/CustomSelect').then(m => m.CustomSelect || m),
+    { ssr: false, loading: () => null }
+);
+
 
 const normalizeKey = (key: string) => {
     if (key === 'zhd_vokzal' || key === 'zhd') return 'zhd';

@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 import { Collapse } from 'antd';
 import { ArrowCollapseIcon } from '@/lib/ui/icons/ArrowCollapseIcon';
 import './index.css';
-import { rawFaqItems } from '@/lib/data/faqItems';
 
 export const Accordion = ({
     items,

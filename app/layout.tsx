@@ -7,11 +7,6 @@ import { Footer } from '@/components/layout/Footer';
 
 const lato = localFont({
     src: [
-        // {
-        //     path: '../public/fonts/Lato-Light.ttf',
-        //     weight: '300',
-        //     style: 'normal',
-        // },
         {
             path: '../public/fonts/Lato-Regular.woff2',
             weight: '400',

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { DatePicker } from 'antd';
+import React, { useState, useMemo } from 'react';
+import type { DatePicker } from 'antd';
 import type { GetProps } from 'antd';
 import type { Car, Term } from '@/lib/types/Car';
 import { Dayjs } from 'dayjs';
@@ -9,9 +9,17 @@ import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import 'dayjs/locale/ru';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
-import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { AdditionalServices } from './AdditionalServices';
-import { RentalCheckoutContactForm } from '@/components/common/Form/RentalCheckoutContactForm';
+import dynamic from 'next/dynamic';
+
+const CustomDatePicker = dynamic(
+    () => import('@/lib/ui/common/DatePicker/CustomDatePicker').then(m => m.CustomDatePicker),
+    { ssr: false, loading: () => null }
+);
+const RentalCheckoutContactForm = dynamic(
+    () => import('@/components/common/Form/RentalCheckoutContactForm').then(m => m.RentalCheckoutContactForm),
+    { ssr: false, loading: () => null }
+);
 import { CloseIcon } from '@/lib/ui/icons';
 
 dayjs.locale('ru');
@@ -107,16 +115,6 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
         return `${hour.toString().padStart(2, '0')}:00`;
     }, []);
 
-    // const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-    //     if (returnDate) {
-    //         return (
-    //             current &&
-    //             (current < dayjs().startOf('day') ||
-    //                 current > returnDate.startOf('day'))
-    //         );
-    //     }
-    //     return current && current < dayjs().startOf('day');
-    // };
     const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
         return current && current < dayjs().startOf('day');
     };
@@ -127,7 +125,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     };
 
     return (
-        <section className="w-full bg-[#284b63] lg:max-w-[618px] rounded-[24px] lg:rounded-[32px] px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] ">
+        <section className="w-full bg-[#284b63] lg:max-w-[618px] rounded-[24px] px-6 py-7 mt-6 lg:mt-0 relative z-10 lg:p-9 lg:rounded-[32px] ">
             {showContactForm && closeModal && (
                 <button
                     className="absolute top-6 right-6 cursor-pointer"
@@ -137,7 +135,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                 </button>
             )}
 
-            <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:text-3xl lg:mb-5">
+            <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
                 Форма бронирования
             </h2>
             <h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
@@ -162,7 +160,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                                 }
                             }
                         }}
-                        width="58%"  
+                        width="58%"
                     />
 
                     <CustomSelect

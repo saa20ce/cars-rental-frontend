@@ -1,11 +1,10 @@
 'use client';
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
 import type { GetProps } from 'antd';
 import {
-    // isDaySeason,
     computeCostsChunked,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
@@ -17,7 +16,11 @@ import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { RentSteps } from '@/components/common/Steps/RentSteps';
 import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
-import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
+import dynamic from 'next/dynamic';
+const CustomDatePicker = dynamic(
+    () => import('@/lib/ui/common/DatePicker/CustomDatePicker').then(m => m.CustomDatePicker),
+    { ssr: false, loading: () => null }
+);
 import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
 
@@ -270,8 +273,8 @@ export default function TariffsPageClient({
                                             }
                                         }}
                                         style={{
-                                            borderTopLeftRadius:  isMobile ? 12 : 16,
-                                            borderBottomLeftRadius:  isMobile ? 12 : 16,
+                                            borderTopLeftRadius: isMobile ? 12 : 16,
+                                            borderBottomLeftRadius: isMobile ? 12 : 16,
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0,
                                         }}

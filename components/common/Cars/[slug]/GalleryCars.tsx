@@ -1,11 +1,17 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { CarCard } from '@/components/common/Cards/CarCard';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import CarouselControls from '@/lib/ui/common/CarouselControls';
 import Link from 'next/link';
+
+import dynamic from 'next/dynamic';
+const CarCard = dynamic(
+    () => import('@/components/common/Cards/CarCard').then(m => m.CarCard || m),
+    { ssr: false, loading: () => null }
+);
+
 
 interface SimilarCarsProps {
     similarCars: Car[];

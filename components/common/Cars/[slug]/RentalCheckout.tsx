@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -10,11 +9,26 @@ import {
     isDaySeason,
     computeCostsChunked,
 } from '@/lib/helpers/RentalCheckoutHelper';
-import { RentalPeriod } from './RentalPeriod';
 import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
-
 import dynamic from 'next/dynamic';
+
+const Modal = dynamic(
+    () => import('antd/es/modal').then(m => m.default || m),
+    { ssr: false, loading: () => null }
+);
+const Button = dynamic(
+    () => import('antd/es/button').then(m => m.default || m),
+    { ssr: false, loading: () => null }
+);
+const ConfigProvider = dynamic(
+    () => import('antd/es/config-provider').then(m => m.default || m),
+    { ssr: false, loading: () => null }
+);
+const RentalPeriod = dynamic(
+    () => import('./RentalPeriod').then(m => m.RentalPeriod),
+    { ssr: false, loading: () => null }
+);
 const ModalRentalCheckout = dynamic(
     () => import('@/components/common/Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
     { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }

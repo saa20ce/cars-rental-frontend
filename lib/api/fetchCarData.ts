@@ -8,18 +8,38 @@ import type {
     DeliveryOption,
 } from '@/lib/types/Car';
 import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
+import { buildFieldsParam } from './wpFields';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 export async function getCarBySlug(slug: string): Promise<Car | null> {
-    const res = await fetch(
-        `${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term`,
-        {
-            next: { revalidate: 60 },
-        },
-    );
+    const fields = buildFieldsParam([
+        'id',
+        'slug',
+        'title',
+        'acf.nazvanie_avto',
+        'acf.white_gallery',
+        'acf.black_gallery',
+        'acf.gray_gallery',
+        'acf.blue_gallery',
+        'acf.red_gallery',
+        'acf.skidka',
+        'acf.1-3_dnya', 'acf.4-9_dnej', 'acf.10-18_dnej', 'acf.19-29_dnej', 'acf.30_dnej',
+        'acf.1-3_dnya_S', 'acf.4-9_dnej_S', 'acf.10-18_dnej_S', 'acf.19-29_dnej_S', 'acf.30_dnej_S',
+        'kuzov', 'marka', 'klass', 'color',
+        '_embedded.wp:featuredmedia',
+        '_embedded.wp:term',
+        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
+        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
+    ]);
 
+    const url =
+        `${WP_API_URL}/cars?slug=${slug}` +
+        `&_embed=wp:featuredmedia,wp:term` +
+        `&${fields}`;
+
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) {
         console.error('Error fetching car by slug', res);
         return null;
@@ -33,8 +53,16 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const markaIds = (car.marka as number[]) || [];
     if (markaIds.length === 0) return [];
 
+    const fields = buildFieldsParam([
+        'id', 'slug', 'title',
+        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
+        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
+        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
+    ]);
+
     const markaId = markaIds[0];
-    const res = await fetch(`${WP_API_URL}/cars?marka=${markaId}&per_page=5`, {
+    const base = `${WP_API_URL}/cars?per_page=8&${fields}&_embed=wp:featuredmedia`;
+    const res = await fetch(`${base}&marka=${markaId}`, {
         next: { revalidate: 60 },
     });
 
@@ -50,7 +78,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
         return similarCars;
     }
 
-    const fallbackRes = await fetch(`${WP_API_URL}/cars?per_page=20`, {
+    const fallbackRes = await fetch(`${base}`, {
         next: { revalidate: 60 },
     });
 
@@ -213,15 +241,35 @@ export function buildPriceRangesFromACF(acf: CarACF): PriceRange[] {
 export async function getCars(
     filters: Record<string, string> = {},
 ): Promise<Car[]> {
-    const params = new URLSearchParams(filters).toString();
-    const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}`;
+    const fields = buildFieldsParam([
+        'id', 'slug', 'title',
+        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
+        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
+    ]);
+
+    const params = new URLSearchParams(filters);
+    params.set('_embed', 'wp:featuredmedia');
+    if (!params.has('per_page')) params.set('per_page', '12');
+
+    const url = `${WP_API_URL}/cars?${params.toString()}&${fields}`;
     const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     return res.json();
 }
 
 export async function getCarsByClass(klassId: number): Promise<Car[]> {
-    const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia,wp:term`;
+    const fields = buildFieldsParam([
+        'id', 'slug', 'title',
+        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
+        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
+        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
+    ]);
+
+    const url =
+        `${WP_API_URL}/cars?klass=${klassId}` +
+        `&_embed=wp:featuredmedia` +
+        `&per_page=12` +
+        `&${fields}`;
 
     const res = await fetch(url, {
         next: { revalidate: 60 },
@@ -237,7 +285,18 @@ export async function getCarsByClass(klassId: number): Promise<Car[]> {
 }
 
 export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
-    const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia,wp:term`;
+    const fields = buildFieldsParam([
+        'id', 'slug', 'title',
+        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
+        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
+        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
+    ]);
+
+    const url =
+        `${WP_API_URL}/cars?kuzov=${kuzovId}` +
+        `&_embed=wp:featuredmedia` +
+        `&per_page=12` +
+        `&${fields}`;
 
     const res = await fetch(url, {
         next: { revalidate: 60 },

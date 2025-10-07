@@ -1,7 +1,7 @@
 export interface BreadcrumbItem {
     href: string;
     title: string;
-    isLast: boolean;
+    isLast: boolean
 }
 
 const staticPages: Record<string, string> = {
@@ -29,14 +29,14 @@ const staticPages: Record<string, string> = {
     'dostavka-avto': 'Аренда авто с доставкой',
     'arenda-avto-bez-voditelya': 'Аренда авто без водителя',
     'arenda-avtomobilya-s-boksom-na-kryshu': 'Аренда авто с боксом на крышу',
-    'arenda-avto-v-aeroportu': 'Аренда авто в аэропорту',
+    'arenda-avto-v-aeroportu': 'Аренда авто в аэропорту'
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 async function fetchTitleBySlug(
     slug: string,
-    type: 'pages' | 'cars' | 'posts',
+    type: 'pages' | 'cars' | 'posts'
 ) {
     const url = `${WP_API_URL}/${type}?slug=${slug}`;
     const res = await fetch(url, { cache: 'force-cache' });
@@ -90,7 +90,7 @@ export async function fetchBreadcrumbs(
         items.push({
             href: '/' + segments.slice(0, i + 1).join('/'),
             title,
-            isLast: i === segments.length - 1,
+            isLast: i === segments.length - 1
         });
     }
 

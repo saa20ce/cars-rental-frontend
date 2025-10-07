@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
-import { ConfigProvider, Button, Modal, Tooltip } from 'antd';
+import { ConfigProvider, Button, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -10,18 +10,24 @@ import {
     isDaySeason,
     computeCostsChunked,
 } from '@/lib/helpers/RentalCheckoutHelper';
-import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { RentalPeriod } from './RentalPeriod';
-import { ModalRentalCheckout } from '@/components/common/Modal/ModalRentalCheckout';
 import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
-import { tooltipText } from './PriceCards';
-import SuccessRequest from '../../Modal/SuccessRequest';
+
+import dynamic from 'next/dynamic';
+const ModalRentalCheckout = dynamic(
+    () => import('@/components/common/Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
+    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
+);
+const SuccessRequest = dynamic(
+    () => import('../../Modal/SuccessRequest').then((m) => m.default || m),
+    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
+);
 
 interface AdditionalOption {
     label: string;
     value: string;
-    price?: number;
+    price?: number
 }
 
 interface RentalCheckoutProps {
@@ -30,7 +36,7 @@ interface RentalCheckoutProps {
     deliveryPrice: DeliveryPrice;
     seasonDates: SeasonData | null;
     priceRanges?: PriceRange[];
-    setSeasonModeSwitch: (mode: boolean) => void;
+    setSeasonModeSwitch: (mode: boolean) => void
 }
 
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
@@ -39,10 +45,10 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     deliveryPrice,
     seasonDates,
     priceRanges = [],
-    setSeasonModeSwitch,
+    setSeasonModeSwitch
 }) => {
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
-        [],
+        []
     );
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
@@ -59,7 +65,11 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
 
     const [modalVisible, setModalVisible] = useState(false);
-    const openModal = () => setModalVisible(true);
+    const openModal = async () => {
+        import('@/components/common/Modal/ModalRentalCheckout');
+        import('../../Modal/SuccessRequest');
+        setModalVisible(true)
+    };
     const closeModal = () => setModalVisible(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -68,14 +78,14 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const additionalOptionsTotal = useMemo(() => {
         return additionalOptions
             .filter((opt) => additionalOptionsSelected.includes(opt.value))
-            .reduce((sum, opt) => sum + (opt.price ?? 0), 0);
+            .reduce((sum, opt) => sum + (opt.price ?? 0), 0)
     }, [additionalOptionsSelected, additionalOptions]);
 
     const deliveryCost = useMemo(() => {
         const selected = deliveryOptions.find(
             (opt) => opt.value === deliveryOptionSelected,
         );
-        return selected ? Number(selected.price) || 0 : 0;
+        return selected ? Number(selected.price) || 0 : 0
     }, [deliveryOptionSelected, deliveryOptions]);
 
     const totalPrice =
@@ -84,7 +94,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         deliveryCost;
     useEffect(() => {
         if (!startDate) {
-            setStartDate(dayjs());
+            setStartDate(dayjs())
         }
         if (startDate && returnDate) {
             const startFull = startDate;
@@ -95,7 +105,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             if (totalDays < 3) {
                 const adjustedEnd = startFull.add(3, 'day');
                 setReturnDate(adjustedEnd);
-                totalDays = 3;
+                totalDays = 3
             }
             setDaysCount(totalDays);
 
@@ -113,11 +123,11 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                     if (!isDaySeason(currentDay, seasonDates)) {
                         allDaysSeason = false;
                         setHasSeasonDays(false);
-                        break;
+                        break
                     }
-                    currentDay = currentDay.add(1, 'day');
+                    currentDay = currentDay.add(1, 'day')
                 }
-                isSeasonal = allDaysSeason;
+                isSeasonal = allDaysSeason
             }
             setSeasonModeSwitch(isSeasonal);
 
@@ -125,7 +135,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 startFull,
                 endFull,
                 priceRanges,
-                seasonDates,
+                seasonDates
             );
             setDailyCosts(costs);
 
@@ -135,7 +145,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             setDaysCount(0);
             setDailyCosts([]);
             setSeasonModeSwitch(false);
-            setHasSeasonDays(false);
+            setHasSeasonDays(false)
         }
     }, [startDate, returnDate, priceRanges, seasonDates, setSeasonModeSwitch]);
 
@@ -144,13 +154,13 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         const isNight = hour >= 20 || hour < 9;
         const options = isNight ? deliveryPrice.night : deliveryPrice.day;
 
-        setDeliveryOptions(options);
+        setDeliveryOptions(options)
     }, [startTime, deliveryPrice]);
 
     const discount = car.acf?.skidka;
     const discountedPrice = discount
         ? totalPrice * (1 - Number(discount) / 100)
-        : null;
+        : null
 
     return (
         <section className="lg:w-full">
@@ -233,28 +243,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             </div>
                         )}
                     </dl>
-                    {/* <div className='font-semibold mb-2 lg:text-lg'>Промокод</div>
-                    <div className='mb-5'>
-                        <ConfigProvider
-                            theme={{
-                                components: {
-                                    Input: {
-                                        colorTextPlaceholder: '#f6f6f666',
-                                        hoverBorderColor: '#f6f6f638',
-                                        activeBg: '#f6f6f638',
-                                        addonBg: '#f6f6f638',
-                                        hoverBg: '#f6f6f638',
-                                    },
-                                },
-                            }}
-                        >
-                            <Input
-                                placeholder='Введите промокод'
-                                allowClear
-                                className='bg-[#f6f6f638] text-[#f6f6f6] border-0 rounded-xl h-9 lg:h-12 lg:text-base'
-                            />
-                        </ConfigProvider>
-                    </div> */}
 
                     <div className="flex items-center justify-between mb-4 lg:mb-5 mt-8 lg:mt-9">
                         <div className="flex flex-col">
@@ -304,9 +292,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                                     defaultActiveBorderColor: '#3c6e71',
                                     defaultActiveColor: '#f6f6f6',
                                     colorBorder: '#3c6e71',
-                                    colorBgTextActive: '#3c6e71',
-                                },
-                            },
+                                    colorBgTextActive: '#3c6e71'
+                                }
+                            }
                         }}
                     >
                         <Button
@@ -325,9 +313,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                     components: {
                         Modal: {
                             contentBg: '#00000000',
-                            boxShadow: 'none',
-                        },
-                    },
+                            boxShadow: 'none'
+                        }
+                    }
                 }}
             >
                 <Modal
@@ -340,17 +328,17 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         top: 0,
                         left: 0,
                         margin: 0,
-                        padding: 0,
+                        padding: 0
                     }}
                     styles={{
                         mask: {
                             backdropFilter: 'blur(30px)',
-                            WebkitBackdropFilter: 'blur(30px)',
+                            WebkitBackdropFilter: 'blur(30px)'
                         },
                         content: {
                             padding: 8,
-                            color: '#f6f6f6',
-                        },
+                            color: '#f6f6f6'
+                        }
                     }}
                     centered
                 >
@@ -361,33 +349,12 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             reservation={true}
                             onClick={() => {
                                 setModalVisible(false);
-                                setIsSubmitted(false);
+                                setIsSubmitted(false)
                             }}
                         />
                     )}
 
                     {startDate && returnDate && !isSubmitted && (
-                        // <ModalRentalCheckout
-                        //     car={car}
-                        //     startDate={startDate.format('YYYY-MM-DD')}
-                        //     returnDate={returnDate.format('YYYY-MM-DD')}
-                        //     startTime={startTime}
-                        //     returnTime={returnTime}
-                        //     daysCount={daysCount}
-                        //     hasSeasonDays={hasSeasonDays}
-                        //     additionalOptions={additionalOptions}
-                        //     additionalOptionsSelected={
-                        //         additionalOptionsSelected
-                        //     }
-                        //     setAdditionalOptions={setAdditionalOptions}
-                        //     deliveryOptions={deliveryOptions}
-                        //     deliveryOptionSelected={deliveryOptionSelected}
-                        //     setDeliveryOption={setDeliveryOption}
-                        //     pricePerDay={pricePerDay}
-                        //     totalPrice={totalPrice}
-                        //     closeModal={closeModal}
-                        //     setIsSubmitted={setIsSubmitted}
-                        // />
                         <ModalRentalCheckout
                             car={car}
                             additionalOptionsTotal={additionalOptionsTotal}
@@ -419,5 +386,5 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 </Modal>
             </ConfigProvider>
         </section>
-    );
-};
+    )
+}

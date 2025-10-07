@@ -43,7 +43,7 @@ export default function InfoThreeCard({
                     {items.map(({ title, icon }, i) => (
                         <li
                             key={i}
-                            className="md:flex-1 flex items-center gap-[14px] lg:gap-5 bg-[#FFFFFF0D] p-5 lg:py-5 lg:py-6 lg:px-10 rounded-[8px] lg:rounded-[16px]"
+                            className="md:flex-1 flex items-center gap-[14px] lg:gap-5 bg-[#FFFFFF0D] p-5 lg:py-5 lg:px-10 rounded-[8px] lg:rounded-[16px]"
                         >
                             <div className="bg-[#F6F6F60D] px-3 py-[14px] lg:p-[11px] rounded-[8px]">
                                 {icon}

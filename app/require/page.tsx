@@ -56,7 +56,7 @@ export default async function TermsPage() {
                             </h3>
                             <ol className="list-decimal pl-4">
                                 <li>Возраст — от 22 лет</li>
-                                <li>Водительский стаж — от 2 лет</li>
+                                <li>Водительский стаж — от 3 лет</li>
                             </ol>
                         </div>
                     </article>
@@ -74,7 +74,7 @@ export default async function TermsPage() {
                             </ol>
                         </div>
                     </article>
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <HandshakeSvg className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -86,14 +86,11 @@ export default async function TermsPage() {
                                 Для бронирования отправьте заявку с сайта,
                                 напишите или позвоните нам. После подтверждения
                                 дат и авто менеджер запросит документы.
-                                Бронирование фиксируется после отправки на наш
-                                e-mail или WhatsApp фото паспорта (главная
-                                страница + прописка) и фото водительского
-                                удостоверения (с двух сторон).
+                                Бронирование фиксируется после внесения предоплаты, и проверки документов.
                             </p>
                         </div>
                     </article>
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <TermsIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -103,16 +100,11 @@ export default async function TermsPage() {
                             </h3>
                             <p className="mb-[6px] lg:mb-3">
                                 Оплата в размере 100 % суммы договора
-                                производится в момент передачи автомобиля:
+                                производится в момент передачи автомобиля, включая мойку и доставку.
                             </p>
-                            <ul className="list-disc pl-4">
-                                <li>наличными / переводом на карту</li>
-                                <li>картой МИР / Visa / MasterCard</li>
-                                <li>перечислением на расчётный счёт</li>
-                            </ul>
                         </div>
                     </article>
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 lg:pb-[66px]">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 lg:pb-[66px]">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <RouteIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -122,7 +114,7 @@ export default async function TermsPage() {
                             </h3>
                             <p className="mb-[6px] lg:mb-3">
                                 Ограничение по эксплуатации - 1000 км от места
-                                выдачи
+                                выдачи.
                             </p>
                             <p className="mb-[6px] lg:mb-3">
                                 Арендованный автомобиль разрешено использовать
@@ -135,16 +127,16 @@ export default async function TermsPage() {
                             </p>
                             <p>
                                 Тариф на аренду включает в себя лимит пробега
-                                300 км в сутки. Пробег суммируется за весь
+                                300-400 км в сутки. Пробег суммируется за весь
                                 период аренды. Пробег сверх лимита оплачивается
-                                отдельно: от 5 до 15 рублей за 1 км, в
+                                отдельно: от 6 до 12 рублей за 1 км, в
                                 зависимости от класса авто.
                             </p>
                         </div>
                     </article>
                 </article>
                 <article className="flex flex-col gap-3 lg:gap-6 lg:w-1/2">
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <KeyIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -153,24 +145,18 @@ export default async function TermsPage() {
                                 Передача авто
                             </h3>
                             <p className="mb-[6px] lg:mb-3">
-                                Получить и вернуть авто можно 2 способами:
+                                Получить и вернуть авто можно из любой точки в радиусе 1000км.
                             </p>
-                            <ul className="list-disc pl-4 mb-[6px] lg:mb-3">
-                                <li>В офисе</li>
-                                <li>По любому адресу в городе</li>
-                            </ul>
                             <p className="mb-[6px] lg:mb-3">
                                 Автомобиль предоставляется в чистом виде и с
                                 полным топливным баком. Вернуть автомобиль
-                                необходимо в установленный срок в таком же
-                                состоянии или доплатить: мойка 800-1400 ₽,
-                                топливо: 65-70 ₽/л.
+                                необходимо в установленный срок с полным баком.
                             </p>
                             <p className="mb-[6px] lg:mb-3">
                                 При задержке сдачи автомобиля каждый час сверх
                                 установленного договором срока оплачивается из
                                 расчёта 10 % от стоимости аренды в сутки.
-                                Задержка возврата автомобиля свыше 4-х часов
+                                Задержка возврата автомобиля свыше 3-х часов
                                 оплачивается в размере стоимости суточной
                                 аренды. При досрочном возврате автомобиля
                                 перерасчёт производится по тарифу в зависимости
@@ -183,7 +169,7 @@ export default async function TermsPage() {
                             </p>
                         </div>
                     </article>
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentsUser className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -191,18 +177,31 @@ export default async function TermsPage() {
                             <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Ответственность арендатора
                             </h3>
-                            <p>
-                                Для бронирования отправьте заявку с сайта,
-                                напишите или позвоните нам. После подтверждения
-                                дат и авто менеджер запросит документы.
-                                Бронирование фиксируется после отправки на наш
-                                e-mail или WhatsApp фото паспорта (главная
-                                страница + прописка) и фото водительского
-                                удостоверения (с двух сторон).
+                            <p className="mt-[6px] lg:mt-3 lg:text-[]/[]">
+                                Арендатор несёт полную материальную ответственность в случаях:
                             </p>
+                            <ul className="list-disc pl-4 max-w">
+                                <li>
+                                    Нарушения условий Договора аренды, в том числе в случае не предоставления справок о ДТП.
+                                </li>
+                                <li>
+                                    Повреждение шин и дисков.
+                                </li>
+                            </ul>
+                            <p className="mt-[6px] lg:mt-3 lg:text-[]/[]">
+                                Арендатор несет ответственность в размере франшизы:
+                            </p>
+                            <ul className="list-disc pl-4 max-w">
+                                <li>
+                                    Ущерб по вине арендатора.
+                                </li>
+                                <li>
+                                    Ущерб, при котором виновное лицо не установлено.
+                                </li>
+                            </ul>
                         </div>
                     </article>
-                    <article className="flex lg:flex-1 items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 ">
+                    <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9 ">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentCar className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
@@ -211,13 +210,7 @@ export default async function TermsPage() {
                                 Ответственность Рентасиб
                             </h3>
                             <p className="mb-[6px] lg:mb-3 lg:text-[]/[]">
-                                Для бронирования отправьте заявку с сайта,
-                                напишите или позвоните нам. После подтверждения
-                                дат и авто менеджер запросит документы.
-                                Бронирование фиксируется после отправки на наш
-                                e-mail или WhatsApp фото паспорта (главная
-                                страница + прописка) и фото водительского
-                                удостоверения (с двух сторон).
+                                Все автомобили застрахованы по ОСАГО, КАСКО.
                             </p>
                             <p>Арендатор НЕ несёт ответственности за:</p>
                             <ul className="list-disc pl-4 max-w">
@@ -274,11 +267,12 @@ export default async function TermsPage() {
                                 возврата автомобиля
                             </li>
                             <li>Осуществляем обмен документами по ЭДО</li>
-                            <li>Работаем без НДС</li>
+                            <li>Работаем с НДС</li>
                             <li>
                                 Программа лояльности для корпоративных клиентов
                             </li>
                             <li>Менеджер 24/7</li>
+                            <li>Нет лимитов по пробегу</li>
                         </ol>
                     </article>
                 </div>
@@ -316,13 +310,13 @@ export default async function TermsPage() {
                                 <span>
                                     <ParticlesIcon className="mr-4 lg:mr-5" />
                                 </span>
-                                Водительское удостоверение
+                                Водительское удостоверение международного образца
                             </li>
                             <li>
                                 <span>
                                     <ParticlesIcon className="mr-4 lg:mr-5" />
                                 </span>
-                                Миграционная карта/виза
+                                Нотариальный заверенный перевод документа
                             </li>
                         </ul>
                     </article>
@@ -330,12 +324,12 @@ export default async function TermsPage() {
                         <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[82px] lg:mb-[116px]">
                             Гражданам РФ
                         </h3>
-                        <ul className="space-y-5">
+                        <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] space-y-5">
                             <li>
                                 <span>
                                     <ParticlesIcon className="mr-4 lg:mr-5" />
                                 </span>
-                                Гражданский паспорт
+                                Паспорт с пропиской
                             </li>
                             <li>
                                 <span>
@@ -362,7 +356,7 @@ export default async function TermsPage() {
                                 <div className="relative w-9 h-9 bg-[#5D6770] rounded-md text-white font-bold flex items-center justify-center">
                                     {index + 1}
                                 </div>
-                                <div className="hidden lg:block absolute top-[18px] left-[36px] right-[48px] h-px border-t-2 border-dashed border-gray-500 z-0" />
+                                <div className="hidden lg:block absolute top-[18px] left-[36px] right-[0px] h-px border-t-2 border-dashed border-gray-500 z-0" />
                                 <div className="h-2px border-l-2 border-dashed border-gray-500 flex-1 lg:w-full"></div>
                             </div>
                             <div
@@ -391,7 +385,8 @@ export default async function TermsPage() {
                         </h3>
                         <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
                             Арендатор имеет возможность продлить свою бронь в
-                            процессе аренды. Для этого ему необходимо просто
+                            процессе аренды, но не всегда есть возможность продления.
+                            Для этого арендатору необходимо просто
                             связаться с компанией и сообщить о желаемых датах
                             продления. После согласования дат, арендатор должен
                             произвести оплату за следующий период. Важно
@@ -406,16 +401,9 @@ export default async function TermsPage() {
                             Обнаружилась неисправность
                         </h3>
                         <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium">
-                            Компания оставляет за собой право забронировать
-                            автомобиль для другого клиента сразу после окончания
-                            срока аренды по договору, не дожидаясь запроса
-                            арендатора о продлении. В случае, если автомобиль
-                            будет занят следующей бронью, арендатор обязан
-                            вернуть его в соответствии с установленной датой и
-                            временем в договоре. При необходимости арендатор
-                            может взять в аренду другой свободный автомобиль,
-                            чтобы продолжить свои поездки без лишних задержек и
-                            неудобств.
+                            Мы тщательно следим за тем, чтобы машины находились в отличном техническом состоянии.
+                            Мы обеспечиваем безопасность и комфорт передвижения клиентов, сводя к минимуму любые риски.
+                            Тем не менее, если Вы столкнулись с поломкой, просто позвоните, и мы моментально примем необходимые меры
                         </p>
                     </article>
                 </div>

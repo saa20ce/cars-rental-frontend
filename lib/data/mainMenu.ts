@@ -12,16 +12,24 @@ export const mainMenu = [
         items: [
             { title: 'Все услуги', href: '/service' },
             {
-                title: 'Аренда авто для Юр.лиц',
+                title: 'Аренда седана',
+                href: '/service/arenda-sedanov',
+            },
+            {
+                title: 'Кроссовер',
+                href: '/service/arenda-krossoverov',
+            },
+            {
+                title: 'Юрлицам',
                 href: '/service/arenda-avtomobilej-dlya-biznesa',
             },
             {
-                title: 'Аренда авто бизнес класса',
-                href: '/service/arenda-avto-biznes-klassa',
+                title: 'Доставка',
+                href: '/service/dostavka-avto',
             },
             {
-                title: 'Аренда авто комфорт класса',
-                href: '/service/arenda-avto-komfort-klassa',
+                title: 'Детское кресло бустер',
+                href: '/service/arenda-avto-s-detskim-kreslom',
             },
             { title: 'Дополнительные услуги', href: '/dop-service' },
         ],

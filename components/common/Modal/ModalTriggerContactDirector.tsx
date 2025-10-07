@@ -5,10 +5,10 @@ import ContactDerictorForm from '../Form/ContactDerictorForm';
 
 export default function ModalTriggerContactDirector({
     isOpen,
-    setIsOpenAction,
+    setIsOpenAction
 }: {
     isOpen: boolean;
-    setIsOpenAction: (open: boolean) => void;
+    setIsOpenAction: (open: boolean) => void
 }) {
     return (
         <>

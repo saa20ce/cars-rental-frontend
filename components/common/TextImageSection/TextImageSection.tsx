@@ -13,7 +13,7 @@ export default function TextImageSection({
     flexColReverse,
     flexRowReverse,
     border,
-    maxWidthText = 'none',
+    maxWidthText = 'none'
 }: {
     sectionGray: boolean;
     src: string;
@@ -26,7 +26,7 @@ export default function TextImageSection({
     flexColReverse?: boolean;
     flexRowReverse?: boolean;
     maxWidthText?: string;
-    border?: string;
+    border?: string
 }) {
     const styleSection = sectionGray
         ? 'py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] '
@@ -54,9 +54,8 @@ export default function TextImageSection({
                     {textItems.map((text, i) => (
                         <p
                             key={i}
-                            className={`text-[14px]/[20px] lg:text-[16px]/[24px] font-medium ${
-                                i === textItems.length - 1 ? '' : 'mb-2 lg:mb-3'
-                            }`}
+                            className={`text-[14px]/[20px] lg:text-[16px]/[24px] font-medium ${i === textItems.length - 1 ? '' : 'mb-2 lg:mb-3'
+                                }`}
                         >
                             {text}
                         </p>
@@ -84,5 +83,5 @@ export default function TextImageSection({
                 )}
             </div>
         </section>
-    );
+    )
 }

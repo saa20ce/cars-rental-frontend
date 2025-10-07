@@ -10,7 +10,7 @@ const steps = [
     {
         title: 'Условия аренды',
         description:
-            'В течение 15 минут наш менеджер свяжется с вами для уточнения времени получения автомобиля, доставки, наличия детского кресла и условий аренды.',
+            'В течение 5 минут наш менеджер свяжется с вами для уточнения времени получения автомобиля, доставки, наличия детского кресла и условий аренды.',
     },
     {
         title: 'Отправка документов',
@@ -37,7 +37,7 @@ export function RentSteps() {
                     </div>
                     <Link
                         href="/require"
-                        className="hidden lg:block text-2xl underline underline-offset-4 ml-4 text-[24px]/[32px] font-medium"
+                        className="hidden lg:block text-2xl underline underline-offset-4 ml-4 font-medium"
                     >
                         Полные условия
                     </Link>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ConfigProvider, Carousel, } from 'antd';
+import { ConfigProvider, Carousel } from 'antd';
 import Image from 'next/image';
 import './index.css';
 import {
@@ -9,7 +9,7 @@ import {
     RentalCheckout,
     CarCharacteristics,
     RentSteps,
-    DeliveryPriceTable,
+    DeliveryPriceTable
 } from '@/components/common/Cars/';
 
 import {
@@ -18,17 +18,16 @@ import {
     DocumentsIcon,
     CarIcon,
     AgeIcon,
-    LineIcon,
+    LineIcon
 } from '@/lib/ui/icons';
 import type {
     Car,
     PriceRange,
     SeasonData,
-    /*DeliveryOption,*/ DeliveryPrice,
+    DeliveryPrice
 } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-import { getAdditionalOptions } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
@@ -42,7 +41,7 @@ interface SingleCarPageClientProps {
     deliveryPrice: DeliveryPrice;
     taxonomyValues: Record<string, string>;
     similarCars: Car[];
-    additionalOptions: { label: string; value: string; price: number }[];
+    additionalOptions: { label: string; value: string; price: number }[]
 }
 
 export default function SingleCarPageClient({
@@ -52,7 +51,7 @@ export default function SingleCarPageClient({
     deliveryPrice,
     taxonomyValues,
     similarCars,
-    additionalOptions,
+    additionalOptions
 }: SingleCarPageClientProps) {
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
 
@@ -62,9 +61,9 @@ export default function SingleCarPageClient({
             ...(car.acf?.black_gallery || []),
             ...(car.acf?.gray_gallery || []),
             ...(car.acf?.blue_gallery || []),
-            ...(car.acf?.red_gallery || []),
+            ...(car.acf?.red_gallery || [])
         ],
-        [car.acf],
+        [car.acf]
     );
 
     const TAB_ITEMS = [
@@ -73,13 +72,13 @@ export default function SingleCarPageClient({
             label: 'Характеристики',
             children: (
                 <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
-            ),
+            )
         },
         {
             key: '2',
             label: 'Комплектация',
-            children: 'Content of Tab Pane 2',
-        },
+            children: 'Content of Tab Pane 2'
+        }
     ];
 
     const MyPrevArrow = (props: any) => {
@@ -88,7 +87,7 @@ export default function SingleCarPageClient({
             <div className={className} style={style} onClick={onClick}>
                 <ArrowLeftIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
             </div>
-        );
+        )
     };
 
     const MyNextArrow = (props: any) => {
@@ -97,7 +96,7 @@ export default function SingleCarPageClient({
             <div className={className} style={style} onClick={onClick}>
                 <ArrowRightIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
             </div>
-        );
+        )
     };
 
     return (
@@ -231,7 +230,6 @@ export default function SingleCarPageClient({
                                     </span>
                                 </div>
                             </li>
-                            {/* (для десктопа) */}
                             <li className="hidden lg:list-item list-disc mt-4 text-[#f6f6f6] text-[18px]/[28px] font-normal w-full ml-6">
                                 Полные условия аренды вы можете прочитать{' '}
                                 <Link
@@ -293,5 +291,5 @@ export default function SingleCarPageClient({
 
             <HaveQuestions />
         </>
-    );
+    )
 }

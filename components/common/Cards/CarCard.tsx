@@ -18,8 +18,19 @@ import {
     isDaySeason,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { ConfigProvider, Modal } from 'antd';
-import SuccessRequest from '../Modal/SuccessRequest';
-import { ModalRentalCheckout } from '../Modal/ModalRentalCheckout';
+import dynamic from 'next/dynamic';
+const ModalRentalCheckout = dynamic(
+    () =>
+        import('../Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
+    {
+        ssr: false,
+        loading: () => <div className="h-40">Загрузка...</div>
+    }
+);
+const SuccessRequest = dynamic(
+    () => import('../Modal/SuccessRequest').then((m) => m.default || m),
+    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
+);
 
 interface CarCardProps {
     car: LibCar;
@@ -29,22 +40,19 @@ interface CarCardProps {
         price: number;
     }[];
     deliveryPrice?: DeliveryOptionsGrouped;
-    seasonDates?: SeasonData | null;
+    seasonDates?: SeasonData | null
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
     car,
     additionalOptions,
     deliveryPrice = { day: [], night: [] },
-    seasonDates = null,
+    seasonDates = null
 }) => {
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const price = Number(acf['30_dnej']);
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
 
-    // const featured = car._embedded?.['wp:featuredmedia']?.[0];
-    // const sizes = featured?.media_details?.sizes;
-    // const imageUrl = sizes?.medium_large?.source_url;
     const imageUrl =
         (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
         (Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
@@ -55,7 +63,7 @@ export const CarCard: React.FC<CarCardProps> = ({
 
     const carLink = `/cars/${car.slug}`;
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
-        [],
+        []
     );
     const [priceRanges, setPriceRanges] = useState<PriceRange[]>([]);
 
@@ -63,8 +71,10 @@ export const CarCard: React.FC<CarCardProps> = ({
         try {
             const priceRangesData = buildPriceRangesFromACF(car.acf || {});
             setPriceRanges(priceRangesData);
+            import('../Modal/ModalRentalCheckout');
+            import('../Modal/SuccessRequest')
         } catch (error) {
-            console.error('Ошибка при загрузке данных:', error);
+            console.error('Ошибка при загрузке данных:', error)
         }
     };
 
@@ -218,8 +228,8 @@ export const CarCard: React.FC<CarCardProps> = ({
                         variant="default"
                         style={{ height: '40px' }}
                         className="font-medium hover:bg-[#f6f6f6] w-[103px]"
-                        onClick={() => {
-                            handleOrderClick();
+                        onClick={async () => {
+                            await handleOrderClick();
                             setModalVisible(true);
                         }}
                     >

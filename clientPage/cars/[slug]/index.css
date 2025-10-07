@@ -1,19 +1,15 @@
-.tabs .ant-tabs-tab {
-    /* height: 40px; */
-}
-
 .tabs .ant-tabs-tab.ant-tabs-tab-active {
     background: #3c6e71;
-    border-radius: 12px;
+    border-radius: 12px
 }
 
 .tabs .ant-tabs-tabpane * {
-    font-size: 16px;
+    font-size: 16px
 }
 
 .ant-carousel .slick-prev,
 .ant-carousel .slick-next {
-    opacity: 1 !important;
+    opacity: 1 !important
 }
 
 .slick-next::after,
@@ -21,36 +17,36 @@
     width: 0 !important;
     height: 0 !important;
     border-radius: 0 !important;
-    border-block-width: 0 !important;
+    border-block-width: 0 !important
 }
 
 .slick-next,
 .slick-prev {
-    width: auto !important;
+    width: auto !important
 }
 
 .ant-carousel .slick-prev {
-    inset-inline-start: 18px;
+    inset-inline-start: 18px
 }
 
 .ant-carousel .slick-next {
-    inset-inline-end: 18px;
+    inset-inline-end: 18px
 }
 
 .custom-carousel .slick-dots .slick-active::after {
     content: none !important;
-    display: none !important;
+    display: none !important
 }
 
 .custom-carousel .slick-dots {
-    bottom: 14px;
+    bottom: 14px
 }
 
 .custom-carousel .slick-dots li,
 .custom-carousel .slick-dots li.slick-active {
     width: auto;
     height: auto;
-    margin: 0 3px;
+    margin: 0 3px
 }
 
 .custom-carousel .slick-dots li button {
@@ -59,26 +55,26 @@
     border-radius: 50%;
     background: #f6f6f633;
     opacity: 1;
-    transition: background 0.3s;
+    transition: background 0.3s
 }
 
 .custom-carousel .slick-dots li.slick-active button {
-    background: #f6f6f6;
+    background: #f6f6f6
 }
 
 @media (min-width: 1024px) {
     .ant-tabs .ant-tabs-tab {
         font-size: 18px;
         padding: 9px 28px;
-        height: 44px;
+        height: 44px
     }
 
     .ant-tabs .ant-tabs-tab-btn {
-        height: 23px;
+        height: 23px
     }
 
     .ant-tabs-tab.ant-tabs-tab-active {
-        border-radius: 16px;
+        border-radius: 16px
     }
 
     .ant-tabs-nav-list {
@@ -87,17 +83,17 @@
         justify-content: space-between;
         border: 2px solid #f6f6f638;
         border-radius: 20px;
-        padding: 16px;
+        padding: 16px
     }
     .custom-carousel .slick-dots li button {
         width: 12px;
-        height: 12px;
+        height: 12px
     }
     .custom-carousel .slick-dots li,
     .custom-carousel .slick-dots li.slick-active {
-        margin: 0 5px;
+        margin: 0 5px
     }
     .custom-carousel .slick-dots {
-        bottom: 16px;
+        bottom: 16px
     }
 }

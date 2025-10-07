@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import CallRequestModal from './CallRequestModal';
-import CustomButton from '@/lib/ui/common/Button';
 import { PhoneIcon, PhoneIconDefault } from '@/lib/ui/icons';
 
 export default function ModalTrigger({
     isHeader = false,
-    className = '',
+    className = ''
 }: {
     isHeader?: boolean;
-    className?: string;
+    className?: string
 }) {
     const [isOpen, setIsOpen] = useState(false);
 

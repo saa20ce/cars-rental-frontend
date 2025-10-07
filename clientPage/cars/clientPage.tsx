@@ -5,7 +5,7 @@ import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
-import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
+import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
 
 interface CarsPageClientProps {
@@ -22,10 +22,10 @@ interface CarsPageClientProps {
     additionalOptions?: {
         label: string;
         value: string;
-        price: number;
+        price: number
     }[];
     deliveryPrice?: DeliveryOptionsGrouped;
-    seasonDates?: SeasonData | null;
+    seasonDates?: SeasonData | null
 }
 
 export default function CarsPageClient({
@@ -41,10 +41,10 @@ export default function CarsPageClient({
     defaultMarka = [],
     additionalOptions,
     deliveryPrice,
-    seasonDates,
+    seasonDates
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
-        'desc',
+        'desc'
     );
     const [selectedKlass, setSelectedKlass] = useState(defaultKlass);
     const [selectedMarka, setSelectedMarka] = useState(defaultMarka);
@@ -68,7 +68,7 @@ export default function CarsPageClient({
         setSelectedDvigatel('');
         setSelectedColor('');
         setSelectedPriceRange('');
-        setSelectedPassangers('');
+        setSelectedPassangers('')
     };
 
     const filteredCars = initialCars.filter((car) => {
@@ -78,8 +78,8 @@ export default function CarsPageClient({
         const markaMatch =
             selectedMarka.length > 0
                 ? selectedMarka.some((marka) =>
-                      car.marka?.includes(Number(marka)),
-                  )
+                    car.marka?.includes(Number(marka)),
+                )
                 : true;
         const kuzovMatch = selectedKuzov
             ? car.kuzov?.includes(Number(selectedKuzov))
@@ -127,7 +127,7 @@ export default function CarsPageClient({
         const discountB = parseInt(b.acf?.skidka || '0', 10);
 
         if (sortOrder === 'discount') {
-            return discountB - discountA;
+            return discountB - discountA
         }
 
         const priceA = parseInt(a.acf?.['30_dnej'] || '0', 10);
@@ -266,7 +266,7 @@ export default function CarsPageClient({
                                 options={[
                                     { value: '4', label: '4 пассажира' },
                                     { value: '7', label: '7 пассажиров' },
-                                    { value: '8+', label: '8+ пассажиров' },
+                                    { value: '8+', label: '8+ пассажиров' }
                                 ]}
                                 className="filters-select"
                                 style={{ width: '100%' }}
@@ -378,5 +378,5 @@ export default function CarsPageClient({
                 </div>
             </section>
         </>
-    );
+    )
 }

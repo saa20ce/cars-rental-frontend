@@ -31,7 +31,7 @@ const groupDeliveryOptions = (
         return {
             label: dayItem.label.split(' — ')[0],
             priceDay: dayItem.price,
-            priceNight: nightItem ? nightItem.price : null,
+            priceNight: nightItem ? nightItem.price : null
         };
     });
 
@@ -47,15 +47,15 @@ const groupDeliveryOptions = (
         return {
             districts: labels.join(', '),
             priceDay: Number(priceDayStr),
-            priceNight: priceNightStr !== 'null' ? Number(priceNightStr) : null,
-        };
-    });
-};
+            priceNight: priceNightStr !== 'null' ? Number(priceNightStr) : null
+        }
+    })
+}
 
 export const DeliveryPriceTable = ({
-    deliveryPrice,
+    deliveryPrice
 }: {
-    deliveryPrice: DeliveryPrice | null;
+    deliveryPrice: DeliveryPrice | null
 }) => {
     const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
 
@@ -68,7 +68,7 @@ export const DeliveryPriceTable = ({
 
     const handleSelectChange = (
         value: unknown,
-        option?: DefaultOptionType | DefaultOptionType[] | undefined,
+        option?: DefaultOptionType | DefaultOptionType[] | undefined
     ) => {
         if (option && 'value' in option && 'label' in option) {
             setTimeRange(value === '10:00 - 19:00' ? 'day' : 'night');
@@ -78,13 +78,13 @@ export const DeliveryPriceTable = ({
     useEffect(() => {
         const checkScreenSize = () => {
             if (window.innerWidth >= 1024) {
-                setTimeRange('day');
+                setTimeRange('day')
             }
         };
 
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
-        return () => window.removeEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize)
     }, []);
 
     if (!deliveryPrice) return null;
@@ -146,35 +146,32 @@ export const DeliveryPriceTable = ({
                                 return (
                                     <tr key={districts}>
                                         <td
-                                            className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 lg:text-center ${
-                                                isLast ? 'border-b-0' : ''
-                                            }`}
+                                            className={`border-b border-r border-[#f6f6f6] px-4 py-2 lg:px-4 lg:py-5 lg:text-center ${isLast ? 'border-b-0' : ''
+                                                }`}
                                         >
                                             {districts ?? '-'}
                                         </td>
                                         <td
-                                            className={`border-b lg:border-r lg:border-[#f6f6f6] text-center ${
-                                                isLast ? 'border-b-0' : ''
-                                            }`}
+                                            className={`border-b lg:border-r lg:border-[#f6f6f6] text-center ${isLast ? 'border-b-0' : ''
+                                                }`}
                                         >
                                             {timeRange === 'day'
                                                 ? priceDay
                                                 : (priceNight ?? '-')}
                                         </td>
                                         <td
-                                            className={`border-b border-[#f6f6f6] hidden text-center lg:table-cell ${
-                                                isLast ? 'border-b-0' : ''
-                                            }`}
+                                            className={`border-b border-[#f6f6f6] hidden text-center lg:table-cell ${isLast ? 'border-b-0' : ''
+                                                }`}
                                         >
                                             {priceNight ?? '-'}
                                         </td>
                                     </tr>
-                                );
-                            },
+                                )
+                            }
                         )}
                     </tbody>
                 </table>
             </div>
         </>
-    );
-};
+    )
+}

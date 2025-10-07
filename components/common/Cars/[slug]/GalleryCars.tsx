@@ -15,10 +15,10 @@ interface SimilarCarsProps {
     additionalOptions?: {
         label: string;
         value: string;
-        price: number;
+        price: number
     }[];
     deliveryPrice?: DeliveryOptionsGrouped;
-    seasonDates?: SeasonData | null;
+    seasonDates?: SeasonData | null
 }
 
 export default function GalleryCars({
@@ -28,7 +28,7 @@ export default function GalleryCars({
     btnTitle,
     additionalOptions,
     deliveryPrice = { day: [], night: [] },
-    seasonDates = null,
+    seasonDates = null
 }: SimilarCarsProps) {
     const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -40,7 +40,7 @@ export default function GalleryCars({
                     <CarouselControls ref={scrollRef} />
                     <Link
                         href={href}
-                        className="w-[260px] flex-center text-[18px]/[28px] font-medium gap-3 border border-[#F6F6F6] border-[1.5px] rounded-[16px]"
+                        className="w-[260px] flex-center text-[18px]/[28px] font-medium gap-3 border-[#F6F6F6] border-[1.5px] rounded-[16px]"
                     >
                         {btnTitle} <ArrowRightLinkIcon />
                     </Link>

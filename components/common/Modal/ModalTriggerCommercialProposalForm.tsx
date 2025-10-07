@@ -4,11 +4,11 @@ import { useState } from 'react';
 import CommercialProposalForm from '../Form/CommercialProposalForm';
 
 export default function ModalTriggerCommercialProposalForm({
-    klassOptions,
+    klassOptions
 }: {
     klassOptions: {
         value: string;
-        label: string;
+        label: string
     }[];
 }) {
     const [isOpen, setIsOpen] = useState(false);

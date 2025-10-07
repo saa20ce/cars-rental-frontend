@@ -17,7 +17,7 @@ export const rawFaqItems = [
     },
     {
         question: 'Есть ли ограничения на минимальный срок аренды автомобиля?',
-        answer: 'Да, в Рентасиб есть ограничения на минимальный срок аренды автомобиля. Обычно минимальный срок аренды составляет 3 дня.',
+        answer: 'Да, в Рентасиб есть ограничения на минимальный срок аренды автомобиля. Обычно минимальный срок аренды составляет 2 дня.',
     },
     {
         question: 'Можно ли арендовать автомобиль для поездки за границу?',
@@ -57,7 +57,6 @@ export const faqItems = rawFaqItems.map((item, index) => ({
             {item.answer}
         </p>
     ),
-    className: `bg-[#F6F6F60D] border border-[#F6F6F633] rounded-[20px] ${
-        index !== rawFaqItems.length - 1 ? 'mb-[10px] lg:mb-[12px]' : ''
-    }`,
+    className: `bg-[#F6F6F60D] border border-[#F6F6F633] rounded-[20px] ${index !== rawFaqItems.length - 1 ? 'mb-[10px] lg:mb-[12px]' : ''
+        }`,
 }));

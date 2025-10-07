@@ -5,12 +5,12 @@ export default function SuccessRequest({
     onClick,
     header,
     text,
-    reservation = false,
+    reservation = false
 }: {
     onClick: () => void;
     header: string;
-    text:string;
-    reservation?: boolean;
+    text: string;
+    reservation?: boolean
 }) {
     return (
         <section className="text-center p-6 text-white  flex-center">
@@ -20,7 +20,7 @@ export default function SuccessRequest({
                         <div className="flex-center gap-4 mb-4 lg:mb-5">
                             <SucsessIcon className="w-[42px] h-[42px] lg:w-[48px] lg:h-[48px]" />
                             <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
-                            {header}
+                                {header}
                             </h2>
                         </div>
                         <p
@@ -54,9 +54,9 @@ export default function SuccessRequest({
                                 defaultActiveBorderColor: '#3c6e71',
                                 defaultActiveColor: '#f6f6f6',
                                 colorBorder: '#3c6e71',
-                                colorBgTextActive: '#3c6e71',
-                            },
-                        },
+                                colorBgTextActive: '#3c6e71'
+                            }
+                        }
                     }}
                 >
                     <Button
@@ -69,5 +69,5 @@ export default function SuccessRequest({
                 </ConfigProvider>
             </div>
         </section>
-    );
+    )
 }

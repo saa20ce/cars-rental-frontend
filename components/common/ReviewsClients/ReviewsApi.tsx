@@ -1,28 +1,26 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-const WIDGET_ID = '67454ca0eb335cf275d2a8f4';
-
 export default function ReviewsApi() {
   const widgetRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-  const current = widgetRef.current; 
-  if (current) {
-    const reviewLabEl = document.createElement('review-lab');
-    reviewLabEl.setAttribute('data-widgetid', '67454ca0eb335cf275d2a8f4');
-    current.appendChild(reviewLabEl);
+    const current = widgetRef.current;
+    if (current) {
+      const reviewLabEl = document.createElement('review-lab');
+      reviewLabEl.setAttribute('data-widgetid', '67454ca0eb335cf275d2a8f4');
+      current.appendChild(reviewLabEl);
 
-    const script = document.createElement('script');
-    script.src = 'https://app.reviewlab.ru/widget/index-es2015.js';
-    script.defer = true;
-    current.appendChild(script);
-  }
+      const script = document.createElement('script');
+      script.src = 'https://app.reviewlab.ru/widget/index-es2015.js';
+      script.defer = true;
+      current.appendChild(script);
+    }
 
-  return () => {
-    if (current) current.innerHTML = ''; 
-  };
-}, []);
+    return () => {
+      if (current) current.innerHTML = '';
+    };
+  }, []);
 
   return (
     <section className="mt-[42px] mb-[18px] lg:mt-[68px] lg:mb-[44px]">

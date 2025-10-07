@@ -138,7 +138,8 @@ export const infoThreeCardItems = [
     {
         title: (
             <>
-                Оплата по счету <br className="hidden lg:block" /> с НДС 20%
+                Оплата по счету с НДС 20%.
+                Доплата 10% за суточную аренду
             </>
         ),
         icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,

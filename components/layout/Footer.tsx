@@ -7,7 +7,7 @@ import {
     PointerIcon,
     DzenIcon,
     VkMiniIcon,
-    ChevronRightIcon,
+    ChevronRightIcon
 } from '@/lib/ui/icons';
 import Link from 'next/link';
 import ModalTrigger from '../common/Modal/ModalTrigger';

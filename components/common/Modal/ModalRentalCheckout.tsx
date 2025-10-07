@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { InfoIcon, LineIcon } from '@/lib/ui/icons';
 import { Car, Term } from '@/lib/types/Car';
-import { RentalPeriod, tooltipText } from '../Cars';
+import { RentalPeriod } from '../Cars';
 import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
 import classes from './ModalRentalCheckout.module.css';
-import { Tooltip } from 'antd';
 import SaleInfo from '../Cards/SaleInfo';
 
 interface ModalRentalCheckoutProps {
@@ -59,7 +57,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     closeModal,
     setIsSubmitted,
     deliveryCost,
-    additionalOptionsTotal,
+    additionalOptionsTotal
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const thumbUrl =
@@ -211,7 +209,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                     <div
                         className={`${classes.flexBetween} items-center mt-8 lg:mt-9`}
                     >
-                       <div className="flex flex-col">
+                        <div className="flex flex-col">
                             <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
                                 Итого:
                             </span>

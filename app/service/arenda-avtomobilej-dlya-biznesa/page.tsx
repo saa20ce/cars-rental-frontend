@@ -71,7 +71,7 @@ export default async function СorporateRentalPage() {
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
                                 <ParticlesIcon className="shrink-0 mt-1" />
-                                Экономия времени на оформлении
+                                Экономия времени на оформлении при ЭДО
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
                                 <ParticlesIcon className="shrink-0 mt-1" />
@@ -94,7 +94,7 @@ export default async function СorporateRentalPage() {
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
                                 <ParticlesIcon className="shrink-0 mt-1" />
-                                Доставка в любой город в радиусе 600 км от
+                                Доставка в любой город в радиусе 1000 км от
                                 Новосибирска
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
@@ -104,7 +104,7 @@ export default async function СorporateRentalPage() {
                         </ul>
                     </article>
                 </div>
-                <ModalTriggerCommercialProposalForm klassOptions={klassOptions}/>
+                <ModalTriggerCommercialProposalForm klassOptions={klassOptions} />
             </section>
 
             <RentSteps />

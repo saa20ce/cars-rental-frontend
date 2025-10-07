@@ -9,88 +9,59 @@ import type {
 } from '@/lib/types/Car';
 import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
 import { buildFieldsParam } from './wpFields';
+import { slimCars } from './fetchCarDataImageHelper';
+
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 export async function getCarBySlug(slug: string): Promise<Car | null> {
     const fields = buildFieldsParam([
-        'id',
-        'slug',
-        'title',
+        'id', 'slug', 'title',
         'acf.nazvanie_avto',
-        'acf.white_gallery',
-        'acf.black_gallery',
-        'acf.gray_gallery',
-        'acf.blue_gallery',
-        'acf.red_gallery',
+        'acf.white_gallery', 'acf.black_gallery', 'acf.gray_gallery', 'acf.blue_gallery', 'acf.red_gallery',
         'acf.skidka',
         'acf.1-3_dnya', 'acf.4-9_dnej', 'acf.10-18_dnej', 'acf.19-29_dnej', 'acf.30_dnej',
         'acf.1-3_dnya_S', 'acf.4-9_dnej_S', 'acf.10-18_dnej_S', 'acf.19-29_dnej_S', 'acf.30_dnej_S',
         'kuzov', 'marka', 'klass', 'color',
-        '_embedded.wp:featuredmedia',
-        '_embedded.wp:term',
-        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
-        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
+        'featured_media',
     ]);
 
-    const url =
-        `${WP_API_URL}/cars?slug=${slug}` +
-        `&_embed=wp:featuredmedia,wp:term` +
-        `&${fields}`;
-
+    const url = `${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term&${fields}`;
     const res = await fetch(url, { next: { revalidate: 60 } });
-    if (!res.ok) {
-        console.error('Error fetching car by slug', res);
-        return null;
-    }
+    if (!res.ok) return null;
 
     const data: Car[] = await res.json();
-    return data && data.length > 0 ? data[0] : null;
+    const mapped = slimCars(data);
+    return mapped[0] ?? null;
 }
 
 export async function getSimilarCars(car: Car): Promise<Car[]> {
     const markaIds = (car.marka as number[]) || [];
     if (markaIds.length === 0) return [];
 
-    const fields = buildFieldsParam([
-        'id', 'slug', 'title',
-        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
-        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
-        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
-    ]);
-
     const markaId = markaIds[0];
-    const base = `${WP_API_URL}/cars?per_page=8&${fields}&_embed=wp:featuredmedia`;
-    const res = await fetch(`${base}&marka=${markaId}`, {
-        next: { revalidate: 60 },
-    });
 
-    if (!res.ok) {
-        console.error('Ошибка при загрузке похожих авто', res.status);
-        return [];
-    }
+    const res = await fetch(
+        `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia`,
+        { next: { revalidate: 60 } }
+    );
 
-    const data: Car[] = await res.json();
-    let similarCars = data.filter((c) => c.id !== car.id);
+    if (!res.ok) return [];
+
+    let similarCars = slimCars(await res.json()).filter((c) => c.id !== car.id);
 
     if (similarCars.length >= 3) {
         return similarCars;
     }
 
-    const fallbackRes = await fetch(`${base}`, {
-        next: { revalidate: 60 },
-    });
+    const fallbackRes = await fetch(
+        `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia`,
+        { next: { revalidate: 60 } }
+    );
+    if (!fallbackRes.ok) return similarCars;
 
-    if (!fallbackRes.ok) {
-        console.error(
-            'Ошибка при загрузке похожих авто по цене ',
-            fallbackRes.status,
-        );
-        return similarCars;
-    }
-
-    const fallbackCars: Car[] = await fallbackRes.json();
+    const fallbackCars = slimCars(await fallbackRes.json());
 
     const targetPrice = car.acf?.['30_dnej']
         ? parseInt(car.acf['30_dnej'], 10)
@@ -98,18 +69,15 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const priceRange = 3000;
 
     const priceMatched = fallbackCars
-        .filter((c) => {
-            if (c.id === car.id || similarCars.find((sc) => sc.id === c.id))
-                return false;
-            const price = c.acf?.['30_dnej']
-                ? parseInt(c.acf['30_dnej'], 10)
-                : 0;
-            return Math.abs(price - targetPrice) <= priceRange;
-        })
+        .filter(
+            (c) =>
+                c.id !== car.id && !similarCars.find((sc) => sc.id === c.id) &&
+                Math.abs(parseInt(c.acf?.['30_dnej'] ?? '0', 10) - targetPrice) <= priceRange
+        )
         .sort(
             (a, b) =>
                 parseInt(b.acf?.['30_dnej'] ?? '0', 10) -
-                parseInt(a.acf?.['30_dnej'] ?? '0', 10),
+                parseInt(a.acf?.['30_dnej'] ?? '0', 10)
         )
         .slice(0, 5 - similarCars.length);
 
@@ -238,77 +206,29 @@ export function buildPriceRangesFromACF(acf: CarACF): PriceRange[] {
     });
 }
 
-export async function getCars(
-    filters: Record<string, string> = {},
-): Promise<Car[]> {
-    const fields = buildFieldsParam([
-        'id', 'slug', 'title',
-        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
-        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
-    ]);
-
-    const params = new URLSearchParams(filters);
-    params.set('_embed', 'wp:featuredmedia');
-    if (!params.has('per_page')) params.set('per_page', '12');
-
-    const url = `${WP_API_URL}/cars?${params.toString()}&${fields}`;
+export async function getCars(filters: Record<string, string> = {}): Promise<Car[]> {
+    const params = new URLSearchParams(filters).toString();
+    const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}&_embed=wp:featuredmedia`;
     const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return [];
-    return res.json();
+    const data: Car[] = await res.json();
+    return slimCars(data);
 }
 
 export async function getCarsByClass(klassId: number): Promise<Car[]> {
-    const fields = buildFieldsParam([
-        'id', 'slug', 'title',
-        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
-        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
-        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
-    ]);
-
-    const url =
-        `${WP_API_URL}/cars?klass=${klassId}` +
-        `&_embed=wp:featuredmedia` +
-        `&per_page=12` +
-        `&${fields}`;
-
-    const res = await fetch(url, {
-        next: { revalidate: 60 },
-    });
-
-    if (!res.ok) {
-        console.error('Ошибка при загрузке авто по классу', res.status);
-        return [];
-    }
-
+    const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia,wp:term`;
+    const res = await fetch(url, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
     const data: Car[] = await res.json();
-    return data;
+    return slimCars(data);
 }
 
 export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
-    const fields = buildFieldsParam([
-        'id', 'slug', 'title',
-        'acf.nazvanie_avto', 'acf.30_dnej', 'acf.skidka',
-        '_embedded.wp:featuredmedia.media_details.sizes.medium_large.source_url',
-        '_embedded.wp:featuredmedia.media_details.sizes.thumbnail.source_url',
-    ]);
-
-    const url =
-        `${WP_API_URL}/cars?kuzov=${kuzovId}` +
-        `&_embed=wp:featuredmedia` +
-        `&per_page=12` +
-        `&${fields}`;
-
-    const res = await fetch(url, {
-        next: { revalidate: 60 },
-    });
-
-    if (!res.ok) {
-        console.error('Ошибка при загрузке авто по классу', res.status);
-        return [];
-    }
-
+    const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia,wp:term`;
+    const res = await fetch(url, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
     const data: Car[] = await res.json();
-    return data;
+    return slimCars(data);
 }
 
 export async function getCrossoverAndMinivanCars(): Promise<Car[]> {

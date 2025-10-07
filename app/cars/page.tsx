@@ -14,7 +14,7 @@ import { LineIcon } from '@/lib/ui/icons';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/cars');

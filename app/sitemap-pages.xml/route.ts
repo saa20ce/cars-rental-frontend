@@ -1,7 +1,7 @@
 import { mapSite } from '@/lib/data/mapSite';
 
 export async function GET() {
-    const baseUrl = 'https://new.rentasib.ru';
+    const baseUrl = 'https://staged.rentasib.ru';
 
     const urls: string[] = [];
     mapSite.forEach((section) => {

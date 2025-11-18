@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://new.rentasib.ru';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://staged.rentasib.ru';
 const WP_API_URL = 'https://demo.rentasib.ru/wp-json/wp/v2/posts';
 
 export async function GET() {

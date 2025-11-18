@@ -13,6 +13,8 @@ import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata() {
     return await fetchWPMetadata('/service/arenda-avtomobilej-dlya-biznesa');
 }

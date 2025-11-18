@@ -1,5 +1,5 @@
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://staged.rentasib.ru';
-const WP_API_URL = 'https://demo.rentasib.ru/wp-json/wp/v2/posts';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://new.rentasib.ru';
+const WP_API_URL = 'https://staged.rentasib.ru/wp-json/wp/v2/posts';
 
 export async function GET() {
   const res = await fetch(`${WP_API_URL}?per_page=1`);

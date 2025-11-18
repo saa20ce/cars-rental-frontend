@@ -12,7 +12,7 @@ export async function generateMetadata() {
 async function getNews(page: number) {
     const PER_PAGE = 9;
     const res = await fetch(
-        `https://demo.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=${PER_PAGE}&page=${page}`,
+        `https://staged.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=${PER_PAGE}&page=${page}`,
         { next: { revalidate: 3600 } },
     );
 

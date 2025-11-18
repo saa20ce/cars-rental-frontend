@@ -12,7 +12,7 @@ export const SaleCard: React.FC<SaleCardProps> = ({
     description = 'При аренде кроссоверов',
 }) => {
     return (
-        <article className="sale-card bg-[#3c6e71] bg-[url('https://demo.rentasib.ru/wp-content/uploads/2025/04/223_rectangle.png')] bg-right bg-no-repeat bg-contain text-[#f6f6f6] rounded-3xl overflow-hidden shadow-lg px-4 pt-2 pb-3 flex flex-col">
+        <article className="sale-card bg-[#3c6e71] bg-[url('https://staged.rentasib.ru/wp-content/uploads/2025/04/223_rectangle.png')] bg-right bg-no-repeat bg-contain text-[#f6f6f6] rounded-3xl overflow-hidden shadow-lg px-4 pt-2 pb-3 flex flex-col">
             <div>
                 <h3 className="text-lg font-bold">{title}</h3>
                 <p className="text-sm mb-1">{description}</p>

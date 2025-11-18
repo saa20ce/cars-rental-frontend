@@ -1,7 +1,7 @@
 import { getCars } from '@/lib/api/fetchCarData';
 
 export async function GET() {
-    const baseUrl = 'https://staged.rentasib.ru';
+    const baseUrl = 'https://new.rentasib.ru';
 
     const cars = await getCars({ per_page: '100' });
     const urls = cars.map((car: any) => `/cars/${car.slug}`);

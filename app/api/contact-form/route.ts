@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const wpEndpoint = `https://demo.rentasib.ru/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
+    const wpEndpoint = `https://staged.rentasib.ru/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
 
     const formData = new FormData();
     formData.append('your_name', name);

@@ -1,6 +1,6 @@
 
 export async function GET() {
-    const baseUrl = 'https://staged.rentasib.ru';
+    const baseUrl = 'https://new.rentasib.ru';
 
     const sitemaps = [
         'sitemap-pages',

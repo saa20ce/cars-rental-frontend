@@ -7,7 +7,7 @@ const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     images: {
-        domains: ['demo.rentasib.ru'],
+        domains: ['staged.rentasib.ru'],
         deviceSizes: [360, 414, 640, 768, 1024, 1280],
         imageSizes: [16, 32, 48, 64, 96, 128, 256],
         formats: ['image/avif', 'image/webp'],

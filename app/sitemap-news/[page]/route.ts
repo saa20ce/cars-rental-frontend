@@ -1,5 +1,5 @@
-const WP_API_URL = 'https://demo.rentasib.ru/wp-json/wp/v2/posts';
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://staged.rentasib.ru';
+const WP_API_URL = 'https://staged.rentasib.ru/wp-json/wp/v2/posts';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://new.rentasib.ru';
 
 type CacheItem = { xml: string; expiresAt: number };
 const CACHE_TTL_SEC = 60 * 60;

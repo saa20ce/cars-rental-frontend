@@ -42,7 +42,7 @@ export default async function newsDetailPage({
 
     const fetchNews = async (excludeId: number) => {
         const res = await fetch(
-            `https://demo.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=6&exclude=${excludeId}&orderby=rand`,
+            `https://staged.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=6&exclude=${excludeId}&orderby=rand`,
             { next: { revalidate: 3600 } },
         );
         const data = await res.json();
@@ -50,7 +50,7 @@ export default async function newsDetailPage({
     };
 
     const res = await fetch(
-        `https://demo.rentasib.ru/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+        `https://staged.rentasib.ru/wp-json/wp/v2/posts?slug=${slug}&_embed`,
     );
     const data = await res.json();
     const details: NewsDetail | undefined = data[0];

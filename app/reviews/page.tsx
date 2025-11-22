@@ -14,8 +14,8 @@ export default async function ReviewsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/reviews');
 
     const [reviewsRes, lettersRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/?status=published`, { cache: 'no-store' }),
-       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/thank-you-letters/`,{ cache: 'no-store' }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/?status=published`, { cache: 'force-cache' }),
+       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/thank-you-letters/`,{ cache: 'force-cache' }),
     ]);
 
     const reviews = await reviewsRes.json();

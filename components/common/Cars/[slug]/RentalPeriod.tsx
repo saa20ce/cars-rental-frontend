@@ -91,6 +91,30 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     closeModal,
     setIsSubmitted,
 }) => {
+    const CARS_WITH_BOX = useMemo(
+        () => new Set<number>([6748, 2474, 7277, 2199]),
+        []
+    );
+
+    const isBoxAllowed = CARS_WITH_BOX.has(car.id);
+    const BOX_VALUE = 'boks_na_kryshu';
+
+    const filteredAdditionalOptions = useMemo(
+        () =>
+            isBoxAllowed
+                ? additionalOptions
+                : additionalOptions.filter((opt) => opt.value !== BOX_VALUE),
+        [isBoxAllowed, additionalOptions]
+    );
+
+    React.useEffect(() => {
+        if (!isBoxAllowed && additionalOptionsSelected.includes(BOX_VALUE)) {
+            setAdditionalOptions?.(
+                additionalOptionsSelected.filter((v) => v !== BOX_VALUE)
+            );
+        }
+    }, [isBoxAllowed, additionalOptionsSelected, setAdditionalOptions]);
+
     const allTerms = car._embedded?.['wp:term'] || [];
     const colorTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'color');
 
@@ -195,7 +219,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
             </div>
 
             <AdditionalServices
-                additionalOptions={additionalOptions}
+                additionalOptions={filteredAdditionalOptions}
                 additionalOptionsSelected={additionalOptionsSelected}
                 setAdditionalOptions={setAdditionalOptions}
                 deliveryOptions={deliveryOptions}

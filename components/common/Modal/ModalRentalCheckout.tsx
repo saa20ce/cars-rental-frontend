@@ -162,13 +162,6 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                         <div
                             className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <dt className={classes.headerCard}>Залог</dt>
-                            <dd className={classes.descCard}>10 000 ₽</dd>
-                        </div>
-
-                        <div
-                            className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
-                        >
                             <dt className={classes.headerCard}>Пробег</dt>
                             <dd className={classes.descCard}>6 км.</dd>
                         </div>

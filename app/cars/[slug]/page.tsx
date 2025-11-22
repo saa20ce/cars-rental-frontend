@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: SingleCarPageProps) {
 
 export default async function SingleCarPage({ params }: SingleCarPageProps) {
     const { slug } = await params;
-    const car = await getCarBySlug(slug);
+    const car = await getCarBySlug(slug, true);
 
     if (!car) return notFound();
 

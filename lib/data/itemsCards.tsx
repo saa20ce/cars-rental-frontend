@@ -160,10 +160,6 @@ export const rentalTermsBusinessItems = [
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Залог 3.000 рублей на 14 дней',
-        icon: <SafeIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
         title: 'Стаж от 1 лет, возраст от 30 лет',
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
@@ -191,10 +187,6 @@ export const rentalTermsEconomItems = [
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Залог 3.000 рублей на 14 дней',
-        icon: <SafeIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
         title: 'Стаж от 3 лет, возраст от 22 лет',
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
@@ -216,10 +208,6 @@ export const rentalTermsMinivanItems = [
     {
         title: 'Территория - до 1000 км от места выдачи',
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
-        title: 'Залог 3–10 тыс. на 14 дней, зависит от микроавтобуса',
-        icon: <SafeIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
         title: 'Стаж от 3 лет, возраст от 22 лет',

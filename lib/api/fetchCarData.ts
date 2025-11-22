@@ -15,8 +15,8 @@ import { slimCars } from './fetchCarDataImageHelper';
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
-export async function getCarBySlug(slug: string): Promise<Car | null> {
-    const fields = buildFieldsParam([
+export async function getCarBySlug(slug: string, includeTaxonomies: boolean = false): Promise<Car | null> {
+    const baseFields = [
         'id', 'slug', 'title',
         'acf.nazvanie_avto',
         'acf.white_gallery', 'acf.black_gallery', 'acf.gray_gallery', 'acf.blue_gallery', 'acf.red_gallery',
@@ -25,7 +25,13 @@ export async function getCarBySlug(slug: string): Promise<Car | null> {
         'acf.1-3_dnya_S', 'acf.4-9_dnej_S', 'acf.10-18_dnej_S', 'acf.19-29_dnej_S', 'acf.30_dnej_S',
         'kuzov', 'marka', 'klass', 'color',
         'featured_media',
-    ]);
+    ];
+
+    if (includeTaxonomies) {
+        baseFields.push('_links.wp:term', 'acf.engine_volume', 'acf.fuel_flow', 'acf.passengers', 'acf.year');
+    }
+
+    const fields = buildFieldsParam(baseFields);
 
     const url = `${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term&${fields}`;
     const res = await fetch(url, { next: { revalidate: 60 } });

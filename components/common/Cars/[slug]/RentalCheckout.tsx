@@ -227,11 +227,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         </div>
 
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
-                            <dt>Залог</dt>
-                            <dd className="font-bold">10 000 ₽</dd>
-                        </div>
-
-                        <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                             <dt>Пробег</dt>
                             <dd className="font-bold">6 км.</dd>
                         </div>

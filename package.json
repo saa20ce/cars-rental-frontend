@@ -11,19 +11,18 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@ant-design/v5-patch-for-react-19": "^1.0.3",
         "@react-input/mask": "^2.0.4",
         "antd": "^5.24.2",
         "cheerio": "^1.1.2",
         "dayjs": "^1.11.13",
-        "next": "^15.5.11",
+        "next": "15.5.11",
         "node-html-parser": "^7.0.1",
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0"
+        "react": "18.3.1",
+        "react-dom": "18.3.1"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
-        "@next/bundle-analyzer": "^15.5.4",
+        "@next/bundle-analyzer": "15.5.11",
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
@@ -31,7 +30,7 @@
         "autoprefixer": "^10.4.20",
         "cross-env": "^10.1.0",
         "eslint": "^9",
-        "eslint-config-next": "15.1.7",
+        "eslint-config-next": "15.5.11",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.3",
         "postcss": "^8.5.3",

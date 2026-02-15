@@ -7,8 +7,8 @@ export type ReviewPayload = {
 };
 
 export async function sendReview(data: ReviewPayload) {
-  const base = process.env.NEXT_PUBLIC_API_URL;
-  if (!base) throw new Error('NEXT_PUBLIC_API_URL is not set');
+  const base = process.env.DJANGO_INTERNAL_API;
+  if (!base) throw new Error('DJANGO_INTERNAL_API is not set');
 
   const res = await fetch(`${base}/api/reviews/`, {
     method: 'POST',

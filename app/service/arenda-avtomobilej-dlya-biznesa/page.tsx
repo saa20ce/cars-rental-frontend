@@ -22,7 +22,7 @@ export async function generateMetadata() {
 export default async function СorporateRentalPage() {
     const breadcrumbs = await fetchBreadcrumbs('/service/corporate-rental');
     const lettersRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/thank-you-letters/`,
+        `${process.env.DJANGO_INTERNAL_API}/api/thank-you-letters/`,
     );
     const { klassOptions } = await getAllTaxonomyOptions();
 

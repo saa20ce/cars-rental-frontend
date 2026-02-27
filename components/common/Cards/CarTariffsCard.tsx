@@ -42,7 +42,7 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                 <div className="w-[60px] lg:w-1/2 text-center">
                     {pricePerDay.toLocaleString()} ₽
                 </div>
-                <div className="pr-2 lg:pr-0  lg:w-1/2 text-center">
+                <div className="w-[60px] pr-2 lg:pr-0  lg:w-1/2 text-center">
                     <span> {totalPrice.toLocaleString()} ₽</span>
                 </div>
                 <ChevronDownIcon className="w-[12px] h-[9px]" active />
@@ -62,11 +62,11 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                             {acf.nazvanie_avto}
                         </div>
                     </Link>
-                    <div className="lg:w-1/2 flex pl-[12px] items-center">
+                    <div className="w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center justify-end">
                         <div className="w-[60px] lg:w-1/2 text-center">
                             {pricePerDay.toLocaleString()} ₽
                         </div>
-                        <div className="w-[122px] pr-3 lg:pr-0  lg:w-1/2 text-center">
+                        <div className="w-[60px] pr-3 lg:pr-0  lg:w-1/2 text-center">
                             <span> {totalPrice.toLocaleString()} ₽</span>
                         </div>
                         <ChevronDownIcon

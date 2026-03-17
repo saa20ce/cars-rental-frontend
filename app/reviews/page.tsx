@@ -14,8 +14,8 @@ export default async function ReviewsPage() {
     const breadcrumbs = await fetchBreadcrumbs('/reviews');
 
     const [reviewsRes, lettersRes] = await Promise.all([
-        fetch(`${process.env.DJANGO_INTERNAL_API}/api/reviews/?status=published`, { cache: 'force-cache' }),
-        fetch(`${process.env.DJANGO_INTERNAL_API}/api/thank-you-letters/`, { cache: 'force-cache' }),
+        fetch(`${process.env.DJANGO_INTERNAL_API}/api/reviews/?status=published`, { cache: 'no-store' }),
+        fetch(`${process.env.DJANGO_INTERNAL_API}/api/thank-you-letters/`, { cache: 'no-store' }),
     ]);
 
     const reviews = await reviewsRes.json();

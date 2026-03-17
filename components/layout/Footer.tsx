@@ -1,7 +1,6 @@
 import {
     RentaSibLogo,
     TelegramIcon,
-    WhatsAppIcon,
     SmartphoneIcon,
     MailIcon,
     PointerIcon,
@@ -51,14 +50,6 @@ export const Footer: React.FC = () => {
                                     className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]"
                                 >
                                     <TelegramIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
-                                </a>
-                                <a
-                                    href="https://wa.me/79139132808"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]"
-                                >
-                                    <WhatsAppIcon className="w-[30px] h-[31px] lg:w-[30px] lg:h-[31px]" />
                                 </a>
                                 <ModalTrigger className="w-[170px] lg:w-[196px] py-2 lg:py-[9px] text-[16px]/[24px] lg:text-[18px]/[30px]" />
                             </div>

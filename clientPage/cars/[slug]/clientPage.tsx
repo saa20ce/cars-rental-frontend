@@ -99,6 +99,15 @@ export default function SingleCarPageClient({
         )
     };
 
+    const rentRequirements = useMemo(() => {
+        const isBusiness = car.klass?.includes(269);
+
+        return {
+            experience: isBusiness ? 'От 10 лет' : 'От 2-х лет',
+            age: isBusiness ? 'От 30 лет' : 'От 22-х лет'
+        };
+    }, [car.klass]);
+
     return (
         <>
             {car.acf?.nazvanie_avto && (
@@ -214,7 +223,7 @@ export default function SingleCarPageClient({
                                         Стаж
                                     </span>
                                     <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
-                                        От 2-х лет
+                                        {rentRequirements.experience}
                                     </span>
                                 </div>
                             </li>
@@ -226,7 +235,7 @@ export default function SingleCarPageClient({
                                         Возраст
                                     </span>
                                     <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
-                                        От 22-х лет
+                                        {rentRequirements.age}
                                     </span>
                                 </div>
                             </li>

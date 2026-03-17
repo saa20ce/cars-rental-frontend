@@ -176,6 +176,22 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         ? totalPrice * (1 - Number(discount) / 100)
         : null
 
+    const rentRequirements = useMemo(() => {
+        const isBusiness = car.klass?.includes(269);
+
+        return {
+            overrun: isBusiness ? '12 ₽/км.' : '6 ₽/км.'
+        };
+    }, [car.klass]);
+
+    const mileageLimitPerDay = useMemo(() => {
+        return hasSeasonDays ? 300 : 400;
+    }, [hasSeasonDays]);
+
+    const totalMileageLimit = useMemo(() => {
+        return daysCount * mileageLimitPerDay;
+    }, [daysCount, mileageLimitPerDay]);
+
     return (
         <section className="lg:w-full">
             <RentalPeriod
@@ -227,13 +243,13 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         </div>
 
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
-                            <dt>Пробег</dt>
-                            <dd className="font-bold">6 км.</dd>
+                            <dt>Лимит пробега</dt>
+                            <dd className="font-bold">{totalMileageLimit} км. ({mileageLimitPerDay} км/сут.)</dd>
                         </div>
 
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                             <dt>Перепробег за 1 км</dt>
-                            <dd className="font-bold">6 ₽/км.</dd>
+                            <dd className="font-bold">{rentRequirements.overrun}</dd>
                         </div>
 
                         {additionalOptionsTotal > 0 && (

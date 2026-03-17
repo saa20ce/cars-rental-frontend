@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 export default function ContactCard({ children }: { children: ReactNode }) {
     return (
-        <section className="flex lg:gap-6 pt-[42px] lg:pt-[68px]">
+        <section className="flex lg:gap-6 pt-[42px] lg:pt-[0px]">
             <div className="w-full lg:max-w-[730px]">
                 {children}
                 <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row ">

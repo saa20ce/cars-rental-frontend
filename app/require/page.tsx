@@ -280,10 +280,10 @@ export default async function TermsPage() {
                     className="hidden lg:flex gap-4"
                     aria-label="Документы для скачивания"
                 >
-                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center">
+                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]">
                         <DownloadIcon className="mr-3" /> Скачать доверенность
                     </button>
-                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center">
+                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]">
                         <DownloadIcon className="mr-3" />
                         Скачать договор аренды
                     </button>

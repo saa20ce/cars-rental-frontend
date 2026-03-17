@@ -65,7 +65,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                 format={isMobile ? 'D MMMM' : 'D MMM'}
                 inputReadOnly
                 allowClear={false}
-                suffixIcon={<CalendarIcon active={isOpen} />}
+                suffixIcon={<div className="pb-[4px]"><CalendarIcon active={isOpen} /></div>}
                 onOpenChange={handleOpenChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -79,6 +79,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                     color: '#f6f6f6',
                     display: 'flex',
                     alignItems: 'center',
+                    paddingBottom: 0,
                     ...style,
                 }}
                 {...rest}

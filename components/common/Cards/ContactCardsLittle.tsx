@@ -1,4 +1,4 @@
-import { TelegramLogo, WhatsappLogo } from '@/lib/ui/icons';
+import { TelegramLogo } from '@/lib/ui/icons';
 import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
 
 export default function ContactCardsLittle() {
@@ -12,15 +12,6 @@ export default function ContactCardsLittle() {
                 >
                     <MobileIcon className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
                     <span className="text-nowrap">+ 7(913)-913-28-08</span>
-                </a>
-                <a
-                    href="https://wa.me/79139132808"
-                    aria-label="Номер WhatsApp"
-                    target="_blank"
-                    className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center  lg:max-w-[230px] lg:justify-between lg:flex-col lg:gap-5 gap-3 grow"
-                >
-                    <WhatsappLogo className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
-                    <span>+ 7(913)-913-28-08</span>
                 </a>
                 <a
                     href="https://t.me/Rentasib"

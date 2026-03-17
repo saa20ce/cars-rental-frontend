@@ -2,7 +2,6 @@ import React from 'react';
 import {
     VkIcon,
     TelegramLogo,
-    WhatsappLogo,
     LineVertIcon,
     LineVertHeaderDesktop,
 } from '@/lib/ui/icons';
@@ -32,14 +31,6 @@ export const TopHeader: React.FC = () => {
                         className="flex-center h-5 lg:h-[28px] w-5 lg:w-[28px]"
                     >
                         <TelegramLogo />
-                    </a>
-                    <a
-                        href="https://wa.me/79139132808"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-center h-5 lg:h-[28px] w-5 lg:w-[28px]"
-                    >
-                        <WhatsappLogo />
                     </a>
                 </div>
 

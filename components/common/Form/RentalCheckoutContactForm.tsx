@@ -121,7 +121,7 @@ export const RentalCheckoutContactForm: React.FC<
                                 className="flex-1"
                                 name="clientName"
                                 label={
-                                    <label className="text-xs text-[#f6f6f6]">
+                                    <label className="lg:text-sm text-xs text-[#f6f6f6]">
                                         Фамилия и имя
                                     </label>
                                 }
@@ -138,7 +138,7 @@ export const RentalCheckoutContactForm: React.FC<
                                 className="flex-1"
                                 name="phone"
                                 label={
-                                    <label className="text-xs text-[#f6f6f6]">
+                                    <label className="lg:text-sm text-xs text-[#f6f6f6]">
                                         Номер телефона
                                     </label>
                                 }
@@ -157,7 +157,7 @@ export const RentalCheckoutContactForm: React.FC<
                         <Form.Item
                             name="comment"
                             label={
-                                <label className="text-xs text-[#f6f6f6]">
+                                <label className="lg:text-sm text-xs text-[#f6f6f6]">
                                     Комментарий
                                 </label>
                             }
@@ -201,15 +201,27 @@ export const RentalCheckoutContactForm: React.FC<
                             <Input disabled />
                         </Form.Item>
 
-                        <Form.Item className="mt-8 lg:mt-9">
-                            <Checkbox
-                                className="flex items-center"
-                                checked={checked}
-                                onChange={onChange}
-                            >
-                                Связаться через WhatsApp
-                            </Checkbox>
-                        </Form.Item>
+                        <div className="flex flex-col gap-0 lg:flex-row lg:gap-9">
+                            <Form.Item className="mt-8 lg:mt-9">
+                                <Checkbox
+                                    className="flex items-center"
+                                    checked={checked}
+                                    onChange={onChange}
+                                >
+                                    Связаться через Telegram
+                                </Checkbox>
+                            </Form.Item>
+
+                            <Form.Item className="mt-0 lg:mt-9">
+                                <Checkbox
+                                    className="flex items-center"
+                                    checked={checked}
+                                    onChange={onChange}
+                                >
+                                    Связаться через Max
+                                </Checkbox>
+                            </Form.Item>
+                        </div>
 
                         <Form.Item className="mb-0">
                             <ConfigProvider

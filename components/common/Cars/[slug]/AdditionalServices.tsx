@@ -49,7 +49,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                             value={deliveryOptionSelected || undefined}
                             placeholder="Выберите место подачи"
                             listHeight={232}
-                            style={{ width: '100%', height: '36px' }}
+                            style={{ width: '100%', height: '36px', }}
                         />
                     </div>
                 </div>

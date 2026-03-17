@@ -1,6 +1,6 @@
 'use client';
 
-import { DotIcon, WhatsappLogo } from '@/lib/ui/icons';
+import { DotIcon, TelegramLogo } from '@/lib/ui/icons';
 import { useEffect, useState } from 'react';
 
 export default function OpenStatus() {
@@ -36,12 +36,12 @@ export default function OpenStatus() {
                 </>
             ) : (
                 <a
-                    href="https://wa.me/79139132808"
+                    href="https://t.me/Rentasib"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-center gap-2"
                 >
-                    <WhatsappLogo />
+                    <TelegramLogo />
                     Оставьте заявку
                 </a>
             )}

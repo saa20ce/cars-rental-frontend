@@ -99,10 +99,23 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
             .ant-select-selector {
                 padding-left: 16px !important;
+                padding-top: 3px !important;
             }
 
             .ant-select-dropdown {
                 padding: 6px;
+            }
+
+            .ant-select-item-option-selected .anticon svg {
+                color: #f6f6f6 !important;
+            }
+
+            .ant-select-selection-overflow-item-suffix {
+                display: none !important;
+            }
+
+            .ant-select-multiple .ant-select-selection-placeholder {
+                inset-inline-start: 0px !important;
             }
 
             /* Desktop Car single select */
@@ -127,6 +140,11 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
                 .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
                     height: 29px;
+                    font-size: 16px;
+                }
+
+                .ant-select-selection-item-content {
+                    font-size: 16px !important;
                 }
             }
 
@@ -217,6 +235,10 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     border-bottom-right-radius: 16px;
                     border-top-left-radius: 0px;
                     border-bottom-left-radius: 0px;
+                }
+
+                .ant-select-selection-item {
+                    font-size: 16px;
                 }
             }
 

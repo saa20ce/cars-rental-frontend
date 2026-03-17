@@ -233,7 +233,6 @@ export default function CarsPageClient({
                                 style={{
                                     width: '100%',
                                 }}
-                                onClick={handleReset}
                             >
                                 Показать
                             </CustomButton>
@@ -319,7 +318,6 @@ export default function CarsPageClient({
                     <CustomButton
                         variant="default"
                         style={{ height: '44px' }}
-                        onClick={handleReset}
                         className="block lg:hidden w-full mt-5"
                     >
                         Показать

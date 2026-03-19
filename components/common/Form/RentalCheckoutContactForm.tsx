@@ -76,11 +76,20 @@ export const RentalCheckoutContactForm: React.FC<
 
         const onFinish = async (values: FormValues) => {
             setLoading(true);
+
+            const payload: FormValues = {
+                ...values,
+                delivery: values.delivery?.trim() ? values.delivery : 'Без доставки',
+                options: values.options?.trim() ? values.options : 'Без опций',
+                comment: values.comment?.trim() ? values.comment : 'Без комментария',
+            };
+
+
             try {
                 const res = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(values),
+                    body: JSON.stringify(payload),
                 });
                 const data = await res.json();
                 if (res.ok) {

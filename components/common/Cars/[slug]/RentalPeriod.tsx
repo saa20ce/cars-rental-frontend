@@ -116,11 +116,21 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     }, [isBoxAllowed, additionalOptionsSelected, setAdditionalOptions]);
 
     const allTerms = car._embedded?.['wp:term'] || [];
-    const colorTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'color');
+    const flatTerms = allTerms.flat();
+    const colorId = car.color?.[0];
+
+    const colorTerm = flatTerms.find(
+        (t: Term) => t.taxonomy === 'color' && Number(t.id) === Number(colorId)
+    );
 
     const autoColor = colorTerm?.name ?? '—';
     const autoName = car.acf?.nazvanie_avto ?? car.title.rendered;
-    const rentDate = `${startDate} ${startTime} – ${returnDate} ${returnTime}`;
+    const formatDate = (date: Dayjs | null, time?: string) => {
+        if (!date) return '';
+        return `${date.format('D MMMM')} ${time || '00:00'}`;
+    };
+
+    const rentDate = `${formatDate(startDate, startTime)} — ${formatDate(returnDate, returnTime)}`;
     const rentPeriod = `${daysCount} ${daysCount === 1 ? 'день' : 'дней'}`;
     const optionsStr = additionalOptionsSelected.join(', ');
 

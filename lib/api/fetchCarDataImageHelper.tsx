@@ -16,8 +16,10 @@ function pickImageUrl(c: Car): string {
 }
 
 function slimCar(c: Car): Car {
-    const { _embedded, ...rest } = c as any;
-    return { ...rest, imageUrl: pickImageUrl(c) } as Car;
+    return {
+        ...c,
+        imageUrl: pickImageUrl(c),
+    };
 }
 
 export function slimCars(list: Car[]): Car[] {

@@ -1,4 +1,4 @@
-import ReviewForm from '@/components/common/Form/ReviewForm.';
+import ReviewForm from '@/components/common/Form/ReviewForm';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import LetterThanks from '@/components/common/LetterThanks/LetterThanks';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';

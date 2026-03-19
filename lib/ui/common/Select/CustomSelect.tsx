@@ -165,14 +165,14 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
                 margin-bottom: 8;
-                padding: 0px 16px 0px 16px !important;
+                padding: 4px 16px 0px 16px !important;
                 padding-right: 20;
                 height: 36 !important;
                 color: #f6f6f6;
             }
 
             .timePicker.ant-select .ant-select-arrow {
-                height: 14px !important;
+                height: 22px !important;
             }
 
             /* Desktop Car single Datepicker */

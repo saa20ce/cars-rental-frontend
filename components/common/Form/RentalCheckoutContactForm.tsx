@@ -68,10 +68,15 @@ export const RentalCheckoutContactForm: React.FC<
         };
 
         const [loading, setLoading] = useState(false);
-        const [checked, setChecked] = useState(false);
+        const [checkedMax, setCheckedMax] = useState(false);
+        const [checkedTg, setCheckedTg] = useState(false);
 
-        const onChange = (e: CheckboxChangeEvent) => {
-            setChecked(e.target.checked);
+        const onChangeMax = (e: CheckboxChangeEvent) => {
+            setCheckedMax(e.target.checked);
+        };
+
+        const onChangeTg = (e: CheckboxChangeEvent) => {
+            setCheckedTg(e.target.checked);
         };
 
         const onFinish = async (values: FormValues) => {
@@ -214,8 +219,8 @@ export const RentalCheckoutContactForm: React.FC<
                             <Form.Item className="mt-8 lg:mt-9">
                                 <Checkbox
                                     className="flex items-center"
-                                    checked={checked}
-                                    onChange={onChange}
+                                    checked={checkedTg}
+                                    onChange={onChangeTg}
                                 >
                                     Связаться через Telegram
                                 </Checkbox>
@@ -224,8 +229,8 @@ export const RentalCheckoutContactForm: React.FC<
                             <Form.Item className="mt-0 lg:mt-9">
                                 <Checkbox
                                     className="flex items-center"
-                                    checked={checked}
-                                    onChange={onChange}
+                                    checked={checkedMax}
+                                    onChange={onChangeMax}
                                 >
                                     Связаться через Max
                                 </Checkbox>

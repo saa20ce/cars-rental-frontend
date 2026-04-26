@@ -6,18 +6,22 @@ import { ChevronDownIcon } from '@/lib/ui/icons';
 
 interface CarTariffsCardProps {
     car: LibCar;
+    daysCount: number;
     pricePerDay: number;
     totalPrice: number;
     openId: number | null;
     onToggle: (id: number) => void;
+    onRentClick: (car: LibCar) => void;
 }
 
 export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
     car,
+    daysCount,
     pricePerDay,
     totalPrice,
     openId,
     onToggle,
+    onRentClick,
 }) => {
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const imageUrl =
@@ -39,10 +43,13 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                 {acf.nazvanie_avto}
             </div>
             <div className="lg:w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center">
-                <div className="w-[60px] lg:w-1/2 text-center">
+                <div className="w-[60px] lg:w-1/3 text-center">
+                    {daysCount}
+                </div>
+                <div className="w-[60px] lg:w-1/3 text-center">
                     {pricePerDay.toLocaleString()} ₽
                 </div>
-                <div className="w-[60px] pr-2 lg:pr-0  lg:w-1/2 text-center">
+                <div className="w-[60px] pr-2 lg:pr-0 lg:w-1/3 text-center">
                     <span> {totalPrice.toLocaleString()} ₽</span>
                 </div>
                 <ChevronDownIcon className="w-[12px] h-[9px]" active />
@@ -63,10 +70,13 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                         </div>
                     </Link>
                     <div className="w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center justify-end">
-                        <div className="w-[60px] lg:w-1/2 text-center">
+                        <div className="w-[60px] lg:w-1/3 text-center">
+                            {daysCount}
+                        </div>
+                        <div className="w-[60px] lg:w-1/3 text-center">
                             {pricePerDay.toLocaleString()} ₽
                         </div>
-                        <div className="w-[60px] pr-3 lg:pr-0  lg:w-1/2 text-center">
+                        <div className="w-[60px] pr-3 lg:pr-0 lg:w-1/3 text-center">
                             <span> {totalPrice.toLocaleString()} ₽</span>
                         </div>
                         <ChevronDownIcon
@@ -149,7 +159,14 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                                     },
                                 }}
                             >
-                                <Button block style={{ height: '40px' }}>
+                                <Button
+                                    block
+                                    style={{ height: '40px' }}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        onRentClick(car);
+                                    }}
+                                >
                                     <span className="mt-[-1px]">
                                         Арендовать
                                     </span>

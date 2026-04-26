@@ -6,9 +6,10 @@ import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
 import type { GetProps } from 'antd';
 import {
     computeCostsChunked,
+    isDaySeason,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
-import { DatePicker } from 'antd';
+import { ConfigProvider, DatePicker, Modal } from 'antd';
 import { CarTariffsCard } from '@/components/common/Cards/CarTariffsCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
@@ -21,10 +22,19 @@ const CustomDatePicker = dynamic(
     () => import('@/lib/ui/common/DatePicker/CustomDatePicker').then(m => m.CustomDatePicker),
     { ssr: false, loading: () => null }
 );
+const ModalRentalCheckout = dynamic(
+    () => import('@/components/common/Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
+    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
+);
+const SuccessRequest = dynamic(
+    () => import('@/components/common/Modal/SuccessRequest').then((m) => m.default || m),
+    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
+);
 import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+const RENTAL_PERIOD_STORAGE_KEY = 'rentasibRentalPeriod';
 
 interface TariffsPageClientProps {
     cars: Car[];
@@ -36,6 +46,7 @@ interface TariffsPageClientProps {
     colorOptions: Array<{ value: string; label: string }>;
     deliveryPrice: DeliveryPrice | null;
     seasonDates: SeasonData | null;
+    additionalOptions: Array<{ label: string; value: string; price: number }>;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -56,6 +67,7 @@ export default function TariffsPageClient({
     colorOptions,
     deliveryPrice,
     seasonDates,
+    additionalOptions,
 }: TariffsPageClientProps) {
     const today = useMemo(() => dayjs(), []);
     const [pendingFilters, setPendingFilters] = useState({
@@ -75,6 +87,24 @@ export default function TariffsPageClient({
     const [advancedVisible, setAdvancedVisible] = useState(false);
     const [openId, setOpenId] = useState<number | null>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [startTime, setStartTime] = useState('');
+    const [returnTime, setReturnTime] = useState('');
+    const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
+        string[]
+    >([]);
+    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+
+    const daysCount = useMemo(() => {
+        if (!startDate || !returnDate) return 0;
+
+        return Math.max(
+            Math.ceil(returnDate.diff(startDate, 'hour', true) / 24),
+            0,
+        );
+    }, [startDate, returnDate]);
 
     const handleApplyFilters = () => {
         if (!startDate || !returnDate) return;
@@ -168,6 +198,89 @@ export default function TariffsPageClient({
         return `${hour.toString().padStart(2, '0')}:00`;
     }, []);
 
+    useEffect(() => {
+        setStartTime(defaultTimeValue);
+        setReturnTime(defaultTimeValue);
+    }, [defaultTimeValue]);
+
+    const deliveryOptions = useMemo(() => {
+        if (!deliveryPrice) return [];
+
+        const time = startTime || defaultTimeValue;
+        const hour = parseInt(time.split(':')[0], 10);
+        const isNight = hour >= 20 || hour < 9;
+
+        return isNight ? deliveryPrice.night : deliveryPrice.day;
+    }, [deliveryPrice, defaultTimeValue, startTime]);
+
+    const deliveryCost = useMemo(() => {
+        const selected = deliveryOptions.find(
+            (opt) => opt.value === deliveryOptionSelected,
+        );
+
+        return selected ? Number(selected.price) || 0 : 0;
+    }, [deliveryOptionSelected, deliveryOptions]);
+
+    const additionalOptionsTotal = useMemo(() => {
+        return additionalOptions
+            .filter((opt) => additionalOptionsSelected.includes(opt.value))
+            .reduce((sum, opt) => sum + (opt.price ?? 0), 0);
+    }, [additionalOptions, additionalOptionsSelected]);
+
+    const selectedCarPriceRanges = useMemo(() => {
+        return selectedCar ? buildPriceRangesFromACF(selectedCar.acf || {}) : [];
+    }, [selectedCar]);
+
+    const selectedCarCosts = useMemo(() => {
+        if (!startDate || !returnDate || !selectedCar) return [];
+
+        return computeCostsChunked(
+            startDate,
+            returnDate,
+            selectedCarPriceRanges,
+            seasonDates,
+        );
+    }, [returnDate, seasonDates, selectedCar, selectedCarPriceRanges, startDate]);
+
+    const selectedCarPricePerDay =
+        selectedCarCosts[0] || selectedCar?.pricePerDay || 0;
+
+    const selectedCarBaseTotal =
+        selectedCarCosts.reduce((acc, val) => acc + val, 0) ||
+        selectedCar?.totalPrice ||
+        0;
+
+    const modalTotalPrice =
+        selectedCarBaseTotal + additionalOptionsTotal + deliveryCost;
+
+    const hasSeasonDays = useMemo(() => {
+        if (!startDate || !returnDate || !seasonDates) return false;
+
+        let currentDay = startDate.startOf('day');
+        const endDay = returnDate.startOf('day');
+
+        while (currentDay.isBefore(endDay) || currentDay.isSame(endDay)) {
+            if (!isDaySeason(currentDay, seasonDates)) {
+                return false;
+            }
+            currentDay = currentDay.add(1, 'day');
+        }
+
+        return true;
+    }, [returnDate, seasonDates, startDate]);
+
+    const closeModal = () => setModalVisible(false);
+
+    const handleRentClick = (car: Car) => {
+        if (!startDate || !returnDate) return;
+
+        setSelectedCar(car);
+        setAdditionalOptionsSelected([]);
+        setDeliveryOption('');
+        setIsSubmitted(false);
+        setModalVisible(true);
+    };
+
     const handleReset = () => {
         setPendingFilters({
             klass: '',
@@ -204,6 +317,28 @@ export default function TariffsPageClient({
         }
     }, [pendingFilters]);
 
+    useEffect(() => {
+        if (!startDate || !returnDate) return;
+
+        handleApplyFilters();
+    }, [startDate, returnDate]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const rentalPeriod = {
+            startDate: startDate?.format('YYYY-MM-DD') ?? '',
+            returnDate: returnDate?.format('YYYY-MM-DD') ?? '',
+            startTime: startTime || defaultTimeValue,
+            returnTime: returnTime || defaultTimeValue,
+        };
+
+        localStorage.setItem(
+            RENTAL_PERIOD_STORAGE_KEY,
+            JSON.stringify(rentalPeriod),
+        );
+    }, [defaultTimeValue, returnDate, returnTime, startDate, startTime]);
+
     return (
         <>
             <section className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7 mb-6 lg:mb-8">
@@ -218,30 +353,38 @@ export default function TariffsPageClient({
                             загрузке автопарка.
                         </p>
                     </div>
-                    <div className="grid grid-cols-[max-content,max-content] lg:grid-cols-2 gap-x-[10px] gap-y-[6px] lg:gap-y-[22px] lg:gap-x-5 text-[14px]/[20px] lg:text-[16px]/[24px] font-semibold lg:font-bold lg:self-end">
+                    <div className="grid lg:grid-cols-2 gap-x-[10px] gap-y-[6px] lg:gap-y-[22px] lg:gap-x-5 text-[14px]/[20px] lg:text-[16px]/[24px] font-semibold lg:font-bold lg:self-end">
                         <div className="flex font-extrabold  gap-[6px] lg:gap-3 tracking-[1px]">
                             <div>
                                 <CheckRound />
                             </div>
-                            <span>КАСКО / ОСАГО</span>
+                            <span>Фиксированная цена независимо от сезона</span>
+                        </div>
+                        <div className="flex gap-[6px] lg:gap-3">
+                            <div>
+                                <CheckRound />
+                            </div>
+                            Тариф со скидкой до 30% по сравнению с
+                            краткосрочной арендой
+                        </div>
+                        <div className="flex gap-[6px] lg:gap-3">
+                            <div>
+                                <CheckRound />
+                            </div>
+                            ТО в процессе эксплуатации входит в стоимость
+                            аренды
+                        </div>
+                        <div className="flex gap-[6px] lg:gap-3">
+                            <div>
+                                <CheckRound />
+                            </div>
+                            Экономия времени на оформлении при ЭДО
                         </div>
                         <div className="flex gap-[6px] lg:gap-3">
                             <div>
                                 <CheckRound />
                             </div>{' '}
-                            Доступные цены
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>{' '}
-                            Обслуженные авто
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>{' '}
-                            Большой выбор
+                            Без залога
                         </div>
                     </div>
                 </header>
@@ -284,7 +427,10 @@ export default function TariffsPageClient({
                                         placeholder="18:00"
                                         options={timeOptions}
                                         className="timePicker"
-                                        defaultValue={defaultTimeValue}
+                                        value={startTime || defaultTimeValue}
+                                        onChange={(val) =>
+                                            setStartTime(val as string)
+                                        }
                                     />
                                 </div>
 
@@ -321,7 +467,10 @@ export default function TariffsPageClient({
                                         placeholder="18:00"
                                         options={timeOptions}
                                         className="timePicker"
-                                        defaultValue={defaultTimeValue}
+                                        value={returnTime || defaultTimeValue}
+                                        onChange={(val) =>
+                                            setReturnTime(val as string)
+                                        }
                                     />
                                 </div>
                             </div>
@@ -338,6 +487,11 @@ export default function TariffsPageClient({
                             </CustomButton>
                         </div>
                     </form>
+                    {daysCount > 0 && (
+                        <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-semibold text-[#FFD7A6] mb-2 lg:mb-3">
+                            Количество суток: {daysCount}
+                        </p>
+                    )}
                     {advancedVisible && (
                         <section className="select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0">
                             <CustomSelect
@@ -450,10 +604,13 @@ export default function TariffsPageClient({
                     <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between items-end text-[#f6f6f675] px-4 gap-4">
                         <div className="lg:w-1/2">Автомобиль</div>
                         <div className="lg:w-1/2 flex justify-end">
-                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/2 ">
+                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/3 ">
+                                Количество <br className="lg:hidden" />суток
+                            </div>
+                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/3 ">
                                 Цена <br className="lg:hidden" /> за сутки
                             </div>
-                            <div className="w-1/2 max-w-[72px] lg:max-w-none lg:text-center  mr-[7px]">
+                            <div className="w-1/3 max-w-[72px] lg:max-w-none lg:text-center  mr-[7px]">
                                 Итоговая стоимость
                             </div>
                         </div>
@@ -469,6 +626,7 @@ export default function TariffsPageClient({
                                     )}
                                     <CarTariffsCard
                                         car={car}
+                                        daysCount={daysCount}
                                         pricePerDay={car.pricePerDay}
                                         totalPrice={car.totalPrice}
                                         openId={openId}
@@ -477,6 +635,7 @@ export default function TariffsPageClient({
                                                 prev === id ? null : id,
                                             )
                                         }
+                                        onRentClick={handleRentClick}
                                     />
                                 </React.Fragment>
                             ))
@@ -511,6 +670,86 @@ export default function TariffsPageClient({
             <WhyUs />
 
             <HaveQuestions />
+
+            <ConfigProvider
+                theme={{
+                    components: {
+                        Modal: {
+                            contentBg: '#00000000',
+                            boxShadow: 'none',
+                        },
+                    },
+                }}
+            >
+                <Modal
+                    open={modalVisible}
+                    onCancel={closeModal}
+                    closeIcon={false}
+                    footer={null}
+                    width="100vw"
+                    style={{
+                        top: 0,
+                        left: 0,
+                        margin: 0,
+                        padding: 0,
+                    }}
+                    styles={{
+                        mask: {
+                            backdropFilter: 'blur(30px)',
+                            WebkitBackdropFilter: 'blur(30px)',
+                        },
+                        content: {
+                            padding: 8,
+                            color: '#f6f6f6',
+                        },
+                    }}
+                    centered
+                >
+                    {isSubmitted && (
+                        <SuccessRequest
+                            header="Ваша заявка принята!"
+                            text="Мы свяжемся с вами в течение 5 минут"
+                            reservation={true}
+                            onClick={() => {
+                                setModalVisible(false);
+                                setIsSubmitted(false);
+                            }}
+                        />
+                    )}
+
+                    {selectedCar && startDate && returnDate && !isSubmitted && (
+                        <ModalRentalCheckout
+                            car={selectedCar}
+                            additionalOptionsTotal={additionalOptionsTotal}
+                            deliveryCost={deliveryCost}
+                            startDate={startDate.format('YYYY-MM-DD')}
+                            returnDate={returnDate.format('YYYY-MM-DD')}
+                            startTime={startTime || defaultTimeValue}
+                            returnTime={returnTime || defaultTimeValue}
+                            hasSeasonDays={hasSeasonDays}
+                            additionalOptions={additionalOptions}
+                            additionalOptionsSelected={
+                                additionalOptionsSelected
+                            }
+                            setAdditionalOptions={
+                                setAdditionalOptionsSelected
+                            }
+                            deliveryOptions={deliveryOptions}
+                            deliveryOptionSelected={deliveryOptionSelected}
+                            setDeliveryOption={setDeliveryOption}
+                            daysCount={daysCount}
+                            pricePerDay={selectedCarPricePerDay}
+                            totalPrice={modalTotalPrice}
+                            setStartDate={setStartDate}
+                            setReturnDate={setReturnDate}
+                            setStartTime={setStartTime}
+                            setReturnTime={setReturnTime}
+                            closeModal={closeModal}
+                            setIsSubmitted={setIsSubmitted}
+                        />
+                    )}
+                </Modal>
+            </ConfigProvider>
         </>
     );
 }

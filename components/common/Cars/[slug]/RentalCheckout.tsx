@@ -44,6 +44,23 @@ interface AdditionalOption {
     price?: number
 }
 
+interface StoredRentalPeriod {
+    startDate?: string;
+    returnDate?: string;
+    startTime?: string;
+    returnTime?: string;
+}
+
+const RENTAL_PERIOD_STORAGE_KEY = 'rentasibRentalPeriod';
+
+const parseStoredDate = (value?: string) => {
+    if (!value) return null;
+
+    const parsedDate = dayjs(value, 'YYYY-MM-DD', true);
+
+    return parsedDate.isValid() ? parsedDate : null;
+};
+
 interface RentalCheckoutProps {
     car: Car;
     additionalOptions: AdditionalOption[];
@@ -72,6 +89,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const [dailyCosts, setDailyCosts] = useState<number[]>([]);
     const [hasSeasonDays, setHasSeasonDays] = useState(false);
     const [showCost, setShowCost] = useState(false);
+    const [hasLoadedStoredPeriod, setHasLoadedStoredPeriod] = useState(false);
 
     const [additionalOptionsSelected, setAdditionalOptions] = useState<
         string[]
@@ -106,20 +124,50 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         additionalOptionsTotal +
         deliveryCost;
+
     useEffect(() => {
-        if (!startDate) {
-            setStartDate(dayjs())
+        if (typeof window === 'undefined') {
+            setHasLoadedStoredPeriod(true);
+            return;
         }
+
+        try {
+            const storedValue = localStorage.getItem(RENTAL_PERIOD_STORAGE_KEY);
+
+            if (!storedValue) {
+                setStartDate(dayjs());
+                setHasLoadedStoredPeriod(true);
+                return;
+            }
+
+            const storedPeriod = JSON.parse(storedValue) as StoredRentalPeriod;
+            const storedStartDate = parseStoredDate(storedPeriod.startDate);
+            const storedReturnDate = parseStoredDate(storedPeriod.returnDate);
+
+            setStartDate(storedStartDate ?? dayjs());
+            setReturnDate(storedReturnDate);
+            setStartTime(storedPeriod.startTime ?? '');
+            setReturnTime(storedPeriod.returnTime ?? '');
+        } catch {
+            setStartDate(dayjs());
+        } finally {
+            setHasLoadedStoredPeriod(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!hasLoadedStoredPeriod) return;
+
         if (startDate && returnDate) {
             const startFull = startDate;
             const endFull = returnDate;
 
             const exactDiffHours = endFull.diff(startFull, 'hour', true);
             let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
-            if (totalDays < 3) {
-                const adjustedEnd = startFull.add(3, 'day');
+            if (totalDays < 1) {
+                const adjustedEnd = startFull.add(1, 'day');
                 setReturnDate(adjustedEnd);
-                totalDays = 3
+                totalDays = 1
             }
             setDaysCount(totalDays);
 
@@ -161,7 +209,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             setSeasonModeSwitch(false);
             setHasSeasonDays(false)
         }
-    }, [startDate, returnDate, priceRanges, seasonDates, setSeasonModeSwitch]);
+    }, [hasLoadedStoredPeriod, startDate, returnDate, priceRanges, seasonDates, setSeasonModeSwitch]);
 
     useEffect(() => {
         const hour = parseInt(startTime.split(':')[0], 10);

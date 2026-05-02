@@ -1,3 +1,4 @@
+export * from './MaxIcon';
 export * from './VkIcon';
 export * from './WhatsappLogo';
 export * from './LogoFull';

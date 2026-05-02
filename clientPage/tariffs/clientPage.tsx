@@ -32,6 +32,10 @@ const SuccessRequest = dynamic(
 );
 import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
+import {
+    buildKlassOptionsWithKuzov,
+    isKuzovOptionUsedAsKlass,
+} from '@/lib/helpers/carFilterOptions';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 const RENTAL_PERIOD_STORAGE_KEY = 'rentasibRentalPeriod';
@@ -96,6 +100,10 @@ export default function TariffsPageClient({
         string[]
     >([]);
     const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const klassOptionsWithKuzov = useMemo(
+        () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
+        [klassOptions, kuzovOptions],
+    );
 
     const daysCount = useMemo(() => {
         if (!startDate || !returnDate) return 0;
@@ -133,8 +141,11 @@ export default function TariffsPageClient({
             const { klass, marka, kuzov, privod, dvigatel, color, priceRange } =
                 pendingFilters;
 
+            const klassId = Number(klass);
             const klassMatch = klass
-                ? car.klass?.includes(Number(klass))
+                ? isKuzovOptionUsedAsKlass(klass, kuzovOptions)
+                    ? car.kuzov?.includes(klassId)
+                    : car.klass?.includes(klassId)
                 : true;
             const markaMatch = marka
                 ? car.marka?.includes(Number(marka))
@@ -496,7 +507,7 @@ export default function TariffsPageClient({
                         <section className="select-group flex flex-col gap-[10px] lg:flex-row lg:gap-0">
                             <CustomSelect
                                 placeholder="Класс"
-                                options={klassOptions}
+                                options={klassOptionsWithKuzov}
                                 className="filters-select"
                                 style={{ width: '100%' }}
                                 value={pendingFilters.klass || undefined}

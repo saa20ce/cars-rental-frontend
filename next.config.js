@@ -6,6 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
+    allowedDevOrigins: ['127.0.0.1:3001', 'localhost:3001'],
     images: {
 	unoptimized: true,
   remotePatterns: [

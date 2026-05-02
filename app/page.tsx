@@ -30,40 +30,34 @@ export async function generateMetadata() {
 
 const classes = [
     {
-        title: 'Комфорт',
-        src: '/images/servicesImages/6.jpg',
-        price: 9000,
-        href: '/service/arenda-avto-komfort-klassa',
-    },
-    {
-        title: 'Кроссоверы',
-        src: '/images/servicesImages/2.jpg',
-        price: 9000,
-        href: '/service/arenda-krossoverov',
-    },
-    {
         title: 'Бизнес',
-        src: '/images/servicesImages/5.jpg',
+        src: '/images/servicesImages/3.jpg',
         price: 9000,
         href: '/service/arenda-avto-biznes-klassa',
     },
     {
         title: 'Минивэн',
-        src: '/images/servicesImages/4.jpg',
+        src: '/images/servicesImages/dsc03710.jpg',
         price: 9000,
         href: '/service/prokat-minivenov-i-mikroavtobusov',
     },
     {
-        title: 'Внедорожник',
-        src: '/images/servicesImages/3.jpg',
+        title: 'Кроссоверы',
+        src: '/images/servicesImages/dsc05065-scaled.jpg',
         price: 9000,
-        href: '/service/arenda-vnedorozhnika',
+        href: '/service/arenda-krossoverov',
     },
     {
-        title: 'Седан',
-        src: '/images/servicesImages/12.jpg',
+        title: 'Комфорт',
+        src: '/images/servicesImages/dsc06740_1.jpg',
         price: 9000,
-        href: '/service/arenda-sedanov',
+        href: '/service/arenda-avto-komfort-klassa',
+    },
+    {
+        title: 'Эконом',
+        src: '/images/servicesImages/dsc04918_2-scaled.jpg',
+        price: 9000,
+        href: '/service/arenda-avto-ekonom-klassa',
     },
 ];
 
@@ -155,12 +149,9 @@ export default async function Home() {
                                 />
                             </div>
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
-                                <h4 className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
+                                <h4 className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
                                     {c.title}
                                 </h4>
-                                <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
-                                    от {c.price} Р/сут.
-                                </span>
                             </div>
                         </Link>
                     ))}

@@ -4,6 +4,7 @@ import {
     TelegramLogo,
     LineVertIcon,
     LineVertHeaderDesktop,
+    MaxIcon,
 } from '@/lib/ui/icons';
 import OpenStatus from '../OpenStatus';
 
@@ -16,6 +17,14 @@ export const TopHeader: React.FC = () => {
 
             <div className="flex h-full items-center justify-between lg:gap-5">
                 <div className="flex gap-2 h-full ml-[2px]">
+                    <a
+                        href="https://max.ru/u/f9LHodD0cOJl7vaA90ej_c-ng7J4Tpfbi4tBmaGo9A-R2NE74nwHaaX0WQk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-center h-5 lg:h-[28px] w-5 lg:w-[28px]"
+                    >
+                        <MaxIcon />
+                    </a>
                     <a
                         href="https://vk.com/rentasib"
                         target="_blank"

@@ -1,12 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
+import {
+    buildKlassOptionsWithKuzov,
+    isKuzovOptionUsedAsKlass,
+} from '@/lib/helpers/carFilterOptions';
 
 interface CarsPageClientProps {
     cars: Car[];
@@ -55,6 +59,10 @@ export default function CarsPageClient({
     const [advancedVisible, setAdvancedVisible] = useState(false);
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
     const [selectedPassengers, setSelectedPassangers] = useState('');
+    const klassOptionsWithKuzov = useMemo(
+        () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
+        [klassOptions, kuzovOptions],
+    );
 
     const handleSortDesc = () => setSortOrder('desc');
     const handleSortAsc = () => setSortOrder('asc');
@@ -72,8 +80,11 @@ export default function CarsPageClient({
     };
 
     const filteredCars = initialCars.filter((car) => {
+        const selectedKlassId = Number(selectedKlass);
         const klassMatch = selectedKlass
-            ? car.klass?.includes(Number(selectedKlass))
+            ? isKuzovOptionUsedAsKlass(selectedKlass, kuzovOptions)
+                ? car.kuzov?.includes(selectedKlassId)
+                : car.klass?.includes(selectedKlassId)
             : true;
         const markaMatch =
             selectedMarka.length > 0
@@ -189,7 +200,7 @@ export default function CarsPageClient({
                         <div className="select-group flex flex-col gap-[10px] lg:flex-row lg:w-3/5 lg:gap-0">
                             <CustomSelect
                                 placeholder="Класс"
-                                options={klassOptions}
+                                options={klassOptionsWithKuzov}
                                 className="filters-select"
                                 style={{ width: '100%' }}
                                 onChange={(value) =>

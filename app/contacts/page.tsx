@@ -23,15 +23,15 @@ export default async function ContactsPage() {
                         <dl className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3">
                             <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
                                 <dt>Бронирование:</dt>
-                                <dd>9:00 - 22:00</dd>
+                                <dd>9:00 - 21:00</dd>
                             </div>
                             <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
                                 <dt>Офис:</dt>
-                                <dd>9:00 - 22:00</dd>
+                                <dd>9:00 - 20:00</dd>
                             </div>
                         </dl>
                         <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium mt-[10px] lg:mt-3">
-                            Круглосуточная доставка автомобилей от 2000 рублей.
+                            Круглосуточная доставка автомобилей по предварительному бронированию от 2000₽
                         </p>
                     </>
                 }

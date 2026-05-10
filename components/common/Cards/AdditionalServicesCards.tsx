@@ -19,7 +19,7 @@ export default function AdditionalServicesCards({
                 <Link
                     href={item.href}
                     key={item.key}
-                    className="group relative flex items-center gap-3 sm:gap-0 sm:items-stretch sm:flex-col sm:h-auto h-[92px] rounded-[16px] sm:border sm:border-[#F6F6F633] bg-[#F6F6F60D] overflow-hidden sm:aspect-[297/197]"
+                    className="group relative flex items-center gap-3 sm:gap-0 sm:items-stretch sm:flex-col sm:h-auto h-[92px] rounded-[16px] sm:border sm:border-[#F6F6F633] bg-[#F6F6F60D] overflow-hidden sm:aspect-[297/230]"
                 >
                     <div className="w-[139px] sm:w-full">
                         <img

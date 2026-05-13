@@ -64,10 +64,26 @@ const classes = [
 export default async function Home() {
     const deliveryPrice = await getDeliveryPrice();
     const businessCars = await getCarsByClass(269);
+    const minivanCars = await getCarsByKuzov(243);
     const comfortCars = await getCarsByClass(268);
     const crossoversCars = await getCarsByKuzov(242);
+    const economyCars = await getCarsByClass(267);
     const additionalOptions = await getAdditionalOptions();
     const seasonDates = await getSeasonDates();
+    const carsByClassTitle = {
+        'Бизнес': businessCars,
+        'Минивэн': minivanCars,
+        'Кроссоверы': crossoversCars,
+        'Комфорт': comfortCars,
+        'Эконом': economyCars,
+    };
+    const galleryButtonTitles = {
+        'Бизнес': 'Все бизнес',
+        'Минивэн': 'Все минивэны',
+        'Кроссоверы': 'Все кроссоверы',
+        'Комфорт': 'Все комфорт',
+        'Эконом': 'Все эконом',
+    };
 
     return (
         <>
@@ -230,33 +246,26 @@ export default async function Home() {
 
             <RentSteps />
 
-            <GalleryCars
-                similarCars={comfortCars}
-                title="Комфорт:"
-                btnTitle="Все комфорт"
-                href="/service/arenda-avto-komfort-klassa"
-                additionalOptions={additionalOptions}
-                deliveryPrice={deliveryPrice}
-                seasonDates={seasonDates}
-            />
-            <GalleryCars
-                similarCars={crossoversCars}
-                title="Кроссоверы:"
-                btnTitle="Все кроссоверы"
-                href="/service/arenda-krossoverov"
-                additionalOptions={additionalOptions}
-                deliveryPrice={deliveryPrice}
-                seasonDates={seasonDates}
-            />
-            <GalleryCars
-                similarCars={businessCars}
-                title="Бизнес:"
-                btnTitle="Все бизнес"
-                href="/service/arenda-avto-biznes-klassa"
-                additionalOptions={additionalOptions}
-                deliveryPrice={deliveryPrice}
-                seasonDates={seasonDates}
-            />
+            {classes.map((c) => (
+                <GalleryCars
+                    key={c.title}
+                    similarCars={
+                        carsByClassTitle[
+                            c.title as keyof typeof carsByClassTitle
+                        ]
+                    }
+                    title={`${c.title}:`}
+                    btnTitle={
+                        galleryButtonTitles[
+                            c.title as keyof typeof galleryButtonTitles
+                        ]
+                    }
+                    href={c.href}
+                    additionalOptions={additionalOptions}
+                    deliveryPrice={deliveryPrice}
+                    seasonDates={seasonDates}
+                />
+            ))}
 
             <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">
                 <div className="flex flex-row">

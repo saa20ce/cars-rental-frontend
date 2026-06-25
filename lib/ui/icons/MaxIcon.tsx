@@ -6,21 +6,10 @@ export const MaxIcon = ({ className = '' }: MaxIconProps) => (
     <svg
         className={`${className} h-4 w-4 shrink-0 lg:h-6 lg:w-6`}
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 1000 1000"
         aria-hidden="true"
     >
         <defs>
-            <linearGradient id="max-icon-b">
-                <stop offset="0" stopColor="#00f" />
-                <stop offset="1" stopOpacity="0" />
-                <stop offset="1" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="max-icon-a">
-                <stop offset="0" stopColor="#4cf" />
-                <stop offset=".662" stopColor="#53e" />
-                <stop offset="1" stopColor="#93d" />
-            </linearGradient>
             <linearGradient
                 id="max-icon-c"
                 x1="117.847"
@@ -28,8 +17,11 @@ export const MaxIcon = ({ className = '' }: MaxIconProps) => (
                 y1="760.536"
                 y2="500"
                 gradientUnits="userSpaceOnUse"
-                xlinkHref="#max-icon-a"
-            />
+            >
+                <stop offset="0" stopColor="#4cf" />
+                <stop offset=".662" stopColor="#53e" />
+                <stop offset="1" stopColor="#93d" />
+            </linearGradient>
             <radialGradient
                 id="max-icon-d"
                 cx="-87.392"
@@ -39,9 +31,12 @@ export const MaxIcon = ({ className = '' }: MaxIconProps) => (
                 fy="1166.116"
                 gradientTransform="rotate(51.356 1551.478 559.3)scale(2.42703433 1)"
                 gradientUnits="userSpaceOnUse"
-                xlinkHref="#max-icon-b"
-            />
+            >
+                <stop offset="0" stopColor="#00f" />
+                <stop offset="1" stopColor="#00f" stopOpacity="0" />
+            </radialGradient>
         </defs>
+        <rect width="1000" height="1000" fill="#5362ff" ry="249.681" />
         <rect width="1000" height="1000" fill="url(#max-icon-c)" ry="249.681" />
         <rect width="1000" height="1000" fill="url(#max-icon-d)" ry="249.681" />
         <path

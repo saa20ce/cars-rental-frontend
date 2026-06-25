@@ -130,9 +130,17 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                                     },
                                 }}
                             >
-                                <Button block style={{ height: '40px' }}>
-                                    <span className="mt-[-1px]">Подробнее</span>
-                                </Button>
+                                <Link
+                                    href={carLink}
+                                    passHref
+                                    legacyBehavior
+                                >
+                                    <Button block style={{ height: '40px' }}>
+                                        <span className="mt-[-1px]">
+                                            Подробнее
+                                        </span>
+                                    </Button>
+                                </Link>
                             </ConfigProvider>
                             <ConfigProvider
                                 theme={{

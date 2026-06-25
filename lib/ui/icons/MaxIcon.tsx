@@ -1,8 +1,14 @@
-export const MaxIcon = () => (
+interface MaxIconProps {
+    className?: string;
+}
+
+export const MaxIcon = ({ className = '' }: MaxIconProps) => (
     <svg
+        className={`${className} h-4 w-4 shrink-0 lg:h-6 lg:w-6`}
         xmlns="http://www.w3.org/2000/svg"
-        xmlSpace="preserve"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 1000 1000"
+        aria-hidden="true"
     >
         <defs>
             <linearGradient id="max-icon-b">
@@ -22,7 +28,7 @@ export const MaxIcon = () => (
                 y1="760.536"
                 y2="500"
                 gradientUnits="userSpaceOnUse"
-                href="#max-icon-a"
+                xlinkHref="#max-icon-a"
             />
             <radialGradient
                 id="max-icon-d"
@@ -33,7 +39,7 @@ export const MaxIcon = () => (
                 fy="1166.116"
                 gradientTransform="rotate(51.356 1551.478 559.3)scale(2.42703433 1)"
                 gradientUnits="userSpaceOnUse"
-                href="#max-icon-b"
+                xlinkHref="#max-icon-b"
             />
         </defs>
         <rect width="1000" height="1000" fill="url(#max-icon-c)" ry="249.681" />

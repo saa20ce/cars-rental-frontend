@@ -162,6 +162,7 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
             berdsk: 'Бердск',
             samovyvoz: 'Самовывоз',
             zhd: 'Ж/д вокзал',
+            iskitim: 'Искитим',
         };
         return dict[key] || key;
     };

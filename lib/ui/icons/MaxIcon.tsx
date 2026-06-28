@@ -1,17 +1,26 @@
-import Image from 'next/image';
+import React from 'react';
 
 interface MaxIconProps {
     className?: string;
 }
 
 export const MaxIcon = ({ className = '' }: MaxIconProps) => (
-    <Image
-        className={`${className} h-4 w-4 shrink-0 object-contain lg:h-6 lg:w-6`}
-        src="/icons/max-messenger-sign-logo.svg"
-        alt="Max"
-        width={24}
-        height={24}
-        priority
-        unoptimized
-    />
+    <svg
+        className={className}
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <g clip-path="url(#clip0_5250_14526)">
+            <path d="M23.275 17.5172C26.1262 17.2643 28.7718 18.7165 29.9672 21.3391C32.6138 27.1751 25.8412 32.9373 20.5953 29.3578V29.3531C20.1823 29.6759 19.7835 30.1172 19.3266 30.3703C18.665 30.7261 18.4595 30.3556 18.2109 29.7688C17.4286 27.9016 17.3337 24.7208 17.7906 22.7656C18.4048 20.1062 20.4565 17.7666 23.275 17.5172Z" fill="#F6F6F6"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM23.5562 11.2188C15.9305 11.6186 10.896 17.6199 11.2141 25.1875C11.3531 28.4996 12.6809 31.3503 12.9953 34.4938C13.0755 35.3079 12.8412 36.313 13.7766 36.6688C14.9281 37.1053 16.6943 36.3713 17.6594 35.7C17.9884 35.4762 18.3025 35.215 18.5438 34.8922C19.5416 35.5561 20.4886 36.1982 21.6766 36.4844C26.9079 37.7426 32.6395 34.8632 35.1875 30.2375C39.9764 21.5475 33.5032 10.6981 23.5562 11.2188Z" fill="#F6F6F6"/>
+        </g>
+        <defs>
+            <clipPath id="clip0_5250_14526">
+                <rect width="48" height="48" fill="white"/>
+            </clipPath>
+        </defs>
+    </svg>
 );

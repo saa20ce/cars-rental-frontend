@@ -239,7 +239,7 @@ export function buildPriceRangesFromACF(acf: CarACF): PriceRange[] {
 
 export async function getCars(filters: Record<string, string> = {}): Promise<Car[]> {
     const params = new URLSearchParams(filters).toString();
-    const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}&_embed=wp:featuredmedia`;
+    const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}&_embed=wp:featuredmedia,wp:term`;
     const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();

@@ -50,7 +50,9 @@ export const CarCard: React.FC<CarCardProps> = ({
     seasonDates = null
 }) => {
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
-    const price = Number(acf['30_dnej']);
+    const regularPrice = Number(acf['30_dnej']);
+    const seasonPrice = Number(acf['30_dnej_S']) || regularPrice;
+    const price = isDaySeason(dayjs(), seasonDates) ? seasonPrice : regularPrice;
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
 
     const imageUrl =
@@ -176,15 +178,15 @@ export const CarCard: React.FC<CarCardProps> = ({
     }, [startTime, deliveryPrice, deliveryOptions]);
 
     return (
-        <article className="car-card  flex flex-col bg-[#f6f6f60e] rounded-2xl ">
-            <div className="relative  h-3/4 ">
+        <article className="car-card flex flex-col justify-between bg-[#f6f6f60e] hover:bg-[#1E384A] transition-colors duration-300 rounded-2xl ">
+            <div className="relative h-3/4 ">
                 <Link
                     href={carLink}
                     passHref
                     className="contents hover:text-[#f6f6f6]"
                 >
                     <div
-                        className="relative w-full min-w-[310px] z-0 mb-[14px] rounded-2xl h-[252px] max-h-[252px] lg:mb-4"
+                        className="relative w-full min-w-[310px] z-0 mb-[14px] md:mb-4 rounded-2xl h-[252px] max-h-[252px]"
                     >
                         <Image
                             src={imageUrl ?? ''}
@@ -202,7 +204,7 @@ export const CarCard: React.FC<CarCardProps> = ({
             <div className="flex justify-between pb-4 px-4 lg:pb-[26px] lg:px-[26px]">
                 <div className="w-full">
                     <Link href={carLink} passHref>
-                        <h3 className="text-lg font-semibold text-[#f6f6f6]">
+                        <h3 className="text-base lg:text-lg font-semibold text-[#f6f6f6] mb-0 lg:mb-1">
                             {acf.nazvanie_avto}
                         </h3>
                     </Link>

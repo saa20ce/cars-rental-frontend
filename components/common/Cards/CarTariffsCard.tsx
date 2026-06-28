@@ -39,14 +39,14 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
             className="flex items-center justify-between py-3 px-4 cursor-pointer text-[12px]/[16px] lg:text-[16px]/[24px] border-b border-[#F6F6F633]"
             onClick={() => onToggle(car.id)}
         >
-            <div className="font-medium text-[#f6f6f6]">
+            <div className="font-medium text-[#f6f6f6] text-left">
                 {acf.nazvanie_avto}
             </div>
-            <div className="lg:w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center">
-                <div className="w-[60px] lg:w-1/3 text-center">
+            <div className="lg:w-1/2 flex pl-[6px] lg:pl-[12px] gap-3 lg:gap-0 items-center">
+                <div className="hidden lg:block w-[60px] lg:w-1/3 text-center">
                     {daysCount}
                 </div>
-                <div className="w-[60px] lg:w-1/3 text-center">
+                <div className="w-[69px] lg:w-1/3 text-center">
                     {pricePerDay.toLocaleString()} ₽
                 </div>
                 <div className="w-[60px] pr-2 lg:pr-0 lg:w-1/3 text-center">
@@ -69,14 +69,14 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                             {acf.nazvanie_avto}
                         </div>
                     </Link>
-                    <div className="w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center justify-end">
-                        <div className="w-[60px] lg:w-1/3 text-center">
+                    <div className="lg:w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center justify-end">
+                        <div className="hidden lg:block w-[60px] lg:w-1/3 text-center">
                             {daysCount}
                         </div>
-                        <div className="w-[60px] lg:w-1/3 text-center">
+                        <div className="w-[62px] lg:w-1/3 text-center">
                             {pricePerDay.toLocaleString()} ₽
                         </div>
-                        <div className="w-[60px] pr-3 lg:pr-0 lg:w-1/3 text-center">
+                        <div className="w-[72px] lg:pr-3 lg:pr-0 lg:w-1/3 text-center">
                             <span> {totalPrice.toLocaleString()} ₽</span>
                         </div>
                         <ChevronDownIcon

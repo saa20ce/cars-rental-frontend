@@ -34,6 +34,7 @@ import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { faqItems } from '@/lib/data/faqItems';
+import { MenIcon } from '@/lib/ui/icons/MenIcon';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -103,8 +104,8 @@ export default function SingleCarPageClient({
         const isBusiness = car.klass?.includes(269);
 
         return {
-            experience: isBusiness ? 'От 10 лет' : 'От 2-х лет',
-            age: isBusiness ? 'От 30 лет' : 'От 22-х лет'
+            experience: isBusiness ? 'От 10 лет' : 'От 3-х лет',
+            age: isBusiness ? 'От 30 лет' : 'От 23-х лет'
         };
     }, [car.klass]);
 
@@ -229,7 +230,7 @@ export default function SingleCarPageClient({
                             </li>
 
                             <li className="flex items-center gap-[6px] lg:gap-[10px]">
-                                <AgeIcon className="w-9 h-9 xl:w-[52px] xl:h-[52px]" />
+                                <MenIcon className="w-9 h-9 xl:w-[52px] xl:h-[52px]" />
                                 <div className="flex flex-col">
                                     <span className="text-[14px]/[20px] lg:text-[18px]/[20px] font-bold">
                                         Возраст

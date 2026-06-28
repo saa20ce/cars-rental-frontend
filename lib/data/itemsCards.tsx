@@ -159,7 +159,7 @@ export const rentalTermsBusinessItems = [
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Стаж от 1 лет, возраст от 30 лет',
+        title: 'Стаж от 10 лет, возраст от 30 лет',
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
@@ -167,7 +167,7 @@ export const rentalTermsBusinessItems = [
         icon: <ClockIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Увеличенный лимит пробега - до 350 км/сутки',
+        title: 'Увеличенный лимит пробега - до 300 км/сутки',
         icon: <WheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
@@ -175,7 +175,7 @@ export const rentalTermsBusinessItems = [
         icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Перепробег 15 рублей/км',
+        title: 'Перепробег 12 рублей/км',
         icon: <SteeringWheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];
@@ -290,10 +290,6 @@ export const listItemsComfortPage1 = [
     {
         title: 'Скидки постоянным клиентам',
         icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
-        title: 'Скидки постоянным клиентам',
-        icon: <HandshakeAndDocumentIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];
 

@@ -102,7 +102,7 @@ export default async function CarRentalWithChildSeatPage() {
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/honda.webp"
+                src="/images/family-with-baby.webp"
                 alt="Автомобиль"
                 aspect="336/188"
                 pyTextBlock="30"

@@ -157,7 +157,7 @@ export default function CarsPageClient({
             <section className="bg-[#f6f6f60e] rounded-3xl px-6 py-[28px] lg:py-[38px] lg:px-9">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 lg:pb-8 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
-                        <h1 className="text-[20px]/[28px] lg:text-[24px]/[32 px] font-bold mb-4 lg:mb-5">
+                        <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
                             Автопарк
                         </h1>
                         <p className="hidden lg:block text-[18px]/[28px] font-medium">

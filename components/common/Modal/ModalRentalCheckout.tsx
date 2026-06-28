@@ -69,9 +69,13 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
         '';
 
     const allTerms = car._embedded?.['wp:term'] || [];
-    const kuzovTerm = allTerms.flat().find((t: Term) => t.taxonomy === 'kuzov');
+    const terms = allTerms.flat();
+    const klassTerm = terms.find((t: Term) => t.taxonomy === 'klass');
+    const kuzovTerm = terms.find((t: Term) => t.taxonomy === 'kuzov');
 
-    const kuzovName = kuzovTerm ? kuzovTerm.name : '—';
+    const klassName = klassTerm?.name;
+    const kuzovName = kuzovTerm?.name;
+    const carTypeName = klassName || kuzovName || '—';
 
     const discount = car.acf?.skidka;
     const discountedPrice = discount
@@ -112,10 +116,14 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 </h3>
                             )}
                             <span className="font-normal text-[#f6f6f675] lg:hidden">
-                                {kuzovName}
+                                {carTypeName}
                             </span>
                         </figcaption>
-                        {car.acf && <SaleInfo acf={car.acf} />}
+                        {car.acf && (
+                            <div className="hidden lg:block">
+                                <SaleInfo acf={car.acf} />
+                            </div>
+                        )}
                     </figure>
 
                     <ArrowIcon

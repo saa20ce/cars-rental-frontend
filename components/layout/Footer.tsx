@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
                         </Link>
                     </h2>
                     <Link
-                        href="/faq"
+                        href="/blog"
                         className="underline underline-offset-[6px]"
                     >
                         Наш блог
@@ -59,14 +59,14 @@ export const Footer: React.FC = () => {
                         <div className="flex">
                             <dt>Бронирование:</dt>
                             <dd className="ml-[10px]">
-                                9:00 - 22:00{' '}
+                                9:00 - 20:00{' '}
                                 <span className="text-[#9ca3af]">(Нск)</span>
                             </dd>
                         </div>
                         <div className="flex">
                             <dt>Офис:</dt>
                             <dd className="ml-[10px]">
-                                9:00 - 22:00{' '}
+                                9:00 - 20:00{' '}
                                 <span className="text-[#9ca3af]">(Нск)</span>
                             </dd>
                         </div>
@@ -215,7 +215,7 @@ export const Footer: React.FC = () => {
 
             <section className="mt-9 text-[#9CA3AF] font-regular lg:flex lg:items-center lg:gap-6 lg:justify-between mb-[150px]">
                 <div className=" text-[#9CA3AF] font-bold tracking-wide">
-                    © ООО «Рентасиб», 2020—2025
+                    © ООО «Рентасиб», 2020—2026
                 </div>
                 <div className="flex flex-col lg:flex-row lg:items-center lg:gap-6 mt-3 lg:mt-0">
                     <Link

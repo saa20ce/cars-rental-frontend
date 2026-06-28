@@ -355,48 +355,14 @@ export default function TariffsPageClient({
             <section className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7 mb-6 lg:mb-8">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
-                        <h1 className="text-[20px]/[28px] lg:text-[24px]/[32 px] font-bold mb-4 lg:mb-5">
+                        <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
                             Тариф-калькулятор
                         </h1>
-                        <p className="hidden lg:block text-[18px]/[28px] font-medium">
+                        <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
                             Мы поможем расчитать стоимость желаемого автомобиля
                             через калькулятор, соблюдая условия сезонности и
                             загрузке автопарка.
                         </p>
-                    </div>
-                    <div className="grid lg:grid-cols-2 gap-x-[10px] gap-y-[6px] lg:gap-y-[22px] lg:gap-x-5 text-[14px]/[20px] lg:text-[16px]/[24px] font-semibold lg:font-bold lg:self-end">
-                        <div className="flex font-extrabold  gap-[6px] lg:gap-3 tracking-[1px]">
-                            <div>
-                                <CheckRound />
-                            </div>
-                            <span>Фиксированная цена независимо от сезона</span>
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>
-                            Тариф со скидкой до 30% по сравнению с
-                            краткосрочной арендой
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>
-                            ТО в процессе эксплуатации входит в стоимость
-                            аренды
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>
-                            Экономия времени на оформлении при ЭДО
-                        </div>
-                        <div className="flex gap-[6px] lg:gap-3">
-                            <div>
-                                <CheckRound />
-                            </div>{' '}
-                            Без залога
-                        </div>
                     </div>
                 </header>
 
@@ -612,16 +578,16 @@ export default function TariffsPageClient({
 
             {cars === null ? null : (
                 <section className="mb-[42px] lg:mb-[68px]">
-                    <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between items-end text-[#f6f6f675] px-4 gap-4">
+                    <div className="text-[14px]/[20px] lg:text-[18px]/[28px] flex justify-between items-end text-[#f6f6f675] px-4 gap-4 lg:pr-12">
                         <div className="lg:w-1/2">Автомобиль</div>
-                        <div className="lg:w-1/2 flex justify-end">
-                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/3 ">
+                        <div className="lg:w-1/2 flex justify-end lg:justify-between">
+                            <div className="hidden lg:block min-w-[72px] lg:min-w-none lg:text-center lg:w-1/3 ">
                                 Количество <br className="lg:hidden" />суток
                             </div>
-                            <div className="min-w-[60px] lg:min-w-none lg:text-center lg:w-1/3 ">
+                            <div className="min-w-[72px] lg:min-w-none lg:text-center lg:w-1/3 ">
                                 Цена <br className="lg:hidden" /> за сутки
                             </div>
-                            <div className="w-1/3 max-w-[72px] lg:max-w-none lg:text-center  mr-[7px]">
+                            <div className="w-[82px] lg:w-auto lg:text-center">
                                 Итоговая стоимость
                             </div>
                         </div>

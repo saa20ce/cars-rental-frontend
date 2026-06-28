@@ -11,14 +11,21 @@ export async function generateMetadata() {
 
 async function getNews(page: number) {
     const PER_PAGE = 9;
+    const fields = [
+        'id',
+        'slug',
+        'date',
+        'title',
+        'excerpt',
+        '_embedded.wp:featuredmedia',
+    ].join(',');
     const res = await fetch(
-        `https://staged.rentasib.ru/wp-json/wp/v2/posts?_embed&per_page=${PER_PAGE}&page=${page}`,
+        `https://staged.rentasib.ru/wp-json/wp/v2/posts?_embed=wp:featuredmedia&per_page=${PER_PAGE}&page=${page}&_fields=${encodeURIComponent(fields)}`,
         { next: { revalidate: 3600 } },
     );
 
-    if (res.status === 404) notFound();
+    if (res.status === 400 || res.status === 404) notFound();
     if (!res.ok) throw new Error('Не удалось загрузить новости');
-
     const totalPages = Number(res.headers.get('X-WP-TotalPages'));
     const posts = await res.json();
     return { posts, totalPages };
@@ -31,7 +38,9 @@ export default async function NewsPage({
 }) {
     const { page } = await searchParams;
     const breadcrumbs = await fetchBreadcrumbs('/blog');
-    const currentPage = Number(page) || 1;
+    const parsedPage = Number(page);
+    const currentPage =
+        Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
     const { posts, totalPages } = await getNews(currentPage);
 
     return (

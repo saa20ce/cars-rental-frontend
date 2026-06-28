@@ -23,6 +23,7 @@ import { BannerDesctop } from '@/lib/ui/icons/BannerDesctop';
 import { DocumentIconHomePage } from '@/lib/ui/icons/DocumentIconHomePage';
 import { CarIconHomePage } from '@/lib/ui/icons/CarIconHomePage';
 import { NumberIconHomePage } from '@/lib/ui/icons/NumberIconHomePage';
+import { MenIcon } from '@/lib/ui/icons/MenIcon';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/');
@@ -165,9 +166,12 @@ export default async function Home() {
                                 />
                             </div>
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
-                                <h4 className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
+                                 <h4 className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
                                     {c.title}
                                 </h4>
+                                <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
+                                    от {c.price} Р/сут.
+                                </span>
                             </div>
                         </Link>
                     ))}
@@ -212,22 +216,22 @@ export default async function Home() {
                                 Стаж
                             </span>
                             <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal">
-                                От 2-х лет
+                                От 3-х лет
                             </span>
                         </div>
                     </li>
 
                     <li className="md:flex-1  flex items-center gap-[6px] lg:gap-[20px] md:bg-[#FFFFFF0D] md:py-5 lg:py-7 md:px-10 rounded-[16px] lg:h-[118px]">
                         <div className="lg:bg-[#F6F6F60D] md:p-2 lg:p-[15px] md:rounded-[8px]">
-                            <NumberIconHomePage className="hidden lg:block w-10 h-10" />
-                            <AgeIcon className="lg:hidden w-9 h-9 " />
+                            <MenIcon className="hidden lg:block w-10 h-10" />
+                            <MenIcon className="lg:hidden w-9 h-9 " />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-bold lg:mb-[6px]">
                                 Возраст
                             </span>
                             <span className="text-[12px]/[16px] lg:text-[18px]/[20px] font-normal text-nowrap">
-                                От 22-х лет
+                                От 23-х лет
                             </span>
                         </div>
                     </li>

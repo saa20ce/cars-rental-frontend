@@ -20,7 +20,20 @@ export async function generateMetadata() {
     return await fetchWPMetadata('/cars');
 }
 
-export default async function CarsPage() {
+type CarsPageSearchParams = {
+    klass?: string;
+    kuzov?: string;
+};
+
+export default async function CarsPage({
+    searchParams,
+}: {
+    searchParams?: Promise<CarsPageSearchParams>;
+}) {
+    const params = (await searchParams) ?? {};
+    const defaultKlass = typeof params.klass === 'string' ? params.klass : '';
+    const defaultKuzov = typeof params.kuzov === 'string' ? params.kuzov : '';
+
     const cars = await getCars({ per_page: '100' });
 
     const {
@@ -51,6 +64,8 @@ export default async function CarsPage() {
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
+                defaultKlass={defaultKlass}
+                defaultKuzov={defaultKuzov}
             />
             <RentSteps />
 

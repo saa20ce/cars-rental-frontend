@@ -165,7 +165,7 @@ export default function ContactDerictorForm({
 
                                 <CustomButton
                                     variant="default"
-                                    className="p-3 lg:p-[16px] mt-[24px] lg:text-[20px]/[28px]"
+                                    className="p-3 lg:p-[16px] mt-[24px] lg:text-[20px]/[28px] mb-[10px] lg:mb-[14px]"
                                     style={{
                                         width: '100%',
                                     }}

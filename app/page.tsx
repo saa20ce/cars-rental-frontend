@@ -27,6 +27,8 @@ import { DocumentIconHomePage } from '@/lib/ui/icons/DocumentIconHomePage';
 import { CarIconHomePage } from '@/lib/ui/icons/CarIconHomePage';
 import { NumberIconHomePage } from '@/lib/ui/icons/NumberIconHomePage';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
+import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
+import HomeCarSearchForm from '@/components/common/Form/HomeCarSearchForm';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/');
@@ -91,6 +93,7 @@ export default async function Home() {
     const economyCars = await getCarsByClass(267);
     const additionalOptions = await getAdditionalOptions();
     const seasonDates = await getSeasonDates();
+    const { klassOptions, kuzovOptions } = await getAllTaxonomyOptions();
     const carsByClassTitle = {
         'Бизнес': sortCarsByPriceDesc(businessCars, seasonDates),
         'Минивэн': sortCarsByPriceDesc(minivanCars, seasonDates),
@@ -162,6 +165,11 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
+
+            <HomeCarSearchForm
+                klassOptions={klassOptions}
+                kuzovOptions={kuzovOptions}
+            />
 
             <section className="py-6 lg:py-8 border-t border-b border-[#284B63B2]">
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-6">

@@ -139,7 +139,7 @@ export default function AnyQuestionsForm() {
                     <div className="flex flex-col lg:items-center mt-8 lg:mt-9 gap-3">
                         <CustomButton
                             variant="default"
-                            className="p-3 lg:p-[18px] lg:mb-0 lg:text-[20px]/[28px]"
+                            className="p-3 lg:p-[18px] lg:mb-0 lg:text-[20px]/[28px] mb-[10px] lg:mb-[14px]"
                             style={{
                                 width: '100%',
                             }}

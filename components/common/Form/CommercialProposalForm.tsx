@@ -36,8 +36,12 @@ export default function CommercialProposalForm({
     const [form] = Form.useForm<FormValues>();
 
     const onFinish = async (values: FormValues) => {
+        const selectedClassAuto =
+            klassOptions.find((option) => option.value === values.classAuto)
+                ?.label ?? values.classAuto.trim();
+
         const payload = {
-            classAuto: values.classAuto.trim(),
+            classAuto: selectedClassAuto,
             clientBudget: values.clientBudget.trim(),
             clientName: values.clientName.trim(),
             clientEmail: values.clientEmail.trim(),
@@ -242,7 +246,7 @@ export default function CommercialProposalForm({
 
                                 <CustomButton
                                     variant="default"
-                                    className="p-3 lg:p-[18px] mt-8 lg:mt-9 lg:text-[20px]/[28px]"
+                                    className="p-3 lg:p-[18px] mt-8 lg:mt-9 lg:text-[20px]/[28px] mb-[10px] lg:mb-[14px]"
                                     style={{
                                         width: '100%',
                                     }}

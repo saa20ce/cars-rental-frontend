@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {
+    normalizeAdditionalOptionsValue,
+    normalizeDeliveryValue,
+} from '@/lib/helpers/formPayloadLabels';
 
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL!;
 const CF7_FORM_ID = process.env.CF7_FORM_ID!;
@@ -19,6 +23,9 @@ export async function POST(req: NextRequest) {
             pricePerDay,
         } = await req.json();
 
+        const normalizedDelivery = normalizeDeliveryValue(delivery);
+        const normalizedOptions = normalizeAdditionalOptionsValue(options);
+
         const formData = new FormData();
 
         formData.append('client-name', clientName);
@@ -27,8 +34,8 @@ export async function POST(req: NextRequest) {
         formData.append('auto-color', autoColor);
         formData.append('rent-date', rentDate);
         formData.append('rent-period', rentPeriod);
-        formData.append('delivery', delivery);
-        formData.append('options', options);
+        formData.append('delivery', normalizedDelivery);
+        formData.append('options', normalizedOptions);
         formData.append('comment', comment);
         formData.append('price', totalPrice);
         formData.append('day-price', pricePerDay);

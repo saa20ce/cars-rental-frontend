@@ -13,6 +13,10 @@ import {
 import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
 import { InputMask } from '@react-input/mask';
 import { PersonalDataConsentFormItem } from './PersonalDataConsent';
+import {
+    normalizeAdditionalOptionsValue,
+    normalizeDeliveryValue,
+} from '@/lib/helpers/formPayloadLabels';
 
 interface FormValues {
     clientName: string;
@@ -92,10 +96,8 @@ export const RentalCheckoutContactForm: React.FC<
                 rentPeriod: values.rentPeriod,
                 totalPrice: values.totalPrice,
                 pricePerDay: values.pricePerDay,
-                delivery: values.delivery?.trim()
-                    ? values.delivery
-                    : 'Без доставки',
-                options: values.options?.trim() ? values.options : 'Без опций',
+                delivery: normalizeDeliveryValue(values.delivery),
+                options: normalizeAdditionalOptionsValue(values.options),
                 comment: values.comment?.trim()
                     ? values.comment
                     : 'Без комментария',

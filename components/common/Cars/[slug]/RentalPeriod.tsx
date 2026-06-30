@@ -21,6 +21,14 @@ const RentalCheckoutContactForm = dynamic(
     { ssr: false, loading: () => null }
 );
 import { CloseIcon } from '@/lib/ui/icons';
+import {
+    ADDITIONAL_OPTION_LABELS,
+    DELIVERY_FORM_LABELS,
+    NO_DELIVERY_LABEL,
+    NO_DELIVERY_VALUE,
+    getRussianOptionLabel,
+    getRussianOptionLabels,
+} from '@/lib/helpers/formPayloadLabels';
 
 dayjs.locale('ru');
 dayjs.extend(updateLocale);
@@ -132,7 +140,19 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
     const rentDate = `${formatDate(startDate, startTime)} — ${formatDate(returnDate, returnTime)}`;
     const rentPeriod = `${daysCount} ${daysCount === 1 ? 'день' : 'суток'}`;
-    const optionsStr = additionalOptionsSelected.join(', ');
+    const deliveryStr = getRussianOptionLabel(
+        [
+            { label: NO_DELIVERY_LABEL, value: NO_DELIVERY_VALUE },
+            ...deliveryOptions,
+        ],
+        deliveryOptionSelected,
+        DELIVERY_FORM_LABELS,
+    );
+    const optionsStr = getRussianOptionLabels(
+        filteredAdditionalOptions,
+        additionalOptionsSelected,
+        ADDITIONAL_OPTION_LABELS,
+    );
 
     const [isChainActive, setIsChainActive] = useState(false);
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
@@ -243,7 +263,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                     autoColor={autoColor}
                     rentDate={rentDate}
                     rentPeriod={rentPeriod}
-                    delivery={deliveryOptionSelected}
+                    delivery={deliveryStr}
                     options={optionsStr}
                     totalPrice={totalPrice}
                     pricePerDay={pricePerDay}

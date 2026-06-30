@@ -10,7 +10,10 @@ import type {
 import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
 import { buildFieldsParam } from './wpFields';
 import { slimCars } from './fetchCarDataImageHelper';
-
+import {
+    ADDITIONAL_OPTION_LABELS,
+    DELIVERY_OPTION_LABELS,
+} from '@/lib/helpers/formPayloadLabels';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
@@ -225,32 +228,11 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
     const json = await res.json();
     const acf = json?.acf;
 
-    const deliveryLabelMap: Record<string, string> = {
-        aeroport: 'Аэропорт',
-        zhd_vokzal: 'Ж/д вокзал',
-        sovetskij: 'Советский',
-        kolczovo: 'Кольцово',
-        czentralnyj: 'Центральный',
-        oktyabrskij: 'Октябрьский',
-        zaelczovskij: 'Заельцовский',
-        dzerzhinskij: 'Дзержинский',
-        zheleznodorozhnyj: 'Железнодорожный',
-        kalininskij: 'Калининский',
-        leninskij: 'Ленинский',
-        kirovskij: 'Кировский',
-        pervomajskij: 'Первомайский',
-        pashino: 'Пашино',
-        krasnoobsk: 'Краснообск',
-        berdsk: 'Бердск',
-        samovyvoz: 'Самовывоз',
-        iskitim: 'Искитим',
-    };
-
     const deliveryOrder = new Map(
-        Object.keys(deliveryLabelMap).map((key, index) => [key, index]),
+        Object.keys(DELIVERY_OPTION_LABELS).map((key, index) => [key, index]),
     );
 
-    const mapLabel = (key: string) => deliveryLabelMap[key] || key;
+    const mapLabel = (key: string) => DELIVERY_OPTION_LABELS[key] || key;
 
     const getDeliverySortIndex = (key: string) =>
         deliveryOrder.get(key) ?? Number.MAX_SAFE_INTEGER;
@@ -294,15 +276,9 @@ export async function getAdditionalOptions(): Promise<
 
     if (!dopOptions || typeof dopOptions !== 'object') return [];
 
-    const LABELS: Record<string, string> = {
-        buster: 'Бустер',
-        boks_na_kryshu: 'Бокс на крышу (+300 ₽)',
-        detskoe_kreslo: 'Детское кресло',
-    };
-
     return Object.entries(dopOptions).map(([key, value]) => ({
         value: key,
-        label: LABELS[key] || key,
+        label: ADDITIONAL_OPTION_LABELS[key] || key,
         price: parseInt(value as string, 10),
     }));
 }

@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import UpdatePathCookie from '@/components/common/Meta/UpdatePathCookie';
 import { Footer } from '@/components/layout/Footer';
 import CookieBanner from '@/components/common/CookieBanner/CookieBanner';
+import ModalScrollLock from '@/components/common/ModalScrollLock/ModalScrollLock';
 
 const lato = localFont({
     src: [
@@ -46,6 +47,7 @@ export default function RootLayout({
                 className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5 min-h-screen`}
             >
                 <UpdatePathCookie />
+                <ModalScrollLock />
                 <Header />
                 <main>{children}</main>
                 <Footer />

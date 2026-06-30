@@ -40,7 +40,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
             <div>
                 <div className="additional-service-block">
                     <h4 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] lg:mt-[16px] flex items-center gap-2 ">
-                        Место подачи и возврата:
+                        Место подачи:
                     </h4>
                     <div className="flex gap-2 w-full mt-[10px]">
                         <CustomSelect

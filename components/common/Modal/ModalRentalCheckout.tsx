@@ -162,7 +162,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 Продолжительность
                             </dt>
                             <dd className={classes.descCard}>
-                                {daysCount} {daysCount === 1 ? 'день' : 'дней'}
+                                {daysCount} {daysCount === 1 ? 'день' : 'суток'}
                             </dd>
                         </div>
 

@@ -6,7 +6,11 @@ import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
 import type { GetProps } from 'antd';
 import {
     computeCostsChunked,
+    getMinimumRentalReturnDate,
+    getRentalDaysCountWithMinimum,
     isDaySeason,
+    isRentalPeriodBelowMinimum,
+    MIN_RENTAL_DAYS_ERROR_TEXT,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
 import { ConfigProvider, DatePicker, Modal } from 'antd';
@@ -32,6 +36,7 @@ const SuccessRequest = dynamic(
 );
 import { CheckRound, FiltersIcon, LineIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
+import ErrorBanner from '@/components/common/ErrorBanner/ErrorBanner';
 import {
     buildKlassOptionsWithKuzov,
     isKuzovOptionUsedAsKlass,
@@ -59,39 +64,6 @@ const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
 
 const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
     return current && current < dayjs().endOf('day');
-};
-
-const TIME_OVERAGE_GRACE_MINUTES = 120;
-
-const getTimeMinutes = (time: string) => {
-    const [rawHours = '0', rawMinutes = '0'] = time.split(':');
-    const hours = Number(rawHours);
-    const minutes = Number(rawMinutes);
-
-    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return 0;
-
-    return hours * 60 + minutes;
-};
-
-const getRentalDaysCount = (
-    startDate: Dayjs | null,
-    returnDate: Dayjs | null,
-    startTime: string,
-    returnTime: string,
-) => {
-    if (!startDate || !returnDate) return 0;
-
-    const calendarDays = returnDate
-        .startOf('day')
-        .diff(startDate.startOf('day'), 'day');
-
-    if (calendarDays <= 0) return 0;
-
-    const overtimeMinutes =
-        getTimeMinutes(returnTime) - getTimeMinutes(startTime);
-
-    return calendarDays +
-        (overtimeMinutes > TIME_OVERAGE_GRACE_MINUTES ? 1 : 0);
 };
 
 export default function TariffsPageClient({
@@ -133,13 +105,20 @@ export default function TariffsPageClient({
         string[]
     >([]);
     const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
     const klassOptionsWithKuzov = useMemo(
         () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
         [klassOptions, kuzovOptions],
     );
 
     const daysCount = useMemo(
-        () => getRentalDaysCount(startDate, returnDate, startTime, returnTime),
+        () =>
+            getRentalDaysCountWithMinimum(
+                startDate,
+                returnDate,
+                startTime,
+                returnTime,
+            ),
         [returnDate, returnTime, startDate, startTime],
     );
 
@@ -248,6 +227,22 @@ export default function TariffsPageClient({
         setStartTime(defaultTimeValue);
         setReturnTime(defaultTimeValue);
     }, [defaultTimeValue]);
+    useEffect(() => {
+        const effectiveStartTime = startTime || defaultTimeValue;
+        const effectiveReturnTime = returnTime || defaultTimeValue;
+
+        if (
+            isRentalPeriodBelowMinimum(
+                startDate,
+                returnDate,
+                effectiveStartTime,
+                effectiveReturnTime,
+            )
+        ) {
+            setReturnDate(getMinimumRentalReturnDate(startDate!));
+            setMinRentalBannerKey((prev) => prev + 1);
+        }
+    }, [defaultTimeValue, returnDate, returnTime, startDate, startTime]);
 
     const deliveryOptions = useMemo(() => {
         if (!deliveryPrice) return [];
@@ -386,6 +381,14 @@ export default function TariffsPageClient({
 
     return (
         <>
+            {minRentalBannerKey > 0 && (
+                <ErrorBanner
+                    key={minRentalBannerKey}
+                    title={MIN_RENTAL_DAYS_ERROR_TEXT}
+                    text=""
+                    position="bottom"
+                />
+            )}
             <section className="bg-[#f6f6f60e] rounded-3xl p-[18px] lg:p-7 mb-6 lg:mb-8">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
@@ -628,13 +631,13 @@ export default function TariffsPageClient({
                     </div>
                     <div className="mt-2 flex flex-col">
                         {cars.length ? (
-                            cars.map((car, index) => (
+                            cars.map((car, _index) => (
                                 <React.Fragment key={car.id}>
-                                    {index === 3 && (
+                                    {/* {index === 3 && (
                                         <div className="block lg:hidden py-5">
                                             <SaleCard />
                                         </div>
-                                    )}
+                                    )} */}
                                     <CarTariffsCard
                                         car={car}
                                         daysCount={daysCount}

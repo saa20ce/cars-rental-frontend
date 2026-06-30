@@ -146,17 +146,17 @@ export const RentalCheckoutContactForm: React.FC<
                                 name="clientName"
                                 label={
                                     <label className="lg:text-sm text-xs text-[#f6f6f6]">
-                                        Фамилия и имя
+                                        Ваше имя
                                     </label>
                                 }
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Введите фамилию и имя',
+                                        message: 'Введите имя',
                                     },
                                 ]}
                             >
-                                <CustomInput placeholder="Иван Иванов" />
+                                <CustomInput placeholder="Иван" />
                             </Form.Item>
                             <Form.Item
                                 className="flex-1"
@@ -247,7 +247,7 @@ export const RentalCheckoutContactForm: React.FC<
                             </Form.Item>
                         </div>
 
-                        <PersonalDataConsentFormItem className="mb-0 mt-2" />
+                        <PersonalDataConsentFormItem className="lg:mb-8 mb-6 mt-2" />
                         <Form.Item className="mb-0">
                             <ConfigProvider
                                 theme={{

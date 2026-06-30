@@ -22,7 +22,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import { BannerDesctop } from '@/lib/ui/icons/BannerDesctop';
+import Banner from '@/lib/ui/icons/Banner.svg';
 import { DocumentIconHomePage } from '@/lib/ui/icons/DocumentIconHomePage';
 import { CarIconHomePage } from '@/lib/ui/icons/CarIconHomePage';
 import { NumberIconHomePage } from '@/lib/ui/icons/NumberIconHomePage';
@@ -127,7 +127,12 @@ export default async function Home() {
                 </h1>
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-6  relative ">
                     <div className="w-full lg:max-w-[725px]">
-                        <BannerDesctop className="max-h-[208px] md:max-h-[350px] lg:max-h-none h-full w-full" />
+                        <Image
+                            src={Banner}
+                            alt="Аренда авто в Новосибирске"
+                            className="max-h-[208px] md:max-h-[350px] lg:max-h-none h-full w-full"
+                            priority
+                        />
                     </div>
 
                     <div className="w-full lg:max-w-[511px] lg:py-[22px] px-4 md:px-0">

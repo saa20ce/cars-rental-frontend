@@ -131,7 +131,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     };
 
     const rentDate = `${formatDate(startDate, startTime)} — ${formatDate(returnDate, returnTime)}`;
-    const rentPeriod = `${daysCount} ${daysCount === 1 ? 'день' : 'дней'}`;
+    const rentPeriod = `${daysCount} ${daysCount === 1 ? 'день' : 'суток'}`;
     const optionsStr = additionalOptionsSelected.join(', ');
 
     const [isChainActive, setIsChainActive] = useState(false);

@@ -8,10 +8,15 @@ dayjs.extend(customParseFormat);
 import {
     isDaySeason,
     computeCostsChunked,
+    getMinimumRentalReturnDate,
+    getRentalDaysCountWithMinimum,
+    isRentalPeriodBelowMinimum,
+    MIN_RENTAL_DAYS_ERROR_TEXT,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { DeliveryPrice } from '@/lib/types/Car';
 import { DeliveryOption } from '@/lib/types/Car';
 import dynamic from 'next/dynamic';
+import ErrorBanner from '../../ErrorBanner/ErrorBanner';
 
 const Modal = dynamic(
     () => import('antd/es/modal').then(m => m.default || m),
@@ -90,7 +95,16 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const [hasSeasonDays, setHasSeasonDays] = useState(false);
     const [showCost, setShowCost] = useState(false);
     const [hasLoadedStoredPeriod, setHasLoadedStoredPeriod] = useState(false);
+    const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
 
+    const defaultTimeValue = useMemo(() => {
+        const now = dayjs();
+        const hour =
+            now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
+        return `${hour.toString().padStart(2, '0')}:00`;
+    }, []);
+    const effectiveStartTime = startTime || defaultTimeValue;
+    const effectiveReturnTime = returnTime || defaultTimeValue;
     const [additionalOptionsSelected, setAdditionalOptions] = useState<
         string[]
     >([]);
@@ -159,45 +173,63 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         if (!hasLoadedStoredPeriod) return;
 
         if (startDate && returnDate) {
-            const startFull = startDate;
-            const endFull = returnDate;
+            const startFull = startDate.startOf('day');
+            const isBelowMinimum = isRentalPeriodBelowMinimum(
+                startDate,
+                returnDate,
+                effectiveStartTime,
+                effectiveReturnTime,
+            );
 
-            const exactDiffHours = endFull.diff(startFull, 'hour', true);
-            let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
-            if (totalDays < 1) {
-                const adjustedEnd = startFull.add(1, 'day');
-                setReturnDate(adjustedEnd);
-                totalDays = 1
+            if (isBelowMinimum) {
+                const minimumReturnDate = getMinimumRentalReturnDate(startDate);
+
+                if (!returnDate.isSame(minimumReturnDate, 'day')) {
+                    setReturnDate(minimumReturnDate);
+                }
+
+                setMinRentalBannerKey((prev) => prev + 1);
             }
+
+            let totalDays = getRentalDaysCountWithMinimum(
+                startDate,
+                returnDate,
+                effectiveStartTime,
+                effectiveReturnTime,
+            );
+
+            if (totalDays < 1) {
+                totalDays = 1;
+            }
+
+            const billingEndDate = startFull.add(totalDays, 'day');
             setDaysCount(totalDays);
 
             let isSeasonal = false;
-            setHasSeasonDays(true);
-            if (seasonDates) {
-                let allDaysSeason = true;
-                let currentDay = startFull.startOf('day');
-                const endDay = endFull.startOf('day');
+            let allDaysSeason = Boolean(seasonDates);
 
-                while (
-                    currentDay.isBefore(endDay) ||
-                    currentDay.isSame(endDay)
-                ) {
+            if (seasonDates) {
+                let currentDay = startFull;
+
+                while (currentDay.isBefore(billingEndDate, 'day')) {
                     if (!isDaySeason(currentDay, seasonDates)) {
                         allDaysSeason = false;
-                        setHasSeasonDays(false);
-                        break
+                        break;
                     }
-                    currentDay = currentDay.add(1, 'day')
+                    currentDay = currentDay.add(1, 'day');
                 }
-                isSeasonal = allDaysSeason
+
+                isSeasonal = allDaysSeason;
             }
+
+            setHasSeasonDays(allDaysSeason);
             setSeasonModeSwitch(isSeasonal);
 
             const costs = computeCostsChunked(
                 startFull,
-                endFull,
+                billingEndDate,
                 priceRanges,
-                seasonDates
+                seasonDates,
             );
             setDailyCosts(costs);
 
@@ -207,17 +239,25 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             setDaysCount(0);
             setDailyCosts([]);
             setSeasonModeSwitch(false);
-            setHasSeasonDays(false)
+            setHasSeasonDays(false);
         }
-    }, [hasLoadedStoredPeriod, startDate, returnDate, priceRanges, seasonDates, setSeasonModeSwitch]);
-
+    }, [
+        effectiveReturnTime,
+        effectiveStartTime,
+        hasLoadedStoredPeriod,
+        priceRanges,
+        returnDate,
+        seasonDates,
+        setSeasonModeSwitch,
+        startDate,
+    ]);
     useEffect(() => {
-        const hour = parseInt(startTime.split(':')[0], 10);
+        const hour = parseInt(effectiveStartTime.split(':')[0], 10);
         const isNight = hour >= 20 || hour < 9;
         const options = isNight ? deliveryPrice.night : deliveryPrice.day;
 
         setDeliveryOptions(options)
-    }, [startTime, deliveryPrice]);
+    }, [effectiveStartTime, deliveryPrice]);
 
     const discount = car.acf?.skidka;
     const discountedPrice = discount
@@ -242,15 +282,23 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
     return (
         <section className="lg:w-full">
+            {minRentalBannerKey > 0 && (
+                <ErrorBanner
+                    key={minRentalBannerKey}
+                    title={MIN_RENTAL_DAYS_ERROR_TEXT}
+                    text=""
+                    position="bottom"
+                />
+            )}
             <RentalPeriod
                 car={car}
                 startDate={startDate}
                 onStartDateChange={setStartDate}
-                startTime={startTime}
+                startTime={effectiveStartTime}
                 onStartTimeChange={setStartTime}
                 returnDate={returnDate}
                 onReturnDateChange={setReturnDate}
-                returnTime={returnTime}
+                returnTime={effectiveReturnTime}
                 onReturnTimeChange={setReturnTime}
                 daysCount={daysCount}
                 additionalOptions={additionalOptions}
@@ -271,7 +319,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                             <dt>Продолжительность</dt>
                             <dd className="font-bold">
-                                {daysCount} {daysCount === 1 ? 'день' : 'дней'}
+                                {daysCount} {daysCount === 1 ? 'день' : 'суток'}
                             </dd>
                         </div>
 
@@ -434,8 +482,8 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             deliveryCost={deliveryCost}
                             startDate={startDate.format('YYYY-MM-DD')}
                             returnDate={returnDate.format('YYYY-MM-DD')}
-                            startTime={startTime}
-                            returnTime={returnTime}
+                            startTime={effectiveStartTime}
+                            returnTime={effectiveReturnTime}
                             hasSeasonDays={hasSeasonDays}
                             additionalOptions={additionalOptions}
                             additionalOptionsSelected={

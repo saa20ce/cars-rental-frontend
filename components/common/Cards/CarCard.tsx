@@ -15,10 +15,15 @@ import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     computeCostsChunked,
+    getMinimumRentalReturnDate,
+    getRentalDaysCountWithMinimum,
+    isRentalPeriodBelowMinimum,
+    MIN_RENTAL_DAYS_ERROR_TEXT,
     isDaySeason,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { ConfigProvider, Modal } from 'antd';
 import dynamic from 'next/dynamic';
+import ErrorBanner from '../ErrorBanner/ErrorBanner';
 const ModalRentalCheckout = dynamic(
     () =>
         import('../Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
@@ -81,9 +86,11 @@ export const CarCard: React.FC<CarCardProps> = ({
     };
 
     const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
-    const [returnDate, setReturnDate] = useState<Dayjs | null>(dayjs());
+    const [returnDate, setReturnDate] = useState<Dayjs | null>(
+        dayjs().add(3, 'day'),
+    );
     const [startTime, setStartTime] = useState('15:00');
-    const [returnTime, setReturnTime] = useState('');
+    const [returnTime, setReturnTime] = useState('15:00');
     const [daysCount, setDaysCount] = useState(0);
     const [dailyCosts, setDailyCosts] = useState<number[]>([]);
     const [hasSeasonDays, setHasSeasonDays] = useState(false);
@@ -94,6 +101,7 @@ export const CarCard: React.FC<CarCardProps> = ({
     const [modalVisible, setModalVisible] = useState(false);
     const closeModal = () => setModalVisible(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
 
     const pricePerDay = dailyCosts[0] || 0;
 
@@ -116,31 +124,46 @@ export const CarCard: React.FC<CarCardProps> = ({
         deliveryCost;
 
     useEffect(() => {
-        if (!startDate) return;
+        if (!startDate || !returnDate) return;
 
-        const startFull = startDate;
-        let endFull = returnDate ?? startDate;
+        const startFull = startDate.startOf('day');
+        const isBelowMinimum = isRentalPeriodBelowMinimum(
+            startDate,
+            returnDate,
+            startTime,
+            returnTime,
+        );
 
-        const exactDiffHours = endFull.diff(startFull, 'hour', true);
-        let totalDays = Math.max(0, Math.ceil(exactDiffHours / 24));
+        if (isBelowMinimum) {
+            const minimumReturnDate = getMinimumRentalReturnDate(startDate);
+
+            if (!returnDate.isSame(minimumReturnDate, 'day')) {
+                setReturnDate(minimumReturnDate);
+            }
+
+            setMinRentalBannerKey((prev) => prev + 1);
+        }
+
+        let totalDays = getRentalDaysCountWithMinimum(
+            startDate,
+            returnDate,
+            startTime,
+            returnTime,
+        );
 
         if (totalDays < 1) {
-            const adjustedEnd = startFull.add(1, 'day');
-            if (!endFull.isSame(adjustedEnd)) {
-                endFull = adjustedEnd;
-                setReturnDate(adjustedEnd);
-            }
             totalDays = 1;
         }
 
+        const billingEndDate = startFull.add(totalDays, 'day');
+
         if (daysCount !== totalDays) setDaysCount(totalDays);
 
-        let allDaysSeason = true;
+        let allDaysSeason = Boolean(seasonDates);
         if (seasonDates) {
-            let currentDay = startFull.startOf('day');
-            const endDay = endFull.startOf('day');
+            let currentDay = startFull;
 
-            while (currentDay.isBefore(endDay) || currentDay.isSame(endDay)) {
+            while (currentDay.isBefore(billingEndDate, 'day')) {
                 if (!isDaySeason(currentDay, seasonDates)) {
                     allDaysSeason = false;
                     break;
@@ -153,13 +176,22 @@ export const CarCard: React.FC<CarCardProps> = ({
 
         const costs = computeCostsChunked(
             startFull,
-            endFull,
+            billingEndDate,
             priceRanges,
             seasonDates,
         );
         if (dailyCosts.toString() !== costs.toString()) setDailyCosts(costs);
-    }, [startDate, returnDate, priceRanges, seasonDates]);
-
+    }, [
+        dailyCosts,
+        daysCount,
+        hasSeasonDays,
+        priceRanges,
+        returnDate,
+        returnTime,
+        seasonDates,
+        startDate,
+        startTime,
+    ]);
     useEffect(() => {
         if (!startTime) return;
 
@@ -179,6 +211,14 @@ export const CarCard: React.FC<CarCardProps> = ({
 
     return (
         <article className="car-card flex flex-col justify-between bg-[#f6f6f60e] hover:bg-[#1E384A] transition-colors duration-300 rounded-2xl ">
+            {minRentalBannerKey > 0 && (
+                <ErrorBanner
+                    key={minRentalBannerKey}
+                    title={MIN_RENTAL_DAYS_ERROR_TEXT}
+                    text=""
+                    position="bottom"
+                />
+            )}
             <div className="relative h-3/4 ">
                 <Link
                     href={carLink}

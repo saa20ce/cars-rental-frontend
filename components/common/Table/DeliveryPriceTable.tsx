@@ -66,7 +66,7 @@ export const DeliveryPriceTable = ({
     const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
 
     const getTimeLabel = (range: 'day' | 'night') =>
-        range === 'day' ? '10:00 - 19:00' : '20:00 - 09:00';
+        range === 'day' ? '10:00 - 19:00' : '19:01 - 09:59';
 
     const groupedDeliveryOptions = useMemo(() => {
         return groupDeliveryOptions(deliveryPrice?.day, deliveryPrice?.night);
@@ -109,8 +109,8 @@ export const DeliveryPriceTable = ({
                                     label: '10:00 - 19:00',
                                 },
                                 {
-                                    value: '20:00 - 09:00',
-                                    label: '20:00 - 09:00',
+                                    value: '19:01 - 09:59',
+                                    label: '19:01 - 09:59',
                                 },
                             ]}
                             value={getTimeLabel(timeRange)}
@@ -140,7 +140,7 @@ export const DeliveryPriceTable = ({
                                 10:00 - 19:00{' '}
                             </th>
                             <th className="border-b border-[#f6f6f6] hidden text-center w-1/3 lg:table-cell">
-                                20:00 - 9:00{' '}
+                                19:01 - 9:59{' '}
                             </th>
                         </tr>
                     </thead>

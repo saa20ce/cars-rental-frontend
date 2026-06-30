@@ -4,9 +4,17 @@ import { useEffect, useState } from 'react';
 
 type ErrorBannerProps = {
     duration?: number;
+    title?: string;
+    text?: string;
+    position?: 'responsive' | 'bottom';
 };
 
-export default function ErrorBanner({ duration = 5000 }: ErrorBannerProps) {
+export default function ErrorBanner({
+    duration = 5000,
+    title = 'Что-то пошло не так.',
+    text = 'Попробуйте еще раз или подождите некоторое время.',
+    position = 'responsive',
+}: ErrorBannerProps) {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
@@ -15,29 +23,31 @@ export default function ErrorBanner({ duration = 5000 }: ErrorBannerProps) {
         return () => clearTimeout(timer);
     }, [duration]);
 
+    const positionClass =
+        position === 'bottom'
+            ? 'bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0'
+            : 'top-4 left-1/2 -translate-x-1/2 md:top-auto md:bottom-4 md:left-auto md:right-4 md:translate-x-0';
+
     return (
         <div
-            className={`  
-        fixed z-50
+            className={`fixed z-[2000]
         transition-all duration-500 ease-in-out
         p-[14px] rounded-xl
         bg-[#C7868A] text-[#0A1319] shadow-lg
         flex items-start justify-between gap-3
-
         ${visible ? 'opacity-100' : 'opacity-0'}
-
-        top-4 left-1/2 -translate-x-1/2
-        md:top-auto md:bottom-4 md:left-auto md:right-4 md:translate-x-0
-      `}
+        ${positionClass}`}
         >
             <RedClose className="w-4 h-4 lg:w-5 lg:h-5 mt-1" />
             <div className="flex flex-col ">
                 <span className="font-semibold text-[14px]/[20px] lg:text-[16px]/[24px]">
-                    Что-то пошло не так.
+                    {title}
                 </span>
-                <span className="font-normal text-[12px]/[16px] lg:text-[14px]/[20px] text-nowrap">
-                    Попробуйте еще раз или подождите некоторое время.
-                </span>
+                {text && (
+                    <span className="font-normal text-[12px]/[16px] lg:text-[14px]/[20px] text-nowrap">
+                        {text}
+                    </span>
+                )}
             </div>
             <button onClick={() => setVisible(false)}>
                 <CloseErrorBannerIcon />

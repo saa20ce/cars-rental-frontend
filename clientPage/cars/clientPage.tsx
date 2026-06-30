@@ -7,10 +7,12 @@ import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
+import dayjs from 'dayjs';
 import {
     buildKlassOptionsWithKuzov,
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
+import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 
 interface CarsPageClientProps {
     cars: Car[];
@@ -31,6 +33,20 @@ interface CarsPageClientProps {
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null
 }
+
+const getCurrentCarPrice = (
+    car: Car,
+    seasonDates: SeasonData | null | undefined,
+) => {
+    const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
+    const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
+    const basePrice = isDaySeason(dayjs(), seasonDates ?? null)
+        ? seasonPrice
+        : regularPrice;
+    const discount = Number(car.acf?.skidka) || 0;
+
+    return discount ? basePrice * (1 - discount / 100) : basePrice;
+};
 
 export default function CarsPageClient({
     cars: initialCars,
@@ -105,7 +121,7 @@ export default function CarsPageClient({
             ? car.color?.includes(Number(selectedColor))
             : true;
 
-        const price = parseInt(car.acf?.['30_dnej'] || '0', 10);
+        const price = getCurrentCarPrice(car, seasonDates);
         const passengeres = parseInt(car.acf?.passengers || '0', 10);
 
         let priceMatch = true;
@@ -141,11 +157,8 @@ export default function CarsPageClient({
             return discountB - discountA
         }
 
-        const priceA = parseInt(a.acf?.['30_dnej'] || '0', 10);
-        const priceB = parseInt(b.acf?.['30_dnej'] || '0', 10);
-
-        const finalPriceA = priceA * (1 - discountA / 100);
-        const finalPriceB = priceB * (1 - discountB / 100);
+        const finalPriceA = getCurrentCarPrice(a, seasonDates);
+        const finalPriceB = getCurrentCarPrice(b, seasonDates);
 
         return sortOrder === 'desc'
             ? finalPriceB - finalPriceA

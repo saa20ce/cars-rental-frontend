@@ -6,7 +6,7 @@ import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
 import {
@@ -33,6 +33,7 @@ export default async function ChineseCarRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
+    const seasonDates = await getSeasonDates();
 
     const breadcrumbs = await fetchBreadcrumbs('/service/chinese-car-rental');
 
@@ -61,6 +62,7 @@ export default async function ChineseCarRentalPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
+                seasonDates={seasonDates}
                 defaultMarka={['249', '256', '246', '247']}
             />
 

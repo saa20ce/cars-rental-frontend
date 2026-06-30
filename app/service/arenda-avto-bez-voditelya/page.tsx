@@ -5,7 +5,7 @@ import RentalTerms from '@/components/common/Cards/RentalTerms';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import {
     listItemsMonhtlyCarRentalPage1,
@@ -30,6 +30,7 @@ export default async function CarRentalWithoutDriverPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
+    const seasonDates = await getSeasonDates();
     const breadcrumbs = await fetchBreadcrumbs(
         '/service/arenda-avto-bez-voditelya',
     );
@@ -59,6 +60,7 @@ export default async function CarRentalWithoutDriverPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
+                seasonDates={seasonDates}
             />
 
             <TextImageSection

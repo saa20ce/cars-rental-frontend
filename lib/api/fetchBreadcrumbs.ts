@@ -56,7 +56,7 @@ export async function fetchBreadcrumbs(
     const segments = pathname.split('/').filter(Boolean);
     const items: BreadcrumbItem[] = [];
 
-    let homeTitle = 'Home';
+    let homeTitle = 'Главная';
     try {
         const homeRes = await fetch(`${WP_API_URL}/pages?slug=home`, {
             cache: 'force-cache',

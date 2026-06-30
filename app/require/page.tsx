@@ -19,6 +19,7 @@ import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import { steps } from '@/lib/data/emergencySteps';
 import { faqItems } from '@/lib/data/faqItems';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import Link from 'next/link';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/require');
@@ -42,6 +43,13 @@ export default async function TermsPage() {
                     необходимо ознакомиться с условиями аренды, чтобы избежать
                     неприятных сюрпризов и конфликтов в будущем.
                 </p>
+
+                <Link
+                    href="/dogovor-arendy"
+                    className="w-full lg:w-[160px] block mb-8 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
+                >
+                    Договор аренды
+                </Link>
             </section>
 
             <section className="flex flex-col lg:flex-row gap-3 lg:gap-6 text-[14px]/[20px] font-medium lg:text-[18px]/[28px] pt-8 pb-[42px] lg:pt-[42px] lg:pb-[68px] border-t border-b border-[#284B63B2]">
@@ -277,13 +285,14 @@ export default async function TermsPage() {
                     className="flex flex-col lg:flex-row gap-[12px] lg:gap-4 mt-[20px] lg:mt-0"
                     aria-label="Документы для скачивания"
                 >
-                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]">
-                        <DownloadIcon className="mr-3" /> Скачать доверенность
-                    </button>
-                    <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]">
+                    <Link
+                        href="/docs/dogovor-arendy.docx"
+                        download
+                        className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]"
+                    >
                         <DownloadIcon className="mr-3" />
                         Скачать договор аренды
-                    </button>
+                    </Link>
                 </div>
             </section>
 

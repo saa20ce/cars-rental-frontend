@@ -8,7 +8,7 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
 import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
@@ -38,6 +38,7 @@ export default async function CrossoverRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
+    const seasonDates = await getSeasonDates();
     const breadcrumbs = await fetchBreadcrumbs('/service/crossover-rental');
 
     return (
@@ -56,6 +57,7 @@ export default async function CrossoverRentalPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
+                seasonDates={seasonDates}
                 defaultKuzov="242"
             />
 

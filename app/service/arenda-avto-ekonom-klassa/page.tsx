@@ -8,7 +8,7 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import ReviewsApi from '@/components/common/ReviewsClients/ReviewsApi';
 import TextImageSection from '@/components/common/TextImageSection/TextImageSection';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { getCars } from '@/lib/api/fetchCarData';
+import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
 import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
@@ -31,6 +31,7 @@ export default async function EconomyClassRentalPage() {
         dvigatelOptions,
         colorOptions,
     } = await getAllTaxonomyOptions();
+    const seasonDates = await getSeasonDates();
     const breadcrumbs = await fetchBreadcrumbs('/service/economy-class-rental');
     return (
         <>
@@ -48,6 +49,7 @@ export default async function EconomyClassRentalPage() {
                 privodOptions={privodOptions}
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
+                seasonDates={seasonDates}
                 defaultKlass="267"
             />
 

@@ -2,7 +2,6 @@
 
 import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
-import Link from 'next/link';
 import { useState } from 'react';
 import SuccessRequest from '../Modal/SuccessRequest';
 import { Modal } from 'antd';
@@ -10,6 +9,7 @@ import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import { sendReview } from '@/lib/api/sendReview';
+import { PersonalDataConsentText } from './PersonalDataConsent';
 
 export default function ReviewForm() {
     const [selected, setSelected] = useState<number | null>(null);
@@ -18,6 +18,7 @@ export default function ReviewForm() {
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [review, setReview] = useState('');
+    const [personalDataConsent, setPersonalDataConsent] = useState(false);
     const [status, setStatus] = useState<
         'idle' | 'loading' | 'success' | 'error'
     >('idle');
@@ -28,10 +29,13 @@ export default function ReviewForm() {
         setEmail('');
         setReview('');
         setSelected(null);
+        setPersonalDataConsent(false);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!personalDataConsent) return;
+
         setStatus('loading');
 
         try {
@@ -167,14 +171,18 @@ export default function ReviewForm() {
                     >
                         Отправить
                     </CustomButton>
-                    <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699]">
-                        При нажатии кнопки &quot;Отправить&quot;, я подтверждаю,
-                        что ознакомлен с условиями и согласен на{' '}
-                        <Link href="#" className="underline text-[#F6F6F6] ">
-                            обработку моих персональных данных
-                        </Link>
-                        .
-                    </p>
+                    <label className="flex items-start gap-2">
+                        <input
+                            type="checkbox"
+                            className="mt-[3px]"
+                            checked={personalDataConsent}
+                            onChange={(e) =>
+                                setPersonalDataConsent(e.target.checked)
+                            }
+                            required
+                        />
+                        <PersonalDataConsentText />
+                    </label>
                 </div>
             </form>
 

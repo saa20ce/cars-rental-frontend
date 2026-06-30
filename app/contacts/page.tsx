@@ -23,7 +23,7 @@ export default async function ContactsPage() {
                         <dl className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3">
                             <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
                                 <dt>Бронирование:</dt>
-                                <dd>9:00 - 21:00</dd>
+                                <dd>9:00 - 20:00</dd>
                             </div>
                             <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
                                 <dt>Офис:</dt>

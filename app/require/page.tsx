@@ -274,7 +274,7 @@ export default async function TermsPage() {
                     </article>
                 </div>
                 <div
-                    className="hidden lg:flex gap-4"
+                    className="flex flex-col lg:flex-row gap-[12px] lg:gap-4 mt-[20px] lg:mt-0"
                     aria-label="Документы для скачивания"
                 >
                     <button className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]">

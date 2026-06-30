@@ -130,7 +130,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 }
 
                 .ant-select .ant-select-arrow {
-                    right: 22px;
+                    right: 16px;
                 }
 
                 .ant-select-focused .ant-select-selector {
@@ -165,7 +165,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
                 margin-bottom: 8;
-                padding: 4px 16px 0px 16px !important;
+                padding: 0px 16px 0px 16px !important;
                 padding-right: 20;
                 height: 36 !important;
                 color: #f6f6f6;
@@ -178,7 +178,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
             /* Desktop Car single Datepicker */
             @media (width >= 64rem) {
                 .ant-picker.datePicker {
-                    padding: 0px 20px 0px 20px !important;
+                    padding: 0px 20px 0px 12px !important;
                 }
             }
 
@@ -191,7 +191,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 }
 
                 .timePicker .ant-select-selector {
-                    padding: 0px 20px 0px 20px !important;
+                    padding: 0px 20px 0px 12px !important;
                 }
 
                 .ant-select-single.ant-select-open .ant-select-arrow svg {

@@ -2,15 +2,16 @@
 
 import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
-import Link from 'next/link';
 import { useState } from 'react';
 import SuccessRequest from '../Modal/SuccessRequest';
 import { Modal, Form, Input, message, ConfigProvider } from 'antd';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
+import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 
 interface FormValues {
     name: string;
     phone: string;
+    personalDataConsent: boolean;
 }
 
 export default function AnyQuestionsForm() {
@@ -148,14 +149,7 @@ export default function AnyQuestionsForm() {
                             Отправить
                         </CustomButton>
 
-                        <p className="font-semibold text-[14px]/[20px] lg:text-[14px]/[20px] text-[#F6F6F699]">
-                            При нажатии кнопки &quot;Отправить&quot;, я подтверждаю,
-                            что ознакомлен с условиями и согласен на{' '}
-                            <Link href="#" className="underline text-[#F6F6F6] ">
-                                обработку моих персональных данных
-                            </Link>
-                            .
-                        </p>
+                        <PersonalDataConsentFormItem className="mb-0" />
                     </div>
                 </Form>
             </ConfigProvider>

@@ -6,7 +6,7 @@ export const mapSite = [
             { title: 'Автопарк', href: '/cars' },
             { title: 'Тарифы', href: '/tarify' },
             { title: 'Условия', href: '/require', },
-            { title: 'О нас', href: '/about', },
+            { title: 'О компании', href: '/about', },
             { title: 'Контакты', href: '/contacts' },
             { title: 'Отзывы', href: '/reviews' },
             { title: 'Вопрос-ответ', href: '/faq' },
@@ -45,9 +45,10 @@ export const mapSite = [
     {
         title: 'Юридическая информация',
         items: [
-            { title: 'Политика конфиденциальности', href: '/privacy' },
+            { title: 'Политика в отношении обработки персональных данных', href: '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf' },
             { title: 'Договор аренды', href: '/dogovor-arendy', },
-            { title: 'Согласие на обработку данных', href: '/soglasie', }
+            { title: 'Согласие на обработку персональных данных', href: '/docs/02-soglasie-na-obrabotku-pdn-dlya-sajta-ooo-rentasib.pdf', },
+            { title: 'Политика в отношении файлов Cookie', href: '/docs/03-politika-cookie-ooo-rentasib.pdf', }
         ],
     },
 ];

@@ -6,6 +6,7 @@ import {
     buildPriceRangesFromACF,
     getDeliveryPrice,
     getSimilarCars,
+    getSimilarCarsGroup,
     getAdditionalOptions,
 } from '@/lib/api/fetchCarData';
 import { getCarTaxonomyNames } from '@/lib/api/fetchCarTaxonomies';
@@ -36,6 +37,7 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
     const deliveryPrice = await getDeliveryPrice();
     const taxonomyValues = await getCarTaxonomyNames(car, CAR_TAXONOMIES);
     const similarCars = await getSimilarCars(car);
+    const similarCarsGroup = getSimilarCarsGroup(car);
     const additionalOptions = await getAdditionalOptions();
 
     if (!deliveryPrice || !deliveryPrice.day || !deliveryPrice.night) {
@@ -52,6 +54,8 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
                 priceRanges={priceRanges}
                 taxonomyValues={taxonomyValues}
                 similarCars={similarCars}
+                similarCarsHref={similarCarsGroup?.href ?? '/cars'}
+                similarCarsBtnTitle={similarCarsGroup?.btnTitle ?? 'Все авто'}
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
             />

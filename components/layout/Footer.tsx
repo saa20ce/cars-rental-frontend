@@ -1,6 +1,7 @@
 import {
     RentaSibLogo,
     TelegramIcon,
+    MaxIcon,
     SmartphoneIcon,
     MailIcon,
     PointerIcon,
@@ -42,7 +43,15 @@ export const Footer: React.FC = () => {
                     </div>
                     <div>
                         <div className="flex flex-row gap-4">
-                            <div className="flex flex-row gap-5 lg:gap-5 items-center mt-5 ml-[14px] lg:ml-0 ">
+                            <div className="flex flex-row gap-5 lg:gap-5 items-center mt-5 ml-[0px]">
+                                <a
+                                    href="https://max.ru/u/f9LHodD0cOJl7vaA90ej_c-ng7J4Tpfbi4tBmaGo9A-R2NE74nwHaaX0WQk"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex-center h-[30px] lg:h-[30px] w-[30px] lg:w-[30px]"
+                                >
+                                    <MaxIcon className='h-[30px] lg:h-[30px] w-[30px] lg:w-[30px]'/>
+                                </a>
                                 <a
                                     href="https://t.me/Rentasib"
                                     target="_blank"
@@ -91,7 +100,7 @@ export const Footer: React.FC = () => {
                             <Link href="/service">Услуги</Link>
                         </li>
                         <li>
-                            <Link href="/about">О нас</Link>
+                            <Link href="/about">О компании</Link>
                         </li>
                         <li>
                             <Link href="/reviews">Отзывы</Link>
@@ -133,7 +142,7 @@ export const Footer: React.FC = () => {
                             <Link href="/service">Услуги</Link>
                         </li>
                         <li>
-                            <Link href="/about">О нас</Link>
+                            <Link href="/about">О компании</Link>
                         </li>
                         <li>
                             <Link href="/reviews">Отзывы</Link>
@@ -215,17 +224,23 @@ export const Footer: React.FC = () => {
 
             <section className="mt-9 text-[#9CA3AF] font-regular lg:flex lg:items-center lg:gap-6 lg:justify-between mb-[150px]">
                 <div className=" text-[#9CA3AF] font-bold tracking-wide">
-                    © ООО «Рентасиб», 2020—2026
+                    ИНН: 5405065213<br></br>
+                    ОГРН: 1215400028238<br></br>
+                    E-mail: rentasib54@gmail.com<br></br>
+                    © ООО «Рентасиб», 2020—2026<br></br>
                 </div>
-                <div className="flex flex-col lg:flex-row lg:items-center lg:gap-6 mt-3 lg:mt-0">
+                <div className="flex flex-col lg:flex-row text-[14px] lg:items-center lg:gap-6 mt-3 lg:mt-0">
                     <Link
-                        href={'/privacy'}
+                        href={'/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf'}
                         className="underline underline-offset-4 mb-1 lg:mb-0"
                     >
                         Политика в отношении обработки персональных данных
                     </Link>
-                    <Link href={"/soglasie"} className="underline underline-offset-4">
-                        Согласие на обработку данных
+                    <Link href={"/docs/02-soglasie-na-obrabotku-pdn-dlya-sajta-ooo-rentasib.pdf"} className="underline underline-offset-4">
+                        Согласие на обработку персональных данных
+                    </Link>
+                    <Link href={"/docs/03-politika-cookie-ooo-rentasib.pdf"} className="underline underline-offset-4">
+                        Политика в отношении файлов Cookie
                     </Link>
                 </div>
             </section>

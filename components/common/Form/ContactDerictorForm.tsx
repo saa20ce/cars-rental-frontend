@@ -3,14 +3,15 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
 import { ConfigProvider, Modal, Form, Input, message } from 'antd';
-import Link from 'next/link';
 import { useState } from 'react';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import SuccessRequest from '../Modal/SuccessRequest';
+import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 
 interface FormValues {
     clientName: string;
     clientText: string;
+    personalDataConsent: boolean;
 }
 
 export default function ContactDerictorForm({
@@ -164,7 +165,7 @@ export default function ContactDerictorForm({
 
                                 <CustomButton
                                     variant="default"
-                                    className="p-3 lg:p-[18px] mt-8 lg:mt-9 lg:text-[20px]/[28px]"
+                                    className="p-3 lg:p-[16px] mt-[24px] lg:text-[20px]/[28px]"
                                     style={{
                                         width: '100%',
                                     }}
@@ -174,18 +175,7 @@ export default function ContactDerictorForm({
                                     Отправить
                                 </CustomButton>
 
-                                <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699] mt-[10px] lg:mt-[14px]">
-                                    При нажатии кнопки &quot;Отправить&quot;, я
-                                    подтверждаю, что ознакомлен с условиями и
-                                    согласен на{' '}
-                                    <Link
-                                        href="#"
-                                        className="underline text-[#F6F6F6]"
-                                    >
-                                        обработку моих персональных данных
-                                    </Link>
-                                    .
-                                </p>
+                                <PersonalDataConsentFormItem className="mb-0" />
                             </Form>
                         </div>
                     )}

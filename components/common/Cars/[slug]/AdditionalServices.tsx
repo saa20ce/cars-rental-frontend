@@ -39,7 +39,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
         <>
             <div>
                 <div className="additional-service-block">
-                    <h4 className="ltext-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] flex items-center gap-2 ">
+                    <h4 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] lg:mt-[16px] flex items-center gap-2 ">
                         Место подачи и возврата:
                     </h4>
                     <div className="flex gap-2 w-full mt-[10px]">
@@ -54,7 +54,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                     </div>
                 </div>
 
-                <div className="mt-3">
+                <div className="mt-[12px] lg:mt-[14px]">
                     <h4 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
                         Опции:
                     </h4>

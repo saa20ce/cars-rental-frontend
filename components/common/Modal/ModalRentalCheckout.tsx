@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Car, Term } from '@/lib/types/Car';
 import { RentalPeriod } from '../Cars';
@@ -81,6 +81,22 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     const discountedPrice = discount
         ? totalPrice * (1 - Number(discount) / 100)
         : null;
+
+    const rentRequirements = useMemo(() => {
+        const isBusiness = car.klass?.includes(269);
+
+        return {
+            overrun: isBusiness ? '12 ₽/км.' : '6 ₽/км.',
+        };
+    }, [car.klass]);
+
+    const mileageLimitPerDay = useMemo(() => {
+        return hasSeasonDays ? 300 : 400;
+    }, [hasSeasonDays]);
+
+    const totalMileageLimit = useMemo(() => {
+        return daysCount * mileageLimitPerDay;
+    }, [daysCount, mileageLimitPerDay]);
 
     return (
         <article className={classes.carPriceInfo}>
@@ -170,8 +186,12 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                         <div
                             className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
                         >
-                            <dt className={classes.headerCard}>Пробег</dt>
-                            <dd className={classes.descCard}>6 км.</dd>
+                            <dt className={classes.headerCard}>
+                                Лимит пробега
+                            </dt>
+                            <dd className={classes.descCard}>
+                                {totalMileageLimit} км. ({mileageLimitPerDay} км/сут.)
+                            </dd>
                         </div>
 
                         <div
@@ -180,7 +200,9 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                             <dt className={classes.headerCard}>
                                 Перепробег за 1 км
                             </dt>
-                            <dd className={classes.descCard}>6 ₽/км.</dd>
+                            <dd className={classes.descCard}>
+                                {rentRequirements.overrun}
+                            </dd>
                         </div>
                         {additionalOptionsTotal > 0 && (
                             <div

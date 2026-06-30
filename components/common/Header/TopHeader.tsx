@@ -23,7 +23,7 @@ export const TopHeader: React.FC = () => {
                         rel="noopener noreferrer"
                         className="flex-center h-5 lg:h-[28px] w-5 lg:w-[28px]"
                     >
-                        <MaxIcon />
+                        <MaxIcon className='h-[16px] lg:h-[24px] w-[16px] lg:w-[24px]'/>
                     </a>
                     <a
                         href="https://vk.com/rentasib"

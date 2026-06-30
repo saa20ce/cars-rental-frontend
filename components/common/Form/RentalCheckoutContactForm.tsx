@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
 import { InputMask } from '@react-input/mask';
-import Link from 'next/link';
+import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 
 interface FormValues {
     clientName: string;
@@ -26,6 +26,7 @@ interface FormValues {
     options: string;
     totalPrice: number;
     pricePerDay: number;
+    personalDataConsent: boolean;
 }
 
 interface RentalCheckoutContactFormProps {
@@ -82,14 +83,23 @@ export const RentalCheckoutContactForm: React.FC<
         const onFinish = async (values: FormValues) => {
             setLoading(true);
 
-            const payload: FormValues = {
-                ...values,
-                delivery: values.delivery?.trim() ? values.delivery : 'Без доставки',
+            const payload = {
+                clientName: values.clientName,
+                phone: values.phone,
+                autoName: values.autoName,
+                autoColor: values.autoColor,
+                rentDate: values.rentDate,
+                rentPeriod: values.rentPeriod,
+                totalPrice: values.totalPrice,
+                pricePerDay: values.pricePerDay,
+                delivery: values.delivery?.trim()
+                    ? values.delivery
+                    : 'Без доставки',
                 options: values.options?.trim() ? values.options : 'Без опций',
-                comment: values.comment?.trim() ? values.comment : 'Без комментария',
+                comment: values.comment?.trim()
+                    ? values.comment
+                    : 'Без комментария',
             };
-
-
             try {
                 const res = await fetch('/api/contact', {
                     method: 'POST',
@@ -113,8 +123,8 @@ export const RentalCheckoutContactForm: React.FC<
 
         return (
             <>
-                <div className="border-t-[1px] border-solid border-[#f6f6f638] pb-[14px] mt-[14px]"></div>
-                <h2 className="text-base mb-[10px]">Ваши контактные данные:</h2>
+                <div className="border-t-[1px] border-solid border-[#f6f6f638] pb-[14px] mt-[14px] lg:pb-[16px] lg:mt-[16px]"></div>
+                <h2 className="font-semibold text-[16px]/[24px] lg:text-[18px]/[28px] mb-[10px]">Ваши контактные данные:</h2>
 
                 <ConfigProvider
                     theme={{
@@ -216,7 +226,7 @@ export const RentalCheckoutContactForm: React.FC<
                         </Form.Item>
 
                         <div className="flex flex-col gap-0 lg:flex-row lg:gap-9">
-                            <Form.Item className="mt-8 lg:mt-9">
+                            <Form.Item className="mt-[24px] lg:mt-[24px]">
                                 <Checkbox
                                     className="flex items-center"
                                     checked={checkedTg}
@@ -226,7 +236,7 @@ export const RentalCheckoutContactForm: React.FC<
                                 </Checkbox>
                             </Form.Item>
 
-                            <Form.Item className="mt-0 lg:mt-9">
+                            <Form.Item className="mt-0 lg:mt-[24px]">
                                 <Checkbox
                                     className="flex items-center"
                                     checked={checkedMax}
@@ -237,6 +247,7 @@ export const RentalCheckoutContactForm: React.FC<
                             </Form.Item>
                         </div>
 
+                        <PersonalDataConsentFormItem className="mb-0 mt-2" />
                         <Form.Item className="mb-0">
                             <ConfigProvider
                                 theme={{
@@ -274,14 +285,7 @@ export const RentalCheckoutContactForm: React.FC<
                         </Form.Item>
                     </Form>
                 </ConfigProvider>
-                <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699] mt-3 lg:mt-[14px]">
-                    При нажатии кнопки &quot;Отправить&quot;, я подтверждаю, что
-                    ознакомлен с условиями и согласен на{' '}
-                    <Link href="#" className="underline text-[#F6F6F6] ">
-                        обработку моих персональных данных
-                    </Link>
-                    .
-                </p>
+
 
                 <style jsx global>{`
                     .ant-form * {

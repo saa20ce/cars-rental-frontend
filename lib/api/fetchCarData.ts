@@ -15,6 +15,66 @@ import { slimCars } from './fetchCarDataImageHelper';
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
+export type SimilarCarsGroup = {
+    title: string;
+    btnTitle: string;
+    href: string;
+    taxonomy: 'klass' | 'kuzov';
+    id: number;
+};
+
+export const SIMILAR_CARS_GROUPS: SimilarCarsGroup[] = [
+    {
+        title: 'Бизнес',
+        btnTitle: 'Все бизнес',
+        href: '/service/arenda-avto-biznes-klassa',
+        taxonomy: 'klass',
+        id: 269,
+    },
+    {
+        title: 'Минивэн',
+        btnTitle: 'Все минивэны',
+        href: '/service/prokat-minivenov-i-mikroavtobusov',
+        taxonomy: 'kuzov',
+        id: 243,
+    },
+    {
+        title: 'Кроссоверы',
+        btnTitle: 'Все кроссоверы',
+        href: '/service/arenda-krossoverov',
+        taxonomy: 'kuzov',
+        id: 242,
+    },
+    {
+        title: 'Комфорт',
+        btnTitle: 'Все комфорт',
+        href: '/service/arenda-avto-komfort-klassa',
+        taxonomy: 'klass',
+        id: 268,
+    },
+    {
+        title: 'Эконом',
+        btnTitle: 'Все эконом',
+        href: '/service/arenda-avto-ekonom-klassa',
+        taxonomy: 'klass',
+        id: 267,
+    },
+];
+
+const hasCarTaxonomy = (
+    car: Car,
+    taxonomy: SimilarCarsGroup['taxonomy'],
+    id: number,
+) => (car[taxonomy] ?? []).includes(id);
+
+export function getSimilarCarsGroup(car: Car): SimilarCarsGroup | null {
+    return (
+        SIMILAR_CARS_GROUPS.find((group) =>
+            hasCarTaxonomy(car, group.taxonomy, group.id),
+        ) ?? null
+    );
+}
+
 export async function getCarBySlug(slug: string, includeTaxonomies: boolean = false): Promise<Car | null> {
     const baseFields = [
         'id',
@@ -68,6 +128,25 @@ export async function getCarBySlug(slug: string, includeTaxonomies: boolean = fa
 }
 
 export async function getSimilarCars(car: Car): Promise<Car[]> {
+    const group = getSimilarCarsGroup(car);
+
+    if (group) {
+        const res = await fetch(
+            `${WP_API_URL}/cars?${group.taxonomy}=${group.id}&exclude=${car.id}&per_page=10&_embed=wp:featuredmedia,wp:term`,
+            { next: { revalidate: 60 } },
+        );
+
+        if (res.ok) {
+            const groupedCars = slimCars(await res.json()).filter(
+                (c) => c.id !== car.id,
+            );
+
+            if (groupedCars.length > 0) {
+                return groupedCars;
+            }
+        }
+    }
+
     const markaIds = (car.marka as number[]) || [];
     if (markaIds.length === 0) return [];
 
@@ -75,12 +154,14 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 
     const res = await fetch(
         `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia`,
-        { next: { revalidate: 60 } }
+        { next: { revalidate: 60 } },
     );
 
     if (!res.ok) return [];
 
-    let similarCars = slimCars(await res.json()).filter((c) => c.id !== car.id);
+    const similarCars = slimCars(await res.json()).filter(
+        (c) => c.id !== car.id,
+    );
 
     if (similarCars.length >= 3) {
         return similarCars;
@@ -88,7 +169,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 
     const fallbackRes = await fetch(
         `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia`,
-        { next: { revalidate: 60 } }
+        { next: { revalidate: 60 } },
     );
     if (!fallbackRes.ok) return similarCars;
 
@@ -102,13 +183,15 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const priceMatched = fallbackCars
         .filter(
             (c) =>
-                c.id !== car.id && !similarCars.find((sc) => sc.id === c.id) &&
-                Math.abs(parseInt(c.acf?.['30_dnej'] ?? '0', 10) - targetPrice) <= priceRange
+                c.id !== car.id &&
+                !similarCars.find((sc) => sc.id === c.id) &&
+                Math.abs(parseInt(c.acf?.['30_dnej'] ?? '0', 10) - targetPrice) <=
+                    priceRange,
         )
         .sort(
             (a, b) =>
                 parseInt(b.acf?.['30_dnej'] ?? '0', 10) -
-                parseInt(a.acf?.['30_dnej'] ?? '0', 10)
+                parseInt(a.acf?.['30_dnej'] ?? '0', 10),
         )
         .slice(0, 5 - similarCars.length);
 
@@ -142,41 +225,51 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
     const json = await res.json();
     const acf = json?.acf;
 
-    const mapLabel = (key: string) => {
-        const dict: Record<string, string> = {
-            zhd_vokzal: 'Ж/д вокзал',
-            czentralnyj: 'Центральный',
-            oktyabrskij: 'Октябрьский',
-            zaelczovskij: 'Заельцовский',
-            dzerzhinskij: 'Дзержинский',
-            zheleznodorozhnyj: 'Железнодорожный',
-            kalininskij: 'Калининский',
-            leninskij: 'Ленинский',
-            kirovskij: 'Кировский',
-            pervomajskij: 'Первомайский',
-            sovetskij: 'Советский',
-            pashino: 'Пашино',
-            aeroport: 'Аэропорт',
-            kolczovo: 'Кольцово',
-            krasnoobsk: 'Краснообск',
-            berdsk: 'Бердск',
-            samovyvoz: 'Самовывоз',
-            zhd: 'Ж/д вокзал',
-            iskitim: 'Искитим',
-        };
-        return dict[key] || key;
+    const deliveryLabelMap: Record<string, string> = {
+        aeroport: 'Аэропорт',
+        zhd_vokzal: 'Ж/д вокзал',
+        sovetskij: 'Советский',
+        kolczovo: 'Кольцово',
+        czentralnyj: 'Центральный',
+        oktyabrskij: 'Октябрьский',
+        zaelczovskij: 'Заельцовский',
+        dzerzhinskij: 'Дзержинский',
+        zheleznodorozhnyj: 'Железнодорожный',
+        kalininskij: 'Калининский',
+        leninskij: 'Ленинский',
+        kirovskij: 'Кировский',
+        pervomajskij: 'Первомайский',
+        pashino: 'Пашино',
+        krasnoobsk: 'Краснообск',
+        berdsk: 'Бердск',
+        samovyvoz: 'Самовывоз',
+        iskitim: 'Искитим',
     };
+
+    const deliveryOrder = new Map(
+        Object.keys(deliveryLabelMap).map((key, index) => [key, index]),
+    );
+
+    const mapLabel = (key: string) => deliveryLabelMap[key] || key;
+
+    const getDeliverySortIndex = (key: string) =>
+        deliveryOrder.get(key) ?? Number.MAX_SAFE_INTEGER;
 
     const buildOptions = (
         source?: Record<string, string>,
         timeLabel = '',
     ): DeliveryOption[] => {
         if (!source || !timeLabel) return [];
-        return Object.entries(source).map(([key, value]) => ({
-            value: key,
-            label: `${mapLabel(key)} — ${value} ₽`,
-            price: parseInt(value, 10),
-        }));
+        return Object.entries(source)
+            .sort(
+                ([keyA], [keyB]) =>
+                    getDeliverySortIndex(keyA) - getDeliverySortIndex(keyB),
+            )
+            .map(([key, value]) => ({
+                value: key,
+                label: `${mapLabel(key)} — ${value} ₽`,
+                price: parseInt(value, 10),
+            }));
     };
 
     return {

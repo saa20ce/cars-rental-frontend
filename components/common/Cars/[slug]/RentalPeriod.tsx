@@ -169,7 +169,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                 </button>
             )}
 
-            <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
+            <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-[16px] lg:mb-5">
                 Форма бронирования
             </h2>
             <h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">

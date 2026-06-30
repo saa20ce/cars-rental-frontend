@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ConfigProvider, Carousel } from 'antd';
-import Image from 'next/image';
+import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
+import NextImage from 'next/image';
 import './index.css';
 import {
     PriceCards,
@@ -42,6 +42,8 @@ interface SingleCarPageClientProps {
     deliveryPrice: DeliveryPrice;
     taxonomyValues: Record<string, string>;
     similarCars: Car[];
+    similarCarsHref: string;
+    similarCarsBtnTitle: string;
     additionalOptions: { label: string; value: string; price: number }[]
 }
 
@@ -52,9 +54,12 @@ export default function SingleCarPageClient({
     deliveryPrice,
     taxonomyValues,
     similarCars,
+    similarCarsHref,
+    similarCarsBtnTitle,
     additionalOptions
 }: SingleCarPageClientProps) {
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const galleryImages = useMemo(
         () => [
@@ -121,13 +126,20 @@ export default function SingleCarPageClient({
                     <section className="carousel-wrapper">
                         <figure className="relative rounded-[20px] lg:rounded-[32px] overflow-hidden">
                             {galleryImages.length === 1 && (
-                                <img
-                                    src={galleryImages[0]}
-                                    loading='lazy'
-                                    alt={car.acf?.nazvanie_avto || 'car image'}
-                                    className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
+                                <button
+                                    type="button"
+                                    className="block w-full cursor-zoom-in border-0 bg-transparent p-0"
+                                    aria-label="Открыть изображение автомобиля"
+                                    onClick={() => setPreviewImage(galleryImages[0])}
+                                >
+                                    <img
+                                        src={galleryImages[0]}
+                                        loading='lazy'
+                                        alt={car.acf?.nazvanie_avto || 'car image'}
+                                        className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                </button>
                             )}
                             {galleryImages.length > 1 && (
                                 <ConfigProvider
@@ -145,10 +157,14 @@ export default function SingleCarPageClient({
                                         className="custom-carousel"
                                     >
                                         {galleryImages.map((imgUrl, i) => (
-                                            <div key={i}
-                                                className="relative w-full h-[225px]  object-cover lg:h-[385px]"
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                className="relative block w-full h-[225px] cursor-zoom-in overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
+                                                aria-label={`Открыть изображение автомобиля ${i + 1}`}
+                                                onClick={() => setPreviewImage(imgUrl)}
                                             >
-                                                <Image
+                                                <NextImage
                                                     src={imgUrl}
                                                     alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
                                                     fill
@@ -157,13 +173,30 @@ export default function SingleCarPageClient({
                                                     priority={i === 0}
                                                     loading={i === 0 ? 'eager' : 'lazy'}
                                                 />
-                                            </div>
+                                            </button>
                                         ))}
                                     </Carousel>
                                 </ConfigProvider>
                             )}
                             {car.acf && <SaleInfo acf={car.acf} />}
                         </figure>
+                        {previewImage && (
+                            <AntImage
+                                src={previewImage}
+                                alt={car.acf?.nazvanie_avto || 'car image'}
+                                style={{ display: 'none' }}
+                                preview={{
+                                    visible: Boolean(previewImage),
+                                    src: previewImage,
+                                    onVisibleChange: (visible) => {
+                                        if (!visible) {
+                                            setPreviewImage(null);
+                                        }
+                                    },
+                                    toolbarRender: () => null,
+                                }}
+                            />
+                        )}
                     </section>
 
                     {priceRanges.length > 0 && (
@@ -175,9 +208,9 @@ export default function SingleCarPageClient({
 
                     <section className="mt-8 hidden lg:block border-2 border-[#f6f6f638] rounded-[32px] px-9 py-[38px]">
                         <h2 className="text-[24px]/[32px] font-bold mb-5">
-                            Информация
+                            Характеристики
                         </h2>
-                        <SimpleTabs tabs={TAB_ITEMS} />
+                        <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
                     </section>
                 </article>
 
@@ -252,7 +285,10 @@ export default function SingleCarPageClient({
                         </ul>
                     </section>
                     <section className="mt-6 block lg:hidden">
-                        <SimpleTabs tabs={TAB_ITEMS} />
+                        <h2 className="text-[20px]/[28px] font-bold mb-[16px]">
+                            Характеристики
+                        </h2>
+                        <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
                     </section>
                 </article>
             </section>
@@ -260,9 +296,9 @@ export default function SingleCarPageClient({
             <div className="pb-[42px] lg:pb-[68px]">
                 <GalleryCars
                     title="Похожие авто"
-                    btnTitle="Все бизнес"
+                    btnTitle={similarCarsBtnTitle}
                     similarCars={similarCars}
-                    href="/service/arenda-avto-biznes-klassa"
+                    href={similarCarsHref}
                     seasonDates={seasonDates}
                     deliveryPrice={deliveryPrice}
                     additionalOptions={additionalOptions}

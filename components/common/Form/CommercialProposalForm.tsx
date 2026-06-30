@@ -2,12 +2,21 @@
 
 import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
-import { ConfigProvider, Modal, message } from 'antd';
-import Link from 'next/link';
+import { ConfigProvider, Modal, Form, message } from 'antd';
 import { useState } from 'react';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import SuccessRequest from '../Modal/SuccessRequest';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
+import { CustomInput } from '@/lib/ui/common/Input/CustomInput';
+import { PersonalDataConsentFormItem } from './PersonalDataConsent';
+
+interface FormValues {
+    classAuto: string;
+    clientBudget: string;
+    clientName: string;
+    clientEmail: string;
+    personalDataConsent: boolean;
+}
 
 export default function CommercialProposalForm({
     isOpen,
@@ -21,33 +30,22 @@ export default function CommercialProposalForm({
         label: string;
     }[];
 }) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [selectedKlass, setSelectedKlass] = useState('');
-    const [selectedBudget, setSelectedBudget] = useState('');
     const [status, setStatus] = useState<
         'idle' | 'loading' | 'success' | 'error'
     >('idle');
+    const [form] = Form.useForm<FormValues>();
 
-    const resetForm = () => {
-        setName('');
-        setEmail('');
-        setSelectedKlass('');
-        setSelectedBudget('');
-    };
+    const onFinish = async (values: FormValues) => {
+        const payload = {
+            classAuto: values.classAuto.trim(),
+            clientBudget: values.clientBudget.trim(),
+            clientName: values.clientName.trim(),
+            clientEmail: values.clientEmail.trim(),
+        };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
         setStatus('loading');
 
         try {
-            const payload = {
-                classAuto: selectedKlass.trim(),
-                clientBudget: selectedBudget.trim(),
-                clientName: name.trim(),
-                clientEmail: email.trim(),
-            };
-
             const res = await fetch('/api/contact-commercial', {
                 method: 'POST',
                 headers: {
@@ -61,7 +59,7 @@ export default function CommercialProposalForm({
             if (res.ok) {
                 message.success('Заявка отправлена!');
                 setStatus('success');
-                resetForm();
+                form.resetFields();
             } else {
                 console.error('contact-commercial error:', data);
                 message.error(data?.message || 'Ошибка отправки');
@@ -89,6 +87,9 @@ export default function CommercialProposalForm({
                     Modal: {
                         contentBg: '#00000000',
                         boxShadow: 'none',
+                    },
+                    Form: {
+                        itemMarginBottom: 12,
                     },
                 },
             }}
@@ -126,31 +127,52 @@ export default function CommercialProposalForm({
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="mt-4 lg:mt-5">
-                                <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]">
-                                    Класс авто
-                                </label>
-                                <div className="relative w-full mt-2 mb-[14px] lg:mb-4">
+                            <Form<FormValues>
+                                form={form}
+                                layout="vertical"
+                                onFinish={onFinish}
+                                className="commercial-form mt-4 lg:mt-5"
+                            >
+                                <Form.Item
+                                    name="classAuto"
+                                    label={
+                                        <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px] text-[#F6F6F6]">
+                                            Класс авто
+                                        </label>
+                                    }
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Выберите класс авто',
+                                        },
+                                    ]}
+                                >
                                     <CustomSelect
                                         placeholder="Выберите..."
                                         options={klassOptions}
                                         className="filters-select"
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={(value) =>
-                                            setSelectedKlass(value as string)
-                                        }
-                                        value={selectedKlass || undefined}
+                                        style={{ width: '100%' }}
                                     />
-                                </div>
+                                </Form.Item>
 
-                                <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]">
-                                    Бюджет
-                                </label>
-                                <div className="relative w-full mt-2 mb-[14px] lg:mb-4">
+                                <Form.Item
+                                    name="clientBudget"
+                                    label={
+                                        <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px] text-[#F6F6F6]">
+                                            Бюджет
+                                        </label>
+                                    }
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Выберите бюджет',
+                                        },
+                                    ]}
+                                >
                                     <CustomSelect
                                         placeholder="Выберите..."
                                         className="filters-select"
-                                        style={{ width: '100%', height: '40px' }}
+                                        style={{ width: '100%' }}
                                         options={[
                                             {
                                                 label: 'До 4000',
@@ -169,44 +191,54 @@ export default function CommercialProposalForm({
                                                 value: 'От 10000',
                                             },
                                         ]}
-                                        value={selectedBudget || undefined}
-                                        onChange={(value) =>
-                                            setSelectedBudget(value as string)
-                                        }
                                     />
-                                </div>
+                                </Form.Item>
 
-                                <label
-                                    htmlFor="name"
-                                    className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]"
+                                <Form.Item
+                                    name="clientName"
+                                    label={
+                                        <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px] text-[#F6F6F6]">
+                                            Фамилия и имя
+                                        </label>
+                                    }
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Введите фамилию и имя',
+                                        },
+                                    ]}
                                 >
-                                    Фамилия и имя
-                                </label>
-                                <input
-                                    className="w-full mt-2 mb-[14px] lg:mb-4 px-4 py-[7px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[16px] outline-none border border-[#f6f6f647]"
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    placeholder="Введите..."
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
+                                    <CustomInput
+                                        className="w-full"
+                                        type="text"
+                                        placeholder="Введите..."
+                                    />
+                                </Form.Item>
 
-                                <label
-                                    htmlFor="email"
-                                    className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px]"
+                                <Form.Item
+                                    name="clientEmail"
+                                    label={
+                                        <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px] text-[#F6F6F6]">
+                                            Электронная почта
+                                        </label>
+                                    }
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Введите электронную почту',
+                                        },
+                                        {
+                                            type: 'email',
+                                            message: 'Введите корректный email',
+                                        },
+                                    ]}
                                 >
-                                    Электронная почта
-                                </label>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    className="w-full mt-2 px-4 py-[7px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[16px] outline-none border border-[#f6f6f647]"
-                                    type="email"
-                                    placeholder="user@email.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
+                                    <CustomInput
+                                        className="w-full"
+                                        type="email"
+                                        placeholder="user@email.com"
+                                    />
+                                </Form.Item>
 
                                 <CustomButton
                                     variant="default"
@@ -214,25 +246,14 @@ export default function CommercialProposalForm({
                                     style={{
                                         width: '100%',
                                     }}
-                                    type="submit"
+                                    htmlType="submit"
                                     loading={status === 'loading'}
                                 >
                                     Оставить заявку
                                 </CustomButton>
 
-                                <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699] mt-[10px] lg:mt-[14px]">
-                                    При нажатии кнопки &quot;Отправить&quot;, я
-                                    подтверждаю, что ознакомлен с условиями и
-                                    согласен на{' '}
-                                    <Link
-                                        href="#"
-                                        className="underline text-[#F6F6F6] "
-                                    >
-                                        обработку моих персональных данных
-                                    </Link>
-                                    .
-                                </p>
-                            </form>
+                                <PersonalDataConsentFormItem className="mb-0" />
+                            </Form>
                         </div>
                     )}
 
@@ -250,6 +271,21 @@ export default function CommercialProposalForm({
                     {status === 'error' && <ErrorBanner duration={2000} />}
                 </div>
             </Modal>
+
+            <style jsx global>{`
+                .commercial-form label.ant-form-item-required::before {
+                    display: none !important;
+                }
+
+                .commercial-form .ant-form-item-label {
+                    padding: 0 0 8px !important;
+                }
+
+                .commercial-form .ant-form-item-label > label {
+                    height: auto;
+                    color: #f6f6f6;
+                }
+            `}</style>
         </ConfigProvider>
     );
 }

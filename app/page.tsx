@@ -1,5 +1,6 @@
 import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
 import Image from 'next/image';
+import dayjs from 'dayjs';
 import {
     AgeIcon,
     CarIcon,
@@ -15,6 +16,8 @@ import {
     getSeasonDates,
 } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
+import type { Car, SeasonData } from '@/lib/types/Car';
+import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
@@ -33,34 +36,51 @@ const classes = [
     {
         title: 'Бизнес',
         src: '/images/servicesImages/3.jpg',
-        price: 9000,
+        price: 7000,
         href: '/service/arenda-avto-biznes-klassa',
     },
     {
         title: 'Минивэн',
         src: '/images/servicesImages/dsc03710.jpg',
-        price: 9000,
+        price: 6000,
         href: '/service/prokat-minivenov-i-mikroavtobusov',
     },
     {
         title: 'Кроссоверы',
         src: '/images/servicesImages/dsc05065-scaled.jpg',
-        price: 9000,
+        price: 5000,
         href: '/service/arenda-krossoverov',
     },
     {
         title: 'Комфорт',
         src: '/images/servicesImages/dsc06740_1.jpg',
-        price: 9000,
+        price: 4000,
         href: '/service/arenda-avto-komfort-klassa',
     },
     {
         title: 'Эконом',
         src: '/images/servicesImages/dsc04918_2-scaled.jpg',
-        price: 9000,
+        price: 3600,
         href: '/service/arenda-avto-ekonom-klassa',
     },
 ];
+
+const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
+    const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
+    const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
+    const basePrice = isDaySeason(dayjs(), seasonDates)
+        ? seasonPrice
+        : regularPrice;
+    const discount = Number(car.acf?.skidka) || 0;
+
+    return discount ? basePrice * (1 - discount / 100) : basePrice;
+};
+
+const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>
+    [...cars].sort(
+        (a, b) =>
+            getHomeCarPrice(b, seasonDates) - getHomeCarPrice(a, seasonDates),
+    );
 
 export default async function Home() {
     const deliveryPrice = await getDeliveryPrice();
@@ -72,11 +92,11 @@ export default async function Home() {
     const additionalOptions = await getAdditionalOptions();
     const seasonDates = await getSeasonDates();
     const carsByClassTitle = {
-        'Бизнес': businessCars,
-        'Минивэн': minivanCars,
-        'Кроссоверы': crossoversCars,
-        'Комфорт': comfortCars,
-        'Эконом': economyCars,
+        'Бизнес': sortCarsByPriceDesc(businessCars, seasonDates),
+        'Минивэн': sortCarsByPriceDesc(minivanCars, seasonDates),
+        'Кроссоверы': sortCarsByPriceDesc(crossoversCars, seasonDates),
+        'Комфорт': sortCarsByPriceDesc(comfortCars, seasonDates),
+        'Эконом': sortCarsByPriceDesc(economyCars, seasonDates),
     };
     const galleryButtonTitles = {
         'Бизнес': 'Все бизнес',
@@ -126,12 +146,6 @@ export default async function Home() {
                                 className="bg-[#3C6E71] h-10 lg:h-11 lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-[12px] lg:rounded-[16px] font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[30px] text-center"
                             >
                                 Автопарк
-                            </Link>
-                            <Link
-                                href={'#'}
-                                className="border h-10 lg:h-11 text-center lg:max-w-[194px] flex-1 md:flex-0 py-2 rounded-[12px] lg:rounded-[16px] text-[16px]/[24px] font-medium lg:text-[18px]/[30px]"
-                            >
-                                Трансфер
                             </Link>
                         </div>
                         <Link

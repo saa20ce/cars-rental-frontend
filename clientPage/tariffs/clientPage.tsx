@@ -61,6 +61,39 @@ const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
     return current && current < dayjs().endOf('day');
 };
 
+const TIME_OVERAGE_GRACE_MINUTES = 120;
+
+const getTimeMinutes = (time: string) => {
+    const [rawHours = '0', rawMinutes = '0'] = time.split(':');
+    const hours = Number(rawHours);
+    const minutes = Number(rawMinutes);
+
+    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return 0;
+
+    return hours * 60 + minutes;
+};
+
+const getRentalDaysCount = (
+    startDate: Dayjs | null,
+    returnDate: Dayjs | null,
+    startTime: string,
+    returnTime: string,
+) => {
+    if (!startDate || !returnDate) return 0;
+
+    const calendarDays = returnDate
+        .startOf('day')
+        .diff(startDate.startOf('day'), 'day');
+
+    if (calendarDays <= 0) return 0;
+
+    const overtimeMinutes =
+        getTimeMinutes(returnTime) - getTimeMinutes(startTime);
+
+    return calendarDays +
+        (overtimeMinutes > TIME_OVERAGE_GRACE_MINUTES ? 1 : 0);
+};
+
 export default function TariffsPageClient({
     cars: initialCars,
     klassOptions,
@@ -105,26 +138,28 @@ export default function TariffsPageClient({
         [klassOptions, kuzovOptions],
     );
 
-    const daysCount = useMemo(() => {
-        if (!startDate || !returnDate) return 0;
+    const daysCount = useMemo(
+        () => getRentalDaysCount(startDate, returnDate, startTime, returnTime),
+        [returnDate, returnTime, startDate, startTime],
+    );
 
-        return Math.max(
-            Math.ceil(returnDate.diff(startDate, 'hour', true) / 24),
-            0,
-        );
-    }, [startDate, returnDate]);
+    const billingEndDate = useMemo(() => {
+        if (!startDate || daysCount <= 0) return null;
+
+        return startDate.startOf('day').add(daysCount, 'day');
+    }, [daysCount, startDate]);
 
     const handleApplyFilters = () => {
-        if (!startDate || !returnDate) return;
+        if (!startDate || !returnDate || !billingEndDate) return;
 
         const enriched = initialCars.map((car) => {
             const priceRanges = buildPriceRangesFromACF(car.acf || {});
 
             const costs = computeCostsChunked(
-                startDate,
-                returnDate,
+                startDate.startOf('day'),
+                billingEndDate,
                 priceRanges,
-                null,
+                seasonDates,
             );
 
             const totalPrice = costs.reduce((a, b) => a + b, 0);
@@ -243,15 +278,15 @@ export default function TariffsPageClient({
     }, [selectedCar]);
 
     const selectedCarCosts = useMemo(() => {
-        if (!startDate || !returnDate || !selectedCar) return [];
+        if (!startDate || !billingEndDate || !selectedCar) return [];
 
         return computeCostsChunked(
-            startDate,
-            returnDate,
+            startDate.startOf('day'),
+            billingEndDate,
             selectedCarPriceRanges,
             seasonDates,
         );
-    }, [returnDate, seasonDates, selectedCar, selectedCarPriceRanges, startDate]);
+    }, [billingEndDate, seasonDates, selectedCar, selectedCarPriceRanges, startDate]);
 
     const selectedCarPricePerDay =
         selectedCarCosts[0] || selectedCar?.pricePerDay || 0;
@@ -265,12 +300,11 @@ export default function TariffsPageClient({
         selectedCarBaseTotal + additionalOptionsTotal + deliveryCost;
 
     const hasSeasonDays = useMemo(() => {
-        if (!startDate || !returnDate || !seasonDates) return false;
+        if (!startDate || !billingEndDate || !seasonDates) return false;
 
         let currentDay = startDate.startOf('day');
-        const endDay = returnDate.startOf('day');
 
-        while (currentDay.isBefore(endDay) || currentDay.isSame(endDay)) {
+        while (currentDay.isBefore(billingEndDate, 'day')) {
             if (!isDaySeason(currentDay, seasonDates)) {
                 return false;
             }
@@ -278,7 +312,7 @@ export default function TariffsPageClient({
         }
 
         return true;
-    }, [returnDate, seasonDates, startDate]);
+    }, [billingEndDate, seasonDates, startDate]);
 
     const closeModal = () => setModalVisible(false);
 
@@ -332,7 +366,7 @@ export default function TariffsPageClient({
         if (!startDate || !returnDate) return;
 
         handleApplyFilters();
-    }, [startDate, returnDate]);
+    }, [startDate, returnDate, startTime, returnTime, seasonDates]);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -433,8 +467,8 @@ export default function TariffsPageClient({
                                             setIsReturnDateOpen(open)
                                         }
                                         style={{
-                                            borderTopLeftRadius: 16,
-                                            borderBottomLeftRadius: 16,
+                                            borderTopLeftRadius: isMobile ? 12 : 16,
+                                            borderBottomLeftRadius: isMobile ? 12 : 16,
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0,
                                         }}

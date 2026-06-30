@@ -3,15 +3,16 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
 import { ConfigProvider, Modal, Form, Input, message } from 'antd';
-import Link from 'next/link';
 import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
 import SuccessRequest from './SuccessRequest';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
+import { PersonalDataConsentFormItem } from '../Form/PersonalDataConsent';
 
 interface FormValues {
     name: string;
     phone: string;
+    personalDataConsent: boolean;
 }
 
 export default function CallRequestModal({
@@ -155,7 +156,7 @@ export default function CallRequestModal({
 
                                 <CustomButton
                                     variant="default"
-                                    className="p-3 lg:p-[18px] lg:text-[20px]/[28px] mt-[20px] mb-[10px] lg:mb-[14px]"
+                                    className="p-3 lg:p-[16px] lg:text-[20px]/[28px] mt-[20px] mb-[10px] lg:mb-[14px]"
                                     style={{ width: '100%' }}
                                     htmlType="submit"
                                     loading={status === 'loading'}
@@ -163,18 +164,7 @@ export default function CallRequestModal({
                                     Оставить заявку
                                 </CustomButton>
 
-                                <p className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699]">
-                                    При нажатии кнопки &quot;Отправить&quot;, я
-                                    подтверждаю, что ознакомлен с условиями и
-                                    согласен на{' '}
-                                    <Link
-                                        href="#"
-                                        className="underline text-[#F6F6F6]"
-                                    >
-                                        обработку моих персональных данных
-                                    </Link>
-                                    .
-                                </p>
+                                <PersonalDataConsentFormItem className="mb-0" />
                             </Form>
                         </div>
                     )}

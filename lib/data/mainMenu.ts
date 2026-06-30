@@ -20,7 +20,7 @@ export const mainMenu = [
                 href: '/service/arenda-krossoverov',
             },
             {
-                title: 'Юрлицам',
+                title: 'Аренда для Юридических лиц',
                 href: '/service/arenda-avtomobilej-dlya-biznesa',
             },
             {
@@ -35,14 +35,13 @@ export const mainMenu = [
         ],
     },
     {
-        title: 'О нас',
+        title: 'О компании',
         href: '#',
         items: [
-            { title: 'О компании', href: '/about' },
+            { title: 'О нас', href: '/about' },
             { title: 'Отзывы', href: '/reviews' },
             { title: 'Контакты', href: '/contacts' },
             { title: 'Новости', href: '/blog' },
-            { title: 'Соц. сети', href: '/social' },
         ],
     },
     {

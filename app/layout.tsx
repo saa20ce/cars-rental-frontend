@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import UpdatePathCookie from '@/components/common/Meta/UpdatePathCookie';
 import { Footer } from '@/components/layout/Footer';
+import CookieBanner from '@/components/common/CookieBanner/CookieBanner';
 
 const lato = localFont({
     src: [
@@ -48,6 +49,7 @@ export default function RootLayout({
                 <Header />
                 <main>{children}</main>
                 <Footer />
+                <CookieBanner />
             </body>
         </html>
     );

@@ -186,16 +186,12 @@ export const rentalTermsEconomItems = [
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Стаж от 3 лет, возраст от 22 лет',
+        title: 'Стаж от 3 лет, возраст от 23 лет',
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
         title: 'Выдача и прием в нерабочие часы - 1000 ₽',
         icon: <ClockIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
-        title: 'Увеличенный лимит пробега - до 400 км/сутки',
-        icon: <WheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
         title: '100% предоплата за весь срок аренды',
@@ -209,7 +205,7 @@ export const rentalTermsMinivanItems = [
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Стаж от 3 лет, возраст от 22 лет',
+        title: 'Стаж от 3 лет, возраст от 23 лет',
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
@@ -269,7 +265,7 @@ export const infoArendaAvtoBusinessPageItems = [
     },
     {
         title: 'НДС',
-        desc: 'Работаем с юрлицам и принимаем безналичную оплату',
+        desc: 'Работаем с Юридическими лицами и принимаем безналичную оплату',
         icon: <DocumentCar className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

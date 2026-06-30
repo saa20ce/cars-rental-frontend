@@ -1,7 +1,8 @@
 'use client';
 
 import CarouselControls from '@/lib/ui/common/CarouselControls';
-import { useRef } from 'react';
+import { Image as AntImage } from 'antd';
+import { useRef, useState } from 'react';
 
 type Letter = {
     id: number;
@@ -11,6 +12,8 @@ type Letter = {
 
 export default function LetterThanks({ letters }: { letters: Letter[] }) {
     const scrollRef = useRef<HTMLUListElement>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     return (
         <section className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between mb-4 lg:mb-6">
@@ -33,15 +36,39 @@ export default function LetterThanks({ letters }: { letters: Letter[] }) {
                             key={letter.id}
                             className="min-w-[180px] max-w-[180px] lg:min-w-[250px] lg:max-w-[250px]"
                         >
-                            <img
-                                src={letter.image}
-                                alt="Благодарственное письмо"
-                                className="h-full max-h-[250px] object-cover"
-                            />
+                            <button
+                                type="button"
+                                className="block h-full cursor-zoom-in border-0 bg-transparent p-0"
+                                aria-label="Открыть благодарственное письмо"
+                                onClick={() => setPreviewImage(letter.image)}
+                            >
+                                <img
+                                    src={letter.image}
+                                    alt="Благодарственное письмо"
+                                    className="h-full max-h-[250px] object-cover"
+                                />
+                            </button>
                         </li>
                     ))}
                 </ul>
             </div>
+            {previewImage && (
+                <AntImage
+                    src={previewImage}
+                    alt="Благодарственное письмо"
+                    style={{ display: 'none' }}
+                    preview={{
+                        visible: Boolean(previewImage),
+                        src: previewImage,
+                        onVisibleChange: (visible) => {
+                            if (!visible) {
+                                setPreviewImage(null);
+                            }
+                        },
+                        toolbarRender: () => null,
+                    }}
+                />
+            )}
         </section>
     );
 }

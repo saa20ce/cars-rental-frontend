@@ -79,7 +79,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                     color: '#f6f6f6',
                     display: 'flex',
                     alignItems: 'center',
-                    paddingBottom: 0,
+                    paddingLeft: 12,
                     ...style,
                 }}
                 {...rest}
@@ -92,6 +92,11 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                 .ant-picker.ant-picker-outlined {
                     border-top-right-radius: 0 !important;
                     border-bottom-right-radius: 0 !important;
+                }
+
+                .ant-picker-dropdown .ant-picker-header-super-prev-btn,
+                .ant-picker-dropdown .ant-picker-header-super-next-btn {
+                    display: none !important;
                 }
 
             `}</style>

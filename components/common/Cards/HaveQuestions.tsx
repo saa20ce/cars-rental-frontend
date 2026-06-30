@@ -18,7 +18,7 @@ export const HaveQuestions = () => {
 
                 <div className="flex flex-wrap flex-row w-full gap-[14px] bg-[#1E384A] rounded-3xl lg:grid lg:grid-cols-3 lg:gap-4 lg:max-w-[702px]">
                     <a
-                        href="https://t.me/Rentasib"
+                        href="https://max.ru/u/f9LHodD0cOJl7vaA90ej_c-ng7J4Tpfbi4tBmaGo9A-R2NE74nwHaaX0WQk"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Написать в Max"

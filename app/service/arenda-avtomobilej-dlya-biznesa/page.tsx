@@ -92,7 +92,7 @@ export default async function СorporateRentalPage() {
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
                                 <ParticlesIcon className="shrink-0 mt-1" />
-                                Замена автомобиля при поломке
+                                Без лимита по пробегу
                             </li>
                             <li className="flex items-start gap-4 lg:gap-5">
                                 <ParticlesIcon className="shrink-0 mt-1" />

@@ -50,8 +50,8 @@ export const CarCard: React.FC<CarCardProps> = ({
     seasonDates = null
 }) => {
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
-    const regularPrice = Number(acf['30_dnej']);
-    const seasonPrice = Number(acf['30_dnej_S']) || regularPrice;
+    const regularPrice = Number(acf['1-3_dnya']);
+    const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
     const price = isDaySeason(dayjs(), seasonDates) ? seasonPrice : regularPrice;
     const priseDiscount = price * (1 - Number(acf.skidka) / 100);
 

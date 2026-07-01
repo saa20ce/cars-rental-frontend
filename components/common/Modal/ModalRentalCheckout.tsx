@@ -106,7 +106,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 					lg:max-w-[404px]
   				    bg-[#f6f6f60e] rounded-2xl p-6 
   				    transition-[max-height,opacity,padding] duration-500
-  				    ${isOpen ? 'pt-[28px] pb-6' : 'pt-[28px] pb-3'}
+  				    pt-[28px] pb-6
 					lg:px-9 lg:pb-[38px]
 					lg:min-w-[370px]
 				`}
@@ -229,37 +229,38 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                         )}
                     </dl>
 
-                    <div
-                        className={`${classes.flexBetween} items-center mt-8 lg:mt-9`}
-                    >
-                        <div className="flex flex-col">
-                            <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
-                                Итого:
+                </section>
+
+                <div
+                    className={`${classes.flexBetween} items-center ${isOpen ? 'mt-8' : 'mt-4'} lg:mt-9`}
+                >
+                    <div className="flex flex-col">
+                        <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
+                            Стоимость аренды:
+                        </span>
+                        {discountedPrice && (
+                            <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
+                                С учетом скидки
                             </span>
-                            {discountedPrice && (
-                                <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
-                                    С учетом скидки
+                        )}
+                    </div>
+                    <div className="flex flex-col items-end">
+                        {discountedPrice ? (
+                            <>
+                                <span className="font-bold text-[24px]/[32px] xl:text-[30px]/[36px] text-[#FFD7A6]">
+                                    {discountedPrice} ₽
                                 </span>
-                            )}
-                        </div>
-                        <div className="flex flex-col items-end">
-                            {discountedPrice ? (
-                                <>
-                                    <span className="font-bold text-[24px]/[32px] xl:text-[30px]/[36px] text-[#FFD7A6]">
-                                        {discountedPrice} ₽
-                                    </span>
-                                    <span className="line-through text-[14px]/[20px] xl:text-[20px]/[28px] text-[#F6F6F699]">
-                                        {totalPrice} ₽
-                                    </span>
-                                </>
-                            ) : (
-                                <span className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
+                                <span className="line-through text-[14px]/[20px] xl:text-[20px]/[28px] text-[#F6F6F699]">
                                     {totalPrice} ₽
                                 </span>
-                            )}
-                        </div>
+                            </>
+                        ) : (
+                            <span className="font-bold text-[20px]/[28px] lg:text-[24px]/[32px]">
+                                {totalPrice} ₽
+                            </span>
+                        )}
                     </div>
-                </section>
+                </div>
             </section>
 
             <RentalPeriod

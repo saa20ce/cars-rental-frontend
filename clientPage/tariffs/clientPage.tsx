@@ -447,7 +447,7 @@ export default function TariffsPageClient({
                         <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
                             Мы поможем расчитать стоимость желаемого автомобиля
                             через калькулятор, соблюдая условия сезонности и
-                            загрузке автопарка.
+                            загрузки автопарка.
                         </p>
                     </div>
                 </header>

@@ -22,7 +22,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
-import Banner from '@/lib/ui/icons/Banner.svg';
+import Banner from '@/public/images/Banner.png';
 import { DocumentIconHomePage } from '@/lib/ui/icons/DocumentIconHomePage';
 import { CarIconHomePage } from '@/lib/ui/icons/CarIconHomePage';
 import { NumberIconHomePage } from '@/lib/ui/icons/NumberIconHomePage';

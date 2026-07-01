@@ -63,8 +63,8 @@ export default async function CrossoverRentalPage() {
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/carinterior.webp"
-                alt="Салон автомобиля"
+                src="/images/dsc05065-scaled.webp"
+                alt="Автомобиль кроссовер в аренду"
                 aspect="2/1"
                 pyTextBlock="36"
                 maxWidthImage="618"

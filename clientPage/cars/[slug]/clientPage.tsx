@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
 import NextImage from 'next/image';
+import dayjs from 'dayjs';
 import './index.css';
 import {
     PriceCards,
@@ -35,6 +36,7 @@ import SaleInfo from '@/components/common/Cards/SaleInfo';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { faqItems } from '@/lib/data/faqItems';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
+import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -58,7 +60,9 @@ export default function SingleCarPageClient({
     similarCarsBtnTitle,
     additionalOptions
 }: SingleCarPageClientProps) {
-    const [seasonModeSwitch, setSeasonModeSwitch] = useState(false);
+    const [seasonModeSwitch, setSeasonModeSwitch] = useState(() =>
+        isDaySeason(dayjs(), seasonDates),
+    );
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const galleryImages = useMemo(

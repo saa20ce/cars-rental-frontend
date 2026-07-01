@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import Image from 'next/image';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
-import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
 import { CheckRound, FiltersIcon, SmallCross } from '@/lib/ui/icons';
 import CustomButton from '@/lib/ui/common/Button';
+import Banner from '@/public/images/Banner.png';
 import dayjs from 'dayjs';
 import {
     buildKlassOptionsWithKuzov,
@@ -383,7 +384,12 @@ export default function CarsPageClient({
                             <React.Fragment key={car.id}>
                                 {index === 3 && (
                                     <div className="block lg:hidden">
-                                        <SaleCard />
+                                        <Image
+                                            src={Banner}
+                                            alt={'\u0410\u043a\u0446\u0438\u044f \u0430\u0440\u0435\u043d\u0434\u044b \u0430\u0432\u0442\u043e'}
+                                            className="w-full rounded-3xl object-cover"
+                                            sizes="100vw"
+                                        />
                                     </div>
                                 )}
                                 <CarCard

@@ -66,8 +66,8 @@ export default async function BusinessClassRentalPage() {
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/men.webp"
-                alt="Мужчина за рулем автомобиля"
+                src="/images/5341717316883913049.webp"
+                alt="Девушка за рулем автомобиля"
                 aspect="3/2"
                 maxWidthImage="618"
                 header="Аренда автомобиля бизнес-класса: высокий уровень комфорта и уверенности на дороге"

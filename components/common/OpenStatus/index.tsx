@@ -36,13 +36,10 @@ export default function OpenStatus() {
                 </>
             ) : (
                 <a
-                    href="https://t.me/Rentasib"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center gap-2"
+                    className="underline underline-offset-4 font-bold mr-1"
+                    href="tel:89139132808"
                 >
-                    <TelegramLogo />
-                    Оставьте заявку
+                    +7-(913)-913-28-08
                 </a>
             )}
         </div>

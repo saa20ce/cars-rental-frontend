@@ -81,7 +81,7 @@ export default function HomeCarSearchForm({
             </header>
 
             <form
-                className="flex flex-col mt-[24px] lg:mt-[32px] gap-[32px] lg:grid lg:grid-cols-4"
+                className="flex flex-col mt-[24px] lg:mt-[32px] gap-[32px] lg:gap-[10px] lg:grid lg:grid-cols-4"
                 onSubmit={handleSubmit}
             >
                 <div className="flex flex-col gap-[8px] lg:gap-[10px] lg:contents">
@@ -148,7 +148,7 @@ export default function HomeCarSearchForm({
                 <CustomButton
                     variant="default"
                     type="submit"
-                    className="w-full font-semibold"
+                    className="w-full font-semibold lg:ml-[2px]"
                     style={{ width: '100%', height: 44 }}
                 >
                     Найти авто

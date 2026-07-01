@@ -15,8 +15,11 @@ import { InputMask } from '@react-input/mask';
 import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 import {
     normalizeAdditionalOptionsValue,
+    normalizeContactViaValue,
     normalizeDeliveryValue,
 } from '@/lib/helpers/formPayloadLabels';
+
+type ContactViaValue = 'telegram' | 'max' | 'phone';
 
 interface FormValues {
     clientName: string;
@@ -73,16 +76,11 @@ export const RentalCheckoutContactForm: React.FC<
         };
 
         const [loading, setLoading] = useState(false);
-        const [checkedMax, setCheckedMax] = useState(false);
-        const [checkedTg, setCheckedTg] = useState(false);
-
-        const onChangeMax = (e: CheckboxChangeEvent) => {
-            setCheckedMax(e.target.checked);
-        };
-
-        const onChangeTg = (e: CheckboxChangeEvent) => {
-            setCheckedTg(e.target.checked);
-        };
+        const [contactVia, setContactVia] = useState<ContactViaValue | null>(null);
+        const handleContactViaChange =
+            (value: ContactViaValue) => (e: CheckboxChangeEvent) => {
+                setContactVia(e.target.checked ? value : null);
+            };
 
         const onFinish = async (values: FormValues) => {
             setLoading(true);
@@ -98,6 +96,7 @@ export const RentalCheckoutContactForm: React.FC<
                 pricePerDay: values.pricePerDay,
                 delivery: normalizeDeliveryValue(values.delivery),
                 options: normalizeAdditionalOptionsValue(values.options),
+                contactVia: normalizeContactViaValue(contactVia),
                 comment: values.comment?.trim()
                     ? values.comment
                     : 'Без комментария',
@@ -231,8 +230,8 @@ export const RentalCheckoutContactForm: React.FC<
                             <Form.Item className="mt-[24px] lg:mt-[24px]">
                                 <Checkbox
                                     className="flex items-center"
-                                    checked={checkedTg}
-                                    onChange={onChangeTg}
+                                    checked={contactVia === 'telegram'}
+                                    onChange={handleContactViaChange('telegram')}
                                 >
                                     Связаться через Telegram
                                 </Checkbox>
@@ -241,10 +240,20 @@ export const RentalCheckoutContactForm: React.FC<
                             <Form.Item className="mt-0 lg:mt-[24px]">
                                 <Checkbox
                                     className="flex items-center"
-                                    checked={checkedMax}
-                                    onChange={onChangeMax}
+                                    checked={contactVia === 'max'}
+                                    onChange={handleContactViaChange('max')}
                                 >
                                     Связаться через Max
+                                </Checkbox>
+                            </Form.Item>
+
+                            <Form.Item className="mt-0 lg:mt-[24px]">
+                                <Checkbox
+                                    className="flex items-center"
+                                    checked={contactVia === 'phone'}
+                                    onChange={handleContactViaChange('phone')}
+                                >
+                                    Позвонить на телефон
                                 </Checkbox>
                             </Form.Item>
                         </div>

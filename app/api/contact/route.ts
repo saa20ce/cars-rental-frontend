@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
     normalizeAdditionalOptionsValue,
+    normalizeContactViaValue,
     normalizeDeliveryValue,
 } from '@/lib/helpers/formPayloadLabels';
 
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
             rentPeriod,
             delivery,
             options,
+            contactVia,
             comment,
             totalPrice,
             pricePerDay,
@@ -25,6 +27,7 @@ export async function POST(req: NextRequest) {
 
         const normalizedDelivery = normalizeDeliveryValue(delivery);
         const normalizedOptions = normalizeAdditionalOptionsValue(options);
+        const normalizedContactVia = normalizeContactViaValue(contactVia);
 
         const formData = new FormData();
 
@@ -35,6 +38,7 @@ export async function POST(req: NextRequest) {
         formData.append('rent-date', rentDate);
         formData.append('rent-period', rentPeriod);
         formData.append('delivery', normalizedDelivery);
+        formData.append('contact-via', normalizedContactVia);
         formData.append('options', normalizedOptions);
         formData.append('comment', comment);
         formData.append('price', totalPrice);

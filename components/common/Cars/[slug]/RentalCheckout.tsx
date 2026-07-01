@@ -235,11 +235,15 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
             setShowCost(true);
         } else {
+            const isStartDateSeason = startDate
+                ? isDaySeason(startDate.startOf('day'), seasonDates)
+                : false;
+
             setShowCost(false);
             setDaysCount(0);
             setDailyCosts([]);
-            setSeasonModeSwitch(false);
-            setHasSeasonDays(false);
+            setSeasonModeSwitch(isStartDateSeason);
+            setHasSeasonDays(isStartDateSeason);
         }
     }, [
         effectiveReturnTime,

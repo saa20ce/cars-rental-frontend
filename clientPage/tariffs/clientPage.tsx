@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import type { Car, DeliveryPrice, SeasonData } from '@/lib/types/Car';
@@ -15,7 +16,6 @@ import {
 import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
 import { ConfigProvider, DatePicker, Modal } from 'antd';
 import { CarTariffsCard } from '@/components/common/Cards/CarTariffsCard';
-import { SaleCard } from '@/components/common/Cards/SaleCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import { RentSteps } from '@/components/common/Steps/RentSteps';
@@ -41,6 +41,7 @@ import {
     buildKlassOptionsWithKuzov,
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
+import Banner from '@/public/images/Banner.png';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 const RENTAL_PERIOD_STORAGE_KEY = 'rentasibRentalPeriod';
@@ -631,13 +632,18 @@ export default function TariffsPageClient({
                     </div>
                     <div className="mt-2 flex flex-col">
                         {cars.length ? (
-                            cars.map((car, _index) => (
+                            cars.map((car, index) => (
                                 <React.Fragment key={car.id}>
-                                    {/* {index === 3 && (
+                                    {index === 3 && (
                                         <div className="block lg:hidden py-5">
-                                            <SaleCard />
+                                            <Image
+                                                src={Banner}
+                                                alt={'\u0410\u043a\u0446\u0438\u044f \u0430\u0440\u0435\u043d\u0434\u044b \u0430\u0432\u0442\u043e'}
+                                                className="w-full rounded-3xl object-cover"
+                                                sizes="100vw"
+                                            />
                                         </div>
-                                    )} */}
+                                    )}
                                     <CarTariffsCard
                                         car={car}
                                         daysCount={daysCount}

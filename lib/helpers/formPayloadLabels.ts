@@ -38,6 +38,12 @@ export const ADDITIONAL_OPTION_LABELS: Record<string, string> = {
     detskoe_kreslo: 'Детское кресло',
 };
 
+export const CONTACT_VIA_LABELS: Record<string, string> = {
+    telegram: 'Telegram',
+    max: 'Max',
+    phone: 'Позвонить на телефон',
+};
+
 const getTrimmedValue = (value?: string | null) => value?.trim() ?? '';
 
 export const getRussianOptionLabel = (
@@ -85,4 +91,12 @@ export const normalizeAdditionalOptionsValue = (value?: string | null) => {
     return optionValues
         .map((option) => ADDITIONAL_OPTION_LABELS[option] ?? option)
         .join(', ');
+};
+
+export const normalizeContactViaValue = (value?: string | null) => {
+    const trimmedValue = getTrimmedValue(value);
+
+    if (!trimmedValue) return '\u041d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e';
+
+    return CONTACT_VIA_LABELS[trimmedValue] ?? trimmedValue;
 };

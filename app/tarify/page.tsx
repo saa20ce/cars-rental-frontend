@@ -12,11 +12,24 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
 
+type TariffsPageSearchParams = {
+    klass?: string;
+    startDate?: string;
+    returnDate?: string;
+    startTime?: string;
+    returnTime?: string;
+};
+
 export async function generateMetadata() {
     return await fetchWPMetadata('/tarify');
 }
 
-export default async function TariffsPage() {
+export default async function TariffsPage({
+    searchParams,
+}: {
+    searchParams?: Promise<TariffsPageSearchParams>;
+}) {
+    const params = (await searchParams) ?? {};
     const cars = await getCars({ per_page: '100' });
     const {
         klassOptions,
@@ -47,6 +60,25 @@ export default async function TariffsPage() {
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
                 additionalOptions={additionalOptions}
+                initialSearchParams={{
+                    klass: typeof params.klass === 'string' ? params.klass : '',
+                    startDate:
+                        typeof params.startDate === 'string'
+                            ? params.startDate
+                            : '',
+                    returnDate:
+                        typeof params.returnDate === 'string'
+                            ? params.returnDate
+                            : '',
+                    startTime:
+                        typeof params.startTime === 'string'
+                            ? params.startTime
+                            : '',
+                    returnTime:
+                        typeof params.returnTime === 'string'
+                            ? params.returnTime
+                            : '',
+                }}
             />
         </>
     );

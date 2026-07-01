@@ -49,7 +49,7 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                 <div className="w-[69px] lg:w-1/3 text-center">
                     {pricePerDay.toLocaleString()} ₽
                 </div>
-                <div className="w-[60px] pr-2 lg:pr-0 lg:w-1/3 text-center">
+                <div className="w-[69px] pr-2 lg:pr-0 lg:w-1/3 text-center">
                     <span> {totalPrice.toLocaleString()} ₽</span>
                 </div>
                 <ChevronDownIcon className="w-[12px] h-[9px]" active />
@@ -64,11 +64,11 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                     className="flex items-center  justify-between py-3 px-4 cursor-pointer text-[12px]/[16px] lg:text-[16px]/[24px] rounded-t-[20px] bg-[#F6F6F633]"
                     onClick={() => onToggle(car.id)}
                 >
-                    <Link href={carLink} passHref className="w-1/2">
+                    <div className="w-1/2">
                         <div className="font-medium text-[#f6f6f6]">
                             {acf.nazvanie_avto}
                         </div>
-                    </Link>
+                    </div>
                     <div className="lg:w-1/2 flex pl-[12px] gap-2 lg:gap-0 items-center justify-end">
                         <div className="hidden lg:block w-[60px] lg:w-1/3 text-center">
                             {daysCount}

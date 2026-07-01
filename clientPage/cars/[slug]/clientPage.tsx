@@ -207,6 +207,7 @@ export default function SingleCarPageClient({
                         <PriceCards
                             priceRanges={priceRanges}
                             seasonModeSwitch={seasonModeSwitch}
+                            seasonDates={seasonDates}
                         />
                     )}
 

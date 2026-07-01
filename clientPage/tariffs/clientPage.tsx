@@ -44,7 +44,26 @@ import {
 import Banner from '@/public/images/Banner.png';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+
+interface InitialTariffsSearchParams {
+    klass?: string;
+    startDate?: string;
+    returnDate?: string;
+    startTime?: string;
+    returnTime?: string;
+}
 const RENTAL_PERIOD_STORAGE_KEY = 'rentasibRentalPeriod';
+
+const isValidInitialTime = (time?: string) =>
+    typeof time === 'string' && /^([01]\d|2[0-3]):00$/.test(time);
+
+const parseInitialDate = (date?: string) => {
+    if (!date) return null;
+
+    const parsedDate = dayjs(date);
+
+    return parsedDate.isValid() ? parsedDate.startOf('day') : null;
+};
 
 interface TariffsPageClientProps {
     cars: Car[];
@@ -57,6 +76,7 @@ interface TariffsPageClientProps {
     deliveryPrice: DeliveryPrice | null;
     seasonDates: SeasonData | null;
     additionalOptions: Array<{ label: string; value: string; price: number }>;
+    initialSearchParams?: InitialTariffsSearchParams;
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
@@ -78,10 +98,32 @@ export default function TariffsPageClient({
     deliveryPrice,
     seasonDates,
     additionalOptions,
+    initialSearchParams,
 }: TariffsPageClientProps) {
-    const today = useMemo(() => dayjs(), []);
+    const today = useMemo(() => dayjs().startOf('day'), []);
+    const initialStartDate = useMemo(() => {
+        const parsedDate = parseInitialDate(initialSearchParams?.startDate);
+
+        return parsedDate && !parsedDate.isBefore(today, 'day')
+            ? parsedDate
+            : today;
+    }, [initialSearchParams?.startDate, today]);
+    const initialReturnDate = useMemo(() => {
+        const parsedDate = parseInitialDate(initialSearchParams?.returnDate);
+
+        return parsedDate && parsedDate.isAfter(initialStartDate, 'day')
+            ? parsedDate
+            : null;
+    }, [initialSearchParams?.returnDate, initialStartDate]);
+    const initialStartTime = isValidInitialTime(initialSearchParams?.startTime)
+        ? initialSearchParams?.startTime ?? ''
+        : '';
+    const initialReturnTime = isValidInitialTime(initialSearchParams?.returnTime)
+        ? initialSearchParams?.returnTime ?? ''
+        : '';
+    const initialKlass = initialSearchParams?.klass ?? '';
     const [pendingFilters, setPendingFilters] = useState({
-        klass: '',
+        klass: initialKlass,
         marka: '',
         kuzov: '',
         privod: '',
@@ -90,15 +132,21 @@ export default function TariffsPageClient({
         priceRange: null as string | null,
     });
     const [cars, setCars] = useState<Car[] | null>(null);
-    const [startDate, setStartDate] = useState<Dayjs | null>(() => dayjs());
-    const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
-    const [isChainActive, setIsChainActive] = useState(false);
+    const [startDate, setStartDate] = useState<Dayjs | null>(initialStartDate);
+    const [returnDate, setReturnDate] = useState<Dayjs | null>(
+        initialReturnDate,
+    );
+    const [isChainActive, setIsChainActive] = useState(
+        Boolean(initialReturnDate),
+    );
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
-    const [advancedVisible, setAdvancedVisible] = useState(false);
+    const [advancedVisible, setAdvancedVisible] = useState(
+        Boolean(initialKlass),
+    );
     const [openId, setOpenId] = useState<number | null>(null);
     const [isMobile, setIsMobile] = useState(false);
-    const [startTime, setStartTime] = useState('');
-    const [returnTime, setReturnTime] = useState('');
+    const [startTime, setStartTime] = useState(initialStartTime);
+    const [returnTime, setReturnTime] = useState(initialReturnTime);
     const [selectedCar, setSelectedCar] = useState<Car | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -225,8 +273,8 @@ export default function TariffsPageClient({
     }, []);
 
     useEffect(() => {
-        setStartTime(defaultTimeValue);
-        setReturnTime(defaultTimeValue);
+        setStartTime((current) => current || defaultTimeValue);
+        setReturnTime((current) => current || defaultTimeValue);
     }, [defaultTimeValue]);
     useEffect(() => {
         const effectiveStartTime = startTime || defaultTimeValue;
@@ -625,7 +673,7 @@ export default function TariffsPageClient({
                             <div className="min-w-[72px] lg:min-w-none lg:text-center lg:w-1/3 ">
                                 Цена <br className="lg:hidden" /> за сутки
                             </div>
-                            <div className="w-[82px] lg:w-auto lg:text-center">
+                            <div className="w-[91px] lg:w-auto lg:text-center">
                                 Итоговая стоимость
                             </div>
                         </div>

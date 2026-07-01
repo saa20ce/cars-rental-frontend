@@ -1,21 +1,91 @@
 'use client';
 
 import React from 'react';
-import type { PriceRange } from '@/lib/types/Car';
+import type { PriceRange, SeasonData } from '@/lib/types/Car';
 import { Switch, Tooltip } from 'antd';
 import { LineIcon, InfoIcon } from '@/lib/ui/icons';
 
 interface PriceCardsProps {
     priceRanges: PriceRange[];
     seasonModeSwitch: boolean;
+    seasonDates?: SeasonData | null;
 }
 
-export const tooltipText = (
+const seasonDateFormatter = new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+});
+
+const fallbackSeasonRanges = [
+    '10 декабря - 20 января',
+    '15 мая - 30 сентября',
+];
+
+const formatSeasonDate = (date?: string) => {
+    if (!date) {
+        return null;
+    }
+
+    const [dayValue, monthValue] = date.split('/');
+    const day = Number(dayValue);
+    const month = Number(monthValue);
+
+    if (
+        !Number.isInteger(day) ||
+        !Number.isInteger(month) ||
+        day < 1 ||
+        day > 31 ||
+        month < 1 ||
+        month > 12
+    ) {
+        return null;
+    }
+
+    const formattedDate = new Date(2000, month - 1, day);
+
+    if (
+        formattedDate.getDate() !== day ||
+        formattedDate.getMonth() !== month - 1
+    ) {
+        return null;
+    }
+
+    return seasonDateFormatter.format(formattedDate);
+};
+
+const getSeasonRanges = (seasonDates?: SeasonData | null) => {
+    if (!seasonDates) {
+        return fallbackSeasonRanges;
+    }
+
+    const ranges = [
+        [
+            seasonDates['season-winter-start'],
+            seasonDates['season-winter-end'],
+        ],
+        [
+            seasonDates['season-summer-start'],
+            seasonDates['season-summer-end'],
+        ],
+    ]
+        .map(([startDate, endDate]) => {
+            const start = formatSeasonDate(startDate);
+            const end = formatSeasonDate(endDate);
+
+            return start && end ? `${start} - ${end}` : null;
+        })
+        .filter((range): range is string => Boolean(range));
+
+    return ranges.length > 0 ? ranges : fallbackSeasonRanges;
+};
+
+export const tooltipText = (seasonDates?: SeasonData | null) => (
     <div className="text-xs lg:text-sm">
-        Сезонные тарифы (высокий спрос)
+        {'Сезонные тарифы (высокий спрос)'}
         <ul className="list-decimal list-inside pl-1 font-bold">
-            <li>10 декабря - 20 января</li>
-            <li>1 мая - 15 сентября</li>
+            {getSeasonRanges(seasonDates).map((range) => (
+                <li key={range}>{range}</li>
+            ))}
         </ul>
     </div>
 );
@@ -23,6 +93,7 @@ export const tooltipText = (
 export const PriceCards: React.FC<PriceCardsProps> = ({
     priceRanges,
     seasonModeSwitch,
+    seasonDates,
 }) => {
     return (
         <>
@@ -63,7 +134,7 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
                     <span className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal">Сезон</span>
                     <LineIcon />
                     <Tooltip
-                        title={tooltipText}
+                        title={tooltipText(seasonDates)}
                         color="#4b5563"
                         arrow={false}
 

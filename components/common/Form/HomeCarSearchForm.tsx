@@ -59,12 +59,32 @@ export default function HomeCarSearchForm({
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const params = new URLSearchParams();
+
+        if (selectedKlass) {
+            params.set('klass', selectedKlass);
+        }
+
+        if (startDate) {
+            params.set('startDate', startDate.format('YYYY-MM-DD'));
+        }
+
+        if (returnDate) {
+            params.set('returnDate', returnDate.format('YYYY-MM-DD'));
+        }
+
+        if (startTime) {
+            params.set('startTime', startTime);
+        }
+
+        if (returnTime) {
+            params.set('returnTime', returnTime);
+        }
+
+        const queryString = params.toString();
+
         dispatchRouteLoadingStart();
-        router.push(
-            selectedKlass
-                ? `/cars?klass=${encodeURIComponent(selectedKlass)}`
-                : '/cars',
-        );
+        router.push(queryString ? `/tarify?${queryString}` : '/tarify');
     };
 
     return (

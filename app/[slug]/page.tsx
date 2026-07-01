@@ -4,6 +4,7 @@ import HtmlContent from '@/components/common/HtmlContent/HtmlContent';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { wpFetch } from '@/lib/api/wpCache';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import type { WPPost, WPPostDetails } from '@/lib/types/News';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -47,6 +48,7 @@ export default async function NewsDetailPage({
 
     const news: WPPost[] = newsRes.ok ? await newsRes.json() : [];
     const image = details._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+    const proxiedImage = proxyWpMediaUrl(image);
 
     return (
         <>
@@ -55,7 +57,7 @@ export default async function NewsDetailPage({
                 <article className="article" style={{ flex: 3 }}>
                     {image && (
                         <Image
-                            src={image}
+                            src={proxiedImage}
                             alt="Фото прикрепленное к новости"
                             width={900}
                             height={520}

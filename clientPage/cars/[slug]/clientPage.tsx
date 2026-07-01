@@ -138,7 +138,7 @@ export default function SingleCarPageClient({
                                     onClick={() => setPreviewImage(proxyWpMediaUrl(galleryImages[0]))}
                                 >
                                     <NextImage
-                                        src={galleryImages[0]}
+                                        src={proxyWpMediaUrl(galleryImages[0])}
                                         alt={car.acf?.nazvanie_avto || 'car image'}
                                         width={725}
                                         height={385}
@@ -171,7 +171,7 @@ export default function SingleCarPageClient({
                                                 onClick={() => setPreviewImage(proxyWpMediaUrl(imgUrl))}
                                             >
                                                 <NextImage
-                                                    src={imgUrl}
+                                                    src={proxyWpMediaUrl(imgUrl)}
                                                     alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
                                                     fill
                                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import type {
     Car as LibCar,
     CarACF,
@@ -68,6 +69,8 @@ export const CarCard: React.FC<CarCardProps> = ({
         (Array.isArray(acf.red_gallery) && acf.red_gallery[0]) ||
         '';
 
+
+    const proxiedImageUrl = proxyWpMediaUrl(imageUrl);
     const carLink = `/cars/${car.slug}`;
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
         []
@@ -229,7 +232,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                         className="relative w-full min-w-[310px] z-0 mb-[14px] md:mb-4 rounded-2xl h-[252px] max-h-[252px]"
                     >
                         <Image
-                            src={imageUrl ?? ''}
+                            src={proxiedImageUrl}
                             alt={`${car.acf?.nazvanie_avto ?? 'car'}`}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

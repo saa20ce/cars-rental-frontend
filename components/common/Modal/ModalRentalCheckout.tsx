@@ -8,6 +8,7 @@ import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
 import classes from './ModalRentalCheckout.module.css';
 import SaleInfo from '../Cards/SaleInfo';
 import Image from 'next/image';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 
 interface ModalRentalCheckoutProps {
     car: Car;
@@ -69,6 +70,8 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
         car.acf?.red_gallery?.[0] ||
         '';
 
+    const proxiedThumbUrl = proxyWpMediaUrl(thumbUrl);
+
     const allTerms = car._embedded?.['wp:term'] || [];
     const terms = allTerms.flat();
     const klassTerm = terms.find((t: Term) => t.taxonomy === 'klass');
@@ -121,7 +124,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                     <figure className="relative text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
                         {thumbUrl && (
                             <Image
-                                src={thumbUrl}
+                                src={proxiedThumbUrl}
                                 alt={car.title.rendered || 'Featured image'}
                                 width={404}
                                 height={242}

@@ -1,5 +1,6 @@
 import type { WPPost } from '@/lib/types/News';
 import Image from 'next/image';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import Link from 'next/link';
 
 type NewsPreviewCardProps = {
@@ -10,6 +11,7 @@ export default function NewsPreviewCard({ news }: NewsPreviewCardProps) {
     const title = news.title.rendered;
     const date = news.date;
     const image = news._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+    const proxiedImage = proxyWpMediaUrl(image);
     const link = `/${news.slug}`;
 
     return (
@@ -18,7 +20,7 @@ export default function NewsPreviewCard({ news }: NewsPreviewCardProps) {
                 {image ? (
                     <div className="relative aspect-video w-full">
                         <Image
-                            src={image}
+                            src={proxiedImage}
                             alt={title}
                             fill
                             sizes="(max-width: 1024px) 50vw, 297px"

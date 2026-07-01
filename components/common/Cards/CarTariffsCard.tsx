@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import { Button, ConfigProvider } from 'antd';
 import type { Car as LibCar, CarACF } from '@/lib/types/Car';
 import { ChevronDownIcon } from '@/lib/ui/icons';
@@ -33,6 +34,8 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
         acf.red_gallery?.[0] ||
         '';
 
+
+    const proxiedImageUrl = proxyWpMediaUrl(imageUrl);
     const carLink = `/cars/${car.slug}`;
 
     const headerRow = (
@@ -91,7 +94,7 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
                     <Link href={carLink} passHref className="contents">
                         {imageUrl && (
                             <Image
-                                src={imageUrl}
+                                src={proxiedImageUrl}
                                 alt={acf.nazvanie_avto || 'Автомобиль'}
                                 width={188}
                                 height={94}

@@ -97,7 +97,7 @@ export default function HomeCarSearchForm({
                     <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
                         В нашем автопарке — автомобили разных классов на любой
                         бюджет. Укажите даты и класс, чтобы найти подходящий
-                        автомобиль.
+                        автомобиль и увидеть актуальую цену.
                     </p>
                 </div>
             </header>

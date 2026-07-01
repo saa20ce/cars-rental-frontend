@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import CustomButton from '@/lib/ui/common/Button';
 import { CustomDatePicker } from '@/lib/ui/common/DatePicker/CustomDatePicker';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
+import { dispatchRouteLoadingStart } from '@/lib/helpers/routeLoading';
 import { buildKlassOptionsWithKuzov } from '@/lib/helpers/carFilterOptions';
 
 interface HomeCarSearchFormProps {
@@ -58,6 +59,7 @@ export default function HomeCarSearchForm({
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        dispatchRouteLoadingStart();
         router.push(
             selectedKlass
                 ? `/cars?klass=${encodeURIComponent(selectedKlass)}`

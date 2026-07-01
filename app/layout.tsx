@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import UpdatePathCookie from '@/components/common/Meta/UpdatePathCookie';
 import { Footer } from '@/components/layout/Footer';
 import CookieBanner from '@/components/common/CookieBanner/CookieBanner';
+import RouteChangeLoader from '@/components/common/RouteChangeLoader/RouteChangeLoader';
 import ModalScrollLock from '@/components/common/ModalScrollLock/ModalScrollLock';
 
 const lato = localFont({
@@ -48,6 +49,7 @@ export default function RootLayout({
             >
                 <UpdatePathCookie />
                 <ModalScrollLock />
+                <RouteChangeLoader />
                 <Header />
                 <main>{children}</main>
                 <Footer />

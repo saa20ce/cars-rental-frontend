@@ -32,7 +32,8 @@ interface CarsPageClientProps {
         price: number
     }[];
     deliveryPrice?: DeliveryOptionsGrouped;
-    seasonDates?: SeasonData | null
+    seasonDates?: SeasonData | null;
+    headingLevel?: 'h1' | 'h2';
 }
 
 const getCurrentCarPrice = (
@@ -62,7 +63,8 @@ export default function CarsPageClient({
     defaultMarka = [],
     additionalOptions,
     deliveryPrice,
-    seasonDates
+    seasonDates,
+    headingLevel = 'h1',
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc'
@@ -80,6 +82,8 @@ export default function CarsPageClient({
         () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
         [klassOptions, kuzovOptions],
     );
+
+    const HeadingTag = headingLevel;
 
     const handleSortDesc = () => setSortOrder('desc');
     const handleSortAsc = () => setSortOrder('asc');
@@ -171,9 +175,9 @@ export default function CarsPageClient({
             <section className="bg-[#f6f6f60e] rounded-3xl px-6 py-[28px] lg:py-[38px] lg:px-9">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 lg:pb-8 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
-                        <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
+                        <HeadingTag className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
                             Автопарк
-                        </h1>
+                        </HeadingTag>
                         <p className="hidden lg:block text-[18px]/[28px] font-medium">
                             Мы гордимся своим обновляемым автопарком, который
                             всегда находится в отличном состоянии и готов

@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         return xmlResponse(cached.xml);
     }
 
-    const wpUrl = `${WP_API_URL}/posts?_embed&per_page=${perPage}&page=${page}`;
+    const wpUrl = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&_fields=slug,date`;
 
     const res = await wpFetch(wpUrl, { next: { tags: ['wordpress-news'] } });
 

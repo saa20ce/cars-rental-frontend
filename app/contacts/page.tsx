@@ -14,6 +14,9 @@ export default async function ContactsPage() {
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
+            <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-5 lg:mb-6">
+                Контакты
+            </h1>
             <ContactCard
                 children={
                     <>

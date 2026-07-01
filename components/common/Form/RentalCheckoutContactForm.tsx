@@ -226,8 +226,8 @@ export const RentalCheckoutContactForm: React.FC<
                             <Input disabled />
                         </Form.Item>
 
-                        <div className="flex flex-col gap-0 lg:flex-row lg:gap-9">
-                            <Form.Item className="mt-[24px] lg:mt-[24px]">
+                        <div className="flex flex-col gap-0 mb-[14px]">
+                            <Form.Item className="mt-[24px] lg:mt-[14px]">
                                 <Checkbox
                                     className="flex items-center"
                                     checked={contactVia === 'telegram'}
@@ -237,7 +237,7 @@ export const RentalCheckoutContactForm: React.FC<
                                 </Checkbox>
                             </Form.Item>
 
-                            <Form.Item className="mt-0 lg:mt-[24px]">
+                            <Form.Item className="mt-0 lg:mt-[8px]">
                                 <Checkbox
                                     className="flex items-center"
                                     checked={contactVia === 'max'}
@@ -247,7 +247,7 @@ export const RentalCheckoutContactForm: React.FC<
                                 </Checkbox>
                             </Form.Item>
 
-                            <Form.Item className="mt-0 lg:mt-[24px]">
+                            <Form.Item className="mt-0 lg:mt-[8px]">
                                 <Checkbox
                                     className="flex items-center"
                                     checked={contactVia === 'phone'}
@@ -258,7 +258,6 @@ export const RentalCheckoutContactForm: React.FC<
                             </Form.Item>
                         </div>
 
-                        <PersonalDataConsentFormItem className="lg:mb-8 mb-6 mt-2" />
                         <Form.Item className="mb-0">
                             <ConfigProvider
                                 theme={{
@@ -292,6 +291,8 @@ export const RentalCheckoutContactForm: React.FC<
                                 >
                                     Оставить заявку
                                 </Button>
+
+                                <PersonalDataConsentFormItem className="lg:mb-8 mb-6 mt-2" />
                             </ConfigProvider>
                         </Form.Item>
                     </Form>

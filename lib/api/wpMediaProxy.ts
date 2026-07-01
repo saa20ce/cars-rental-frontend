@@ -28,5 +28,5 @@ export function isAllowedWpMediaUrl(value: string) {
 
 export function proxyWpMediaUrl(value: string | undefined | null) {
     if (!value || !isAllowedWpMediaUrl(value)) return value ?? '';
-    return `/api/wp-media?url=${encodeURIComponent(value)}`;
+    return `/wp-media?url=${encodeURIComponent(value)}`;
 }

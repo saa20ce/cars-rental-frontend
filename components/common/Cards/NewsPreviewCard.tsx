@@ -1,4 +1,5 @@
-import { WPPost } from '@/app/blog/[slug]/page';
+import type { WPPost } from '@/lib/types/News';
+import Image from 'next/image';
 import Link from 'next/link';
 
 type NewsPreviewCardProps = {
@@ -9,17 +10,21 @@ export default function NewsPreviewCard({ news }: NewsPreviewCardProps) {
     const title = news.title.rendered;
     const date = news.date;
     const image = news._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-    const link = `/blog/${news.slug}`;
+    const link = `/${news.slug}`;
 
     return (
         <article className="flex flex-col bg-[#F6F6F60D] mb-4 rounded-[16px] overflow-hidden">
             <Link href={link}>
                 {image ? (
-                    <img
-                        src={image}
-                        alt={title}
-                        className="w-full aspect-video object-cover"
-                    />
+                    <div className="relative aspect-video w-full">
+                        <Image
+                            src={image}
+                            alt={title}
+                            fill
+                            sizes="(max-width: 1024px) 50vw, 297px"
+                            className="object-cover"
+                        />
+                    </div>
                 ) : (
                     <div className="bg-[#F6F6F699] rounded-t-[16px] w-full object-cover aspect-video flex-center">
                         Изображение отсутствует

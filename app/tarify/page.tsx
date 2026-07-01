@@ -10,7 +10,6 @@ import TariffsPageClient from '@/clientPage/tariffs/clientPage';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 
-export const dynamic = 'force-dynamic';
 
 type TariffsPageSearchParams = {
     klass?: string;

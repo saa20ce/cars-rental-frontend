@@ -1,5 +1,6 @@
 import { Car } from '@/lib/types/Car';
 import { CarTaxonomyConfig } from '@/lib/types/Taxonomies';
+import { wpFetch } from './wpCache';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
@@ -24,7 +25,7 @@ interface LinkItem {
 
 export async function fetchTermName(url: string): Promise<string | null> {
     try {
-        const res = await fetch(url);
+        const res = await wpFetch(url, { next: { tags: ['wordpress-taxonomies'] } });
         if (!res.ok) {
             console.error('Ошибка при запросе таксономии:', url, res.status);
             return null;
@@ -71,7 +72,9 @@ export async function fetchTaxonomyOptions(
     taxonomy: string,
 ): Promise<Array<{ value: string; label: string }>> {
     try {
-        const res = await fetch(`${WP_API_URL}/${taxonomy}`);
+        const res = await wpFetch(`${WP_API_URL}/${taxonomy}?per_page=100`, {
+            next: { tags: ['wordpress-taxonomies'] },
+        });
         if (!res.ok) {
             console.error(
                 `Ошибка при получении таксономии ${taxonomy}:`,

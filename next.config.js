@@ -8,17 +8,20 @@ const nextConfig = {
     productionBrowserSourceMaps: true,
     allowedDevOrigins: ['127.0.0.1', 'localhost'],
     images: {
-	unoptimized: true,
-  remotePatterns: [
-    { protocol: 'https', hostname: 'staged.rentasib.ru', pathname: '/wp-content/uploads/**' },
-    { protocol: 'https', hostname: 'staged.rentasib.ru', pathname: '/**' },
-    { protocol: 'https', hostname: 'new.rentasib.ru', pathname: '/**' },
-  ],
-  domains: ['staged.rentasib.ru'],
-  deviceSizes: [360, 414, 640, 768, 1024, 1200, 1280, 1920],
-  imageSizes: [16, 32, 48, 64, 96, 128, 256],
-  formats: ['image/avif', 'image/webp'],
-},
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'staged.rentasib.ru',
+                pathname: '/wp-content/uploads/**',
+            },
+            { protocol: 'https', hostname: 'new.rentasib.ru', pathname: '/**' },
+        ],
+        domains: ['staged.rentasib.ru'],
+        deviceSizes: [360, 414, 640, 768, 1024, 1200, 1280, 1920],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256],
+        formats: ['image/avif', 'image/webp'],
+        minimumCacheTTL: 60 * 60 * 24 * 30,
+    },
 
     async rewrites() {
         return [

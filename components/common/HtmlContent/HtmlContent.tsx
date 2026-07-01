@@ -1,7 +1,8 @@
-import { NewsDetail } from '@/app/blog/[slug]/page';
+import type { NewsDetail } from '@/lib/types/News';
 import classes from './HtmlContent.module.css';
 import { load } from 'cheerio';
 import { Accordion } from '@/lib/ui/common/Accordion';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 
 function extractH2Headings(html: string): string[] {
     const $ = load(html);
@@ -23,8 +24,43 @@ function replaceH1WithH2(html: string): string {
     return $.html();
 }
 
+function rewriteSrcSet(value: string) {
+    if (!value.includes('/wp-content/uploads/')) return value;
+
+    return value
+        .split(',')
+        .map((item) => {
+            const trimmed = item.trim();
+            const firstSpaceIndex = trimmed.search(/\s/);
+
+            if (firstSpaceIndex === -1) return proxyWpMediaUrl(trimmed);
+
+            const src = trimmed.slice(0, firstSpaceIndex);
+            const descriptor = trimmed.slice(firstSpaceIndex);
+            return `${proxyWpMediaUrl(src)}${descriptor}`;
+        })
+        .join(', ');
+}
+
+function rewriteWpMediaUrls(html: string): string {
+    const $ = load(html);
+
+    $('img, source').each((_, el) => {
+        const element = $(el);
+        const src = element.attr('src');
+        const srcset = element.attr('srcset');
+
+        if (src) element.attr('src', proxyWpMediaUrl(src));
+        if (srcset) element.attr('srcset', rewriteSrcSet(srcset));
+    });
+
+    return $.html();
+}
+
 export default function HtmlContent({ details }: { details: NewsDetail }) {
-    const cleanedHtml = replaceH1WithH2(details.content.rendered);
+    const cleanedHtml = rewriteWpMediaUrls(
+        replaceH1WithH2(details.content.rendered),
+    );
     const headers = extractH2Headings(cleanedHtml);
     const itemCollapse = [
         {

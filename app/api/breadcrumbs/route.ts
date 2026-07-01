@@ -1,19 +1,26 @@
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
-import { unstable_noStore as noStore } from "next/cache";
+import { cacheControlHeader } from '@/lib/api/wpCache';
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 86400;
 
 export async function GET(req: Request) {
-    noStore();
     const { searchParams } = new URL(req.url);
     const path = searchParams.get('path') || '/';
 
     try {
-      const items = await fetchBreadcrumbs(path);
-      return Response.json(items);
+        const items = await fetchBreadcrumbs(path);
+        return Response.json(items, {
+            headers: {
+                'Cache-Control': cacheControlHeader(),
+            },
+        });
     } catch (err) {
-      console.error("[api/breadcrumbs] fallback:", err);
-      // важно: не валим build/SSR, а даём пустые крошки
-      return Response.json([], { status: 200 });
-}}
+        console.error('[api/breadcrumbs] fallback:', err);
+        return Response.json([], {
+            status: 200,
+            headers: {
+                'Cache-Control': cacheControlHeader(60, 300),
+            },
+        });
+    }
+}

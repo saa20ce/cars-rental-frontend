@@ -7,6 +7,7 @@ import { RentalPeriod } from '../Cars';
 import { ArrowIcon } from '@/lib/ui/icons/ArrowIcon';
 import classes from './ModalRentalCheckout.module.css';
 import SaleInfo from '../Cards/SaleInfo';
+import Image from 'next/image';
 
 interface ModalRentalCheckoutProps {
     car: Car;
@@ -119,9 +120,12 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                 >
                     <figure className="relative text-[16px]/[24px] flex flex-row gap-[10px] lg:block lg:w-full lg:h-full">
                         {thumbUrl && (
-                            <img
+                            <Image
                                 src={thumbUrl}
                                 alt={car.title.rendered || 'Featured image'}
+                                width={404}
+                                height={242}
+                                sizes="(max-width: 1024px) 96px, 404px"
                                 className="w-24 h-[72px] object-cover rounded-xl lg:w-full lg:h-full"
                             />
                         )}

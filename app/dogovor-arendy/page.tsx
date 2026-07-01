@@ -6,7 +6,6 @@ export async function generateMetadata() {
     return await fetchWPMetadata('/dogovor-arendy');
 }
 
-export const dynamic = 'force-dynamic';
 
 export default async function Dogovor() {
     const breadcrumbs = await fetchBreadcrumbs('/dogovor-arendy');

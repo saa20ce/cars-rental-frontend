@@ -1,20 +1,23 @@
-const WP_API_URL = 'https://staged.rentasib.ru/wp-json/wp/v2/posts';
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://new.rentasib.ru';
+import { cacheControlHeader, WP_REVALIDATE_SECONDS, wpFetch } from '@/lib/api/wpCache';
+import { getSiteUrl } from '@/lib/seo/siteUrl';
+
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 type CacheItem = { xml: string; expiresAt: number };
-const CACHE_TTL_SEC = 60 * 60;
+const CACHE_TTL_SEC = WP_REVALIDATE_SECONDS;
 const IN_MEMORY_CACHE = new Map<number, CacheItem>();
 
-function xmlResponse(xml: string, maxAgeSec = 3600) {
+function xmlResponse(xml: string, maxAgeSec = WP_REVALIDATE_SECONDS) {
     return new Response(xml, {
         headers: {
             'Content-Type': 'application/xml',
-            'Cache-Control': `public, max-age=${maxAgeSec}, stale-while-revalidate=${Math.floor(maxAgeSec / 2)}`,
+            'Cache-Control': cacheControlHeader(maxAgeSec),
         },
     });
 }
 
 export async function GET(request: Request) {
+    const baseUrl = getSiteUrl(request);
     let page = 1;
     try {
         const url = new URL(request.url);
@@ -23,7 +26,7 @@ export async function GET(request: Request) {
         const m2 = pathname.match(/\/sitemap-news-(\d+)(?:\.xml)?$/);
         if (m1) page = Number(m1[1]);
         else if (m2) page = Number(m2[1]);
-    } catch (e) {
+    } catch {
         page = 1;
     }
 
@@ -33,13 +36,12 @@ export async function GET(request: Request) {
     const cached = IN_MEMORY_CACHE.get(page);
     const now = Date.now();
     if (cached && cached.expiresAt > now) {
-        return xmlResponse(cached.xml, 3600);
+        return xmlResponse(cached.xml);
     }
 
-    const revalidateSec = 60 * 60 * 24;
-    const wpUrl = `${WP_API_URL}?_embed&per_page=${perPage}&page=${page}`;
+    const wpUrl = `${WP_API_URL}/posts?_embed&per_page=${perPage}&page=${page}`;
 
-    const res = await fetch(wpUrl, { next: { revalidate: revalidateSec } });
+    const res = await wpFetch(wpUrl, { next: { tags: ['wordpress-news'] } });
 
     if (!res.ok) {
         if (cached) return xmlResponse(cached.xml, 60);
@@ -50,22 +52,30 @@ export async function GET(request: Request) {
     if (!Array.isArray(posts) || posts.length === 0) {
         const emptyXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
-        IN_MEMORY_CACHE.set(page, { xml: emptyXml, expiresAt: now + CACHE_TTL_SEC * 1000 });
-        return xmlResponse(emptyXml, 3600);
+        IN_MEMORY_CACHE.set(page, {
+            xml: emptyXml,
+            expiresAt: now + CACHE_TTL_SEC * 1000,
+        });
+        return xmlResponse(emptyXml);
     }
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${posts
-            .map((post: any) => `
+    .map(
+        (post: { slug: string; date: string }) => `
   <url>
     <loc>${baseUrl.replace(/\/$/, '')}/${post.slug}</loc>
     <lastmod>${new Date(post.date).toISOString()}</lastmod>
-  </url>`)
-            .join('')}
+  </url>`,
+    )
+    .join('')}
 </urlset>`;
 
-    IN_MEMORY_CACHE.set(page, { xml, expiresAt: now + CACHE_TTL_SEC * 1000 });
+    IN_MEMORY_CACHE.set(page, {
+        xml,
+        expiresAt: now + CACHE_TTL_SEC * 1000,
+    });
 
-    return xmlResponse(xml, 3600);
+    return xmlResponse(xml);
 }

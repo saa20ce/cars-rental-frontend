@@ -1,3 +1,5 @@
+import { wpFetch } from './wpCache';
+
 export interface BreadcrumbItem {
     href: string;
     title: string;
@@ -39,7 +41,7 @@ async function fetchTitleBySlug(
     type: 'pages' | 'cars' | 'posts'
 ) {
     const url = `${WP_API_URL}/${type}?slug=${slug}`;
-    const res = await fetch(url, { cache: 'force-cache' });
+    const res = await wpFetch(url, { next: { tags: ['wordpress-breadcrumbs'] } });
     if (!res.ok) return null;
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) return null;
@@ -58,8 +60,8 @@ export async function fetchBreadcrumbs(
 
     let homeTitle = 'Главная';
     try {
-        const homeRes = await fetch(`${WP_API_URL}/pages?slug=home`, {
-            cache: 'force-cache',
+        const homeRes = await wpFetch(`${WP_API_URL}/pages?slug=home`, {
+            next: { tags: ['wordpress-breadcrumbs'] },
         });
         const homeData = await homeRes.json();
         if (Array.isArray(homeData) && homeData[0]?.title?.rendered) {

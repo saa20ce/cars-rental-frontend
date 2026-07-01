@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 type Post = {
@@ -27,19 +28,23 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
 
                 return (
                     <Link
-                        href={`/blog/${post.slug}`}
+                        href={`/${post.slug}`}
                         key={post.id}
                         className="bg-[#1C2B35] p-4 rounded-2xl shadow hover:scale-[1.01] hover:text-[#F6F6F6] transition-transform duration-300"
                     >
-                        <div className="-m-4">
+                        <div className="-m-4 mb-10">
                             {image ? (
-                                <img
-                                    src={image}
-                                    alt={post.title.rendered}
-                                    className="rounded-xl w-full object-cover mb-10 aspect-[360/206] lg:aspect-[404/231]"
-                                />
+                                <div className="relative overflow-hidden rounded-xl aspect-[360/206] lg:aspect-[404/231]">
+                                    <Image
+                                        src={image}
+                                        alt={post.title.rendered}
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        className="object-cover"
+                                    />
+                                </div>
                             ) : (
-                                <div className="bg-[#F6F6F699] rounded-xl w-full object-cover mb-10 aspect-[360/206] lg:aspect-[404/231] flex-center">
+                                <div className="bg-[#F6F6F699] rounded-xl w-full object-cover aspect-[360/206] lg:aspect-[404/231] flex-center">
                                     Изображение отсутствует
                                 </div>
                             )}

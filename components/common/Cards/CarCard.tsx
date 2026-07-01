@@ -11,7 +11,7 @@ import type {
 } from '@/lib/types/Car';
 import CustomButton from '@/lib/ui/common/Button';
 import SaleInfo from './SaleInfo';
-import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
+import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     computeCostsChunked,

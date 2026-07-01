@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
 import NextImage from 'next/image';
+import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import dayjs from 'dayjs';
 import './index.css';
 import {
@@ -134,14 +135,15 @@ export default function SingleCarPageClient({
                                     type="button"
                                     className="block w-full cursor-zoom-in border-0 bg-transparent p-0"
                                     aria-label="Открыть изображение автомобиля"
-                                    onClick={() => setPreviewImage(galleryImages[0])}
+                                    onClick={() => setPreviewImage(proxyWpMediaUrl(galleryImages[0]))}
                                 >
-                                    <img
+                                    <NextImage
                                         src={galleryImages[0]}
-                                        loading='lazy'
                                         alt={car.acf?.nazvanie_avto || 'car image'}
+                                        width={725}
+                                        height={385}
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                                         className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     />
                                 </button>
                             )}
@@ -166,7 +168,7 @@ export default function SingleCarPageClient({
                                                 type="button"
                                                 className="relative block w-full h-[225px] cursor-zoom-in overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
                                                 aria-label={`Открыть изображение автомобиля ${i + 1}`}
-                                                onClick={() => setPreviewImage(imgUrl)}
+                                                onClick={() => setPreviewImage(proxyWpMediaUrl(imgUrl))}
                                             >
                                                 <NextImage
                                                     src={imgUrl}

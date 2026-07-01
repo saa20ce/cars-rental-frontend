@@ -3,7 +3,6 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import {
     getCarBySlug,
     getSeasonDates,
-    buildPriceRangesFromACF,
     getDeliveryPrice,
     getSimilarCars,
     getSimilarCarsGroup,
@@ -14,16 +13,16 @@ import { CAR_TAXONOMIES } from '@/lib/types/Taxonomies';
 import SingleCarPageClient from '@/clientPage/cars/[slug]/clientPage';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 
 type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
 };
 
-export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: SingleCarPageProps) {
     const { slug } = await params;
-    return await fetchWPMetadata('cars/' + slug);
+    return await fetchWPMetadata(`/cars/${slug}`);
 }
 
 export default async function SingleCarPage({ params }: SingleCarPageProps) {

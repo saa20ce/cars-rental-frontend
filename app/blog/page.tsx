@@ -3,7 +3,10 @@ import { NewsGrid } from '@/components/common/NewsGrid/NewsGrid';
 import Pagination from '@/components/common/NewsGrid/Pagination';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { wpFetch } from '@/lib/api/wpCache';
 import { notFound } from 'next/navigation';
+
+const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/blog');
@@ -11,9 +14,9 @@ export async function generateMetadata() {
 
 async function getNews(page: number) {
     const PER_PAGE = 9;
-    const res = await fetch(
-        `https://staged.rentasib.ru/wp-json/wp/v2/posts?_embed=wp:featuredmedia&per_page=${PER_PAGE}&page=${page}`,
-        { next: { revalidate: 3600 } },
+    const res = await wpFetch(
+        `${WP_API_URL}/posts?_embed=wp:featuredmedia&per_page=${PER_PAGE}&page=${page}`,
+        { next: { tags: ['wordpress-news'] } },
     );
 
     if (res.status === 400 || res.status === 404) notFound();

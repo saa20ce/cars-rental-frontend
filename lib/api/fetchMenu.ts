@@ -1,10 +1,11 @@
 import { WPMenuType } from '@/lib/types/Menu';
+import { wpFetch } from './wpCache';
 
 export async function fetchMenuItems(
     url: string,
 ): Promise<WPMenuType[] | null> {
     try {
-        const res = await fetch(url);
+        const res = await wpFetch(url, { next: { tags: ['wordpress-menu'] } });
         if (!res.ok) {
             console.error('Ошибка при запросе меню:', url, res.status);
             return null;

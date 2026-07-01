@@ -1,13 +1,11 @@
 import type {
     Car,
-    CarACF,
     SeasonData,
-    PriceRange,
-    BasePriceRangeConfig,
     DeliveryOptionsGrouped,
     DeliveryOption,
 } from '@/lib/types/Car';
 import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
+import { wpFetch } from './wpCache';
 import { buildFieldsParam } from './wpFields';
 import { slimCars } from './fetchCarDataImageHelper';
 import {
@@ -17,6 +15,19 @@ import {
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
+
+type WpOptionsAcf = Record<string, unknown>;
+
+async function getWpOptionsAcf(): Promise<WpOptionsAcf | null> {
+    const res = await wpFetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
+        next: { tags: ['wordpress-options'] },
+    });
+
+    if (!res.ok) return null;
+
+    const json = await res.json();
+    return json?.acf || null;
+}
 
 export type SimilarCarsGroup = {
     title: string;
@@ -122,7 +133,7 @@ export async function getCarBySlug(slug: string, includeTaxonomies: boolean = fa
     const fields = buildFieldsParam(baseFields);
 
     const url = `${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term&${fields}`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return null;
 
     const data: Car[] = await res.json();
@@ -134,9 +145,9 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const group = getSimilarCarsGroup(car);
 
     if (group) {
-        const res = await fetch(
+        const res = await wpFetch(
             `${WP_API_URL}/cars?${group.taxonomy}=${group.id}&exclude=${car.id}&per_page=10&_embed=wp:featuredmedia,wp:term`,
-            { next: { revalidate: 60 } },
+            { next: { tags: ['wordpress-cars'] } },
         );
 
         if (res.ok) {
@@ -155,9 +166,9 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 
     const markaId = markaIds[0];
 
-    const res = await fetch(
+    const res = await wpFetch(
         `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia`,
-        { next: { revalidate: 60 } },
+        { next: { tags: ['wordpress-cars'] } },
     );
 
     if (!res.ok) return [];
@@ -170,9 +181,9 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
         return similarCars;
     }
 
-    const fallbackRes = await fetch(
+    const fallbackRes = await wpFetch(
         `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia`,
-        { next: { revalidate: 60 } },
+        { next: { tags: ['wordpress-cars'] } },
     );
     if (!fallbackRes.ok) return similarCars;
 
@@ -202,31 +213,23 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 }
 
 export async function getSeasonDates(): Promise<SeasonData | null> {
-    const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
-        next: { revalidate: 60 },
-    });
+    const acf = await getWpOptionsAcf();
 
-    if (!res.ok) {
-        console.error('Error fetching season dates', res);
+    if (!acf) {
+        console.error('Error fetching season dates');
         return null;
     }
 
-    const json = await res.json();
-    return json?.acf || null;
+    return acf as unknown as SeasonData;
 }
 
 export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
-    const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
-        next: { revalidate: 60 },
-    });
+    const acf = await getWpOptionsAcf();
 
-    if (!res.ok) {
-        console.error('Error fetching delivery options', res);
+    if (!acf) {
+        console.error('Error fetching delivery options');
         return { day: [], night: [] };
     }
-
-    const json = await res.json();
-    const acf = json?.acf;
 
     const deliveryOrder = new Map(
         Object.keys(DELIVERY_OPTION_LABELS).map((key, index) => [key, index]),
@@ -255,24 +258,30 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
     };
 
     return {
-        day: buildOptions(acf['dostavka_avto_den'], 'день'),
-        night: buildOptions(acf['dostavka_avto_noch'], 'ночь'),
+        day: buildOptions(
+            acf['dostavka_avto_den'] as Record<string, string> | undefined,
+            'день',
+        ),
+        night: buildOptions(
+            acf['dostavka_avto_noch'] as Record<string, string> | undefined,
+            'ночь',
+        ),
     };
 }
 
 export async function getAdditionalOptions(): Promise<
     { label: string; value: string; price: number }[]
 > {
-    const res = await fetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
-        next: { revalidate: 60 },
-    });
+    const acf = await getWpOptionsAcf();
 
-    if (!res.ok) {
-        console.error('Error fetching additional options', res);
+    if (!acf) {
+        console.error('Error fetching additional options');
         return [];
     }
-    const json = await res.json();
-    const dopOptions = json?.acf?.['dopolnitelnye_opczii'];
+
+    const dopOptions = acf['dopolnitelnye_opczii'] as
+        | Record<string, string>
+        | undefined;
 
     if (!dopOptions || typeof dopOptions !== 'object') return [];
 
@@ -283,34 +292,14 @@ export async function getAdditionalOptions(): Promise<
     }));
 }
 
-const PRICE_CONFIG: BasePriceRangeConfig[] = [
-    { baseKey: '1-3_dnya', minDays: 1, maxDays: 3, label: '1-3 суток' },
-    { baseKey: '4-9_dnej', minDays: 4, maxDays: 9, label: '4-9 суток' },
-    { baseKey: '10-18_dnej', minDays: 10, maxDays: 18, label: '10-18 суток' },
-    { baseKey: '19-29_dnej', minDays: 19, maxDays: 29, label: '19-29 суток' },
-    { baseKey: '30_dnej', minDays: 30, maxDays: 9999, label: '30+ суток' },
-];
+export async function getCars(
+    filters: Record<string, string> = {},
+): Promise<Car[]> {
+    const params = new URLSearchParams(filters);
+    params.set('_embed', 'wp:featuredmedia,wp:term');
 
-export function buildPriceRangesFromACF(acf: CarACF): PriceRange[] {
-    return PRICE_CONFIG.map((cfg) => {
-        const normalValue = acf[cfg.baseKey];
-        const seasonValue = acf[cfg.baseKey + '_S'];
-
-        const normalStr = typeof normalValue === 'string' ? normalValue : '0';
-        const seasonStr = typeof seasonValue === 'string' ? seasonValue : '0';
-
-        return {
-            ...cfg,
-            price: parseInt(normalStr, 10) || 0,
-            seasonPrice: parseInt(seasonStr, 10) || 0,
-        };
-    });
-}
-
-export async function getCars(filters: Record<string, string> = {}): Promise<Car[]> {
-    const params = new URLSearchParams(filters).toString();
-    const url = `${WP_API_URL}/cars${params ? `?${params}` : ''}&_embed=wp:featuredmedia,wp:term`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const url = `${WP_API_URL}/cars?${params.toString()}`;
+    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
     return slimCars(data);
@@ -318,7 +307,7 @@ export async function getCars(filters: Record<string, string> = {}): Promise<Car
 
 export async function getCarsByClass(klassId: number): Promise<Car[]> {
     const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia,wp:term`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
     return slimCars(data);
@@ -326,7 +315,7 @@ export async function getCarsByClass(klassId: number): Promise<Car[]> {
 
 export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
     const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia,wp:term`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
     return slimCars(data);

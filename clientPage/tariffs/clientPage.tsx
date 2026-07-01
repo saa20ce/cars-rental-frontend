@@ -13,7 +13,7 @@ import {
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
 } from '@/lib/helpers/RentalCheckoutHelper';
-import { buildPriceRangesFromACF } from '@/lib/api/fetchCarData';
+import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 import { ConfigProvider, DatePicker, Modal } from 'antd';
 import { CarTariffsCard } from '@/components/common/Cards/CarTariffsCard';
 import { WhyUs } from '@/components/common/Cards/WhyUs';

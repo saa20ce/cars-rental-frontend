@@ -1,16 +1,14 @@
 import 'server-only'
-import { unstable_noStore as noStore } from 'next/cache'
+import { wpFetch } from './wpCache';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 export async function fetchWPMetadata(pagePath: string) {
-    noStore();
-
     try {
         const pageUrl = `${WP_API_URL}${pagePath}`;
-        const res = await fetch(
+        const res = await wpFetch(
             `${WP_API_URL}/wp-json/rankmath/v1/getHead?url=${encodeURIComponent(pageUrl)}`,
-            { cache: 'no-store' },
+            { next: { tags: ['wordpress-metadata'] } },
         );
 
         if (!res.ok) return {};

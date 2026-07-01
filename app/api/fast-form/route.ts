@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
+
 export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, phone } = body;
@@ -13,7 +15,7 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const wpEndpoint = `https://staged.rentasib.ru/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
+    const wpEndpoint = `${WP_BASE_URL}/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
 
     const formData = new FormData();
     formData.append('your_name', name);

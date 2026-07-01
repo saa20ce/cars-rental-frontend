@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import LetterThanks from '@/components/common/LetterThanks/LetterThanks';
 import ModalTriggerCommercialProposalForm from '@/components/common/Modal/ModalTriggerCommercialProposalForm';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
+import { fetchDjangoJson } from '@/lib/api/fetchDjangoJson';
 import { faqItems } from '@/lib/data/faqItems';
 import { infoThreeCardItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
@@ -13,7 +14,6 @@ import { ParticlesIcon } from '@/lib/ui/icons/ParticlesIcon';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 
-export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/service/arenda-avtomobilej-dlya-biznesa');
@@ -21,12 +21,13 @@ export async function generateMetadata() {
 
 export default async function СorporateRentalPage() {
     const breadcrumbs = await fetchBreadcrumbs('/service/corporate-rental');
-    const lettersRes = await fetch(
-        `${process.env.DJANGO_INTERNAL_API}/api/thank-you-letters/`,
+    const letters = await fetchDjangoJson<Parameters<typeof LetterThanks>[0]['letters']>(
+        '/api/thank-you-letters/',
+        [],
+        { next: { revalidate: 60 * 60 } },
     );
     const { klassOptions } = await getAllTaxonomyOptions();
 
-    const letters = await lettersRes.json();
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />

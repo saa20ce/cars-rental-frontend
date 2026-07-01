@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button, ConfigProvider } from 'antd';
 import type { Car as LibCar, CarACF } from '@/lib/types/Car';
 import { ChevronDownIcon } from '@/lib/ui/icons';
@@ -88,11 +89,16 @@ export const CarTariffsCard: React.FC<CarTariffsCardProps> = ({
 
                 <div className="flex gap-3 lg:gap-6 p-4 lg:py-[26px] lg:px-6 bg-[#f6f6f60e] rounded-b-2xl ">
                     <Link href={carLink} passHref className="contents">
-                        <img
-                            src={imageUrl}
-                            alt={acf.nazvanie_avto}
-                            className="max-w-[168px] lg:max-w-[188px] object-cover rounded-2xl aspect-[2/1]"
-                        />
+                        {imageUrl && (
+                            <Image
+                                src={imageUrl}
+                                alt={acf.nazvanie_avto || 'Автомобиль'}
+                                width={188}
+                                height={94}
+                                sizes="(max-width: 1024px) 168px, 188px"
+                                className="max-w-[168px] lg:max-w-[188px] object-cover rounded-2xl aspect-[2/1]"
+                            />
+                        )}
                     </Link>
                     <div className="flex flex-col gap-[14px] justify-between lg:justify-start min-w-[123px] max-w-[402px]">
                         <p className="text-[14px]/[20px] font-normal hidden lg:block">

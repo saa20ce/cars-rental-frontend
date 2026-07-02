@@ -66,6 +66,30 @@ function cleanMetaValue(value: string | null | undefined) {
     return trimmed || undefined;
 }
 
+function normalizeRobots(value: string | null | undefined) {
+    const robots = cleanMetaValue(value);
+    if (!robots) return undefined;
+
+    return robots
+        .split(',')
+        .map((directive) => directive.trim())
+        .filter(Boolean)
+        .map((directive) => {
+            const normalized = directive.toLowerCase();
+            if (normalized === 'noindex') return 'index';
+            if (normalized === 'nofollow') return 'follow';
+            return directive;
+        })
+        .filter(
+            (directive, index, directives) =>
+                directives.findIndex(
+                    (candidate) =>
+                        candidate.toLowerCase() === directive.toLowerCase(),
+                ) === index,
+        )
+        .join(', ');
+}
+
 function parseRankMathHead(head: string, pagePath: string): Metadata {
     const $ = load(head);
     const metadata: Metadata = {};
@@ -84,7 +108,7 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
 
     const title = cleanMetaValue($('title').first().text());
     const description = readName('description');
-    const robots = readName('robots');
+    const robots = normalizeRobots(readName('robots'));
 
     if (title) metadata.title = title;
     if (description) metadata.description = description;

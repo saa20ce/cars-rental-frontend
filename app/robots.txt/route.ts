@@ -6,8 +6,7 @@ export function GET(request: Request) {
 
     const body = [
         'User-agent: *',
-        'Disallow: /wp-admin/',
-        'Disallow: /wp-login.php',
+        'Allow: /',
         '',
         `Sitemap: ${baseUrl}/sitemap-index.xml`,
         '',

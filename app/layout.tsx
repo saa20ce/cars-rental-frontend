@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import CookieBanner from '@/components/common/CookieBanner/CookieBanner';
 import RouteChangeLoader from '@/components/common/RouteChangeLoader/RouteChangeLoader';
 import ModalScrollLock from '@/components/common/ModalScrollLock/ModalScrollLock';
+import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 const lato = localFont({
     src: [
@@ -26,7 +27,7 @@ const lato = localFont({
 });
 
 export const metadata = {
-    metadataBase: new URL('https://rentasib.ru'),
+    metadataBase: new URL(getSiteUrl()),
     alternates: {
         canonical: './',
     },

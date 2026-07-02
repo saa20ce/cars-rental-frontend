@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = 'https://new.rentasib.ru';
+const DEFAULT_SITE_URL = 'https://rentasib.ru';
 
 function normalizeOrigin(value: string) {
     const url = new URL(value);
@@ -43,12 +43,6 @@ function isLocalOrigin(origin: string) {
 }
 
 export function getSiteUrl(request?: Request) {
-    const requestOrigin = getRequestOrigin(request);
-
-    if (requestOrigin && !isLocalOrigin(requestOrigin)) {
-        return requestOrigin;
-    }
-
     const configuredUrl =
         process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
 
@@ -58,6 +52,12 @@ export function getSiteUrl(request?: Request) {
         } catch {
             return DEFAULT_SITE_URL;
         }
+    }
+
+    const requestOrigin = getRequestOrigin(request);
+
+    if (requestOrigin && !isLocalOrigin(requestOrigin)) {
+        return requestOrigin;
     }
 
     return requestOrigin || DEFAULT_SITE_URL;

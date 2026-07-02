@@ -5,9 +5,14 @@ import { getSiteUrl } from '@/lib/seo/siteUrl';
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
 
+    const excludedFromSitemap = new Set(['/blog']);
     const urls: string[] = [];
     mapSite.forEach((section) => {
-        section.items.forEach((item) => urls.push(item.href));
+        section.items.forEach((item) => {
+            if (!excludedFromSitemap.has(item.href)) {
+                urls.push(item.href);
+            }
+        });
     });
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>

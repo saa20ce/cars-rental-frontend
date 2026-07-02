@@ -99,7 +99,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                             @media (width >= 64rem) {
                                 span.ant-checkbox-label {
                                     font-size: 16px;
-                                    height: 22px;
+                                    height: auto;
                                 }
 
                                 .ant-checkbox-inner,

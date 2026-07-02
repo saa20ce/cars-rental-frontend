@@ -66,6 +66,7 @@ export default async function PremiumCarRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 defaultKlass="269"
+                headingLevel="h2"
             />
 
             <TextImageSection

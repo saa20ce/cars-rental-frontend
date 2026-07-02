@@ -64,6 +64,7 @@ export default async function ChineseCarRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 defaultMarka={['249', '256', '246', '247']}
+                headingLevel="h2"
             />
 
             <TextImageSection

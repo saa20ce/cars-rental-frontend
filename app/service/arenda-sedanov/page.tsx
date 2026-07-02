@@ -72,6 +72,7 @@ export default async function SedanRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 defaultKuzov="244"
+                headingLevel="h2"
             />
 
             <TextImageSection

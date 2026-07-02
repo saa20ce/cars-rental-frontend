@@ -1,8 +1,13 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-export default function ReviewsApi() {
+type ReviewsApiProps = {
+  headingLevel?: 'h1' | 'h2';
+};
+
+export default function ReviewsApi({ headingLevel = 'h1' }: ReviewsApiProps) {
   const widgetRef = useRef<HTMLDivElement | null>(null);
+  const HeadingTag = headingLevel;
 
   useEffect(() => {
     const current = widgetRef.current;
@@ -24,9 +29,9 @@ export default function ReviewsApi() {
 
   return (
     <section className="mt-[42px] mb-[18px] lg:mt-[68px] lg:mb-[44px]">
-      <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
+      <HeadingTag className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
         Отзывы
-      </h1>
+      </HeadingTag>
       <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal mb-8 lg:mb-9">
         О нашей компании пишут в популярных источниках:
       </h3>

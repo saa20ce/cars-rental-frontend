@@ -51,6 +51,7 @@ export default async function EconomyClassRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 defaultKlass="267"
+                headingLevel="h2"
             />
 
             <TextImageSection
@@ -102,7 +103,7 @@ export default async function EconomyClassRentalPage() {
                 <ContactCardsLittle />
             </section>
 
-            <ReviewsApi />
+            <ReviewsApi headingLevel="h2" />
 
             <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">

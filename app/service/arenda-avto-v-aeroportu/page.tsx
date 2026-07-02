@@ -68,6 +68,7 @@ export default async function CarRentalAtAirportPage() {
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
+                headingLevel="h2"
             />
 
             <TextImageSection

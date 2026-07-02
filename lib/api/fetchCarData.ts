@@ -18,6 +18,40 @@ const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 type WpOptionsAcf = Record<string, unknown>;
 
+const CAR_LIST_FIELDS = [
+    'id',
+    'slug',
+    'title',
+    'acf.nazvanie_avto',
+    'acf.white_gallery',
+    'acf.black_gallery',
+    'acf.gray_gallery',
+    'acf.blue_gallery',
+    'acf.red_gallery',
+    'acf.skidka',
+    'acf.1-3_dnya',
+    'acf.4-9_dnej',
+    'acf.10-18_dnej',
+    'acf.19-29_dnej',
+    'acf.30_dnej',
+    'acf.1-3_dnya_S',
+    'acf.4-9_dnej_S',
+    'acf.10-18_dnej_S',
+    'acf.19-29_dnej_S',
+    'acf.30_dnej_S',
+    'acf.passengers',
+    'kuzov',
+    'marka',
+    'klass',
+    'privod',
+    'dvigatel',
+    'color',
+    'featured_media',
+    '_embedded.wp:featuredmedia',
+];
+
+const CAR_LIST_FIELDS_PARAM = buildFieldsParam(CAR_LIST_FIELDS);
+
 async function getWpOptionsAcf(): Promise<WpOptionsAcf | null> {
     const res = await wpFetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
         next: { tags: ['wordpress-options'] },
@@ -296,9 +330,9 @@ export async function getCars(
     filters: Record<string, string> = {},
 ): Promise<Car[]> {
     const params = new URLSearchParams(filters);
-    params.set('_embed', 'wp:featuredmedia,wp:term');
+    params.set('_embed', 'wp:featuredmedia');
 
-    const url = `${WP_API_URL}/cars?${params.toString()}`;
+    const url = `${WP_API_URL}/cars?${params.toString()}&${CAR_LIST_FIELDS_PARAM}`;
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
@@ -306,7 +340,7 @@ export async function getCars(
 }
 
 export async function getCarsByClass(klassId: number): Promise<Car[]> {
-    const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia,wp:term`;
+    const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia&${CAR_LIST_FIELDS_PARAM}`;
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
@@ -314,7 +348,7 @@ export async function getCarsByClass(klassId: number): Promise<Car[]> {
 }
 
 export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
-    const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia,wp:term`;
+    const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia&${CAR_LIST_FIELDS_PARAM}`;
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();

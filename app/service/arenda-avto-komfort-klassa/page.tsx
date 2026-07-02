@@ -63,6 +63,7 @@ export default async function ComfortClassRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 defaultKlass="268"
+                headingLevel="h2"
             />
 
             <TextImageSection

@@ -61,6 +61,7 @@ export default async function WeeklyCarRentalPage() {
                 dvigatelOptions={dvigatelOptions}
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
+                headingLevel="h2"
             />
 
             <TextImageSection

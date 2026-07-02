@@ -25,9 +25,13 @@ export default function ModalTrigger({
                 </button>
             </div>
             {isHeader && (
-                <button onClick={() => setIsOpen(true)} className="xl:hidden">
+                <a
+                    href="tel:+79139132808"
+                    aria-label="Позвонить в Рентасиб"
+                    className="xl:hidden"
+                >
                     <PhoneIcon />
-                </button>
+                </a>
             )}
 
             <CallRequestModal isOpen={isOpen} setIsOpenAction={setIsOpen} />

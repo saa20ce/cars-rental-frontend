@@ -16,13 +16,16 @@ ARG NEXT_PUBLIC_WP_BASE_URL
 ARG NEXT_PUBLIC_WP_API_URL
 ARG NEXT_PUBLIC_SITE_URL
 ARG NEXT_PUBLIC_API_URL
+ARG WP_CACHE_BUILD_KEY
 
 ENV NEXT_PUBLIC_WP_BASE_URL=${NEXT_PUBLIC_WP_BASE_URL}
 ENV NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL}
 ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
-RUN npm run build
+RUN RESOLVED_WP_CACHE_BUILD_KEY="${WP_CACHE_BUILD_KEY:-$(date +%s)}" && \
+    echo "$RESOLVED_WP_CACHE_BUILD_KEY" > .wp-cache-build-key && \
+    WP_CACHE_BUILD_KEY="$RESOLVED_WP_CACHE_BUILD_KEY" npm run build
 
 # ---------- runner ----------
 FROM node:20-alpine AS runner
@@ -37,8 +40,9 @@ ENV NODE_OPTIONS=--use-openssl-ca
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.wp-cache-build-key ./.wp-cache-build-key
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "export WP_CACHE_BUILD_KEY=\"${WP_CACHE_BUILD_KEY:-$(cat .wp-cache-build-key 2>/dev/null || date +%s)}\"; npm run start"]

@@ -1,6 +1,6 @@
 'use client';
 
-import { DotIcon, TelegramLogo } from '@/lib/ui/icons';
+import { DotIcon } from '@/lib/ui/icons';
 import { useEffect, useState } from 'react';
 
 export default function OpenStatus() {
@@ -35,12 +35,12 @@ export default function OpenStatus() {
                     <span>Сейчас открыто</span>
                 </>
             ) : (
-                <a
-                    className="underline underline-offset-4 font-bold mr-1"
-                    href="tel:89139132808"
-                >
-                    +7-(913)-913-28-08
-                </a>
+                <>
+                    <span className="mb-[1px] lg:mb-0 lg:mt-[-2px]">
+                        <DotIcon color="#E53935" />
+                    </span>
+                    <span>Сейчас закрыто</span>
+                </>
             )}
         </div>
     );

@@ -9,6 +9,7 @@ import {
     computeCostsChunked,
     getMinimumRentalReturnDate,
     getRentalDaysCountWithMinimum,
+    getDeliveryOptionsForTime,
     isDaySeason,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
@@ -41,6 +42,7 @@ import {
     buildKlassOptionsWithKuzov,
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
+import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
 import Banner from '@/public/images/Banner.png';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -256,7 +258,11 @@ export default function TariffsPageClient({
             );
         });
 
-        filtered.sort((a, b) => b.pricePerDay - a.pricePerDay);
+        filtered.sort(
+            (a, b) =>
+                b.pricePerDay - a.pricePerDay ||
+                compareCarsByPublishedDateDesc(a, b),
+        );
         setCars(filtered);
     };
 
@@ -294,13 +300,9 @@ export default function TariffsPageClient({
     }, [defaultTimeValue, returnDate, returnTime, startDate, startTime]);
 
     const deliveryOptions = useMemo(() => {
-        if (!deliveryPrice) return [];
-
         const time = startTime || defaultTimeValue;
-        const hour = parseInt(time.split(':')[0], 10);
-        const isNight = hour >= 20 || hour < 9;
 
-        return isNight ? deliveryPrice.night : deliveryPrice.day;
+        return getDeliveryOptionsForTime(deliveryPrice, time);
     }, [deliveryPrice, defaultTimeValue, startTime]);
 
     const deliveryCost = useMemo(() => {

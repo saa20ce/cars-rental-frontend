@@ -1,10 +1,19 @@
-import type { PriceRange, SeasonData } from '@/lib/types/Car';
+import type {
+    DeliveryOption,
+    DeliveryPrice,
+    PriceRange,
+    SeasonData,
+} from '@/lib/types/Car';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 export const TIME_OVERAGE_GRACE_MINUTES = 120;
 export const MIN_RENTAL_DAYS = 3;
 export const MIN_RENTAL_DAYS_ERROR_TEXT = 'Минимальная аренда от 3-х суток';
+export const DELIVERY_DAY_START_MINUTES = 10 * 60;
+export const DELIVERY_DAY_END_MINUTES = 19 * 60;
+export const DELIVERY_DAY_TIME_LABEL = '10:00 - 19:00';
+export const DELIVERY_NIGHT_TIME_LABEL = '19:01 - 09:59';
 
 export const getTimeMinutes = (time: string) => {
     const [rawHours = '0', rawMinutes = '0'] = time.split(':');
@@ -14,6 +23,24 @@ export const getTimeMinutes = (time: string) => {
     if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return 0;
 
     return hours * 60 + minutes;
+};
+
+export const isDeliveryDayTime = (time: string) => {
+    const minutes = getTimeMinutes(time);
+
+    return (
+        minutes >= DELIVERY_DAY_START_MINUTES &&
+        minutes <= DELIVERY_DAY_END_MINUTES
+    );
+};
+
+export const getDeliveryOptionsForTime = (
+    deliveryPrice: DeliveryPrice | null | undefined,
+    time: string,
+): DeliveryOption[] => {
+    if (!deliveryPrice) return [];
+
+    return isDeliveryDayTime(time) ? deliveryPrice.day : deliveryPrice.night;
 };
 
 export const getRentalDaysCount = (

@@ -25,6 +25,8 @@ export const DELIVERY_OPTION_LABELS: Record<string, string> = {
     berdsk: 'Бердск',
     samovyvoz: 'Самовывоз',
     iskitim: 'Искитим',
+    gorno_altaisk: 'Аэропорт Горно-Алтайск',
+    barnaul: 'Барнаул',
 };
 
 export const DELIVERY_FORM_LABELS: Record<string, string> = {

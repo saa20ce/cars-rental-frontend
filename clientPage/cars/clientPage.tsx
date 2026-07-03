@@ -13,6 +13,7 @@ import {
     buildKlassOptionsWithKuzov,
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
+import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
 import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 
 interface CarsPageClientProps {
@@ -159,15 +160,20 @@ export default function CarsPageClient({
         const discountB = parseInt(b.acf?.skidka || '0', 10);
 
         if (sortOrder === 'discount') {
-            return discountB - discountA
+            return (
+                discountB - discountA ||
+                compareCarsByPublishedDateDesc(a, b)
+            );
         }
 
         const finalPriceA = getCurrentCarPrice(a, seasonDates);
         const finalPriceB = getCurrentCarPrice(b, seasonDates);
 
-        return sortOrder === 'desc'
+        const priceCompare = sortOrder === 'desc'
             ? finalPriceB - finalPriceA
             : finalPriceA - finalPriceB;
+
+        return priceCompare || compareCarsByPublishedDateDesc(a, b);
     });
 
     return (

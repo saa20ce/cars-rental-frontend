@@ -56,8 +56,8 @@ export default async function EconomyClassRentalPage() {
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/hyundai.webp"
-                alt="Автомобиль hyundai"
+                src="/images/elantra-sedan.webp"
+                alt="Автомобиль elantra в аренду"
                 aspect="359/205"
                 pyTextBlock="36"
                 maxWidthImage="512"

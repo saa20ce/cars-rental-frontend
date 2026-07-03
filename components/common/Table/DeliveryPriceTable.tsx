@@ -5,6 +5,7 @@ import type { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useMemo, useState } from 'react';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 const CustomSelect = dynamic(
     () => import('@/lib/ui/common/Select/CustomSelect').then(m => m.CustomSelect || m),
     { ssr: false, loading: () => null }
@@ -12,7 +13,6 @@ const CustomSelect = dynamic(
 
 
 const normalizeKey = (key: string) => {
-    if (key === 'zhd_vokzal' || key === 'zhd') return 'zhd';
     return key;
 };
 
@@ -97,7 +97,13 @@ export const DeliveryPriceTable = ({
 
     return (
         <>
-            <div className="flex flex-row justify-between items-center mt-5 lg:hidden">
+            <Link
+                href="/service/dostavka-avto"
+                className="w-full lg:w-[160px] block mb-3 mt-5 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
+            >
+                Карта доставок
+            </Link>
+            <div className="flex flex-row justify-between items-center mt-3 lg:hidden">
                 <div className="flex flex-row items-center">
                     <label htmlFor="time-select">Время:</label>
                     <div className="ml-[10px]">

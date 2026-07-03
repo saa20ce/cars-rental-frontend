@@ -1,4 +1,4 @@
-export const DotIcon = () => (
+export const DotIcon = ({ color = '#7BCD77' }: { color?: string }) => (
     <svg
         className="
 		w-2 h-2
@@ -10,7 +10,7 @@ export const DotIcon = () => (
     >
         <path
             d="M8 4C8 6.21875 6.20312 8 4 8C1.78125 8 0 6.21875 0 4C0 1.79688 1.78125 0 4 0C6.20312 0 8 1.79688 8 4Z"
-            fill="#7BCD77"
+            fill={color}
         />
     </svg>
 );

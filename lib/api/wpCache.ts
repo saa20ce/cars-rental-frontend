@@ -27,12 +27,46 @@ export const WP_STALE_WHILE_REVALIDATE_SECONDS = WP_REVALIDATE_SECONDS * 7;
 export const WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS =
     60 * 60 * 24 * 7;
 
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+const WP_CACHE_BUILD_KEY =
+    process.env.WP_CACHE_BUILD_KEY ||
+    `${process.env.NODE_ENV || 'local'}-${Date.now()}`;
+
+function withWpCacheBuildKey(input: string | URL): string | URL {
+    const paramName = '_wp_cache_key';
+
+    try {
+        const url = new URL(input.toString());
+        url.searchParams.set(paramName, WP_CACHE_BUILD_KEY);
+
+        return input instanceof URL ? url : url.toString();
+    } catch {
+        const rawInput = input.toString();
+        const separator = rawInput.includes('?') ? '&' : '?';
+
+        return `${rawInput}${separator}${paramName}=${encodeURIComponent(
+            WP_CACHE_BUILD_KEY,
+        )}`;
+    }
+}
+
 export function wpFetch(input: string | URL, init: NextFetchInit = {}) {
+    const requestInput = withWpCacheBuildKey(input);
     const tags = Array.from(
         new Set(['wordpress', ...(init.next?.tags ?? [])]),
     );
 
-    return fetch(input, {
+    if (IS_DEVELOPMENT) {
+        const devInit: NextFetchInit = {
+            ...init,
+            cache: 'no-store',
+        };
+        delete devInit.next;
+
+        return fetch(requestInput, devInit);
+    }
+
+    return fetch(requestInput, {
         ...init,
         next: {
             revalidate: WP_REVALIDATE_SECONDS,

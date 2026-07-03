@@ -20,6 +20,8 @@ type WpOptionsAcf = Record<string, unknown>;
 
 const CAR_LIST_FIELDS = [
     'id',
+    'date',
+    'date_gmt',
     'slug',
     'title',
     'acf.nazvanie_avto',
@@ -126,6 +128,8 @@ export function getSimilarCarsGroup(car: Car): SimilarCarsGroup | null {
 export async function getCarBySlug(slug: string, includeTaxonomies: boolean = false): Promise<Car | null> {
     const baseFields = [
         'id',
+        'date',
+        'date_gmt',
         'slug',
         'title',
         'acf.nazvanie_avto',

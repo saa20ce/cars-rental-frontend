@@ -68,6 +68,20 @@ export default async function TermsPage() {
                             </ol>
                         </div>
                     </article>
+                    <article className="flex items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
+                        <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
+                            <SteeringWheelIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
+                        </div>
+                        <div>
+                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                                Требования при аренде авто бизнес класса
+                            </h3>
+                            <ol className="list-decimal pl-4">
+                                <li>Возраст — от 30 лет</li>
+                                <li>Водительский стаж — от 10 лет</li>
+                            </ol>
+                        </div>
+                    </article>
                     <article className="flex  items-start gap-[14px] lg:gap-[32px] rounded-xl bg-[#1F303C] p-5 lg:py-[38px] lg:px-9">
                         <div className="flex bg-[#293A45] p-[8px] lg:p-[13px] rounded-[8px]">
                             <DocumentIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />

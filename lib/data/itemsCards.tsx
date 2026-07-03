@@ -163,20 +163,20 @@ export const rentalTermsBusinessItems = [
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
+        title: 'Перепробег 12 рублей/км',
+        icon: <SteeringWheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    },
+    {
         title: 'Выдача и прием в нерабочие часы - 1000 ₽',
         icon: <ClockIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
-    {
-        title: 'Увеличенный лимит пробега - до 300 км/сутки',
-        icon: <WheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
+    // {
+    //     title: 'Увеличенный лимит пробега - до 300 км/сутки',
+    //     icon: <WheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
+    // },
     {
         title: '100% предоплата за весь срок аренды',
         icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
-    },
-    {
-        title: 'Перепробег 12 рублей/км',
-        icon: <SteeringWheelIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];
 

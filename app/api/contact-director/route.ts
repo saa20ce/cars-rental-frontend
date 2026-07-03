@@ -7,13 +7,36 @@ export async function POST(req: NextRequest) {
     try {
         const {
             clientName,
+            clientEmail,
             clientText,
         } = await req.json();
 
+        if (
+            typeof clientName !== 'string' ||
+            typeof clientEmail !== 'string' ||
+            typeof clientText !== 'string' ||
+            !clientName.trim() ||
+            !clientEmail.trim() ||
+            !clientText.trim()
+        ) {
+            return NextResponse.json(
+                { message: 'Заполните обязательные поля' },
+                { status: 400 },
+            );
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail.trim())) {
+            return NextResponse.json(
+                { message: 'Введите корректный email' },
+                { status: 400 },
+            );
+        }
+
         const formData = new FormData();
 
-        formData.append('client_name', clientName);
-        formData.append('client_text', clientText);
+        formData.append('client_name', clientName.trim());
+        formData.append('client_email', clientEmail.trim());
+        formData.append('client_text', clientText.trim());
 
         formData.append('_wpcf7', CF7_FORM_ID);
         formData.append('_wpcf7_version', '5.8.7');

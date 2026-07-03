@@ -10,6 +10,7 @@ import {
     computeCostsChunked,
     getMinimumRentalReturnDate,
     getRentalDaysCountWithMinimum,
+    getDeliveryOptionsForTime,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
 } from '@/lib/helpers/RentalCheckoutHelper';
@@ -256,11 +257,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         startDate,
     ]);
     useEffect(() => {
-        const hour = parseInt(effectiveStartTime.split(':')[0], 10);
-        const isNight = hour >= 20 || hour < 9;
-        const options = isNight ? deliveryPrice.night : deliveryPrice.day;
-
-        setDeliveryOptions(options)
+        setDeliveryOptions(
+            getDeliveryOptionsForTime(deliveryPrice, effectiveStartTime),
+        )
     }, [effectiveStartTime, deliveryPrice]);
 
     const discount = car.acf?.skidka;

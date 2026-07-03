@@ -10,6 +10,7 @@ import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 
 interface FormValues {
     clientName: string;
+    clientEmail: string;
     clientText: string;
     personalDataConsent: boolean;
 }
@@ -32,6 +33,7 @@ export default function ContactDerictorForm({
         try {
             const payload = {
                 clientName: values.clientName.trim(),
+                clientEmail: values.clientEmail.trim(),
                 clientText: values.clientText.trim(),
             };
 
@@ -139,6 +141,31 @@ export default function ContactDerictorForm({
                                     <Input
                                         className="w-full py-2 px-4 lg:py-[10px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[20px] outline-none border-none"
                                         placeholder="Введите..."
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="clientEmail"
+                                    label={
+                                        <label className="font-medium text-[14px]/[20px] lg:text-[16px]/[24px] text-[#F6F6F6]">
+                                            Электронная почта
+                                        </label>
+                                    }
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Введите электронную почту',
+                                        },
+                                        {
+                                            type: 'email',
+                                            message: 'Введите корректный email',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        className="w-full py-2 px-4 lg:py-[10px] font-normal text-[16px]/[24px] lg:text-[18px]/[28px] bg-[#F6F6F633] rounded-[20px] outline-none border-none"
+                                        type="email"
+                                        placeholder="user@email.com"
                                     />
                                 </Form.Item>
 

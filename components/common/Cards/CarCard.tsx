@@ -18,6 +18,7 @@ import {
     computeCostsChunked,
     getMinimumRentalReturnDate,
     getRentalDaysCountWithMinimum,
+    getDeliveryOptionsForTime,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
     isDaySeason,
@@ -198,16 +199,19 @@ export const CarCard: React.FC<CarCardProps> = ({
     useEffect(() => {
         if (!startTime) return;
 
-        const hour = parseInt(startTime.split(':')[0], 10);
-        const isNight = hour >= 20 || hour < 9;
-        const options = isNight ? deliveryPrice?.night : deliveryPrice?.day;
+        const options = getDeliveryOptionsForTime(deliveryPrice, startTime);
 
         const changed =
-            options &&
-            (options.length !== deliveryOptions.length ||
-                options.some(
-                    (opt, i) => opt.value !== deliveryOptions[i]?.value,
-                ));
+            options.length !== deliveryOptions.length ||
+            options.some((opt, i) => {
+                const currentOption = deliveryOptions[i];
+
+                return (
+                    opt.value !== currentOption?.value ||
+                    opt.label !== currentOption?.label ||
+                    opt.price !== currentOption?.price
+                );
+            });
 
         if (changed) setDeliveryOptions(options);
     }, [startTime, deliveryPrice, deliveryOptions]);

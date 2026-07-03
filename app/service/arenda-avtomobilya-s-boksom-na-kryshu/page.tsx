@@ -4,7 +4,7 @@ import TextImageSection from '@/components/common/TextImageSection/TextImageSect
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import {
     getAdditionalOptions,
-    getCrossoverAndMinivanCars,
+    getCars,
     getDeliveryPrice,
     getSeasonDates,
 } from '@/lib/api/fetchCarData';
@@ -36,6 +36,8 @@ const itemsRules = [
         icon: <Number3Icon className="w-9 h-9 lg:w-12 lg:h-12" />,
     },
 ];
+const roofBoxCarIds = [8660, 9458];
+
 export async function generateMetadata() {
     return await fetchWPMetadata(
         '/service/arenda-avtomobilya-s-boksom-na-kryshu',
@@ -46,7 +48,13 @@ export default async function CarRentalWithRoofBoxPage() {
     const breadcrumbs = await fetchBreadcrumbs(
         '/service/arenda-avtomobilya-s-boksom-na-kryshu',
     );
-    const cars = await getCrossoverAndMinivanCars();
+    const cars = (
+        await getCars({
+            include: roofBoxCarIds.join(','),
+            orderby: 'include',
+            per_page: String(roofBoxCarIds.length),
+        })
+    ).sort((a, b) => roofBoxCarIds.indexOf(a.id) - roofBoxCarIds.indexOf(b.id));
     const deliveryPrice = await getDeliveryPrice();
     const additionalOptions = await getAdditionalOptions();
     const seasonDates = await getSeasonDates();
@@ -74,7 +82,7 @@ export default async function CarRentalWithRoofBoxPage() {
 
             <TextImageSection
                 sectionGray={true}
-                src="/images/honda.webp"
+                src="/images/dsc05893.webp"
                 alt="Автомобиль"
                 aspect="359/201"
                 pyTextBlock="36"
@@ -115,7 +123,7 @@ export default async function CarRentalWithRoofBoxPage() {
                 <p className="font-medium text-[18px]/[28px] lg:text-[20px]/[28px] -mb-[30px] lg:-mb-8">
                     В нашем автопрокате представлены автомобили разных категорий
                     с боксами на крышу: микроавтобусы и кроссоверы. Среди
-                    популярных моделей – Hyundai Creta и Honda Stepwgn.
+                    популярных моделей – Москвич и Honda Stepwgn.
                 </p>
                 <GalleryCars
                     similarCars={cars}

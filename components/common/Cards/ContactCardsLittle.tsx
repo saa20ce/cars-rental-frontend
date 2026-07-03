@@ -1,4 +1,4 @@
-import { TelegramLogo } from '@/lib/ui/icons';
+import { MaxIcon, TelegramLogo } from '@/lib/ui/icons';
 import { MobileIcon } from '@/lib/ui/icons/MobileIcon';
 
 export default function ContactCardsLittle() {
@@ -11,6 +11,15 @@ export default function ContactCardsLittle() {
                     className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:py-[25px] lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-[14px] gap-3 grow"
                 >
                     <MobileIcon className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
+                    <span className="text-nowrap">+ 7(913)-913-28-08</span>
+                </a>
+                <a
+                    href="https://max.ru/u/f9LHodD0cOJl7vaA90ej_c-ng7J4Tpfbi4tBmaGo9A-R2NE74nwHaaX0WQk"
+                    target="_blank"
+                    aria-label="Номер Max"
+                    className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
+                >
+                    <MaxIcon className="w-9 h-9 lg:w-[48px] lg:h-[48px]" />
                     <span className="text-nowrap">+ 7(913)-913-28-08</span>
                 </a>
                 <a

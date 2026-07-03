@@ -1,9 +1,10 @@
-export const VkIcon = () => (
+interface VkIconProps {
+    className?: string;
+}
+
+export const VkIcon = ({ className = '' }: VkIconProps) => (
     <svg
-        className="
-		w-4 h-4
-		lg:w-6 lg:h-6
-		fill-current"
+        className={`w-4 h-4 lg:w-6 lg:h-6 fill-current ${className}`}
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

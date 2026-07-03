@@ -29,7 +29,7 @@ export const additionalServicesItems = [
         key: '2',
         title: 'Прокат авто с детским креслом',
         href: '/service/arenda-avto-s-detskim-kreslom',
-        src: '/images/servicesImages/2.jpg',
+        src: '/images/servicesImages/img_9670-1-1-1.webp',
     },
     {
         key: '3',
@@ -41,7 +41,7 @@ export const additionalServicesItems = [
         key: '4',
         title: 'Аренда авто с боксом на крышу',
         href: '/service/arenda-avtomobilya-s-boksom-na-kryshu',
-        src: '/images/servicesImages/4.jpg',
+        src: '/images/servicesImages/dsc05893.webp',
     },
     {
         key: '5',

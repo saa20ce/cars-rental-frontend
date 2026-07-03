@@ -10,28 +10,20 @@ export const mainMenu = [
         mobTitle: 'Наши услуги',
         href: '#',
         items: [
-            { title: 'Все услуги', href: '/service' },
             {
-                title: 'Аренда седана',
-                href: '/service/arenda-sedanov',
+                title: 'Доставка',
+                href: '/service/dostavka-avto',
             },
+            { title: 'Все услуги', href: '/service' },
+            { title: 'Дополнительные услуги', href: '/dop-service' },
             {
-                title: 'Кроссовер',
-                href: '/service/arenda-krossoverov',
+                title: 'Аренда авто в аэропорту',
+                href: '/service/arenda-avto-v-aeroportu',
             },
             {
                 title: 'Аренда для Юридических лиц',
                 href: '/service/arenda-avtomobilej-dlya-biznesa',
             },
-            {
-                title: 'Доставка',
-                href: '/service/dostavka-avto',
-            },
-            {
-                title: 'Детское кресло бустер',
-                href: '/service/arenda-avto-s-detskim-kreslom',
-            },
-            { title: 'Дополнительные услуги', href: '/dop-service' },
         ],
     },
     {

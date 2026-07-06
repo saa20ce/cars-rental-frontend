@@ -150,8 +150,6 @@ export default async function СorporateRentalPage() {
 
             <LetterThanks letters={letters} headingTag="div" />
 
-            <RentSteps headingTag="h3" stepTitleTag="div" />
-
             <section className="pt-[42px] lg:pt-[68px]">
                 <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Часто задаваемые вопросы:

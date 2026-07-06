@@ -230,43 +230,14 @@ export default async function TermsPage() {
                 </article>
             </section>
 
-            <section className="py-[42px] lg:py-[68px] border-b border-[#284B63B2]">
-                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] mb-5 lg:mb-[42px]">
-                    Для юридических лиц:
-                </div>
-                <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:mb-9">
-                    <article className="lg:w-1/2">
-                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5">
-                            C нами удобно
-                        </div>
-                        <ol className="list-decimal pl-4 space-y-2 lg:space-y-3 text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
-                            <li>
-                                Предоставляем закрывающие документы в день
-                                возврата автомобиля
-                            </li>
-                            <li>Осуществляем обмен документами по ЭДО</li>
-                            <li>Работаем с НДС 22%</li>
-                            <li>
-                                Программа лояльности для корпоративных клиентов
-                            </li>
-                            <li>Менеджер 24/7</li>
-                            <li>Нет лимитов по пробегу</li>
-                        </ol>
-                    </article>
-                </div>
-                <div
-                    className="flex flex-col lg:flex-row gap-[12px] lg:gap-4 mt-[20px] lg:mt-0"
-                    aria-label="Документы для скачивания"
+            <section className="py-[42px] lg:py-[68px]">
+                <Link
+                    href="/service/arenda-avtomobilej-dlya-biznesa"
+                    download
+                    className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]"
                 >
-                    <Link
-                        href="/docs/dogovor-arendy.docx"
-                        download
-                        className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]"
-                    >
-                        <DownloadIcon className="mr-3" />
-                        Скачать договор аренды
-                    </Link>
-                </div>
+                    Для юридических лиц
+                </Link>
             </section>
 
             <section className="pt-[43px] lg:py-[68px] pb-[62px]">
@@ -274,9 +245,28 @@ export default async function TermsPage() {
                     Набор документов для физических лиц:
                 </div>
                 <div className="flex flex-col lg:flex-row-reverse gap-4 lg:gap-6">
-                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-10 lg:pb-[38px] bg-coatOfArms">
+                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-9 lg:pb-[42px]">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[82px] lg:mb-[116px]">
+                            Гражданам РФ
+                        </div>
+                        <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] space-y-5">
+                            <li>
+                                <span>
+                                    <ParticlesIcon className="mr-4 lg:mr-5" />
+                                </span>
+                                Паспорт
+                            </li>
+                            <li>
+                                <span>
+                                    <ParticlesIcon className="mr-4 lg:mr-5" />
+                                </span>
+                                Водительское удостоверение
+                            </li>
+                        </ul>
+                    </article>
+                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-10 lg:pb-[38px]">
                         <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-8 lg:mb-[72px]">
-                            Инностранным гражданам
+                            Иностранным гражданам
                         </div>
                         <ul className="space-y-5">
                             <li>
@@ -296,25 +286,6 @@ export default async function TermsPage() {
                                     <ParticlesIcon className="mr-4 lg:mr-5" />
                                 </span>
                                 Нотариальный заверенный перевод документа
-                            </li>
-                        </ul>
-                    </article>
-                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-9 lg:pb-[42px] bg-globe">
-                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[82px] lg:mb-[116px]">
-                            Гражданам РФ
-                        </div>
-                        <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] space-y-5">
-                            <li>
-                                <span>
-                                    <ParticlesIcon className="mr-4 lg:mr-5" />
-                                </span>
-                                Паспорт
-                            </li>
-                            <li>
-                                <span>
-                                    <ParticlesIcon className="mr-4 lg:mr-5" />
-                                </span>
-                                Водительское удостоверение
                             </li>
                         </ul>
                     </article>

@@ -233,7 +233,6 @@ export default async function TermsPage() {
             <section className="py-[42px] lg:py-[68px]">
                 <Link
                     href="/service/arenda-avtomobilej-dlya-biznesa"
-                    download
                     className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]"
                 >
                     Для юридических лиц

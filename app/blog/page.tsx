@@ -42,7 +42,7 @@ export default async function NewsPage({
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
             <h1 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                Новости:
+                Новости
             </h1>
             <NewsGrid posts={posts} />
             <Pagination

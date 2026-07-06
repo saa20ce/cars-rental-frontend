@@ -444,7 +444,7 @@ export default function TariffsPageClient({
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
                         <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
-                            Тариф-калькулятор
+                            Тарифы на аренду авто
                         </h1>
                         <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
                             Мы поможем расчитать стоимость желаемого автомобиля
@@ -455,9 +455,9 @@ export default function TariffsPageClient({
                 </header>
 
                 <section className="mb-[14px] lg:mb-4">
-                    <h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-6 lg:mt-8 ">
+                    <div className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-6 lg:mt-8 ">
                         Период аренды:
-                    </h3>
+                    </div>
                     <form className="flex flex-col mt-[10px] lg:mt-3 mb-2 lg:mb-3 gap-[10px] lg:flex-row lg:gap-0">
                         <div className="select-group flex flex-col gap-[10px] lg:flex-row lg:flex-[2] lg:gap-0">
                             <div className="flex flex-col gap-2 lg:flex-row lg:flex-[1] lg:gap-[10px]">
@@ -611,7 +611,7 @@ export default function TariffsPageClient({
                                     }))
                                 }
                             />
-                            <CustomSelect
+                            {/* <CustomSelect
                                 placeholder="Цена"
                                 className="filters-select"
                                 style={{ width: '100%' }}
@@ -631,7 +631,7 @@ export default function TariffsPageClient({
                                         priceRange: val as string,
                                     }))
                                 }
-                            />
+                            /> */}
                         </section>
                     )}
                 </section>
@@ -716,15 +716,15 @@ export default function TariffsPageClient({
                 </section>
             )}
 
-            <RentSteps />
+            <RentSteps headingTag="div" stepTitleTag="div" />
 
             <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
 
             <section className="mt-10 lg:mt-[68px]">
                 <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
+                    <div className="text-xl font-bold lg:text-3xl">
                         Стоимость доставки авто:
-                    </h2>
+                    </div>
                     <div className="hidden lg:block ml-4 mt-[6px]">
                         <LineIcon />
                     </div>
@@ -737,9 +737,9 @@ export default function TariffsPageClient({
 
             <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
-            <WhyUs />
+            <WhyUs headingTag="div" />
 
-            <HaveQuestions />
+            <HaveQuestions headingTag="div" />
 
             <ConfigProvider
                 theme={{
@@ -777,8 +777,6 @@ export default function TariffsPageClient({
                 >
                     {isSubmitted && (
                         <SuccessRequest
-                            header="Ваша заявка принята!"
-                            text="Мы свяжемся с вами в течение 5 минут"
                             reservation={true}
                             onClick={() => {
                                 setModalVisible(false);

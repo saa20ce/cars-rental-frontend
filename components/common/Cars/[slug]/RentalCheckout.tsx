@@ -67,13 +67,20 @@ const parseStoredDate = (value?: string) => {
     return parsedDate.isValid() ? parsedDate : null;
 };
 
+type RentalCheckoutHeadingTag = 'h2' | 'div';
+type RentalCheckoutPeriodSubheadingTag = 'h3' | 'div';
+type RentalCheckoutAdditionalServicesTitleTag = 'h4' | 'div';
+
 interface RentalCheckoutProps {
     car: Car;
     additionalOptions: AdditionalOption[];
     deliveryPrice: DeliveryPrice;
     seasonDates: SeasonData | null;
     priceRanges?: PriceRange[];
-    setSeasonModeSwitch: (mode: boolean) => void
+    setSeasonModeSwitch: (mode: boolean) => void;
+    costHeadingTag?: RentalCheckoutHeadingTag;
+    periodSubheadingTag?: RentalCheckoutPeriodSubheadingTag;
+    additionalServicesTitleTag?: RentalCheckoutAdditionalServicesTitleTag;
 }
 
 export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
@@ -82,8 +89,12 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     deliveryPrice,
     seasonDates,
     priceRanges = [],
-    setSeasonModeSwitch
+    setSeasonModeSwitch,
+    costHeadingTag = 'h2',
+    periodSubheadingTag = 'h3',
+    additionalServicesTitleTag = 'h4',
 }) => {
+    const CostHeadingTag = costHeadingTag;
     const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
         []
     );
@@ -310,13 +321,15 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 deliveryOptions={deliveryOptions}
                 deliveryOptionSelected={deliveryOptionSelected}
                 setDeliveryOption={setDeliveryOption}
+                periodSubheadingTag={periodSubheadingTag}
+                additionalServicesTitleTag={additionalServicesTitleTag}
             />
 
             {showCost && (
                 <section className="p-6 bg-[#f6f6f60e] mt-[-10px] z-0 relative rounded-b-[16px] lg:rounded-b-[32px] transition-all lg:px-7 lg:pb-[38px] lg:pt-12 lg:-mt-[28px]">
-                    <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
+                    <CostHeadingTag className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-4 lg:mb-5">
                         Расчет стоимости
-                    </h2>
+                    </CostHeadingTag>
 
                     <dl className="space-y-2 text-[14px]/[20px] lg:text-[16px]/[24px]">
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
@@ -468,8 +481,6 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                 >
                     {isSubmitted && (
                         <SuccessRequest
-                            header="Ваша заявка принята!"
-                            text="Мы свяжемся с вами в течение 5 минут"
                             reservation={true}
                             onClick={() => {
                                 setModalVisible(false);

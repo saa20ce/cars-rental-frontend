@@ -3,10 +3,12 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
-import SuccessRequest from '../Modal/SuccessRequest';
-import { Modal, Form, Input, message, ConfigProvider } from 'antd';
+import { SuccessRequestModal } from '../Modal/SuccessRequest';
+import { Form, Input, message, ConfigProvider } from 'antd';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import { PersonalDataConsentFormItem } from './PersonalDataConsent';
+
+type AnyQuestionsHeadingTag = 'h2' | 'div';
 
 interface FormValues {
     name: string;
@@ -14,11 +16,16 @@ interface FormValues {
     personalDataConsent: boolean;
 }
 
-export default function AnyQuestionsForm() {
+export default function AnyQuestionsForm({
+    headingTag = 'h2',
+}: {
+    headingTag?: AnyQuestionsHeadingTag;
+} = {}) {
     const [status, setStatus] = useState<
         'idle' | 'loading' | 'success' | 'error'
     >('idle');
     const [form] = Form.useForm<FormValues>();
+    const HeadingTag = headingTag;
 
     const onFinish = async (values: FormValues) => {
         setStatus('loading');
@@ -63,9 +70,9 @@ export default function AnyQuestionsForm() {
     return (
         <section className="mt-[42px] lg:mt-[68px] bg-[#1E384A] rounded-[24px] lg:rounded-[32px] py-7 px-6 lg:py-[68px] lg:px-12 flex flex-col lg:flex-row lg:justify-between">
             <div className="w-full lg:max-w-[364px]">
-                <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
+                <HeadingTag className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                     Остались вопросы?
-                </h2>
+                </HeadingTag>
                 <p className="font-normal text-[16px]/[24px] mb-8">
                     Отправьте заявку и мы позвоним вам в течение 5 минут, чтобы
                     ответить на все необходимые вопросы и помочь с арендой
@@ -153,34 +160,10 @@ export default function AnyQuestionsForm() {
                     </div>
                 </Form>
             </ConfigProvider>
-
-            <Modal
+            <SuccessRequestModal
                 open={status === 'success'}
-                footer={null}
-                closeIcon={false}
-                onCancel={() => setStatus('idle')}
-                maskClosable={true}
-                centered
-                style={{ top: 0, left: 0, margin: 0, padding: 0 }}
-                styles={{
-                    mask: {
-                        backdropFilter: 'blur(30px)',
-                        WebkitBackdropFilter: 'blur(30px)',
-                    },
-                    content: {
-                        display: 'block',
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        padding: 0,
-                    },
-                }}
-            >
-                <SuccessRequest
-                    header="Ваша заявка принята!"
-                    text="Мы свяжемся с вами в течение 5 минут"
-                    onClick={() => setStatus('idle')}
-                />
-            </Modal>
+                onClose={() => setStatus('idle')}
+            />
 
             {status === 'error' && <ErrorBanner />}
 

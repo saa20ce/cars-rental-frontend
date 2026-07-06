@@ -52,6 +52,11 @@ dayjs.updateLocale('ru', {
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
+type RentalPeriodHeadingTag = 'h2' | 'div';
+type RentalPeriodSubheadingTag = 'h3' | 'div';
+type RentalPeriodAdditionalServicesTitleTag = 'h4' | 'div';
+type RentalPeriodContactHeadingTag = 'h2' | 'div';
+
 interface RentalPeriodProps {
     car: Car;
     startDate: Dayjs | null;
@@ -74,6 +79,10 @@ interface RentalPeriodProps {
     showContactForm?: boolean;
     closeModal?: () => void;
     setIsSubmitted?: (isSubmitted: boolean) => void;
+    periodHeadingTag?: RentalPeriodHeadingTag;
+    periodSubheadingTag?: RentalPeriodSubheadingTag;
+    additionalServicesTitleTag?: RentalPeriodAdditionalServicesTitleTag;
+    contactHeadingTag?: RentalPeriodContactHeadingTag;
 }
 
 export const RentalPeriod: React.FC<RentalPeriodProps> = ({
@@ -98,7 +107,13 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     showContactForm = false,
     closeModal,
     setIsSubmitted,
+    periodHeadingTag = 'h2',
+    periodSubheadingTag = 'h3',
+    additionalServicesTitleTag = 'h4',
+    contactHeadingTag = 'h2',
 }) => {
+    const HeadingTag = periodHeadingTag;
+    const SubheadingTag = periodSubheadingTag;
     const CARS_WITH_BOX = useMemo(
         () => new Set<number>([6748, 2474, 7277, 2199]),
         []
@@ -189,12 +204,12 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                 </button>
             )}
 
-            <h2 className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-[16px] lg:mb-5">
+            <HeadingTag className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold mb-[16px] lg:mb-5">
                 Форма бронирования
-            </h2>
-            <h3 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
+            </HeadingTag>
+            <SubheadingTag className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
                 Период аренды:
-            </h3>
+            </SubheadingTag>
             <div className="flex flex-col gap-2 lg:flex-row lg:gap-[10px]">
                 <div className="flex" aria-label="Дата начала аренды">
                     <CustomDatePicker
@@ -255,6 +270,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                 deliveryOptions={deliveryOptions}
                 deliveryOptionSelected={deliveryOptionSelected}
                 setDeliveryOption={setDeliveryOption}
+                titleTag={additionalServicesTitleTag}
             />
 
             {showContactForm && (
@@ -268,6 +284,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
                     totalPrice={totalPrice}
                     pricePerDay={pricePerDay}
                     onSuccess={() => setIsSubmitted?.(true)}
+                    headingTag={contactHeadingTag}
                 />
             )}
         </section>

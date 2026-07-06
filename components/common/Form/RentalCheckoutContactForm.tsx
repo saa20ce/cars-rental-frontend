@@ -20,6 +20,7 @@ import {
 } from '@/lib/helpers/formPayloadLabels';
 
 type ContactViaValue = 'telegram' | 'max' | 'phone';
+type RentalCheckoutContactHeadingTag = 'h2' | 'div';
 
 interface FormValues {
     clientName: string;
@@ -47,6 +48,7 @@ interface RentalCheckoutContactFormProps {
     pricePerDay: number;
     comment?: string;
     onSuccess?: () => void;
+    headingTag?: RentalCheckoutContactHeadingTag;
 }
 
 export const RentalCheckoutContactForm: React.FC<
@@ -62,7 +64,10 @@ export const RentalCheckoutContactForm: React.FC<
     pricePerDay,
     comment,
     onSuccess,
+    headingTag = 'h2',
 }) => {
+        const HeadingTag = headingTag;
+
         const initialValues: Partial<FormValues> = {
             autoName,
             autoColor,
@@ -125,7 +130,7 @@ export const RentalCheckoutContactForm: React.FC<
         return (
             <>
                 <div className="border-t-[1px] border-solid border-[#f6f6f638] pb-[14px] mt-[14px] lg:pb-[16px] lg:mt-[16px]"></div>
-                <h2 className="font-semibold text-[16px]/[24px] lg:text-[18px]/[28px] mb-[10px]">Ваши контактные данные:</h2>
+                <HeadingTag className="font-semibold text-[16px]/[24px] lg:text-[18px]/[28px] mb-[10px]">Ваши контактные данные:</HeadingTag>
 
                 <ConfigProvider
                     theme={{

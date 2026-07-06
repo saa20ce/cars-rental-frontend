@@ -39,8 +39,7 @@ export default async function CarRentalAtAirportPage() {
             <Breadcrumbs crumbs={breadcrumbs} />
 
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Выберите автомобиль для аренды в аэропорту Толмачево за 1500
-                руб.
+                Выберите автомобиль для аренды в аэропорту
             </h1>
 
             <p className="font-semibold text-[16px]/[24px] lg:text-[20px]/[28px] pb-[42px] lg:pb-[36px] mb-[42px] border-b border-[#284B63B2] -tracking-[0.2px]">
@@ -69,6 +68,7 @@ export default async function CarRentalAtAirportPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 headingLevel="h2"
+                carTitleTag="div"
             />
 
             <TextImageSection
@@ -80,6 +80,7 @@ export default async function CarRentalAtAirportPage() {
                 maxWidthText="574"
                 maxWidthImage="618"
                 header="Простой и удобный процесс"
+                headingTag="div"
                 paragraphs={[
                     'Прокат автомобиля в аэропорту – это не только удобный способ  передвижения, но и возможность создать незабываемые впечатления во время вашей поездки. Вы сможете свободно путешествовать по городу и его  окрестностям, посещать интересные места и открывать новые горизонты.  Наша компания предлагает качественный сервис и гарантирует, что ваш опыт будет максимально комфортным и безопасным. Мы всегда готовы помочь вам с выбором автомобиля и ответить на все ваши вопросы. Чтобы узнать больше о нашей компании и условиях аренды, посетите страницу с вопросами и ответами.',
                 ]}
@@ -97,6 +98,7 @@ export default async function CarRentalAtAirportPage() {
                 maxWidthImage="511"
                 flexRowReverse={true}
                 header="Выгодные условия аренды"
+                headingTag="div"
                 paragraphs={[
                     'Рентасиб предлагает своим клиентам выгодные условия аренды автомобиля. Например, детское кресло предоставляется бесплатно, аренда автобокса стоит всего 300 рублей в сутки. Кроме того, компания имеет ограничение на пробег – 400 км в сутки. Все, что превышает это ограничение, будет стоить 6 рублей за каждый дополнительный километр. Более подробная информация о условиях проката доступна на странице Условия проката.',
                 ]}
@@ -104,9 +106,9 @@ export default async function CarRentalAtAirportPage() {
 
             <section className="pt-[42px] lg:pt-[68px] border-b border-[#284B63B2]">
                 <div className="bg-[#1E384A] px-6 py-7 lg:py-[38px] lg:px-9 rounded-[24px]">
-                    <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
+                    <div className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                         Опыт и отзывы
-                    </h2>
+                    </div>
                     <p className="text-[14px]/[20px] lg:text-[20px]/[28px] font-semibold lg:font-medium ">
                         Мы гордимся тем, что наши клиенты остаются довольными и
                         рекомендуют нашу компанию своим друзьям и знакомым. Мы
@@ -122,10 +124,10 @@ export default async function CarRentalAtAirportPage() {
             </section>
 
             <section className="pt-[42px] lg:pt-[68px] border-t border-[#284B63B2]">
-                <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] ">
+                <div className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] ">
                     Дополнительные услуги
-                </h2>
-                <AdditionalServicesCards items={servicesItems} />
+                </div>
+                <AdditionalServicesCards items={servicesItems} itemTitleTag="div" />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
                         href={'/dop-service'}

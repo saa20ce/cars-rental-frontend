@@ -210,13 +210,14 @@ export default function SingleCarPageClient({
                             priceRanges={priceRanges}
                             seasonModeSwitch={seasonModeSwitch}
                             seasonDates={seasonDates}
+                            itemLabelTag="div"
                         />
                     )}
 
                     <section className="mt-8 hidden lg:block border-2 border-[#f6f6f638] rounded-[32px] px-9 py-[38px]">
-                        <h2 className="text-[24px]/[32px] font-bold mb-5">
+                        <div className="text-[24px]/[32px] font-bold mb-5">
                             Характеристики
-                        </h2>
+                        </div>
                         <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
                     </section>
                 </article>
@@ -229,6 +230,9 @@ export default function SingleCarPageClient({
                         seasonDates={seasonDates}
                         priceRanges={priceRanges}
                         setSeasonModeSwitch={setSeasonModeSwitch}
+                        periodSubheadingTag="div"
+                        additionalServicesTitleTag="div"
+                        costHeadingTag="div"
                     />
 
                     <section className="mt-6 lg:mt-8 md:px-3 xl:px-7">
@@ -292,9 +296,9 @@ export default function SingleCarPageClient({
                         </ul>
                     </section>
                     <section className="mt-6 block lg:hidden">
-                        <h2 className="text-[20px]/[28px] font-bold mb-[16px]">
+                        <div className="text-[20px]/[28px] font-bold mb-[16px]">
                             Характеристики
-                        </h2>
+                        </div>
                         <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
                     </section>
                 </article>
@@ -306,21 +310,23 @@ export default function SingleCarPageClient({
                     btnTitle={similarCarsBtnTitle}
                     similarCars={similarCars}
                     href={similarCarsHref}
+                    titleTag="h3"
+                    carTitleTag="div"
                     seasonDates={seasonDates}
                     deliveryPrice={deliveryPrice}
                     additionalOptions={additionalOptions}
                 />
             </div>
 
-            <RentSteps />
+            <RentSteps headingTag="div" stepTitleTag="div" />
 
             <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
 
             <section className="mt-10 lg:mt-[68px]">
                 <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
+                    <div className="text-xl font-bold lg:text-3xl">
                         Стоимость доставки авто:
-                    </h2>
+                    </div>
                     <div className="hidden lg:block ml-4 mt-[6px]">
                         <LineIcon />
                     </div>
@@ -333,16 +339,16 @@ export default function SingleCarPageClient({
 
             <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
-            <WhyUs />
+            <WhyUs headingTag="div" />
 
             <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Часто задаваемые вопросы:
-                </h2>
+                </div>
                 <Accordion items={faqItems} />
             </section>
 
-            <HaveQuestions />
+            <HaveQuestions headingTag="div" />
         </>
     )
 }

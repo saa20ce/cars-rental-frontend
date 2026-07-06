@@ -59,9 +59,9 @@ export default async function TermsPage() {
                             <SteeringWheelIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Требования к арендатору
-                            </h3>
+                            </div>
                             <ol className="list-decimal pl-4">
                                 <li>Возраст — от 23 лет</li>
                                 <li>Водительский стаж — от 3 лет</li>
@@ -73,9 +73,9 @@ export default async function TermsPage() {
                             <SteeringWheelIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Требования при аренде авто бизнес класса
-                            </h3>
+                            </div>
                             <ol className="list-decimal pl-4">
                                 <li>Возраст — от 30 лет</li>
                                 <li>Водительский стаж — от 10 лет</li>
@@ -87,9 +87,9 @@ export default async function TermsPage() {
                             <DocumentIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Необходимые документы
-                            </h3>
+                            </div>
                             <ol className="list-decimal pl-4">
                                 <li>Паспорт</li>
                                 <li>Водительское удостоверение</li>
@@ -101,14 +101,13 @@ export default async function TermsPage() {
                             <HandshakeSvg className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Бронирование
-                            </h3>
+                            </div>
                             <p>
-                                Для бронирования отправьте заявку с сайта,
-                                напишите или позвоните нам. После подтверждения
-                                дат и авто менеджер запросит документы.
-                                Бронирование фиксируется после внесения предоплаты, и проверки документов.
+                               Чтобы забронировать автомобиль в Рентасиб можете связаться с нами по номеру телефона <a className="underline underline-offset-4 decoration-5 font-[400] lg:font-[600] text-[16px] lg:text-[18px] lg:underline lg:underline-offset-4 decoration-5" href="tel:+7(913)-913-28-08" > +7(913)-913-28-08 </a> или оставить заявку на сайте.
+                                Бронирование фиксируется после предоставления документов и внесения предоплаты.
+                                *заявка не является бронированием
                             </p>
                         </div>
                     </article>
@@ -117,9 +116,9 @@ export default async function TermsPage() {
                             <TermsIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Условия оплаты
-                            </h3>
+                            </div>
                             <p className="mb-[6px] lg:mb-3">
                                 Оплата в размере 100 % суммы договора
                                 производится в момент передачи автомобиля, включая мойку и доставку.
@@ -131,28 +130,20 @@ export default async function TermsPage() {
                             <RouteIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Эксплуатация
-                            </h3>
+                            </div>
                             <p className="mb-[6px] lg:mb-3">
-                                Ограничение по эксплуатации - 1000 км от места
-                                выдачи.
+                                Территория использования РФ
                             </p>
                             <p className="mb-[6px] lg:mb-3">
-                                Арендованный автомобиль разрешено использовать
-                                только на территории РФ.
+                                Запрещено использовать в такси
                             </p>
                             <p className="mb-[6px] lg:mb-3">
-                                Недопустимо использовать авто для такси.
-                                Благодаря этому наши клиенты могут быть уверены
-                                в получении чистых и комфортных автомобилей.
+                                Ограничение по эксплуатации - 1000 км от места выдачи.
                             </p>
                             <p>
-                                Тариф на аренду включает в себя лимит пробега
-                                300-400 км в сутки. Пробег суммируется за весь
-                                период аренды. Пробег сверх лимита оплачивается
-                                отдельно: от 6 до 12 рублей за 1 км, в
-                                зависимости от класса авто.
+                                Тариф на аренду включает в себя лимит пробега 300 км в сутки. Пробег суммируется за весь период аренды. (пример: 3х300=900км). Пробег сверх лимита оплачивается отдельно: от 6 до 12 рублей за 1 км, в зависимости от класса авто.
                             </p>
                         </div>
                     </article>
@@ -163,28 +154,17 @@ export default async function TermsPage() {
                             <KeyIcon className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Передача авто
-                            </h3>
+                            </div>
                             <p className="mb-[6px] lg:mb-3">
-                                Получить и вернуть авто можно из любой точки в радиусе 1000км.
+                                Автомобиль предоставляется в чистом виде и с полным топливным баком. Вернуть автомобиль необходимо с полным баком , мыть не обязательно.
                             </p>
                             <p className="mb-[6px] lg:mb-3">
-                                Автомобиль предоставляется в чистом виде и с
-                                полным топливным баком. Вернуть автомобиль
-                                необходимо в установленный срок с полным баком.
+                                Задержка возврата автомобиля свыше 2-х часов оплачивается в размере стоимости суточной аренды.
                             </p>
                             <p className="mb-[6px] lg:mb-3">
-                                Задержка возврата автомобиля свыше 2-х часов
-                                оплачивается в размере стоимости суточной
-                                аренды. При досрочном возврате автомобиля
-                                перерасчёт производится по тарифу в зависимости
-                                от времени фактического использования вами
-                                автомобиля, но не менее суток.
-                            </p>
-                            <p>
-                                Выдача и прием авто в нерабочие часы - 1000
-                                рублей
+                                При досрочном возврате автомобиля перерасчёт производится по тарифу в зависимости от времени фактического использования вами автомобиля, но не менее суток.
                             </p>
                         </div>
                     </article>
@@ -193,9 +173,9 @@ export default async function TermsPage() {
                             <DocumentsUser className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Ответственность арендатора
-                            </h3>
+                            </div>
                             <p className="mt-[6px] lg:mt-3 lg:text-[]/[]">
                                 Арендатор несёт полную материальную ответственность в случаях:
                             </p>
@@ -225,9 +205,9 @@ export default async function TermsPage() {
                             <DocumentCar className="w-[44px] h-[44px] lg:w-[54px] lg:h-[54px] shrink-0" />
                         </div>
                         <div>
-                            <h3 className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
+                            <div className="text-[16px]/[24px] lg:text-[24px]/[32px] font-bold mb-[6px] lg:mb-[14px]">
                                 Ответственность Рентасиб
-                            </h3>
+                            </div>
                             <p className="mb-[6px] lg:mb-3 lg:text-[]/[]">
                                 Все автомобили застрахованы по ОСАГО, КАСКО.
                             </p>
@@ -251,35 +231,14 @@ export default async function TermsPage() {
             </section>
 
             <section className="py-[42px] lg:py-[68px] border-b border-[#284B63B2]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] mb-5 lg:mb-[42px]">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] mb-5 lg:mb-[42px]">
                     Для юридических лиц:
-                </h2>
+                </div>
                 <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:mb-9">
                     <article className="lg:w-1/2">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5">
-                            Требования к арендатору
-                        </h3>
-                        <ol className="list-decimal pl-4 space-y-2 lg:space-y-3 text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
-                            <li>
-                                Личные данные водителей: фото паспорта (главная
-                                страница + регистрация), фото водительского
-                                удостоверения (с двух сторон).
-                            </li>
-                            <li>
-                                Реквизиты организации с указанием должности и
-                                ФИО руководителя.
-                            </li>
-                            <li>
-                                Доверенность на право подписания договоров
-                                аренды и актов приема-передачи, если подписывать
-                                будет не директор.
-                            </li>
-                        </ol>
-                    </article>
-                    <article className="lg:w-1/2">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5">
                             C нами удобно
-                        </h3>
+                        </div>
                         <ol className="list-decimal pl-4 space-y-2 lg:space-y-3 text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
                             <li>
                                 Предоставляем закрывающие документы в день
@@ -311,14 +270,14 @@ export default async function TermsPage() {
             </section>
 
             <section className="pt-[43px] lg:py-[68px] pb-[62px]">
-                <h2 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-5 lg:mb-[42px] ">
+                <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-5 lg:mb-[42px] ">
                     Набор документов для физических лиц:
-                </h2>
+                </div>
                 <div className="flex flex-col lg:flex-row-reverse gap-4 lg:gap-6">
-                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-10 lg:pb-[38px] bg-globe">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-8 lg:mb-[72px]">
+                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-10 lg:pb-[38px] bg-coatOfArms">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-8 lg:mb-[72px]">
                             Инностранным гражданам
-                        </h3>
+                        </div>
                         <ul className="space-y-5">
                             <li>
                                 <span>
@@ -340,16 +299,16 @@ export default async function TermsPage() {
                             </li>
                         </ul>
                     </article>
-                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-9 lg:pb-[42px] bg-coatOfArms">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[82px] lg:mb-[116px]">
+                    <article className="lg:w-1/2 rounded-[20px] border-2 border-[#F6F6F633] px-6 lg:px-9 pt-7 lg:pt-[38px] pb-9 lg:pb-[42px] bg-globe">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[82px] lg:mb-[116px]">
                             Гражданам РФ
-                        </h3>
+                        </div>
                         <ul className="text-[16px]/[24px] lg:text-[18px]/[28px] space-y-5">
                             <li>
                                 <span>
                                     <ParticlesIcon className="mr-4 lg:mr-5" />
                                 </span>
-                                Паспорт с пропиской
+                                Паспорт
                             </li>
                             <li>
                                 <span>
@@ -363,9 +322,9 @@ export default async function TermsPage() {
             </section>
 
             <section className="py-[42px] lg:py-[68px] px-[17px] lg:px-0 relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D]">
-                <h2 className="lg:text-center text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-12">
+                <div className="lg:text-center text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-12">
                     Что делать при ДТП?
-                </h2>
+                </div>
                 <ol className="grid lg:grid-cols-3 lg:gap-6 lg:max-w-[939px] mx-auto list-none counter-reset:step">
                     {steps.map((step, index) => (
                         <li
@@ -382,9 +341,9 @@ export default async function TermsPage() {
                             <div
                                 className={`${index !== steps.length - 1 ? 'pb-8' : ''}`}
                             >
-                                <h3 className="text-[18px]/[28px] lg:text-[20px]/[28px] mb-[2px] font-bold">
+                                <div className="text-[18px]/[28px] lg:text-[20px]/[28px] mb-[2px] font-bold">
                                     {step.title}
-                                </h3>
+                                </div>
                                 <p className="text-[14px]/[20px] lg:text-[16px]/[24px]">
                                     {step.description}
                                 </p>
@@ -395,14 +354,14 @@ export default async function TermsPage() {
             </section>
 
             <section className="pt-[62px] lg:py-[68px] pb-[42px]  border-b border-[#284B63B2]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-[32px]">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-[32px]">
                     А если...
-                </h2>
+                </div>
                 <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
                     <article className="lg:w-1/2">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
                             Требуется продление аренды
-                        </h3>
+                        </div>
                         <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
                             Арендатор имеет возможность продлить свою бронь в
                             процессе аренды, но не всегда есть возможность продления.
@@ -417,9 +376,9 @@ export default async function TermsPage() {
                         </p>
                     </article>
                     <article className="lg:w-1/2">
-                        <h3 className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
+                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
                             Обнаружилась неисправность
-                        </h3>
+                        </div>
                         <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium">
                             Мы тщательно следим за тем, чтобы машины находились в отличном техническом состоянии.
                             Мы обеспечиваем безопасность и комфорт передвижения клиентов, сводя к минимуму любые риски.
@@ -431,9 +390,9 @@ export default async function TermsPage() {
 
             <section className="mt-10 lg:mt-[68px] pb-[42px] lg:pb-[68px]">
                 <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
+                    <div className="text-xl font-bold lg:text-3xl">
                         Стоимость доставки авто:
-                    </h2>
+                    </div>
                     <div className="hidden lg:block ml-4 mt-[6px]">
                         <LineIcon />
                     </div>
@@ -445,14 +404,14 @@ export default async function TermsPage() {
             </section>
 
             <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Часто задаваемые вопросы:
-                </h2>
+                </div>
                 <Accordion items={faqItems} />
             </section>
 
-            <WhyUs />
-            <HaveQuestions />
+            <WhyUs headingTag="div" />
+            <HaveQuestions headingTag="div" />
         </>
     );
 }

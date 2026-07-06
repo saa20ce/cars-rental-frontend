@@ -30,8 +30,8 @@ export default async function ReviewsPage() {
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
-            <LetterThanks letters={letters} />
-            <ReviewsApi />
+            <LetterThanks letters={letters} headingTag="div" />
+            <ReviewsApi subheadingTag="div" />
             <ReviewForm />
             <ReviewsClents reviews={reviews} />
         </>

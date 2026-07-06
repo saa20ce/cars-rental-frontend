@@ -13,11 +13,16 @@ const CarCard = dynamic(
 );
 
 
+type GalleryCarsTitleTag = 'h2' | 'h3' | 'div';
+type GalleryCarsCarTitleTag = 'h3' | 'div';
+
 interface SimilarCarsProps {
     similarCars: Car[];
     title: string;
     href: string;
     btnTitle: string;
+    titleTag?: GalleryCarsTitleTag;
+    carTitleTag?: GalleryCarsCarTitleTag;
     additionalOptions?: {
         label: string;
         value: string;
@@ -32,16 +37,19 @@ export default function GalleryCars({
     title,
     href,
     btnTitle,
+    titleTag = 'h2',
+    carTitleTag = 'h3',
     additionalOptions,
     deliveryPrice = { day: [], night: [] },
     seasonDates = null
 }: SimilarCarsProps) {
     const scrollRef = useRef<HTMLUListElement>(null);
+    const TitleTag = titleTag;
 
     return (
         <section className="pt-[42px] lg:pt-[68px]">
             <div className="flex flew-row justify-between mb-5 lg:mb-6">
-                <h2 className="text-xl font-bold lg:text-3xl self-end">{title}</h2>
+                <TitleTag className="text-xl font-bold lg:text-3xl self-end">{title}</TitleTag>
                 <div className="hidden lg:flex flex-row px-4 gap-4">
                     <CarouselControls ref={scrollRef} />
                     <Link
@@ -69,6 +77,7 @@ export default function GalleryCars({
                                 additionalOptions={additionalOptions}
                                 deliveryPrice={deliveryPrice}
                                 seasonDates={seasonDates}
+                                titleTag={carTitleTag}
                             />
                         </li>
                     ))}

@@ -65,16 +65,17 @@ export default async function CarsPage({
                 seasonDates={seasonDates}
                 defaultKlass={defaultKlass}
                 defaultKuzov={defaultKuzov}
+                carTitleTag="h2"
             />
-            <RentSteps />
+            <RentSteps headingTag="div" stepTitleTag="div" />
 
             <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
 
             <section className="mt-10 lg:mt-[68px]">
                 <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
+                    <div className="text-xl font-bold lg:text-3xl">
                         Стоимость доставки авто:
-                    </h2>
+                    </div>
                     <div className="hidden lg:block ml-4 mt-[6px]">
                         <LineIcon />
                     </div>
@@ -87,9 +88,9 @@ export default async function CarsPage({
 
             <div className=" w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
 
-            <WhyUs />
+            <WhyUs headingTag="div" />
 
-            <HaveQuestions />
+            <HaveQuestions headingTag="div" />
         </>
     );
 }

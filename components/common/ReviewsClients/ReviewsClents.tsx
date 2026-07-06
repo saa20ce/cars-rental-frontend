@@ -34,9 +34,9 @@ export default function ReviewsClients({
         <section className="mt-[42px] lg:mt-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D]">
             <div className="px-4 lg:px-[10px] py-[42px] lg:py-[68px] w-full xl:max-w-[1260px] mx-auto">
                 <div className="flex items-center justify-between mb-4 lg:mb-6">
-                    <h2 className="text-[20]/[28px] md:text-[30px]/[36px] font-bold">
+                    <div className="text-[20]/[28px] md:text-[30px]/[36px] font-bold">
                         Отзывы клиентов
-                    </h2>
+                    </div>
                     <div className="hidden md:block">
                         <CarouselControls ref={scrollRef} />
                     </div>

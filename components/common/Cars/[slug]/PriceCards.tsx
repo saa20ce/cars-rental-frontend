@@ -5,10 +5,13 @@ import type { PriceRange, SeasonData } from '@/lib/types/Car';
 import { Switch, Tooltip } from 'antd';
 import { LineIcon, InfoIcon } from '@/lib/ui/icons';
 
+type PriceCardsItemLabelTag = 'h3' | 'div';
+
 interface PriceCardsProps {
     priceRanges: PriceRange[];
     seasonModeSwitch: boolean;
     seasonDates?: SeasonData | null;
+    itemLabelTag?: PriceCardsItemLabelTag;
 }
 
 const seasonDateFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -94,7 +97,10 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
     priceRanges,
     seasonModeSwitch,
     seasonDates,
+    itemLabelTag = 'h3',
 }) => {
+    const ItemLabelTag = itemLabelTag;
+
     return (
         <>
             <section>
@@ -165,14 +171,14 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
                                             ${seasonModeSwitch ? 'bg-[#f6f6f638]' : 'bg-[#f6f6f60e]'}
                                         `}
                                     >
-                                        <h3
+                                        <ItemLabelTag
                                             className={`text-[14px]/[20px] lg:text-[18px]/[28px] font-normal transition-all ${seasonModeSwitch
                                                 ? 'text-[#f6f6f6]'
                                                 : 'text-[#f6f6f666]'
                                                 }`}
                                         >
                                             {label}
-                                        </h3>
+                                        </ItemLabelTag>
                                         <p
                                             className={`text-[14px]/[20px] lg:text-[18px]/[28px] font-bold transition-all`}
                                         >

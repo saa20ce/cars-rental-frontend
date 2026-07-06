@@ -3,8 +3,8 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
-import SuccessRequest from '../Modal/SuccessRequest';
-import { Modal, Form, Input, message, ConfigProvider } from 'antd';
+import { SuccessRequestModal } from '../Modal/SuccessRequest';
+import { Form, Input, message, ConfigProvider } from 'antd';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
 import { PersonalDataConsentFormItem } from './PersonalDataConsent';
 
@@ -66,13 +66,13 @@ export default function ContactForm() {
 
     return (
         <section className="mt-[42px] lg:mt-[68px] bg-[#284B63] rounded-[24px] lg:rounded-[32px] py-7 px-6 lg:py-[68px] lg:px-12">
-            <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
+            <div className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                 Хотите связаться с нами?
-            </h2>
-            <h3 className="font-normal text-[16px]/[24px] lg:text-[18px]/[28px] mb-5 lg:mb-[32px]">
+            </div>
+            <div className="font-normal text-[16px]/[24px] lg:text-[18px]/[28px] mb-5 lg:mb-[32px]">
                 Отправьте форму заявки и мы рассмотрим ваше предложение и
                 свяжемся с вами!
-            </h3>
+            </div>
 
             <ConfigProvider
                 theme={{
@@ -194,34 +194,10 @@ export default function ContactForm() {
                     </div>
                 </Form>
             </ConfigProvider>
-
-            <Modal
+            <SuccessRequestModal
                 open={status === 'success'}
-                footer={null}
-                closeIcon={false}
-                onCancel={() => setStatus('idle')}
-                maskClosable={true}
-                centered
-                style={{ top: 0, left: 0, margin: 0, padding: 0 }}
-                styles={{
-                    mask: {
-                        backdropFilter: 'blur(30px)',
-                        WebkitBackdropFilter: 'blur(30px)',
-                    },
-                    content: {
-                        display: 'block',
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        padding: 0,
-                    },
-                }}
-            >
-                <SuccessRequest
-                    header="Ваша заявка принята!"
-                    text="Мы свяжемся с вами в течение 5 минут"
-                    onClick={() => setStatus('idle')}
-                />
-            </Modal>
+                onClose={() => setStatus('idle')}
+            />
 
             {status === 'error' && <ErrorBanner />}
 

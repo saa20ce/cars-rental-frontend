@@ -39,6 +39,8 @@ const SuccessRequest = dynamic(
     { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
 );
 
+type CarCardTitleTag = 'h2' | 'h3' | 'div';
+
 interface CarCardProps {
     car: LibCar;
     additionalOptions?: {
@@ -48,14 +50,17 @@ interface CarCardProps {
     }[];
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null
+    titleTag?: CarCardTitleTag;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
     car,
     additionalOptions,
     deliveryPrice = { day: [], night: [] },
-    seasonDates = null
+    seasonDates = null,
+    titleTag = 'h3'
 }) => {
+    const TitleTag = titleTag;
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const regularPrice = Number(acf['1-3_dnya']);
     const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
@@ -251,9 +256,9 @@ export const CarCard: React.FC<CarCardProps> = ({
             <div className="flex justify-between pb-4 px-4 lg:pb-[26px] lg:px-[26px]">
                 <div className="w-full">
                     <Link href={carLink} passHref>
-                        <h3 className="text-base lg:text-lg font-semibold text-[#f6f6f6] mb-0 lg:mb-1">
+                        <TitleTag className="text-base lg:text-lg font-semibold text-[#f6f6f6] mb-0 lg:mb-1">
                             {acf.nazvanie_avto}
-                        </h3>
+                        </TitleTag>
                     </Link>
                     {acf.skidka ? (
                         <p className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#f6f6f6] flex items-center gap-[6px] lg:gap-2">
@@ -321,8 +326,6 @@ export const CarCard: React.FC<CarCardProps> = ({
                     >
                         {isSubmitted && (
                             <SuccessRequest
-                                header="Ваша заявка принята!"
-                                text="Мы свяжемся с вами в течение 5 минут"
                                 reservation={true}
                                 onClick={() => {
                                     setModalVisible(false);

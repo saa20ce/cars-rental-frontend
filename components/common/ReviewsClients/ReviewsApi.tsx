@@ -2,12 +2,17 @@
 import { useEffect, useRef } from 'react';
 
 type ReviewsApiProps = {
-  headingLevel?: 'h1' | 'h2';
+  headingLevel?: 'h1' | 'h2' | 'div';
+  subheadingTag?: 'h3' | 'div';
 };
 
-export default function ReviewsApi({ headingLevel = 'h1' }: ReviewsApiProps) {
+export default function ReviewsApi({
+  headingLevel = 'h1',
+  subheadingTag = 'h3',
+}: ReviewsApiProps) {
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const HeadingTag = headingLevel;
+  const SubheadingTag = subheadingTag;
 
   useEffect(() => {
     const current = widgetRef.current;
@@ -32,9 +37,9 @@ export default function ReviewsApi({ headingLevel = 'h1' }: ReviewsApiProps) {
       <HeadingTag className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5">
         Отзывы
       </HeadingTag>
-      <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal mb-8 lg:mb-9">
+      <SubheadingTag className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal mb-8 lg:mb-9">
         О нашей компании пишут в популярных источниках:
-      </h3>
+      </SubheadingTag>
       <div ref={widgetRef} className="w-full h-[500px]" />
     </section>
   );

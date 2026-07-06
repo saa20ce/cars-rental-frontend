@@ -38,12 +38,20 @@ const itemListWhyUs = [
     },
 ];
 
-export const WhyUs = () => {
+type WhyUsHeadingTag = 'h2' | 'div';
+
+interface WhyUsProps {
+    headingTag?: WhyUsHeadingTag;
+}
+
+export const WhyUs = ({ headingTag = 'h2' }: WhyUsProps = {}) => {
+    const HeadingTag = headingTag;
+
     return (
         <section className="pb-[42px] lg:pb-[68px]">
-            <h2 className="text-xl lg:text-3xl font-bold mt-10 mb-5 lg:mb-6">
+            <HeadingTag className="text-xl lg:text-3xl font-bold mt-10 mb-5 lg:mb-6">
                 Почему нам доверяют:
-            </h2>
+            </HeadingTag>
             <ul className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-6  list-none p-0 m-0">
                 {itemListWhyUs.map((item) => (
                     <li className="flex flex-row gap-[14px] bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">

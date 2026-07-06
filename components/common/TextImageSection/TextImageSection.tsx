@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { ReactElement } from 'react';
 
+type TextImageHeadingTag = 'h2' | 'div';
+
 export default function TextImageSection({
     sectionGray,
     src,
@@ -13,7 +15,8 @@ export default function TextImageSection({
     flexColReverse,
     flexRowReverse,
     border,
-    maxWidthText = 'none'
+    maxWidthText = 'none',
+    headingTag = 'h2'
 }: {
     sectionGray: boolean;
     src: string;
@@ -26,8 +29,10 @@ export default function TextImageSection({
     flexColReverse?: boolean;
     flexRowReverse?: boolean;
     maxWidthText?: string;
-    border?: string
+    border?: string;
+    headingTag?: TextImageHeadingTag
 }) {
+    const HeadingTag = headingTag;
     const styleSection = sectionGray
         ? 'py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] '
         : 'py-[42px] lg:py-[68px] border-b border-[#284B63B2]';
@@ -48,9 +53,9 @@ export default function TextImageSection({
                         } as React.CSSProperties
                     }
                 >
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    <HeadingTag className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         {header}
-                    </h2>
+                    </HeadingTag>
                     {textItems.map((text, i) => (
                         <p
                             key={i}

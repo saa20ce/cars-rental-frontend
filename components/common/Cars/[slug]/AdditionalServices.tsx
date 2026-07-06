@@ -13,6 +13,8 @@ const CustomSelect = dynamic(
 );
 
 
+type AdditionalServicesTitleTag = 'h4' | 'div';
+
 interface AdditionalServicesProps {
     additionalOptions: { label: string; value: string }[];
     additionalOptionsSelected?: string[];
@@ -20,6 +22,7 @@ interface AdditionalServicesProps {
     deliveryOptions?: { label: string; value: string }[];
     deliveryOptionSelected?: string;
     setDeliveryOption: (value: string) => void;
+    titleTag?: AdditionalServicesTitleTag;
 }
 
 export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
@@ -29,7 +32,9 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
     deliveryOptions = [],
     deliveryOptionSelected,
     setDeliveryOption,
+    titleTag = 'h4',
 }) => {
+    const TitleTag = titleTag;
     const optionsWithNoDelivery = [
         { label: 'Без подачи', value: 'none' },
         ...deliveryOptions,
@@ -39,9 +44,9 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
         <>
             <div>
                 <div className="additional-service-block">
-                    <h4 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] lg:mt-[16px] flex items-center gap-2 ">
+                    <TitleTag className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mt-[14px] lg:mt-[16px] flex items-center gap-2 ">
                         Место подачи:
-                    </h4>
+                    </TitleTag>
                     <div className="flex gap-2 w-full mt-[10px]">
                         <CustomSelect
                             options={optionsWithNoDelivery}
@@ -55,9 +60,9 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                 </div>
 
                 <div className="mt-[12px] lg:mt-[14px]">
-                    <h4 className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
+                    <TitleTag className="text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold mb-[10px] lg:mb-3">
                         Опции:
-                    </h4>
+                    </TitleTag>
                     <div className="flex flex-wrap gap-[10px]  lg:flex-col lg:gap-3 lg:text-lg">
                         <CheckboxGroup
                             className="gap-4"

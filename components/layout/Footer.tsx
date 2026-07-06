@@ -17,14 +17,14 @@ export const Footer: React.FC = () => {
         <footer className="mt-[56px]">
             <section className="flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5">
                 <div className="flex text-[18px] lg:text-[24px] font-[600] justify-between">
-                    <h2>
+                    <div>
                         <Link
                             href="/karta-sajta"
                         >
                             Разделы сайта{' '}
                             <ChevronRightIcon width={10} height={32} />
                         </Link>
-                    </h2>
+                    </div>
                     <Link
                         href="/blog"
                         className="underline underline-offset-[6px]"

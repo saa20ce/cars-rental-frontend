@@ -35,6 +35,7 @@ interface CarsPageClientProps {
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null;
     headingLevel?: 'h1' | 'h2';
+    carTitleTag?: 'h2' | 'h3' | 'div';
 }
 
 const getCurrentCarPrice = (
@@ -66,6 +67,7 @@ export default function CarsPageClient({
     deliveryPrice,
     seasonDates,
     headingLevel = 'h1',
+    carTitleTag = 'h3',
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc'
@@ -139,7 +141,8 @@ export default function CarsPageClient({
         else if (selectedPriceRange === 'gt10000') priceMatch = price > 10000;
 
         let passengerMatch = true;
-        if (selectedPassengers === '4') passengerMatch = passengeres === 4;
+        if (selectedPassengers === '4-5')
+            passengerMatch = passengeres >= 4 && passengeres <= 5;
         else if (selectedPassengers === '7') passengerMatch = passengeres === 7;
         else if (selectedPassengers === '8+') passengerMatch = passengeres >= 8;
 
@@ -243,7 +246,7 @@ export default function CarsPageClient({
                                 value={selectedMarka}
                                 multiple={true}
                             />
-                            <CustomSelect
+                            {/* <CustomSelect
                                 placeholder="Цена"
                                 options={[
                                     { value: 'lt4000', label: 'до 4000' },
@@ -260,7 +263,7 @@ export default function CarsPageClient({
                                     setSelectedPriceRange(value as string)
                                 }
                                 value={selectedPriceRange || undefined}
-                            />
+                            /> */}
                         </div>
                         <div className="hidden lg:flex lg:w-2/5 lg:pl-3 mt-0">
                             <CustomButton
@@ -298,7 +301,7 @@ export default function CarsPageClient({
                             <CustomSelect
                                 placeholder="Вместимость"
                                 options={[
-                                    { value: '4', label: '4 пассажира' },
+                                    { value: '4-5', label: '4-5 пассажиров' },
                                     { value: '7', label: '7 пассажиров' },
                                     { value: '8+', label: '8+ пассажиров' }
                                 ]}
@@ -407,6 +410,7 @@ export default function CarsPageClient({
                                     additionalOptions={additionalOptions}
                                     deliveryPrice={deliveryPrice}
                                     seasonDates={seasonDates}
+                                    titleTag={carTitleTag}
                                 />
                             </React.Fragment>
                         ))

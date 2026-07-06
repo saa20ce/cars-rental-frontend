@@ -98,7 +98,7 @@ export default async function CarRentalWithDelivery() {
                 aspect="336/224"
                 pyTextBlock="36"
                 maxWidthImage="511"
-                header="Аренда авто с доставкой по городу"
+                header="Аренда авто с доставкой по указанному адресу"
                 paragraphs={paragraphsSection1}
             />
 
@@ -115,9 +115,9 @@ export default async function CarRentalWithDelivery() {
             />
 
             <section className="py-[42px] lg:py-[68px]">
-                <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
+                <div className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                     Преимущества аренды авто с доставкой в Новосибирске
-                </h2>
+                </div>
                 <p className="text-[14px]/[20px] lg:text-[20px]/[28px] font-semibold lg:font-medium -mb-[22px] lg:-mb-8">
                     Аренда авто с доставкой в Новосибирске имеет ряд
                     преимуществ. Компания Рентасиб предлагает новые автомобили
@@ -149,6 +149,7 @@ export default async function CarRentalWithDelivery() {
                 maxWidthText="574"
                 maxWidthImage="617"
                 header="Как арендовать авто с доставкой в Новосибирске"
+                headingTag="div"
                 paragraphs={paragraphsSection3}
             />
 
@@ -161,14 +162,15 @@ export default async function CarRentalWithDelivery() {
                 maxWidthText="574"
                 maxWidthImage="618"
                 header="Особенности трансфера при аренде авто с доставкой"
+                headingTag="div"
                 paragraphs={paragraphsSection4}
             />
 
             <section className="pt-[42px] lg:pt-[68px] border-t border-[#284B63B2]">
-                <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] ">
+                <h3 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] ">
                     Дополнительные услуги
-                </h2>
-                <AdditionalServicesCards items={servicesItems} />
+                </h3>
+                <AdditionalServicesCards items={servicesItems} itemTitleTag="div" />
                 <div className="w-full sm:flex lg:hidden sm:justify-end">
                     <Link
                         href={'/dop-service'}

@@ -125,43 +125,40 @@ export default async function Home() {
                         ),
                     )}
                 </div>
-                <h1 className="font-bold text-[20px]/[28px] lg:hidden text-center mb-5">
-                    Арендуйте авто в Новосибирске
-                </h1>
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-6  relative ">
-                    <div className="w-full lg:max-w-[725px]">
+                    <div className="contents lg:block lg:order-2 lg:w-full lg:max-w-[511px] lg:py-[22px]">
+                        <h1 className="order-1 font-bold text-[20px]/[28px] lg:text-[36px]/[48px] text-center lg:text-left mb-1 lg:mb-5">
+                            Арендуйте авто в Новосибирске
+                        </h1>
+                        <p className="hidden lg:block font-semibold text-[20px]/[28px] mb-9">
+                            Арендуйте автомобиль в Новосибирске по <br />{' '}
+                            выгодной цене от 1800 рублей/сутки
+                        </p>
+                        <div className="order-3 w-full px-4 md:px-0">
+                            <div className="flex gap-3 justify-center md:justify-start lg:mb-9">
+                                <Link
+                                    href={'/cars'}
+                                    className="bg-[#3C6E71] h-10 lg:h-11 lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-[12px] lg:rounded-[16px] font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[30px] text-center"
+                                >
+                                    Автопарк
+                                </Link>
+                            </div>
+                            <Link
+                                href="service/arenda-avtomobilej-dlya-biznesa"
+                                className="block mt-4 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
+                            >
+                                Аренда для Юридических лиц
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="order-2 w-full lg:order-1 lg:max-w-[725px]">
                         <Image
                             src={Banner}
                             alt="Аренда авто в Новосибирске"
                             className="max-h-[208px] md:max-h-[350px] lg:max-h-none h-full w-full"
                             priority
                         />
-                    </div>
-
-                    <div className="w-full lg:max-w-[511px] lg:py-[22px] px-4 md:px-0">
-                        <div className="hidden lg:block">
-                            <h2 className="font-bold text-[36px]/[48px] mb-5">
-                                Арендуйте авто в Новосибирске
-                            </h2>
-                            <p className="font-semibold text-[20px]/[28px] mb-9">
-                                Арендуйте автомобиль в Новосибирске по <br />{' '}
-                                выгодной цене от 1800 рублей/сутки
-                            </p>
-                        </div>
-                        <div className="flex gap-3 justify-center md:justify-start lg:mb-9">
-                            <Link
-                                href={'/cars'}
-                                className="bg-[#3C6E71] h-10 lg:h-11 lg:max-w-[194px] flex-1 md:flex-0  py-2 rounded-[12px] lg:rounded-[16px] font-medium text-[16px]/[24px] lg:font-semibold lg:text-[18px]/[30px] text-center"
-                            >
-                                Автопарк
-                            </Link>
-                        </div>
-                        <Link
-                            href="service/arenda-avtomobilej-dlya-biznesa"
-                            className="block mt-4 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
-                        >
-                            Аренда для Юридических лиц
-                        </Link>
                     </div>
                 </div>
             </section>
@@ -193,9 +190,9 @@ export default async function Home() {
                                 />
                             </div>
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
-                                 <h4 className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
+                                 <div className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
                                     {c.title}
-                                </h4>
+                                </div>
                                 <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
                                     от {c.price} Р/сут.
                                 </span>
@@ -206,9 +203,9 @@ export default async function Home() {
             </section>
             <section className="py-[42px] lg:py-[68px]">
                 <div className="lg:text-2xl flex justify-between items-start">
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold">
+                    <h3 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold">
                         Условия аренды:
-                    </h2>
+                    </h3>
                     <Link
                         href={'/require'}
                         className="lg:hidden underline underline-offset-[4px] decoration-1 text-[16px]/[24px] font-normal"
@@ -275,7 +272,7 @@ export default async function Home() {
                 </ul>
             </section>
 
-            <RentSteps />
+            <RentSteps headingTag="h3" stepTitleTag="div" />
 
             {classes.map((c) => (
                 <GalleryCars
@@ -286,6 +283,8 @@ export default async function Home() {
                         ]
                     }
                     title={`${c.title}:`}
+                    titleTag="div"
+                    carTitleTag="div"
                     btnTitle={
                         galleryButtonTitles[
                             c.title as keyof typeof galleryButtonTitles
@@ -300,9 +299,9 @@ export default async function Home() {
 
             <section className="mt-10 lg:mt-[68px] py-[42px] lg:py-[68px]  border-t border-b border-[#284B63B2]">
                 <div className="flex flex-row">
-                    <h2 className="text-xl font-bold lg:text-3xl">
-                        Стоимость доставки авто:
-                    </h2>
+                    <h4 className="text-xl font-bold lg:text-3xl">
+                        Стоимость доставки авто
+                    </h4>
                     <div className="hidden lg:block ml-4 mt-[6px]">
                         <LineIcon />
                     </div>
@@ -313,9 +312,9 @@ export default async function Home() {
                 <DeliveryPriceTable deliveryPrice={deliveryPrice} />
             </section>
 
-            <WhyUs />
+            <WhyUs headingTag="div" />
 
-            <HaveQuestions />
+            <HaveQuestions headingTag="div" />
         </>
     );
 }

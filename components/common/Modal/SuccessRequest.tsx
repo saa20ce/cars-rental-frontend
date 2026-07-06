@@ -1,17 +1,34 @@
+'use client';
+
+import {
+    DEFAULT_SUCCESS_REQUEST_HEADER,
+    getDefaultSuccessRequestText,
+} from '@/lib/helpers/businessHours';
 import { SucsessIcon } from '@/lib/ui/icons/SucsessIcon';
-import { Button, ConfigProvider } from 'antd';
+import { Button, ConfigProvider, Modal } from 'antd';
+import { useMemo } from 'react';
+
+interface SuccessRequestProps {
+    onClick: () => void;
+    header?: string;
+    text?: string;
+    reservation?: boolean;
+}
+
+interface SuccessRequestModalProps extends Omit<SuccessRequestProps, 'onClick'> {
+    open: boolean;
+    onClose: () => void;
+}
 
 export default function SuccessRequest({
     onClick,
-    header,
+    header = DEFAULT_SUCCESS_REQUEST_HEADER,
     text,
-    reservation = false
-}: {
-    onClick: () => void;
-    header: string;
-    text: string;
-    reservation?: boolean
-}) {
+    reservation = false,
+}: SuccessRequestProps) {
+    const defaultText = useMemo(() => getDefaultSuccessRequestText(), []);
+    const displayText = text ?? defaultText;
+
     return (
         <section className="text-center p-6 text-white  flex-center">
             <div className="w-[360px] lg:w-[456px] bg-[#284B63] rounded-[16px] py-7 px-6 lg:py-[38px] lg:px-9 ">
@@ -26,7 +43,7 @@ export default function SuccessRequest({
                         <p
                             className={`text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold ${reservation ? 'mb-2 lg:mb-[10px]' : ''}  tracking-normal `}
                         >
-                            {text}
+                            {displayText}
                         </p>
                         {reservation && (
                             <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-normal">
@@ -54,9 +71,9 @@ export default function SuccessRequest({
                                 defaultActiveBorderColor: '#3c6e71',
                                 defaultActiveColor: '#f6f6f6',
                                 colorBorder: '#3c6e71',
-                                colorBgTextActive: '#3c6e71'
-                            }
-                        }
+                                colorBgTextActive: '#3c6e71',
+                            },
+                        },
                     }}
                 >
                     <Button
@@ -69,5 +86,46 @@ export default function SuccessRequest({
                 </ConfigProvider>
             </div>
         </section>
-    )
+    );
+}
+
+export function SuccessRequestModal({
+    open,
+    onClose,
+    header,
+    text,
+    reservation,
+}: SuccessRequestModalProps) {
+    return (
+        <Modal
+            open={open}
+            footer={null}
+            closeIcon={false}
+            onCancel={onClose}
+            maskClosable={true}
+            centered
+            style={{ top: 0, left: 0, margin: 0, padding: 0 }}
+            styles={{
+                mask: {
+                    backdropFilter: 'blur(30px)',
+                    WebkitBackdropFilter: 'blur(30px)',
+                },
+                content: {
+                    display: 'block',
+                    background: 'transparent',
+                    boxShadow: 'none',
+                    padding: 0,
+                },
+            }}
+        >
+            {open && (
+                <SuccessRequest
+                    header={header}
+                    text={text}
+                    reservation={reservation}
+                    onClick={onClose}
+                />
+            )}
+        </Modal>
+    );
 }

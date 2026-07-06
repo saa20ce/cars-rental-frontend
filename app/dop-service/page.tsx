@@ -17,23 +17,23 @@ export default async function additionalServicesPage() {
         <>
             <Breadcrumbs crumbs={breadcrumbs} />
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Дополнительные услуги при аренде авто в Новосибирске
+                Дополнительные услуги
             </h1>
 
             <section>
-                <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
+                <div className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
                     Для удобства водителей и их пассажиров предлагаем
                     дополнительные сервисы и возможности.
-                </h3>
-                <AdditionalServicesCards items={additionalServicesItems} />
+                </div>
+                <AdditionalServicesCards items={additionalServicesItems} itemTitleTag="h2" />
             </section>
 
             <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
                 <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-6 items-stretch">
                     <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal ">
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                        <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                             Доставка автомобилей:
-                        </h2>
+                        </div>
                         <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
                             Услуга доставки автомобилей в Рентасиб позволяет
                             нашим клиентам получить автомобиль в любое время в любом
@@ -80,9 +80,9 @@ export default async function additionalServicesPage() {
                     />
                 </div>
                 <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Дополнительные услуги:
-                    </h2>
+                    </div>
                     <p className=" mb-2 lg:mb-3">
                         Рентасиб предоставляет широкий спектр дополнительных
                         услуг, чтобы сделать вашу поездку максимально комфортной
@@ -123,9 +123,9 @@ export default async function additionalServicesPage() {
                     />
                 </div>
                 <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Правила использования автомобиля:
-                    </h2>
+                    </div>
                     <p className=" mb-2 lg:mb-3">
                         Правила использования автомобиля являются одним из
                         важных моментов при аренде авто в Рентасиб. Каждый
@@ -149,9 +149,9 @@ export default async function additionalServicesPage() {
             </section>
 
             <section>
-                <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                     Часто задаваемые вопросы:
-                </h2>
+                </div>
                 <Accordion items={faqItems} />
             </section>
         </>

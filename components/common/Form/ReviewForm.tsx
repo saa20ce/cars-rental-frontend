@@ -3,8 +3,7 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { InputMask } from '@react-input/mask';
 import { useState } from 'react';
-import SuccessRequest from '../Modal/SuccessRequest';
-import { Modal } from 'antd';
+import { SuccessRequestModal } from '../Modal/SuccessRequest';
 import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
@@ -56,9 +55,9 @@ export default function ReviewForm() {
 
     return (
         <section className="mt-[42px] lg:mt-[68px] bg-[#1E384A] rounded-[24px] lg:rounded-[32px] py-7 px-6 lg:py-[68px] lg:px-12">
-            <h2 className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
+            <div className="font-bold text-[20px]/[28px] lg:text-[30px]/[36px] mb-4 lg:mb-6">
                 Оставьте ваш отзыв
-            </h2>
+            </div>
             <form onSubmit={handleSubmit} className="mt-[10px]">
                 <div className="lg:flex lg:gap-9">
                     <div className="flex-1 lg:max-w-[454px]">
@@ -125,9 +124,9 @@ export default function ReviewForm() {
                             onChange={(e) => setReview(e.target.value)}
                         ></textarea>
                         <div className="flex gap-3 items-center mt-[14px] lg:mt-3">
-                            <h5 className="text-[14px]/[20px] font-semibold">
+                            <div className="text-[14px]/[20px] font-semibold">
                                 Оцените нас:{' '}
-                            </h5>
+                            </div>
                             <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <div
@@ -185,34 +184,12 @@ export default function ReviewForm() {
                     </label>
                 </div>
             </form>
-
-            <Modal
+            <SuccessRequestModal
                 open={status === 'success'}
-                footer={null}
-                closeIcon={false}
-                onCancel={() => setStatus('idle')}
-                maskClosable={true}
-                centered
-                style={{ top: 0, left: 0, margin: 0, padding: 0 }}
-                styles={{
-                    mask: {
-                        backdropFilter: 'blur(30px)',
-                        WebkitBackdropFilter: 'blur(30px)',
-                    },
-                    content: {
-                        display: 'block',
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        padding: 0,
-                    },
-                }}
-            >
-                <SuccessRequest
-                    header="Спасибо за отзыв!"
-                    text="Мы приняли ваш отзыв и ознакомимся с ним в ближайшее время."
-                    onClick={() => setStatus('idle')}
-                />
-            </Modal>
+                header="Спасибо за отзыв!"
+                text="Мы приняли ваш отзыв и ознакомимся с ним в ближайшее время."
+                onClose={() => setStatus('idle')}
+            />
 
             {status === 'error' && <ErrorBanner />}
         </section>

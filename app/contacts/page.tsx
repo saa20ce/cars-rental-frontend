@@ -23,59 +23,61 @@ export default async function ContactsPage() {
                     <h1 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Наши контакты
                     </h1>
-                    <div>
-                        <dl className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3">
-                            <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
-                                <dt>Бронирование:</dt>
-                                <dd>9:00 - 20:00</dd>
-                            </div>
-                            <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
-                                <dt>Офис:</dt>
-                                <dd>9:00 - 20:00</dd>
-                            </div>
-                        </dl>
-                        <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium mt-[10px] lg:mt-3">
-                            Круглосуточная доставка автомобилей по
-                            предварительному бронированию от 2000₽
-                        </p>
+                    <div className="flex flex-col">
+                        <div className="time-section order-2 mt-8 lg:order-1 lg:mt-0">
+                            <dl className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3">
+                                <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
+                                    <dt>Бронирование:</dt>
+                                    <dd>9:00 - 20:00</dd>
+                                </div>
+                                <div className="flex text-[14px]/[20px] lg:text-[18px]/[28px] font-medium gap-2">
+                                    <dt>Офис:</dt>
+                                    <dd>9:00 - 20:00</dd>
+                                </div>
+                            </dl>
+                            <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium mt-[10px] lg:mt-3">
+                                Круглосуточная доставка автомобилей по
+                                предварительному бронированию от 2000₽
+                            </p>
+                        </div>
+
+                        <div className="order-1 lg:order-2 w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row">
+                            <a
+                                href="tel:+7(913)-913-28-08"
+                                aria-label="Позвонить по номеру +7 (913) 913-28-08"
+                                className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
+                            >
+                                <MobileIcon className="w-9 h-[36px] lg:h-[48px] lg:w-[48px]" />
+                                <span className="text-nowrap">
+                                    + 7(913)-913-28-08
+                                </span>
+                            </a>
+                            <a
+                                href="mailto:rentasib54@gmail.com"
+                                aria-label="Написать письмо на адрес rentasib54@gmail.com"
+                                className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-between lg:flex-col lg:gap-5 gap-3 grow"
+                            >
+                                <EmailIcon className="w-9 h-[36px] lg:h-[48px] lg:w-[48px]" />
+                                <span>rentasib54@gmail.com</span>
+                            </a>
+                            <a
+                                href="https://2gis.ru/novosibirsk/firm/70000001038917532?m=82.925675%2C55.014643%2F16"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Посмотреть расположение офиса на карте в Новосибирске, Красный проспект 2/1"
+                                className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
+                            >
+                                <MarkerIcon className="w-9 h-9 lg:h-[48px]" />
+                                <span className="text-nowrap">
+                                    Красный просп., 2/1
+                                </span>
+                            </a>
+                        </div>
                     </div>
 
-                    <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-4 lg:gap-5 flex-col lg:flex-row">
-                        <a
-                            href="tel:+7(913)-913-28-08"
-                            aria-label="Позвонить по номеру +7 (913) 913-28-08"
-                            className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
-                        >
-                            <MobileIcon className="w-9 h-[36px] lg:h-[48px] lg:w-[48px]" />
-                            <span className="text-nowrap">
-                                + 7(913)-913-28-08
-                            </span>
-                        </a>
-                        <a
-                            href="mailto:rentasib54@gmail.com"
-                            aria-label="Написать письмо на адрес rentasib54@gmail.com"
-                            className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-between lg:flex-col lg:gap-5 gap-3 grow"
-                        >
-                            <EmailIcon className="w-9 h-[36px] lg:h-[48px] lg:w-[48px]" />
-                            <span>rentasib54@gmail.com</span>
-                        </a>
-                        <a
-                            href="https://2gis.ru/novosibirsk/firm/70000001038917532?m=82.925675%2C55.014643%2F16"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Посмотреть расположение офиса на карте в Новосибирске, Красный проспект 2/1"
-                            className="rounded-[12px] bg-[#F6F6F60D] px-6 py-5 lg:px-2 flex items-center lg:max-w-[230px] lg:justify-center lg:flex-col lg:gap-5 gap-3 grow"
-                        >
-                            <MarkerIcon className="w-9 h-9 lg:h-[48px]" />
-                            <span className="text-nowrap">
-                                Красный просп., 2/1
-                            </span>
-                        </a>
-                    </div>
-
-                    <h2 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mt-[32px] lg:mt-[46px] mb-[20px] lg:mb-[24px]">
+                    <div className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mt-[32px] lg:mt-[46px] mb-[20px] lg:mb-[24px]">
                         Наши соц-сети
-                    </h2>
+                    </div>
                     <div className="w-full text-[16px]/[24px] lg:text-[18px]/[28px] font-bold mt-8 lg:mt-9 flex gap-[12px] lg:gap-5 flex-col lg:flex-row">
                         <a
                             href="https://max.ru/u/f9LHodD0cOJl7vaA90ej_c-ng7J4Tpfbi4tBmaGo9A-R2NE74nwHaaX0WQk"
@@ -141,12 +143,12 @@ export default async function ContactsPage() {
                     />
                 </div>
                 <article className="lg:w-1/2 max-w-[507px] flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Реквизиты:
-                    </h2>
-                    <h3 className="mb-[10px] sm:mb-3 text-[16px]/[24px] sm:text-[18px]/[28px] font-semibold">
+                    </div>
+                    <div className="mb-[10px] sm:mb-3 text-[16px]/[24px] sm:text-[18px]/[28px] font-semibold">
                         ООО «РЕНТАСИБ»
-                    </h3>
+                    </div>
                     <dl className="flex flex-col gap-[10px] lg:gap-3">
                         <div className="flex flex-col text-[16px]/[24px] lg:text-[18px]/[28px] font-semibold gap-[6px] sm:gap-2 sm:flex-row">
                             <dt className="text-[#F6F6F699]">Юр. адрес:</dt>

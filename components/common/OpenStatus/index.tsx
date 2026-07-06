@@ -1,5 +1,6 @@
 'use client';
 
+import { isRentasibOpen } from '@/lib/helpers/businessHours';
 import { DotIcon } from '@/lib/ui/icons';
 import { useEffect, useState } from 'react';
 
@@ -7,22 +8,7 @@ export default function OpenStatus() {
     const [isOpen, setIsOpen] = useState<boolean | null>(null);
 
     useEffect(() => {
-        const now = new Date();
-        const day = now.getUTCDay();
-        const hour = now.getUTCHours();
-
-        const isWeekday = day >= 1 && day <= 5;
-        const isWeekend = day === 0 || day === 6;
-
-        let open = false;
-
-        if (isWeekday) {
-            open = hour >= 2 && hour < 13;
-        } else if (isWeekend) {
-            open = hour >= 2 && hour < 11;
-        }
-
-        setIsOpen(open);
+        setIsOpen(isRentasibOpen());
     }, []);
 
     return (

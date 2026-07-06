@@ -92,9 +92,9 @@ export default async function AboutPage() {
             </section>
 
             <section className="pt-8 pb-[42px] lg:py-[39px] flex flex-col lg:flex-row items-center justify-center gap-5 lg:gap-12">
-                <h2 className="text-[18x]/[28px] lg:text-[24px]/[32px] font-normal text-[#F6F6F699]">
+                <div className="text-[18x]/[28px] lg:text-[24px]/[32px] font-normal text-[#F6F6F699]">
                     Сотруничество с компаниями:
-                </h2>
+                </div>
 
                 <div className="flex items-center justify-center gap-6 lg:gap-10">
                     <EuroOilIcon className="w-[61px] h-[53px] md:w-auto md:h-auto" />
@@ -107,9 +107,9 @@ export default async function AboutPage() {
             <section className="py-[42px] lg:py-[68px] relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F6F6F60D] ">
                 <div className="max-w-[1260px] px-[16px] xl:px-0 flex flex-col lg:flex-row mx-auto gap-8 lg:gap-6 items-stretch">
                     <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-normal ">
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                        <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                             Качество и клиентоориентированность
-                        </h2>
+                        </div>
                         <ul className="text-[14px]/[20 px] lg:text-[16px]/[24px] font-medium lg:text-normal space-y-2 lg:space-y-3 list-disc ml-4">
                             <li>
                                 Мы всегда стремимся предоставлять нашим клиентам
@@ -144,7 +144,7 @@ export default async function AboutPage() {
                 </div>
             </section>
 
-            <WhyUs />
+            <WhyUs headingTag="div" />
 
             <section className="flex flex-col-reverse lg:flex-row gap-6 py-[42px] lg:py-[68px] border-t border-b border-[#284B63B2] items-stretch">
                 <div className="relative w-full aspect-[3/2] mx-auto lg:aspect-auto lg:w-1/2 max-w-[618px] rounded-[20px] overflow-hidden flex-1">
@@ -156,9 +156,9 @@ export default async function AboutPage() {
                     />
                 </div>
                 <article className="lg:w-1/2 flex-1 text-[14px]/[20px] lg:text-[16px]/[24px] font-medium lg:font-normal">
-                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                         Преимущества аренды авто в Рентасиб
-                    </h2>
+                    </div>
                     <p className=" mb-2 lg:mb-3">
                         Аренда автомобиля в нашем автопарке – это отличный выбор
                         для тех, кто ценит комфорт и свободу передвижения. Наша
@@ -194,9 +194,9 @@ export default async function AboutPage() {
             <ContactCard
                 children={
                     <>
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                        <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                             Наши контакты:
-                        </h2>
+                        </div>
                         <ul className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
                             <li>
                                 Позвоните (номер на сайте) для консультации.

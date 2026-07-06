@@ -10,16 +10,25 @@ type Letter = {
     description: string;
 };
 
-export default function LetterThanks({ letters }: { letters: Letter[] }) {
+type LetterThanksHeadingTag = 'h2' | 'div';
+
+export default function LetterThanks({
+    letters,
+    headingTag = 'h2',
+}: {
+    letters: Letter[];
+    headingTag?: LetterThanksHeadingTag;
+}) {
     const scrollRef = useRef<HTMLUListElement>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const HeadingTag = headingTag;
 
     return (
         <section className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between mb-4 lg:mb-6">
-                <h2 className="text-[20px]/[28px] md:text-[30px]/[36px] font-bold">
+                <HeadingTag className="text-[20px]/[28px] md:text-[30px]/[36px] font-bold">
                     Благодарственные письма
-                </h2>
+                </HeadingTag>
                 <div className="hidden md:block">
                     <CarouselControls ref={scrollRef} />
                 </div>

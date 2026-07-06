@@ -1,6 +1,8 @@
 import { GoIcon } from '@/lib/ui/icons/GoIcon';
 import Link from 'next/link';
 
+type AdditionalServicesItemTitleTag = 'h2' | 'h3' | 'div';
+
 type AdditionalServicesCardsProps = {
     title: string;
     key: string;
@@ -10,9 +12,12 @@ type AdditionalServicesCardsProps = {
 
 export default function AdditionalServicesCards({
     items,
+    itemTitleTag = 'h3',
 }: {
     items: AdditionalServicesCardsProps[];
+    itemTitleTag?: AdditionalServicesItemTitleTag;
 }) {
+    const ItemTitleTag = itemTitleTag;
     return (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 my-8 lg:my-9">
             {items.map((item, i) => (
@@ -29,11 +34,11 @@ export default function AdditionalServicesCards({
                         />
                     </div>
                     <div className="flex justify-between items-center flex-1 pr-4">
-                        <h3
+                        <ItemTitleTag
                             className={` max-w-[155px] sm:max-w-none sm:absolute bottom-0  text-[#F6F6F6] text-[14px] lg:text-[16px] sm:w-full sm:text-center font-medium  py-3 sm:text-nowrap sm:text-center sm:bg-[#142632D6] sm:group-hover:bg-[#2D5355] transition-colors duration-300`}
                         >
                             {item.title}
-                        </h3>
+                        </ItemTitleTag>
                         <GoIcon className="sm:hidden" />
                     </div>
                 </Link>

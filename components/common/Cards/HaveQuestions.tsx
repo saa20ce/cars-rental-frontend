@@ -1,13 +1,23 @@
 import { TelegramIcon, CallIcon, MaxIcon } from '@/lib/ui/icons';
 
-export const HaveQuestions = () => {
+type HaveQuestionsHeadingTag = 'h2' | 'div';
+
+interface HaveQuestionsProps {
+    headingTag?: HaveQuestionsHeadingTag;
+}
+
+export const HaveQuestions = ({
+    headingTag = 'h2',
+}: HaveQuestionsProps = {}) => {
+    const HeadingTag = headingTag;
+
     return (
         <section>
             <div className="flex flex-wrap flex-row gap-4 bg-[#1E384A] rounded-2xl lg:rounded-3xl px-6 py-7 lg:px-[48px] lg:py-[68px] lg:h-[268px] lg:flex-nowrap lg:items-center lg:justify-between lg:max-w-[1260px]">
                 <div className="pb-4 lg:pb-0 w-full lg:max-w-[394px]">
-                    <h2 className="font-bold text-[20px] lg:text-[36px] mb-2 lg:mb-6 leading-[28px] lg:leading-[40px]">
+                    <HeadingTag className="font-bold text-[20px] lg:text-[36px] mb-2 lg:mb-6 leading-[28px] lg:leading-[40px]">
                         Остались вопросы?
-                    </h2>
+                    </HeadingTag>
                     <p className="text-[16px] ">
                         Позвоните нам по телефону или напишите в чат, и наш
                         менеджер подробно ответит на все ваши вопросы 

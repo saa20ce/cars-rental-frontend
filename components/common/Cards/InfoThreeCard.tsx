@@ -3,8 +3,11 @@ import { GrayPhoneIcon } from '@/lib/ui/icons/GrayPhoneIcon';
 import { MapIcon } from '@/lib/ui/icons/MapIcon';
 import { ReactElement } from 'react';
 
+type InfoThreeCardHeadingTag = 'h3' | 'div';
+
 type InfoThreeCardProps = {
     header: string;
+    headerTag?: InfoThreeCardHeadingTag;
     items?: {
         title: string | ReactElement;
         icon: ReactElement;
@@ -28,15 +31,17 @@ const defaultItems = [
 
 export default function InfoThreeCard({
     header,
+    headerTag = 'h3',
     items = defaultItems,
 }: InfoThreeCardProps) {
+    const HeaderTag = headerTag;
     return (
         <>
             <section className="pb-[42px] lg:pb-[68px] mb-[42px] lg:mb-[68px] border-b border-[#284B63B2]">
                 {header && (
-                    <h3 className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
+                    <HeaderTag className="text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold mb-8 lg:mb-9">
                         {header}
-                    </h3>
+                    </HeaderTag>
                 )}
 
                 <ul className="flex flex-col lg:flex-row lg:flex-nowrap lg:justify-between gap-3 lg:gap-6">

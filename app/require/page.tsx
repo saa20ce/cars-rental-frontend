@@ -323,41 +323,6 @@ export default async function TermsPage() {
                 </ol>
             </section>
 
-            <section className="pt-[62px] lg:py-[68px] pb-[42px]  border-b border-[#284B63B2]">
-                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-[32px]">
-                    А если...
-                </div>
-                <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
-                    <article className="lg:w-1/2">
-                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
-                            Требуется продление аренды
-                        </div>
-                        <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium lg:max-w-[549px]">
-                            Арендатор имеет возможность продлить свою бронь в
-                            процессе аренды, но не всегда есть возможность продления.
-                            Для этого арендатору необходимо просто
-                            связаться с компанией и сообщить о желаемых датах
-                            продления. После согласования дат, арендатор должен
-                            произвести оплату за следующий период. Важно
-                            отметить, что суточная стоимость аренды на
-                            последующий период не может превышать первоначально
-                            установленный тариф, что позволяет арендатору
-                            избежать неожиданных финансовых затрат.
-                        </p>
-                    </article>
-                    <article className="lg:w-1/2">
-                        <div className="text-[18px]/[28px] lg:text-[24px]/[32px] font-bold mb-[14px] lg:mb-5 ">
-                            Обнаружилась неисправность
-                        </div>
-                        <p className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium">
-                            Мы тщательно следим за тем, чтобы машины находились в отличном техническом состоянии.
-                            Мы обеспечиваем безопасность и комфорт передвижения клиентов, сводя к минимуму любые риски.
-                            Тем не менее, если Вы столкнулись с поломкой, просто позвоните, и мы моментально примем необходимые меры
-                        </p>
-                    </article>
-                </div>
-            </section>
-
             <section className="mt-10 lg:mt-[68px] pb-[42px] lg:pb-[68px]">
                 <div className="flex flex-row">
                     <div className="text-xl font-bold lg:text-3xl">

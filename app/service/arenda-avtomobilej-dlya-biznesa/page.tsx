@@ -70,7 +70,7 @@ export default async function СorporateRentalPage() {
                 </ol>
 
                 <Link
-                    href="/docs/Договор_для_Юр.лиц(2026).docx"
+                    href="/docs/Договор_1951.docx"
                     download
                     className="px-4 py-2 border-[#F6F6F6] border rounded-[16px] flex justify-center items-center hover:border-[transparent] hover:bg-[#F6F6F60D]"
                 >

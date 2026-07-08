@@ -105,6 +105,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const [daysCount, setDaysCount] = useState(0);
     const [dailyCosts, setDailyCosts] = useState<number[]>([]);
     const [hasSeasonDays, setHasSeasonDays] = useState(false);
+    const [dailyCostsBeforeDiscount, setDailyCostsBeforeDiscount] = useState<
+        number[]
+    >([]);
     const [showCost, setShowCost] = useState(false);
     const [hasLoadedStoredPeriod, setHasLoadedStoredPeriod] = useState(false);
     const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
@@ -148,6 +151,11 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
     const totalPrice =
         dailyCosts.reduce((acc, val) => acc + val, 0) +
+        additionalOptionsTotal +
+        deliveryCost;
+
+    const totalPriceBeforeDiscount =
+        dailyCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) +
         additionalOptionsTotal +
         deliveryCost;
 
@@ -237,11 +245,20 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             setHasSeasonDays(allDaysSeason);
             setSeasonModeSwitch(isSeasonal);
 
+            const costsBeforeDiscount = computeCostsChunked(
+                startFull,
+                billingEndDate,
+                priceRanges,
+                seasonDates,
+            );
+            setDailyCostsBeforeDiscount(costsBeforeDiscount);
+
             const costs = computeCostsChunked(
                 startFull,
                 billingEndDate,
                 priceRanges,
                 seasonDates,
+                car.acf,
             );
             setDailyCosts(costs);
 
@@ -254,11 +271,13 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             setShowCost(false);
             setDaysCount(0);
             setDailyCosts([]);
+            setDailyCostsBeforeDiscount([]);
             setSeasonModeSwitch(isStartDateSeason);
             setHasSeasonDays(isStartDateSeason);
         }
     }, [
         effectiveReturnTime,
+        car.acf,
         effectiveStartTime,
         hasLoadedStoredPeriod,
         priceRanges,
@@ -273,10 +292,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
         )
     }, [effectiveStartTime, deliveryPrice]);
 
-    const discount = car.acf?.skidka;
-    const discountedPrice = discount
-        ? totalPrice * (1 - Number(discount) / 100)
-        : null
+    const hasDiscountedDays = totalPriceBeforeDiscount > totalPrice;
 
     const rentRequirements = useMemo(() => {
         const isBusiness = car.klass?.includes(269);
@@ -386,20 +402,20 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
                                 Итоговая стоимость:
                             </span>
-                            {discountedPrice && (
+                            {hasDiscountedDays && (
                                 <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
                                     С учетом скидки
                                 </span>
                             )}
                         </div>
                         <div className="flex flex-col items-end">
-                            {discountedPrice ? (
+                            {hasDiscountedDays ? (
                                 <>
                                     <span className="font-bold text-[24px]/[32px] xl:text-[36px]/[40px] text-[#FFD7A6]">
-                                        {discountedPrice} ₽
+                                        {totalPrice} ₽
                                     </span>
                                     <span className="font-bold line-through text-[14px]/[20px] xl:text-[24px]/[32px] text-[#F6F6F699]">
-                                        {totalPrice} ₽
+                                        {totalPriceBeforeDiscount} ₽
                                     </span>
                                 </>
                             ) : (
@@ -511,6 +527,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             pricePerDay={pricePerDay}
                             totalPrice={totalPrice}
                             setStartDate={setStartDate}
+                            totalPriceBeforeDiscount={totalPriceBeforeDiscount}
                             setReturnDate={setReturnDate}
                             setStartTime={setStartTime}
                             setReturnTime={setReturnTime}

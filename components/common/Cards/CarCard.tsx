@@ -22,6 +22,8 @@ import {
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
     isDaySeason,
+    isDiscountActiveForDay,
+    getDiscountedPriceForDay,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { ConfigProvider, Modal } from 'antd';
 import dynamic from 'next/dynamic';
@@ -64,8 +66,10 @@ export const CarCard: React.FC<CarCardProps> = ({
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const regularPrice = Number(acf['1-3_dnya']);
     const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
-    const price = isDaySeason(dayjs(), seasonDates) ? seasonPrice : regularPrice;
-    const priseDiscount = price * (1 - Number(acf.skidka) / 100);
+    const today = dayjs();
+    const price = isDaySeason(today, seasonDates) ? seasonPrice : regularPrice;
+    const hasActiveDiscountToday = isDiscountActiveForDay(today, acf);
+    const priseDiscount = getDiscountedPriceForDay(price, today, acf);
 
     const imageUrl =
         (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
@@ -102,6 +106,9 @@ export const CarCard: React.FC<CarCardProps> = ({
     const [returnTime, setReturnTime] = useState('15:00');
     const [daysCount, setDaysCount] = useState(0);
     const [dailyCosts, setDailyCosts] = useState<number[]>([]);
+    const [dailyCostsBeforeDiscount, setDailyCostsBeforeDiscount] = useState<
+        number[]
+    >([]);
     const [hasSeasonDays, setHasSeasonDays] = useState(false);
     const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
         string[]
@@ -131,6 +138,11 @@ export const CarCard: React.FC<CarCardProps> = ({
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         (additionalOptionsTotal ?? 0) +
         deliveryCost;
+    const totalPriceBeforeDiscount =
+        dailyCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) +
+        (additionalOptionsTotal ?? 0) +
+        deliveryCost;
+
 
     useEffect(() => {
         if (!startDate || !returnDate) return;
@@ -183,15 +195,28 @@ export const CarCard: React.FC<CarCardProps> = ({
 
         if (hasSeasonDays !== allDaysSeason) setHasSeasonDays(allDaysSeason);
 
-        const costs = computeCostsChunked(
+        const costsBeforeDiscount = computeCostsChunked(
             startFull,
             billingEndDate,
             priceRanges,
             seasonDates,
         );
+        if (dailyCostsBeforeDiscount.toString() !== costsBeforeDiscount.toString()) {
+            setDailyCostsBeforeDiscount(costsBeforeDiscount);
+        }
+
+        const costs = computeCostsChunked(
+            startFull,
+            billingEndDate,
+            priceRanges,
+            seasonDates,
+            car.acf,
+        );
         if (dailyCosts.toString() !== costs.toString()) setDailyCosts(costs);
     }, [
         dailyCosts,
+        car.acf,
+        dailyCostsBeforeDiscount,
         daysCount,
         hasSeasonDays,
         priceRanges,
@@ -260,7 +285,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                             {acf.nazvanie_avto}
                         </TitleTag>
                     </Link>
-                    {acf.skidka ? (
+                    {hasActiveDiscountToday ? (
                         <p className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#f6f6f6] flex items-center gap-[6px] lg:gap-2">
                             <span className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#FFD7A6]">
                                 {priseDiscount} Р/сут.
@@ -361,6 +386,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                                 totalPrice={totalPrice}
                                 setStartDate={setStartDate}
                                 setReturnDate={setReturnDate}
+                                totalPriceBeforeDiscount={totalPriceBeforeDiscount}
                                 setStartTime={setStartTime}
                                 setReturnTime={setReturnTime}
                                 closeModal={closeModal}

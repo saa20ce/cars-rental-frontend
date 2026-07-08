@@ -17,7 +17,10 @@ import {
 } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import type { Car, SeasonData } from '@/lib/types/Car';
-import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
+import {
+    getDiscountedPriceForDay,
+    isDaySeason,
+} from '@/lib/helpers/RentalCheckoutHelper';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
@@ -70,12 +73,12 @@ const classes = [
 const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
     const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
     const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
-    const basePrice = isDaySeason(dayjs(), seasonDates)
+    const today = dayjs();
+    const basePrice = isDaySeason(today, seasonDates)
         ? seasonPrice
         : regularPrice;
-    const discount = Number(car.acf?.skidka) || 0;
 
-    return discount ? basePrice * (1 - discount / 100) : basePrice;
+    return getDiscountedPriceForDay(basePrice, today, car.acf);
 };
 
 const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>

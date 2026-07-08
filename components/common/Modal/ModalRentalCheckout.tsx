@@ -29,6 +29,7 @@ interface ModalRentalCheckoutProps {
     pricePerDay: number;
     totalPrice: number;
     closeModal?: () => void;
+    totalPriceBeforeDiscount?: number;
     setIsSubmitted: (isSubmitted: boolean) => void;
     setStartDate: (date: Dayjs | null) => void;
     setReturnDate: (date: Dayjs | null) => void;
@@ -53,6 +54,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     pricePerDay,
     totalPrice,
     setStartDate,
+    totalPriceBeforeDiscount = totalPrice,
     setReturnDate,
     setStartTime,
     setReturnTime,
@@ -81,10 +83,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     const kuzovName = kuzovTerm?.name;
     const carTypeName = klassName || kuzovName || '—';
 
-    const discount = car.acf?.skidka;
-    const discountedPrice = discount
-        ? totalPrice * (1 - Number(discount) / 100)
-        : null;
+    const hasDiscountedDays = totalPriceBeforeDiscount > totalPrice;
 
     const rentRequirements = useMemo(() => {
         const isBusiness = car.klass?.includes(269);
@@ -245,20 +244,20 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                         <span className="text-[20px]/[28px] lg:text-[20px]/[32px] font-bold">
                             Стоимость аренды:
                         </span>
-                        {discountedPrice && (
+                        {hasDiscountedDays && (
                             <span className="text-[14px]/[20px] lg:text-[18px]/[28px] font-semibold text-[#F6F6F699]">
                                 С учетом скидки
                             </span>
                         )}
                     </div>
                     <div className="flex flex-col items-end">
-                        {discountedPrice ? (
+                        {hasDiscountedDays ? (
                             <>
                                 <span className="font-bold text-[24px]/[32px] xl:text-[30px]/[36px] text-[#FFD7A6]">
-                                    {discountedPrice} ₽
+                                    {totalPrice} ₽
                                 </span>
                                 <span className="line-through text-[14px]/[20px] xl:text-[20px]/[28px] text-[#F6F6F699]">
-                                    {totalPrice} ₽
+                                    {totalPriceBeforeDiscount} ₽
                                 </span>
                             </>
                         ) : (

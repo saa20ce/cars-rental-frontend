@@ -185,20 +185,35 @@ export default function TariffsPageClient({
         const enriched = initialCars.map((car) => {
             const priceRanges = buildPriceRangesFromACF(car.acf || {});
 
-            const costs = computeCostsChunked(
+            const costsBeforeDiscount = computeCostsChunked(
                 startDate.startOf('day'),
                 billingEndDate,
                 priceRanges,
                 seasonDates,
             );
 
+            const costs = computeCostsChunked(
+                startDate.startOf('day'),
+                billingEndDate,
+                priceRanges,
+                seasonDates,
+                car.acf,
+            );
+
+            const totalPriceBeforeDiscount = costsBeforeDiscount.reduce(
+                (a, b) => a + b,
+                0,
+            );
             const totalPrice = costs.reduce((a, b) => a + b, 0);
+            const pricePerDayBeforeDiscount = costsBeforeDiscount[0] ?? 0;
             const pricePerDay = costs[0] ?? 0;
 
             return {
                 ...car,
                 pricePerDay,
+                pricePerDayBeforeDiscount,
                 totalPrice,
+                totalPriceBeforeDiscount,
             };
         });
 
@@ -323,7 +338,7 @@ export default function TariffsPageClient({
         return selectedCar ? buildPriceRangesFromACF(selectedCar.acf || {}) : [];
     }, [selectedCar]);
 
-    const selectedCarCosts = useMemo(() => {
+    const selectedCarCostsBeforeDiscount = useMemo(() => {
         if (!startDate || !billingEndDate || !selectedCar) return [];
 
         return computeCostsChunked(
@@ -334,16 +349,43 @@ export default function TariffsPageClient({
         );
     }, [billingEndDate, seasonDates, selectedCar, selectedCarPriceRanges, startDate]);
 
+    const selectedCarCosts = useMemo(() => {
+        if (!startDate || !billingEndDate || !selectedCar) return [];
+
+        return computeCostsChunked(
+            startDate.startOf('day'),
+            billingEndDate,
+            selectedCarPriceRanges,
+            seasonDates,
+            selectedCar.acf,
+        );
+    }, [
+        billingEndDate,
+        seasonDates,
+        selectedCar,
+        selectedCarPriceRanges,
+        startDate,
+    ]);
     const selectedCarPricePerDay =
         selectedCarCosts[0] || selectedCar?.pricePerDay || 0;
 
-    const selectedCarBaseTotal =
+    const selectedCarRentalTotal =
         selectedCarCosts.reduce((acc, val) => acc + val, 0) ||
         selectedCar?.totalPrice ||
         0;
 
+    const selectedCarRentalTotalBeforeDiscount =
+        selectedCarCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) ||
+        selectedCar?.totalPriceBeforeDiscount ||
+        selectedCarRentalTotal;
+
     const modalTotalPrice =
-        selectedCarBaseTotal + additionalOptionsTotal + deliveryCost;
+        selectedCarRentalTotal + additionalOptionsTotal + deliveryCost;
+
+    const modalTotalPriceBeforeDiscount =
+        selectedCarRentalTotalBeforeDiscount +
+        additionalOptionsTotal +
+        deliveryCost;
 
     const hasSeasonDays = useMemo(() => {
         if (!startDate || !billingEndDate || !seasonDates) return false;
@@ -809,6 +851,7 @@ export default function TariffsPageClient({
                             pricePerDay={selectedCarPricePerDay}
                             totalPrice={modalTotalPrice}
                             setStartDate={setStartDate}
+                            totalPriceBeforeDiscount={modalTotalPriceBeforeDiscount}
                             setReturnDate={setReturnDate}
                             setStartTime={setStartTime}
                             setReturnTime={setReturnTime}

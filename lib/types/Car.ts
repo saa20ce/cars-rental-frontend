@@ -1,7 +1,9 @@
 export type Car = {
     imageUrl?: string;
     totalPrice: number;
+    totalPriceBeforeDiscount?: number;
     pricePerDay: number;
+    pricePerDayBeforeDiscount?: number;
     id: number;
     date: string;
     date_gmt: string;

@@ -14,7 +14,11 @@ import {
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
 import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
-import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
+import {
+    getDiscountedPriceForDay,
+    getDiscountPercentForDay,
+    isDaySeason,
+} from '@/lib/helpers/RentalCheckoutHelper';
 
 interface CarsPageClientProps {
     cars: Car[];
@@ -44,12 +48,12 @@ const getCurrentCarPrice = (
 ) => {
     const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
     const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
-    const basePrice = isDaySeason(dayjs(), seasonDates ?? null)
+    const today = dayjs();
+    const basePrice = isDaySeason(today, seasonDates ?? null)
         ? seasonPrice
         : regularPrice;
-    const discount = Number(car.acf?.skidka) || 0;
 
-    return discount ? basePrice * (1 - discount / 100) : basePrice;
+    return getDiscountedPriceForDay(basePrice, today, car.acf);
 };
 
 export default function CarsPageClient({
@@ -159,8 +163,9 @@ export default function CarsPageClient({
     });
 
     const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
-        const discountA = parseInt(a.acf?.skidka || '0', 10);
-        const discountB = parseInt(b.acf?.skidka || '0', 10);
+        const today = dayjs();
+        const discountA = getDiscountPercentForDay(today, a.acf);
+        const discountB = getDiscountPercentForDay(today, b.acf);
 
         if (sortOrder === 'discount') {
             return (

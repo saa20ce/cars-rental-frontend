@@ -1,4 +1,5 @@
 import type {
+    CarACF,
     DeliveryOption,
     DeliveryPrice,
     PriceRange,
@@ -14,6 +15,8 @@ export const DELIVERY_DAY_START_MINUTES = 10 * 60;
 export const DELIVERY_DAY_END_MINUTES = 19 * 60;
 export const DELIVERY_DAY_TIME_LABEL = '10:00 - 19:00';
 export const DELIVERY_NIGHT_TIME_LABEL = '19:01 - 09:59';
+
+type DiscountInfo = Pick<CarACF, 'skidka' | 'skidka_start' | 'skidka_end'>;
 
 export const getTimeMinutes = (time: string) => {
     const [rawHours = '0', rawMinutes = '0'] = time.split(':');
@@ -117,6 +120,7 @@ export function computeCostsChunked(
     endFull: Dayjs,
     priceRanges: PriceRange[],
     seasonDates: SeasonData | null,
+    discountInfo?: DiscountInfo | null,
 ): number[] {
     const costs: number[] = [];
     let currentDay = startFull.clone();
@@ -141,13 +145,100 @@ export function computeCostsChunked(
         for (let i = 0; i < blockSize; i++) {
             if (!currentDay.isBefore(endFull, 'day')) break;
             const seasonDay = isDaySeason(currentDay, seasonDates);
-            costs.push(seasonDay ? chunkRange.seasonPrice : chunkRange.price);
+            const dailyPrice = seasonDay
+                ? chunkRange.seasonPrice
+                : chunkRange.price;
+
+            costs.push(
+                getDiscountedPriceForDay(dailyPrice, currentDay, discountInfo),
+            );
             currentDay = currentDay.add(1, 'day');
         }
     }
 
     return costs;
 }
+
+export const parseDiscountDate = (value?: string): Dayjs | null => {
+    const trimmed = value?.trim();
+
+    if (!trimmed) return null;
+
+    const formats = [
+        'YYYYMMDD',
+        'YYYY-MM-DD',
+        'YYYY/MM/DD',
+        'YYYY.MM.DD',
+        'DD.MM.YYYY',
+        'DD/MM/YYYY',
+        'DD-MM-YYYY',
+    ];
+
+    for (const format of formats) {
+        const parsed = dayjs(trimmed, format, true);
+
+        if (parsed.isValid()) return parsed.startOf('day');
+    }
+
+    const fallback = dayjs(trimmed);
+
+    return fallback.isValid() ? fallback.startOf('day') : null;
+};
+
+export const getDiscountPercent = (
+    discountInfo?: DiscountInfo | null,
+): number => {
+    const discount = Number(discountInfo?.skidka) || 0;
+
+    if (discount <= 0) return 0;
+
+    return Math.min(discount, 100);
+};
+
+export const isDiscountActiveForDay = (
+    day: Dayjs,
+    discountInfo?: DiscountInfo | null,
+): boolean => {
+    const discount = getDiscountPercent(discountInfo);
+
+    if (!discount) return false;
+
+    const discountStart = parseDiscountDate(discountInfo?.skidka_start);
+    const discountEnd = parseDiscountDate(discountInfo?.skidka_end);
+
+    if (!discountStart || !discountEnd) return false;
+
+    const currentDay = day.startOf('day');
+    const startsOnOrBefore =
+        currentDay.isSame(discountStart, 'day') ||
+        currentDay.isAfter(discountStart, 'day');
+    const endsOnOrAfter =
+        currentDay.isSame(discountEnd, 'day') ||
+        currentDay.isBefore(discountEnd, 'day');
+
+    return startsOnOrBefore && endsOnOrAfter;
+};
+
+export const getDiscountPercentForDay = (
+    day: Dayjs,
+    discountInfo?: DiscountInfo | null,
+): number => {
+    return isDiscountActiveForDay(day, discountInfo)
+        ? getDiscountPercent(discountInfo)
+        : 0;
+};
+
+export const getDiscountedPriceForDay = (
+    price: number,
+    day: Dayjs,
+    discountInfo?: DiscountInfo | null,
+): number => {
+    const discount = getDiscountPercentForDay(day, discountInfo);
+
+    if (!discount) return price;
+
+    return Math.round(price * (1 - discount / 100));
+};
 
 export function findPriceRange(
     days: number,

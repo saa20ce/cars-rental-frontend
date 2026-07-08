@@ -242,7 +242,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                     className={`${classes.flexBetween} items-center ${isOpen ? 'mt-8' : 'mt-4'} lg:mt-9`}
                 >
                     <div className="flex flex-col">
-                        <span className="text-[20px]/[28px] lg:text-[24px]/[32px] font-bold">
+                        <span className="text-[20px]/[28px] lg:text-[20px]/[32px] font-bold">
                             Стоимость аренды:
                         </span>
                         {discountedPrice && (

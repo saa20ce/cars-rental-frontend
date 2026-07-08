@@ -3,7 +3,7 @@
 import CustomButton from '@/lib/ui/common/Button';
 import { CloseModalBtnIcon } from '@/lib/ui/icons/CloseModalBtnIcon';
 import { ConfigProvider, Modal, Form, Input, message } from 'antd';
-import { InputMask } from '@react-input/mask';
+import { PhoneInputMask } from '@/lib/ui/common/Input/PhoneInputMask';
 import { useState } from 'react';
 import SuccessRequest from './SuccessRequest';
 import ErrorBanner from '../ErrorBanner/ErrorBanner';
@@ -17,10 +17,10 @@ interface FormValues {
 
 export default function CallRequestModal({
     isOpen,
-    setIsOpenAction
+    setIsOpenAction,
 }: {
     isOpen: boolean;
-    setIsOpenAction: (isOpen: boolean) => void
+    setIsOpenAction: (isOpen: boolean) => void;
 }) {
     const [status, setStatus] = useState<
         'idle' | 'loading' | 'success' | 'error'
@@ -40,7 +40,7 @@ export default function CallRequestModal({
             const res = await fetch('/api/fast-form', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
 
             const data = await res.json().catch(() => null);
@@ -76,7 +76,7 @@ export default function CallRequestModal({
                     Form: {
                         itemMarginBottom: 12,
                     },
-                }
+                },
             }}
         >
             <Modal
@@ -90,14 +90,14 @@ export default function CallRequestModal({
                 styles={{
                     mask: {
                         backdropFilter: 'blur(30px)',
-                        WebkitBackdropFilter: 'blur(30px)'
+                        WebkitBackdropFilter: 'blur(30px)',
                     },
                     content: {
                         display: 'block',
                         background: 'transparent',
                         boxShadow: 'none',
-                        padding: 0
-                    }
+                        padding: 0,
+                    },
                 }}
             >
                 <div className="flex justify-center items-center">
@@ -126,7 +126,10 @@ export default function CallRequestModal({
                                         </label>
                                     }
                                     rules={[
-                                        { required: true, message: 'Введите имя' }
+                                        {
+                                            required: true,
+                                            message: 'Введите имя',
+                                        },
                                     ]}
                                 >
                                     <Input
@@ -143,15 +146,13 @@ export default function CallRequestModal({
                                         </label>
                                     }
                                     rules={[
-                                        { required: true, message: 'Введите телефон' }
+                                        {
+                                            required: true,
+                                            message: 'Введите телефон',
+                                        },
                                     ]}
                                 >
-                                    <InputMask
-                                        className="call-input"
-                                        mask="+7 (___) ___-__-__"
-                                        replacement={{ _: /\d/ }}
-                                        placeholder="+7 "
-                                    />
+                                    <PhoneInputMask className="call-input" />
                                 </Form.Item>
 
                                 <CustomButton
@@ -173,7 +174,7 @@ export default function CallRequestModal({
                         <SuccessRequest
                             onClick={() => {
                                 setIsOpenAction(false);
-                                setStatus('idle')
+                                setStatus('idle');
                             }}
                         />
                     )}
@@ -219,5 +220,5 @@ export default function CallRequestModal({
                 }
             `}</style>
         </ConfigProvider>
-    )
+    );
 }

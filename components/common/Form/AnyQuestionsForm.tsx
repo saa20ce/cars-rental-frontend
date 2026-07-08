@@ -1,7 +1,7 @@
 'use client';
 
 import CustomButton from '@/lib/ui/common/Button';
-import { InputMask } from '@react-input/mask';
+import { PhoneInputMask } from '@/lib/ui/common/Input/PhoneInputMask';
 import { useState } from 'react';
 import { SuccessRequestModal } from '../Modal/SuccessRequest';
 import { Form, Input, message, ConfigProvider } from 'antd';
@@ -133,12 +133,7 @@ export default function AnyQuestionsForm({
                                     },
                                 ]}
                             >
-                                <InputMask
-                                    className="any-questions-input"
-                                    mask="+7 (___) ___-__-__"
-                                    replacement={{ _: /\d/ }}
-                                    placeholder="+7 "
-                                />
+                                <PhoneInputMask className="any-questions-input" />
                             </Form.Item>
                         </div>
                     </div>

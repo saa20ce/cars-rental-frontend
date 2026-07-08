@@ -31,6 +31,8 @@ const CAR_LIST_FIELDS = [
     'acf.blue_gallery',
     'acf.red_gallery',
     'acf.skidka',
+    'acf.skidka_start',
+    'acf.skidka_end',
     'acf.1-3_dnya',
     'acf.4-9_dnej',
     'acf.10-18_dnej',
@@ -125,7 +127,10 @@ export function getSimilarCarsGroup(car: Car): SimilarCarsGroup | null {
     );
 }
 
-export async function getCarBySlug(slug: string, includeTaxonomies: boolean = false): Promise<Car | null> {
+export async function getCarBySlug(
+    slug: string,
+    includeTaxonomies: boolean = false,
+): Promise<Car | null> {
     const baseFields = [
         'id',
         'date',
@@ -139,6 +144,8 @@ export async function getCarBySlug(slug: string, includeTaxonomies: boolean = fa
         'acf.blue_gallery',
         'acf.red_gallery',
         'acf.skidka',
+        'acf.skidka_start',
+        'acf.skidka_end',
         'acf.1-3_dnya',
         'acf.4-9_dnej',
         'acf.10-18_dnej',
@@ -237,8 +244,9 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
             (c) =>
                 c.id !== car.id &&
                 !similarCars.find((sc) => sc.id === c.id) &&
-                Math.abs(parseInt(c.acf?.['30_dnej'] ?? '0', 10) - targetPrice) <=
-                    priceRange,
+                Math.abs(
+                    parseInt(c.acf?.['30_dnej'] ?? '0', 10) - targetPrice,
+                ) <= priceRange,
         )
         .sort(
             (a, b) =>

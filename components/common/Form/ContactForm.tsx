@@ -1,7 +1,7 @@
 'use client';
 
 import CustomButton from '@/lib/ui/common/Button';
-import { InputMask } from '@react-input/mask';
+import { PhoneInputMask } from '@/lib/ui/common/Input/PhoneInputMask';
 import { useState } from 'react';
 import { SuccessRequestModal } from '../Modal/SuccessRequest';
 import { Form, Input, message, ConfigProvider } from 'antd';
@@ -30,7 +30,9 @@ export default function ContactForm() {
                 name: values.name.trim(),
                 phone: values.phone.trim(),
                 email: values.email.trim(),
-                comment: values.comment?.trim() ? values.comment : 'Без комментария',
+                comment: values.comment?.trim()
+                    ? values.comment
+                    : 'Без комментария',
             };
 
             const res = await fetch('/api/contact-form', {
@@ -125,12 +127,7 @@ export default function ContactForm() {
                                     },
                                 ]}
                             >
-                                <InputMask
-                                    className="contact-form-input"
-                                    mask="+7 (___) ___-__-__"
-                                    replacement={{ _: /\d/ }}
-                                    placeholder="+7 "
-                                />
+                                <PhoneInputMask className="contact-form-input" />
                             </Form.Item>
 
                             <Form.Item

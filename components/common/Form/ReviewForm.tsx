@@ -1,8 +1,8 @@
 'use client';
 
 import CustomButton from '@/lib/ui/common/Button';
-import { InputMask } from '@react-input/mask';
-import { useState } from 'react';
+import { PhoneInputMask } from '@/lib/ui/common/Input/PhoneInputMask';
+import { type ChangeEvent, useState } from 'react';
 import { SuccessRequestModal } from '../Modal/SuccessRequest';
 import { FullStarIcon } from '@/lib/ui/icons/FullStarIcon';
 import { EmptyStarIcon } from '@/lib/ui/icons/EmptyStarIcon';
@@ -82,15 +82,14 @@ export default function ReviewForm() {
                         >
                             Номер телефона
                         </label>
-                        <InputMask
+                        <PhoneInputMask
                             id="number"
                             name="number"
                             className="w-full mt-[10px] lg:mt-3 mb-[12px] lg:mb-[14px] py-2 px-4 lg:py-[10px] font-normal text-[14px]/[20px] lg:text-[16px]/[24px] bg-[#F6F6F633] rounded-[16px] outline-none"
-                            mask="+7 (___) ___-__-__"
-                            replacement={{ _: /\d/ }}
-                            placeholder="+7 "
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setPhone(e.target.value)
+                            }
                         />
                         <label
                             htmlFor="email"

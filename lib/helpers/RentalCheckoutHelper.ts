@@ -240,6 +240,14 @@ export const getDiscountedPriceForDay = (
     return Math.round(price * (1 - discount / 100));
 };
 
+export const getAverageDailyCost = (costs: number[]): number => {
+    if (!costs.length) return 0;
+
+    const total = costs.reduce((sum, cost) => sum + cost, 0);
+
+    return Math.round(total / costs.length);
+};
+
 export function findPriceRange(
     days: number,
     arr: PriceRange[],

@@ -8,6 +8,7 @@ import type { GetProps } from 'antd';
 import {
     computeCostsChunked,
     getMinimumRentalReturnDate,
+    getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
     isDaySeason,
@@ -205,8 +206,10 @@ export default function TariffsPageClient({
                 0,
             );
             const totalPrice = costs.reduce((a, b) => a + b, 0);
-            const pricePerDayBeforeDiscount = costsBeforeDiscount[0] ?? 0;
-            const pricePerDay = costs[0] ?? 0;
+            const pricePerDayBeforeDiscount = getAverageDailyCost(
+                costsBeforeDiscount,
+            );
+            const pricePerDay = getAverageDailyCost(costs);
 
             return {
                 ...car,
@@ -367,7 +370,7 @@ export default function TariffsPageClient({
         startDate,
     ]);
     const selectedCarPricePerDay =
-        selectedCarCosts[0] || selectedCar?.pricePerDay || 0;
+        getAverageDailyCost(selectedCarCosts) || selectedCar?.pricePerDay || 0;
 
     const selectedCarRentalTotal =
         selectedCarCosts.reduce((acc, val) => acc + val, 0) ||

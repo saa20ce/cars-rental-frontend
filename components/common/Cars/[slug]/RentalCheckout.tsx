@@ -9,6 +9,7 @@ import {
     isDaySeason,
     computeCostsChunked,
     getMinimumRentalReturnDate,
+    getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
     isRentalPeriodBelowMinimum,
@@ -134,7 +135,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const closeModal = () => setModalVisible(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const pricePerDay = dailyCosts[0] || 0;
+    const pricePerDay = getAverageDailyCost(dailyCosts);
 
     const additionalOptionsTotal = useMemo(() => {
         return additionalOptions

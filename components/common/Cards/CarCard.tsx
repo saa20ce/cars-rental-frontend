@@ -17,6 +17,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import {
     computeCostsChunked,
     getMinimumRentalReturnDate,
+    getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
     isRentalPeriodBelowMinimum,
@@ -119,7 +120,7 @@ export const CarCard: React.FC<CarCardProps> = ({
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
 
-    const pricePerDay = dailyCosts[0] || 0;
+    const pricePerDay = getAverageDailyCost(dailyCosts);
 
     const additionalOptionsTotal = useMemo(() => {
         return additionalOptions

@@ -3,6 +3,7 @@ import type {
     SeasonData,
     DeliveryOptionsGrouped,
     DeliveryOption,
+    Term,
 } from '@/lib/types/Car';
 import { fetchTaxonomyOptions } from './fetchCarTaxonomies';
 import { wpFetch } from './wpCache';
@@ -55,6 +56,82 @@ const CAR_LIST_FIELDS = [
 ];
 
 const CAR_LIST_FIELDS_PARAM = buildFieldsParam(CAR_LIST_FIELDS);
+
+type TaxonomyOption = { value: string; label: string };
+
+type CarDisplayTaxonomyMaps = {
+    klass: Map<number, string>;
+    kuzov: Map<number, string>;
+    color: Map<number, string>;
+};
+
+let carDisplayTaxonomyMapsPromise: Promise<CarDisplayTaxonomyMaps> | null = null;
+
+const buildTaxonomyMap = (options: TaxonomyOption[]) =>
+    new Map(options.map((option) => [Number(option.value), option.label]));
+
+const getFirstTaxonomyName = (
+    ids: number[] | undefined,
+    optionsById: Map<number, string>,
+) => {
+    if (!ids?.length) return '';
+
+    for (const id of ids) {
+        const name = optionsById.get(Number(id));
+        if (name) return name;
+    }
+
+    return '';
+};
+
+const getEmbeddedTermName = (car: Car, taxonomy: string) => {
+    const terms = car._embedded?.['wp:term']?.flat() ?? [];
+
+    return terms.find((term: Term) => term.taxonomy === taxonomy)?.name ?? '';
+};
+
+async function getCarDisplayTaxonomyMaps(): Promise<CarDisplayTaxonomyMaps> {
+    if (!carDisplayTaxonomyMapsPromise) {
+        carDisplayTaxonomyMapsPromise = Promise.all([
+            fetchTaxonomyOptions('klass'),
+            fetchTaxonomyOptions('kuzov'),
+            fetchTaxonomyOptions('color'),
+        ]).then(([klass, kuzov, color]) => ({
+            klass: buildTaxonomyMap(klass),
+            kuzov: buildTaxonomyMap(kuzov),
+            color: buildTaxonomyMap(color),
+        }));
+    }
+
+    return carDisplayTaxonomyMapsPromise;
+}
+
+async function enrichCarsDisplayTaxonomies(cars: Car[]): Promise<Car[]> {
+    if (cars.length === 0) return cars;
+
+    const maps = await getCarDisplayTaxonomyMaps();
+
+    return cars.map((car) => {
+        const carTypeName =
+            getFirstTaxonomyName(car.klass, maps.klass) ||
+            getFirstTaxonomyName(car.kuzov, maps.kuzov) ||
+            getEmbeddedTermName(car, 'klass') ||
+            getEmbeddedTermName(car, 'kuzov') ||
+            car.carTypeName ||
+            '';
+        const colorName =
+            getFirstTaxonomyName(car.color, maps.color) ||
+            getEmbeddedTermName(car, 'color') ||
+            car.colorName ||
+            '';
+
+        return {
+            ...car,
+            ...(carTypeName ? { carTypeName } : {}),
+            ...(colorName ? { colorName } : {}),
+        };
+    });
+}
 
 async function getWpOptionsAcf(): Promise<WpOptionsAcf | null> {
     const res = await wpFetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
@@ -182,8 +259,8 @@ export async function getCarBySlug(
     if (!res.ok) return null;
 
     const data: Car[] = await res.json();
-    const mapped = slimCars(data);
-    return mapped[0] ?? null;
+    const [car] = await enrichCarsDisplayTaxonomies(slimCars(data));
+    return car ?? null;
 }
 
 export async function getSimilarCars(car: Car): Promise<Car[]> {
@@ -201,7 +278,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
             );
 
             if (groupedCars.length > 0) {
-                return groupedCars;
+                return enrichCarsDisplayTaxonomies(groupedCars);
             }
         }
     }
@@ -212,7 +289,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const markaId = markaIds[0];
 
     const res = await wpFetch(
-        `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia`,
+        `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia,wp:term`,
         { next: { tags: ['wordpress-cars'] } },
     );
 
@@ -223,14 +300,14 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     );
 
     if (similarCars.length >= 3) {
-        return similarCars;
+        return enrichCarsDisplayTaxonomies(similarCars);
     }
 
     const fallbackRes = await wpFetch(
-        `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia`,
+        `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia,wp:term`,
         { next: { tags: ['wordpress-cars'] } },
     );
-    if (!fallbackRes.ok) return similarCars;
+    if (!fallbackRes.ok) return enrichCarsDisplayTaxonomies(similarCars);
 
     const fallbackCars = slimCars(await fallbackRes.json());
 
@@ -255,7 +332,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
         )
         .slice(0, 5 - similarCars.length);
 
-    return [...similarCars, ...priceMatched];
+    return enrichCarsDisplayTaxonomies([...similarCars, ...priceMatched]);
 }
 
 export async function getSeasonDates(): Promise<SeasonData | null> {
@@ -348,7 +425,7 @@ export async function getCars(
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
-    return slimCars(data);
+    return enrichCarsDisplayTaxonomies(slimCars(data));
 }
 
 export async function getCarsByClass(klassId: number): Promise<Car[]> {
@@ -356,7 +433,7 @@ export async function getCarsByClass(klassId: number): Promise<Car[]> {
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
-    return slimCars(data);
+    return enrichCarsDisplayTaxonomies(slimCars(data));
 }
 
 export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
@@ -364,7 +441,7 @@ export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
     if (!res.ok) return [];
     const data: Car[] = await res.json();
-    return slimCars(data);
+    return enrichCarsDisplayTaxonomies(slimCars(data));
 }
 
 export async function getCrossoverAndMinivanCars(): Promise<Car[]> {

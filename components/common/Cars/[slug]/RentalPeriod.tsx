@@ -146,7 +146,7 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
         (t: Term) => t.taxonomy === 'color' && Number(t.id) === Number(colorId)
     );
 
-    const autoColor = colorTerm?.name ?? '—';
+    const autoColor = car.colorName || colorTerm?.name || '—';
     const autoName = car.acf?.nazvanie_avto ?? car.title.rendered;
     const formatDate = (date: Dayjs | null, time?: string) => {
         if (!date) return '';

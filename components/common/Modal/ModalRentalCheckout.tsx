@@ -81,7 +81,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
     const klassName = klassTerm?.name;
     const kuzovName = kuzovTerm?.name;
-    const carTypeName = klassName || kuzovName || '—';
+    const carTypeName = car.carTypeName || klassName || kuzovName || '—';
 
     const hasDiscountedDays = totalPriceBeforeDiscount > totalPrice;
 

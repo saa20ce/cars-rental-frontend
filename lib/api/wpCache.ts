@@ -31,6 +31,24 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const WP_CACHE_BUILD_KEY =
     process.env.WP_CACHE_BUILD_KEY ||
     `${process.env.NODE_ENV || 'local'}-${Date.now()}`;
+const WP_FETCH_RETRY_ATTEMPTS = 2;
+const WP_FETCH_RETRY_DELAY_MS = 500;
+
+function wait(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function wpFallbackResponse(input: string | URL, err: unknown) {
+    console.error('[wpFetch] WordPress request failed:', input.toString(), err);
+
+    return new Response('[]', {
+        status: 200,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-WP-Fetch-Fallback': '1',
+        },
+    });
+}
 
 function withWpCacheBuildKey(input: string | URL): string | URL {
     const paramName = '_wp_cache_key';
@@ -50,30 +68,43 @@ function withWpCacheBuildKey(input: string | URL): string | URL {
     }
 }
 
-export function wpFetch(input: string | URL, init: NextFetchInit = {}) {
+export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
     const requestInput = withWpCacheBuildKey(input);
     const tags = Array.from(
         new Set(['wordpress', ...(init.next?.tags ?? [])]),
     );
 
-    if (IS_DEVELOPMENT) {
-        const devInit: NextFetchInit = {
-            ...init,
-            cache: 'no-store',
-        };
-        delete devInit.next;
+    const fetchInit: NextFetchInit = IS_DEVELOPMENT
+        ? {
+              ...init,
+              cache: 'no-store',
+          }
+        : {
+              ...init,
+              next: {
+                  revalidate: WP_REVALIDATE_SECONDS,
+                  ...init.next,
+                  tags,
+              },
+          };
 
-        return fetch(requestInput, devInit);
+    if (IS_DEVELOPMENT) {
+        delete fetchInit.next;
     }
 
-    return fetch(requestInput, {
-        ...init,
-        next: {
-            revalidate: WP_REVALIDATE_SECONDS,
-            ...init.next,
-            tags,
-        },
-    });
+    for (let attempt = 0; attempt <= WP_FETCH_RETRY_ATTEMPTS; attempt += 1) {
+        try {
+            return await fetch(requestInput, fetchInit);
+        } catch (err) {
+            if (attempt === WP_FETCH_RETRY_ATTEMPTS) {
+                return wpFallbackResponse(requestInput, err);
+            }
+
+            await wait(WP_FETCH_RETRY_DELAY_MS * (attempt + 1));
+        }
+    }
+
+    return wpFallbackResponse(requestInput, new Error('Unexpected retry exit'));
 }
 
 export function cacheControlHeader(

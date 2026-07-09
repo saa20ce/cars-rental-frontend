@@ -117,19 +117,13 @@ export default async function ContactsPage() {
                 </div>
                 <div className="hidden lg:flex grow">
                     <div className="w-full max-w-[506px] min-w-[380px] aspect-[5/3] relative">
-                        <a
-                            href="https://2gis.ru/novosibirsk/firm/70000001038917532"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full h-full rounded-[12px] overflow-hidden shadow-lg"
-                            aria-label="Открыть карту расположения офиса"
-                        >
-                            <img
-                                src="https://static.maps.2gis.com/1.0?center=82.9256,55.0153&zoom=15&size=600,400&markers=82.9256,55.0153"
-                                alt="Карта расположения офиса по адресу Красный просп., 2/1"
-                                className="w-full h-full object-cover"
-                            />
-                        </a>
+                        <iframe
+                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A03289439083cffd70286885af58f87119248c84848f3277548790ca5ad4458a2&amp;source=constructor"
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            style={{ borderRadius: '20px' }}
+                        ></iframe>
                     </div>
                 </div>
             </section>

@@ -88,15 +88,28 @@ const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>
     );
 
 export default async function Home() {
-    const deliveryPrice = await getDeliveryPrice();
-    const businessCars = await getCarsByClass(269);
-    const minivanCars = await getCarsByKuzov(243);
-    const comfortCars = await getCarsByClass(268);
-    const crossoversCars = await getCarsByKuzov(242);
-    const economyCars = await getCarsByClass(267);
-    const additionalOptions = await getAdditionalOptions();
-    const seasonDates = await getSeasonDates();
-    const { klassOptions, kuzovOptions } = await getAllTaxonomyOptions();
+    const [
+        deliveryPrice,
+        businessCars,
+        minivanCars,
+        comfortCars,
+        crossoversCars,
+        economyCars,
+        additionalOptions,
+        seasonDates,
+        taxonomyOptions,
+    ] = await Promise.all([
+        getDeliveryPrice(),
+        getCarsByClass(269),
+        getCarsByKuzov(243),
+        getCarsByClass(268),
+        getCarsByKuzov(242),
+        getCarsByClass(267),
+        getAdditionalOptions(),
+        getSeasonDates(),
+        getAllTaxonomyOptions(),
+    ]);
+    const { klassOptions, kuzovOptions } = taxonomyOptions;
     const carsByClassTitle = {
         'Бизнес': sortCarsByPriceDesc(businessCars, seasonDates),
         'Минивэн': sortCarsByPriceDesc(minivanCars, seasonDates),
@@ -160,6 +173,7 @@ export default async function Home() {
                             src={Banner}
                             alt="Аренда авто в Новосибирске"
                             className="max-h-[208px] md:max-h-[350px] lg:max-h-none h-full w-full"
+                            sizes="(max-width: 1023px) 100vw, 725px"
                             priority
                         />
                     </div>
@@ -187,7 +201,7 @@ export default async function Home() {
                                     src={c.src}
                                     alt='фото автомобиля'
                                     fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    sizes="(max-width: 767px) 126px, (max-width: 1023px) 171px, 200px"
                                     style={{ objectFit: 'cover', borderRadius: '8px' }}
                                     loading={'lazy'}
                                 />

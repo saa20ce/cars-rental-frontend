@@ -8,8 +8,61 @@ import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import type { WPPost, WPPostDetails } from '@/lib/types/News';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import JsonLd from '@/components/common/Meta/JsonLd';
+import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const NEWS_SUMMARY_FIELDS =
+    'id,slug,date,title,excerpt,featured_media,_links,_embedded';
+const NEWS_DETAIL_FIELDS = 'id,slug,date,title,content,_links,_embedded';
+const RELATED_NEWS_FIELDS = 'id,slug,date,title,_links,_embedded';
+
+type WPPostSummary = WPPost & {
+    featured_media?: number;
+};
+
+function detailsFromSummary(post: WPPostSummary): WPPostDetails {
+    return {
+        ...post,
+        content: {
+            rendered: post.excerpt?.rendered || '',
+        },
+    };
+}
+
+async function fetchPostSummary(slug: string) {
+    const params = new URLSearchParams({
+        slug,
+        _embed: 'wp:featuredmedia',
+        _fields: NEWS_SUMMARY_FIELDS,
+    });
+    const res = await wpFetch(`${WP_API_URL}/posts?${params}`, {
+        next: { tags: ['wordpress-news'] },
+    });
+
+    if (!res.ok) return undefined;
+
+    const data = (await res.json()) as WPPostSummary[];
+    return Array.isArray(data) ? data[0] : undefined;
+}
+
+async function fetchPostDetails(post: WPPostSummary) {
+    const params = new URLSearchParams({
+        _embed: 'wp:featuredmedia',
+        _fields: NEWS_DETAIL_FIELDS,
+    });
+    const res = await wpFetch(`${WP_API_URL}/posts/${post.id}?${params}`, {
+        next: { tags: ['wordpress-news'] },
+    });
+
+    if (!res.ok) return detailsFromSummary(post);
+
+    const details = (await res.json()) as WPPostDetails;
+
+    if (!details?.content?.rendered) return detailsFromSummary(post);
+
+    return details;
+}
 
 export async function generateMetadata({
     params,
@@ -27,31 +80,37 @@ export default async function NewsDetailPage({
 }) {
     const { slug } = await params;
 
-    const res = await wpFetch(`${WP_API_URL}/posts?slug=${slug}&_embed`, {
-        next: { tags: ['wordpress-news'] },
+    const summary = await fetchPostSummary(slug);
+    if (!summary) notFound();
+
+    const details = await fetchPostDetails(summary);
+    const relatedParams = new URLSearchParams({
+        _embed: 'wp:featuredmedia',
+        per_page: '6',
+        exclude: String(details.id),
+        orderby: 'rand',
+        _fields: RELATED_NEWS_FIELDS,
     });
-
-    if (!res.ok) notFound();
-
-    const data = await res.json();
-    const details: WPPostDetails | undefined = data[0];
-
-    if (!details) notFound();
 
     const [breadcrumbs, newsRes] = await Promise.all([
         fetchBreadcrumbs(`/blog/${slug}`),
-        wpFetch(
-            `${WP_API_URL}/posts?_embed&per_page=6&exclude=${details.id}&orderby=rand`,
-            { next: { tags: ['wordpress-news'] } },
-        ),
+        wpFetch(`${WP_API_URL}/posts?${relatedParams}`, {
+            next: { tags: ['wordpress-news'] },
+        }),
     ]);
 
     const news: WPPost[] = newsRes.ok ? await newsRes.json() : [];
     const image = details._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const proxiedImage = proxyWpMediaUrl(image);
+    const articleJsonLd = buildBlogPostingJsonLd({
+        post: details,
+        pagePath: `/${slug}`,
+        image,
+    });
 
     return (
         <>
+            <JsonLd id="article-jsonld" data={articleJsonLd} />
             <Breadcrumbs crumbs={breadcrumbs} />
             <div className="flex gap-0 lg:gap-6 flex-col lg:flex-row mt-6 lg:mt-8">
                 <article className="article" style={{ flex: 3 }}>

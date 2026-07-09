@@ -122,7 +122,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
             @media (width >= 64rem) {
                 span.ant-select-selection-placeholder {
                     height: 25px;
-                    font-size: 18px;
+                    font-size: 16px;
                 }
 
                 .ant-select-selector {

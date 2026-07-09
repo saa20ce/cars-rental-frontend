@@ -14,11 +14,12 @@ import SingleCarPageClient from '@/clientPage/cars/[slug]/clientPage';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
+import JsonLd from '@/components/common/Meta/JsonLd';
+import { buildCarJsonLd } from '@/lib/seo/structuredData';
 
 type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
 };
-
 
 export async function generateMetadata({ params }: SingleCarPageProps) {
     const { slug } = await params;
@@ -43,9 +44,11 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
         return null;
     }
     const breadcrumbs = await fetchBreadcrumbs(`/cars/${slug}`);
+    const carJsonLd = buildCarJsonLd({ car, seasonDates, taxonomyValues });
 
     return (
         <>
+            <JsonLd id="car-jsonld" data={carJsonLd} />
             <Breadcrumbs crumbs={breadcrumbs} />
             <SingleCarPageClient
                 car={car}

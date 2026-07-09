@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import CommercialProposalForm from '../Form/CommercialProposalForm';
+import dynamic from 'next/dynamic';
+
+const CommercialProposalForm = dynamic(
+    () => import('../Form/CommercialProposalForm'),
+    {
+        ssr: false,
+        loading: () => null,
+    },
+);
 
 export default function ModalTriggerCommercialProposalForm({
     klassOptions
@@ -22,11 +30,13 @@ export default function ModalTriggerCommercialProposalForm({
                 Запросить коммерческое предложение
             </button>
 
-            <CommercialProposalForm
-                klassOptions={klassOptions}
-                isOpen={isOpen}
-                setIsOpenAction={setIsOpen}
-            />
+            {isOpen && (
+                <CommercialProposalForm
+                    klassOptions={klassOptions}
+                    isOpen={isOpen}
+                    setIsOpenAction={setIsOpen}
+                />
+            )}
         </>
     );
 }

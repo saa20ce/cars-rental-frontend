@@ -13,7 +13,8 @@ import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
 import { LineIcon } from '@/lib/ui/icons';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
-
+import JsonLd from '@/components/common/Meta/JsonLd';
+import { buildCarsItemListJsonLd } from '@/lib/seo/structuredData';
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/cars');
@@ -48,9 +49,11 @@ export default async function CarsPage({
     const breadcrumbs = await fetchBreadcrumbs('/cars');
     const additionalOptions = await getAdditionalOptions();
     const seasonDates = await getSeasonDates();
+    const carsItemListJsonLd = buildCarsItemListJsonLd(cars, seasonDates);
 
     return (
         <>
+            <JsonLd id="cars-jsonld" data={carsItemListJsonLd} />
             <Breadcrumbs crumbs={breadcrumbs} />
             <CarsPageClient
                 cars={cars}

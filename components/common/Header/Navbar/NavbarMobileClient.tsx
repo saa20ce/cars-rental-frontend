@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Modal, ConfigProvider } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
 import { LogoFull, MaxIcon, MenuIcon, SmallCross, TelegramLogo } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { DownIcon } from '@/lib/ui/icons/DownIcon';
@@ -28,11 +27,12 @@ export default function NavbarMobileClient({
     const handleDirectorToggle = (v: boolean) => {
         setDirectorModalOpen(v);
     };
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
         setOpenKey(null);
         setVisibleKey(null);
-    };
+        setDirectorModalOpen(false);
+    }, []);
 
     const handleToggle = (key: string) => {
         if (openKey === key) {
@@ -52,6 +52,35 @@ export default function NavbarMobileClient({
         else handleClose();
     };
 
+    useEffect(() => {
+        if (!open) return;
+
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const previousBodyPosition = document.body.style.position;
+        const previousBodyTop = document.body.style.top;
+        const previousBodyWidth = document.body.style.width;
+        const previousHtmlOverflow = document.documentElement.style.overflow;
+
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') handleClose();
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            document.documentElement.style.overflow = previousHtmlOverflow;
+            document.body.style.position = previousBodyPosition;
+            document.body.style.top = previousBodyTop;
+            document.body.style.width = previousBodyWidth;
+            window.scrollTo(0, scrollY);
+        };
+    }, [handleClose, open]);
 
     return (
         <>
@@ -62,37 +91,13 @@ export default function NavbarMobileClient({
             >
                 <MenuIcon />
             </div>
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Modal: {
-                            contentBg: '#00000000',
-                            boxShadow: 'none',
-                        },
-                    },
-                }}
-            >
-                <Modal
-                    open={open}
-                    onCancel={handleClose}
-                    footer={null}
-                    closeIcon={false}
-                    width="100vw"
-                    style={{ top: 0, left: 0, margin: 0, padding: 0, maxWidth: '100vw' }}
-                    styles={{
-                        mask: {
-                            backdropFilter: 'blur(30px)',
-                            WebkitBackdropFilter: 'blur(30px)',
-                        },
-                        content: {
-                            color: '#f6f6f6',
-                            padding: 0,
-                            background: 'transparent',
-                        },
-                        body: { minHeight: '100vh' },
-                    }}
+            {open && (
+                <div
+                    className="fixed inset-0 z-[100] overflow-y-auto bg-[#142632]/80 px-4 pt-[10px] pb-8 text-[#f6f6f6] backdrop-blur-[30px] lg:hidden"
+                    role="dialog"
+                    aria-modal="true"
                 >
-                    <div className="min-h-screen px-4 pt-[10px] pb-8">
+                    <div className="min-h-screen">
                         <header>
                             <TopHeader />
                         </header>
@@ -201,8 +206,8 @@ export default function NavbarMobileClient({
                             </a>
                         </div>
                     </div>
-                </Modal>
-            </ConfigProvider>
+                </div>
+            )}
         </>
     );
 }

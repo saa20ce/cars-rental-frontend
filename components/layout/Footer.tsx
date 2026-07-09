@@ -113,7 +113,7 @@ export const Footer: React.FC = () => {
                             <Link href="/faq">Вопрос-ответ</Link>
                         </li>
                         <li>
-                            <Link href="/dop-service">
+                            <Link href="/service/arenda-avtomobilej-dlya-biznesa">
                                 Аренда для юридических лиц
                             </Link>
                         </li>

@@ -9,6 +9,7 @@ export type WPPost = {
     slug: string;
     date: string;
     title: { rendered: string };
+    excerpt?: { rendered: string };
     _embedded?: {
         'wp:featuredmedia'?: [
             {

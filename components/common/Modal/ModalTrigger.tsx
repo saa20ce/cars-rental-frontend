@@ -1,8 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import CallRequestModal from './CallRequestModal';
+import dynamic from 'next/dynamic';
 import { PhoneIcon, PhoneIconDefault } from '@/lib/ui/icons';
+
+const CallRequestModal = dynamic(() => import('./CallRequestModal'), {
+    ssr: false,
+    loading: () => null,
+});
 
 export default function ModalTrigger({
     isHeader = false,
@@ -34,7 +39,12 @@ export default function ModalTrigger({
                 </a>
             )}
 
-            <CallRequestModal isOpen={isOpen} setIsOpenAction={setIsOpen} />
+            {isOpen && (
+                <CallRequestModal
+                    isOpen={isOpen}
+                    setIsOpenAction={setIsOpen}
+                />
+            )}
         </>
     );
 }

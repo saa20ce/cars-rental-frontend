@@ -1,7 +1,15 @@
 
 'use client';
 
-import ContactDerictorForm from '../Form/ContactDerictorForm';
+import dynamic from 'next/dynamic';
+
+const ContactDerictorForm = dynamic(
+    () => import('../Form/ContactDerictorForm'),
+    {
+        ssr: false,
+        loading: () => null,
+    },
+);
 
 export default function ModalTriggerContactDirector({
     isOpen,
@@ -19,10 +27,12 @@ export default function ModalTriggerContactDirector({
                 Связь с директором
             </button>
 
-            <ContactDerictorForm
-                isOpen={isOpen}
-                setIsOpenAction={setIsOpenAction}
-            />
+            {isOpen && (
+                <ContactDerictorForm
+                    isOpen={isOpen}
+                    setIsOpenAction={setIsOpenAction}
+                />
+            )}
         </>
     );
 }

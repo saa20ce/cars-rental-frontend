@@ -7,7 +7,7 @@ import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 type Post = {
     id: number;
     title: { rendered: string };
-    excerpt: { rendered: string };
+    excerpt?: { rendered: string };
     slug: string;
     date: string;
     _embedded?: {
@@ -63,7 +63,7 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
                         <div
                             className="text-[14px]/[20px] lg:text-[16px]/[24px] mt-4 lg:mt-5"
                             dangerouslySetInnerHTML={{
-                                __html: post.excerpt.rendered,
+                                __html: post.excerpt?.rendered || '',
                             }}
                         />
                     </Link>

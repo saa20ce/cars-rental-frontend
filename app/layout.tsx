@@ -8,6 +8,8 @@ import CookieBanner from '@/components/common/CookieBanner/CookieBanner';
 import RouteChangeLoader from '@/components/common/RouteChangeLoader/RouteChangeLoader';
 import ModalScrollLock from '@/components/common/ModalScrollLock/ModalScrollLock';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
+import JsonLd from '@/components/common/Meta/JsonLd';
+import { buildSiteJsonLd } from '@/lib/seo/structuredData';
 
 const lato = localFont({
     src: [
@@ -43,11 +45,14 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const siteJsonLd = buildSiteJsonLd();
+
     return (
         <html lang="ru">
             <body
                 className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5 min-h-screen`}
             >
+                <JsonLd id="site-jsonld" data={siteJsonLd} />
                 <UpdatePathCookie />
                 <ModalScrollLock />
                 <RouteChangeLoader />

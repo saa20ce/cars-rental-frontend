@@ -10,6 +10,7 @@ import ModalScrollLock from '@/components/common/ModalScrollLock/ModalScrollLock
 import { getSiteUrl } from '@/lib/seo/siteUrl';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildSiteJsonLd } from '@/lib/seo/structuredData';
+import YandexMetrika from '@/components/common/Meta/YandexMetrika';
 
 const lato = localFont({
     src: [
@@ -56,6 +57,7 @@ export default function RootLayout({
                 <UpdatePathCookie />
                 <ModalScrollLock />
                 <RouteChangeLoader />
+                <YandexMetrika />
                 <Header />
                 <main>{children}</main>
                 <Footer />

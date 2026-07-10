@@ -33,6 +33,8 @@ import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import HomeCarSearchForm from '@/components/common/Form/HomeCarSearchForm';
 
+export const revalidate = 300;
+
 export async function generateMetadata() {
     return await fetchWPMetadata('/');
 }
@@ -87,6 +89,20 @@ const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>
             getHomeCarPrice(b, seasonDates) - getHomeCarPrice(a, seasonDates),
     );
 
+const getRequiredHomeCars = async (
+    groupTitle: string,
+    carsPromise: Promise<Car[]>,
+) => {
+    const cars = await carsPromise;
+
+    if (cars.length === 0) {
+        throw new Error(
+            `[Home] ${groupTitle} cars are empty; refusing to cache an incomplete homepage`,
+        );
+    }
+
+    return cars;
+};
 export default async function Home() {
     const [
         deliveryPrice,
@@ -100,29 +116,32 @@ export default async function Home() {
         taxonomyOptions,
     ] = await Promise.all([
         getDeliveryPrice(),
-        getCarsByClass(269),
-        getCarsByKuzov(243),
-        getCarsByClass(268),
-        getCarsByKuzov(242),
-        getCarsByClass(267),
+        getRequiredHomeCars('Бизнес', getCarsByClass(269, { strict: true })),
+        getRequiredHomeCars('Минивэн', getCarsByKuzov(243, { strict: true })),
+        getRequiredHomeCars('Комфорт', getCarsByClass(268, { strict: true })),
+        getRequiredHomeCars(
+            'Кроссоверы',
+            getCarsByKuzov(242, { strict: true }),
+        ),
+        getRequiredHomeCars('Эконом', getCarsByClass(267, { strict: true })),
         getAdditionalOptions(),
         getSeasonDates(),
         getAllTaxonomyOptions(),
     ]);
     const { klassOptions, kuzovOptions } = taxonomyOptions;
     const carsByClassTitle = {
-        'Бизнес': sortCarsByPriceDesc(businessCars, seasonDates),
-        'Минивэн': sortCarsByPriceDesc(minivanCars, seasonDates),
-        'Кроссоверы': sortCarsByPriceDesc(crossoversCars, seasonDates),
-        'Комфорт': sortCarsByPriceDesc(comfortCars, seasonDates),
-        'Эконом': sortCarsByPriceDesc(economyCars, seasonDates),
+        Бизнес: sortCarsByPriceDesc(businessCars, seasonDates),
+        Минивэн: sortCarsByPriceDesc(minivanCars, seasonDates),
+        Кроссоверы: sortCarsByPriceDesc(crossoversCars, seasonDates),
+        Комфорт: sortCarsByPriceDesc(comfortCars, seasonDates),
+        Эконом: sortCarsByPriceDesc(economyCars, seasonDates),
     };
     const galleryButtonTitles = {
-        'Бизнес': 'Все бизнес',
-        'Минивэн': 'Все минивэны',
-        'Кроссоверы': 'Все кроссоверы',
-        'Комфорт': 'Все комфорт',
-        'Эконом': 'Все эконом',
+        Бизнес: 'Все бизнес',
+        Минивэн: 'Все минивэны',
+        Кроссоверы: 'Все кроссоверы',
+        Комфорт: 'Все комфорт',
+        Эконом: 'Все эконом',
     };
 
     return (
@@ -199,15 +218,18 @@ export default async function Home() {
                             <div className="relative w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]">
                                 <Image
                                     src={c.src}
-                                    alt='фото автомобиля'
+                                    alt="фото автомобиля"
                                     fill
                                     sizes="(max-width: 767px) 126px, (max-width: 1023px) 171px, 200px"
-                                    style={{ objectFit: 'cover', borderRadius: '8px' }}
+                                    style={{
+                                        objectFit: 'cover',
+                                        borderRadius: '8px',
+                                    }}
                                     loading={'lazy'}
                                 />
                             </div>
                             <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
-                                 <div className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
+                                <div className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
                                     {c.title}
                                 </div>
                                 <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">

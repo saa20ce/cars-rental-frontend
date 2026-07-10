@@ -59,13 +59,18 @@ const CAR_LIST_FIELDS_PARAM = buildFieldsParam(CAR_LIST_FIELDS);
 
 type TaxonomyOption = { value: string; label: string };
 
+type CarListFetchOptions = {
+    strict?: boolean;
+};
+
 type CarDisplayTaxonomyMaps = {
     klass: Map<number, string>;
     kuzov: Map<number, string>;
     color: Map<number, string>;
 };
 
-let carDisplayTaxonomyMapsPromise: Promise<CarDisplayTaxonomyMaps> | null = null;
+let carDisplayTaxonomyMapsPromise: Promise<CarDisplayTaxonomyMaps> | null =
+    null;
 
 const buildTaxonomyMap = (options: TaxonomyOption[]) =>
     new Map(options.map((option) => [Number(option.value), option.label]));
@@ -428,22 +433,53 @@ export async function getCars(
     return enrichCarsDisplayTaxonomies(slimCars(data));
 }
 
-export async function getCarsByClass(klassId: number): Promise<Car[]> {
+export async function getCarsByClass(
+    klassId: number,
+    options: CarListFetchOptions = {},
+): Promise<Car[]> {
     const url = `${WP_API_URL}/cars?klass=${klassId}&_embed=wp:featuredmedia&${CAR_LIST_FIELDS_PARAM}`;
-    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
-    if (!res.ok) return [];
+    const res = await wpFetch(url, {
+        next: { tags: ['wordpress-cars'] },
+        fallbackOnError: !options.strict,
+    });
+
+    if (!res.ok) {
+        if (options.strict) {
+            throw new Error(
+                `WordPress cars klass ${klassId} returned ${res.status}`,
+            );
+        }
+
+        return [];
+    }
+
     const data: Car[] = await res.json();
     return enrichCarsDisplayTaxonomies(slimCars(data));
 }
 
-export async function getCarsByKuzov(kuzovId: number): Promise<Car[]> {
+export async function getCarsByKuzov(
+    kuzovId: number,
+    options: CarListFetchOptions = {},
+): Promise<Car[]> {
     const url = `${WP_API_URL}/cars?kuzov=${kuzovId}&_embed=wp:featuredmedia&${CAR_LIST_FIELDS_PARAM}`;
-    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
-    if (!res.ok) return [];
+    const res = await wpFetch(url, {
+        next: { tags: ['wordpress-cars'] },
+        fallbackOnError: !options.strict,
+    });
+
+    if (!res.ok) {
+        if (options.strict) {
+            throw new Error(
+                `WordPress cars kuzov ${kuzovId} returned ${res.status}`,
+            );
+        }
+
+        return [];
+    }
+
     const data: Car[] = await res.json();
     return enrichCarsDisplayTaxonomies(slimCars(data));
 }
-
 export async function getCrossoverAndMinivanCars(): Promise<Car[]> {
     const kuzovOptions = await fetchTaxonomyOptions('kuzov');
     const crossover = kuzovOptions.find((o) => o.label === 'Кроссовер');

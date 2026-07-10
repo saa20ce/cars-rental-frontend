@@ -12,6 +12,54 @@ import {
 import Link from 'next/link';
 import ModalTrigger from '../common/Modal/ModalTrigger';
 
+const footerNavigationColumns = [
+    [
+        { title: 'Главная', href: '/' },
+        { title: 'Автопарк', href: '/cars' },
+        { title: 'Тарифы', href: '/tarify' },
+        { title: 'Услуги', href: '/service' },
+        { title: 'О компании', href: '/about' },
+        { title: 'Отзывы', href: '/reviews' },
+    ],
+    [
+        { title: 'Вопрос-ответ', href: '/faq' },
+        {
+            title: 'Аренда для юридических лиц',
+            href: '/service/arenda-avtomobilej-dlya-biznesa',
+        },
+        { title: 'Договор аренды', href: '/dogovor-arendy' },
+        { title: 'Условия', href: '/require' },
+    ],
+] as const;
+
+const desktopNavigationListClassNames = [
+    'space-y-2 lg:leading-7',
+    'space-y-2 lg:leading-7 w-[176px] lg:w-[140px]',
+] as const;
+
+const mobileNavigationListClassNames = [
+    'space-y-2 lg:leading-7',
+    'space-y-2 lg:leading-7 w-[176px] lg:w-[165px]',
+] as const;
+
+type FooterNavigationColumnProps = {
+    className: string;
+    items: (typeof footerNavigationColumns)[number];
+};
+
+const FooterNavigationColumn: React.FC<FooterNavigationColumnProps> = ({
+    className,
+    items,
+}) => (
+    <ul className={className}>
+        {items.map((item) => (
+            <li key={`${item.href}-${item.title}`}>
+                <Link href={item.href}>{item.title}</Link>
+            </li>
+        ))}
+    </ul>
+);
+
 export const Footer: React.FC = () => {
     return (
         <footer className="mt-[56px]">
@@ -85,85 +133,27 @@ export const Footer: React.FC = () => {
                 <hr className="lg:hidden w-full border-t-2 border-double border-[#284B63B2] h-[1px] my-5" />
 
                 {/* Блок для десктоп */}
-                <nav className="text-[16px]/[28px] hidden lg:block">
-                    <ul className="space-y-2 lg:leading-7">
-                        <li>
-                            <Link href="/">Главная</Link>
-                        </li>
-                        <li>
-                            <Link href="/cars">Автопарк</Link>
-                        </li>
-                        <li>
-                            <Link href="/tarify">Тарифы</Link>
-                        </li>
-                        <li>
-                            <Link href="/service">Услуги</Link>
-                        </li>
-                        <li>
-                            <Link href="/about">О компании</Link>
-                        </li>
-                        <li>
-                            <Link href="/reviews">Отзывы</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <nav className="text-[16px]/[28px] hidden lg:block">
-                    <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[140px]">
-                        <li>
-                            <Link href="/faq">Вопрос-ответ</Link>
-                        </li>
-                        <li>
-                            <Link href="/service/arenda-avtomobilej-dlya-biznesa">
-                                Аренда для юридических лиц
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/dogovor-arendy">Договор аренды</Link>
-                        </li>
-                        <li>
-                            <Link href="/require">Условия</Link>
-                        </li>
-                    </ul>
-                </nav>
+                {footerNavigationColumns.map((column, index) => (
+                    <nav
+                        key={`desktop-footer-navigation-${index}`}
+                        className="text-[16px]/[28px] hidden lg:block"
+                    >
+                        <FooterNavigationColumn
+                            className={desktopNavigationListClassNames[index]}
+                            items={column}
+                        />
+                    </nav>
+                ))}
 
                 {/* Блок для мобилки */}
                 <nav className="lg:hidden flex gap-9 text-[16px]/[24px] font-normal mb-9">
-                    <ul className="space-y-2 lg:leading-7">
-                        <li>
-                            <Link href="/">Главная</Link>
-                        </li>
-                        <li>
-                            <Link href="/cars">Автопарк</Link>
-                        </li>
-                        <li>
-                            <Link href="/tarify">Тарифы</Link>
-                        </li>
-                        <li>
-                            <Link href="/service">Услуги</Link>
-                        </li>
-                        <li>
-                            <Link href="/about">О компании</Link>
-                        </li>
-                        <li>
-                            <Link href="/reviews">Отзывы</Link>
-                        </li>
-                    </ul>
-                    <ul className="space-y-2 lg:leading-7 w-[176px] lg:w-[165px]">
-                        <li>
-                            <Link href="/faq">Вопрос-ответ</Link>
-                        </li>
-                        <li>
-                            <Link href="/dop-service">
-                                Аренда для юридических лиц
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/dogovor-arendy">Договор аренды</Link>
-                        </li>
-                        <li>
-                            <Link href="/require">Условия</Link>
-                        </li>
-                    </ul>
+                    {footerNavigationColumns.map((column, index) => (
+                        <FooterNavigationColumn
+                            key={`mobile-footer-navigation-${index}`}
+                            className={mobileNavigationListClassNames[index]}
+                            items={column}
+                        />
+                    ))}
                 </nav>
 
                 <section className="">

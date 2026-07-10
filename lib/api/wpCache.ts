@@ -3,6 +3,7 @@ type NextFetchInit = RequestInit & {
         revalidate?: number | false;
         tags?: string[];
     };
+    fallbackOnError?: boolean;
 };
 
 const DEFAULT_WP_REVALIDATE_SECONDS = 60 * 60 * 24;
@@ -24,8 +25,7 @@ export const WP_MEDIA_REVALIDATE_SECONDS = readPositiveInt(
 );
 
 export const WP_STALE_WHILE_REVALIDATE_SECONDS = WP_REVALIDATE_SECONDS * 7;
-export const WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS =
-    60 * 60 * 24 * 7;
+export const WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS = 60 * 60 * 24 * 7;
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const WP_CACHE_BUILD_KEY =
@@ -69,21 +69,22 @@ function withWpCacheBuildKey(input: string | URL): string | URL {
 }
 
 export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
+    const { fallbackOnError = true, ...requestInit } = init;
     const requestInput = withWpCacheBuildKey(input);
     const tags = Array.from(
-        new Set(['wordpress', ...(init.next?.tags ?? [])]),
+        new Set(['wordpress', ...(requestInit.next?.tags ?? [])]),
     );
 
     const fetchInit: NextFetchInit = IS_DEVELOPMENT
         ? {
-              ...init,
+              ...requestInit,
               cache: 'no-store',
           }
         : {
-              ...init,
+              ...requestInit,
               next: {
                   revalidate: WP_REVALIDATE_SECONDS,
-                  ...init.next,
+                  ...requestInit.next,
                   tags,
               },
           };
@@ -97,6 +98,10 @@ export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
             return await fetch(requestInput, fetchInit);
         } catch (err) {
             if (attempt === WP_FETCH_RETRY_ATTEMPTS) {
+                if (!fallbackOnError) {
+                    throw err;
+                }
+
                 return wpFallbackResponse(requestInput, err);
             }
 
@@ -104,9 +109,14 @@ export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
         }
     }
 
-    return wpFallbackResponse(requestInput, new Error('Unexpected retry exit'));
-}
+    const unexpectedRetryExit = new Error('Unexpected retry exit');
 
+    if (!fallbackOnError) {
+        throw unexpectedRetryExit;
+    }
+
+    return wpFallbackResponse(requestInput, unexpectedRetryExit);
+}
 export function cacheControlHeader(
     maxAge = WP_REVALIDATE_SECONDS,
     staleWhileRevalidate = WP_STALE_WHILE_REVALIDATE_SECONDS,

@@ -2,6 +2,7 @@ import 'server-only';
 import type { Metadata } from 'next';
 import { load } from 'cheerio';
 import { wpFetch } from './wpCache';
+import { proxyWpMediaUrl } from './wpMediaProxy';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
@@ -130,7 +131,15 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
     openGraph.description = readProperty('og:description');
     openGraph.siteName = readProperty('og:site_name');
     openGraph.locale = readProperty('og:locale');
-    if (ogImages.length > 0) openGraph.images = Array.from(new Set(ogImages));
+    if (ogImages.length > 0) {
+        openGraph.images = Array.from(
+            new Set(
+                ogImages.map((image) =>
+                    proxyWpMediaUrl(image, { socialFallback: true }),
+                ),
+            ),
+        );
+    }
     if (Object.keys(openGraph).length > 0) openGraph.url = pagePath;
 
     if (openGraph.type === 'article') {
@@ -157,7 +166,13 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
     twitter.site = readName('twitter:site');
     twitter.creator = readName('twitter:creator');
     if (twitterImages.length > 0) {
-        twitter.images = Array.from(new Set(twitterImages));
+        twitter.images = Array.from(
+            new Set(
+                twitterImages.map((image) =>
+                    proxyWpMediaUrl(image, { socialFallback: true }),
+                ),
+            ),
+        );
     }
 
     if (Object.values(twitter).some(Boolean)) {

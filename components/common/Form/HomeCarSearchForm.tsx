@@ -92,7 +92,7 @@ export default function HomeCarSearchForm({
             <header className="flex flex-col lg:flex-row lg:justify-between pb-6 border-b border-[#f6f6f638]">
                 <div className="w-full max-w-[610px]">
                     <h2 className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
-                        Поиск автомобиля
+                        Подбор автомобиля для аренды в Новосибирске
                     </h2>
                     <p className="text-[16px]/[24px] lg:text-[18px]/[28px] font-medium">
                         В нашем автопарке — автомобили разных классов на любой

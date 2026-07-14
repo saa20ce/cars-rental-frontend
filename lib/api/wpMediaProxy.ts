@@ -26,7 +26,15 @@ export function isAllowedWpMediaUrl(value: string) {
     }
 }
 
-export function proxyWpMediaUrl(value: string | undefined | null) {
+type ProxyWpMediaOptions = {
+    socialFallback?: boolean;
+};
+
+export function proxyWpMediaUrl(
+    value: string | undefined | null,
+    options: ProxyWpMediaOptions = {},
+) {
     if (!value || !isAllowedWpMediaUrl(value)) return value ?? '';
-    return `/wp-media?url=${encodeURIComponent(value)}`;
+    const fallback = options.socialFallback ? '&fallback=social' : '';
+    return `/wp-media?url=${encodeURIComponent(value)}${fallback}`;
 }

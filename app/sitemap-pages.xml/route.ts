@@ -4,12 +4,12 @@ import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
+    const lastModified = new Date().toISOString();
 
-    const excludedFromSitemap = new Set(['/blog']);
     const urls: string[] = [];
     mapSite.forEach((section) => {
         section.items.forEach((item) => {
-            if (!excludedFromSitemap.has(item.href)) {
+            if (!item.href.startsWith('/docs/')) {
                 urls.push(item.href);
             }
         });
@@ -22,6 +22,7 @@ ${urls
         (href) => `
   <url>
     <loc>${baseUrl.replace(/\/$/, '')}${href}</loc>
+    <lastmod>${lastModified}</lastmod>
   </url>`,
     )
     .join('')}

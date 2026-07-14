@@ -191,9 +191,8 @@ export default async function AboutPage() {
                 </article>
             </section>
 
-            <ContactCard
-                children={
-                    <>
+            <ContactCard>
+                <>
                         <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                             Наши контакты:
                         </div>
@@ -206,9 +205,8 @@ export default async function AboutPage() {
                                 Оставьте заявку на аренду через форму на сайте.
                             </li>
                         </ul>
-                    </>
-                }
-            />
+                </>
+            </ContactCard>
         </>
     );
 }

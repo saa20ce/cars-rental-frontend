@@ -23,6 +23,8 @@ const CAR_LIST_FIELDS = [
     'id',
     'date',
     'date_gmt',
+    'modified',
+    'modified_gmt',
     'slug',
     'title',
     'acf.nazvanie_avto',

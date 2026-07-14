@@ -190,7 +190,7 @@ export default function CarsPageClient({
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 lg:pb-8 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
                         <HeadingTag className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
-                            Автопарк
+                            Автопарк в Новосибирске
                         </HeadingTag>
                         <p className="hidden lg:block text-[18px]/[28px] font-medium">
                             Мы гордимся своим обновляемым автопарком, который

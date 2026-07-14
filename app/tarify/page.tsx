@@ -9,7 +9,7 @@ import { getDeliveryPrice } from '@/lib/api/fetchCarData';
 import TariffsPageClient from '@/clientPage/tariffs/clientPage';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
-
+import type { Metadata } from 'next';
 
 type TariffsPageSearchParams = {
     klass?: string;
@@ -19,8 +19,15 @@ type TariffsPageSearchParams = {
     returnTime?: string;
 };
 
-export async function generateMetadata() {
-    return await fetchWPMetadata('/tarify');
+export async function generateMetadata(): Promise<Metadata> {
+    const wordpressMetadata = await fetchWPMetadata('/tarify');
+
+    return {
+        ...wordpressMetadata,
+        title: 'Тарифы на аренду авто в Новосибирске | Рентасиб',
+        description:
+            'Цены и тарифы на аренду автомобилей в Новосибирске. Выберите даты и класс авто, чтобы рассчитать актуальную стоимость проката онлайн.',
+    };
 }
 
 export default async function TariffsPage({

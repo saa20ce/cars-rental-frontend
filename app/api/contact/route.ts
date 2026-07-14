@@ -4,6 +4,7 @@ import {
     normalizeContactViaValue,
     normalizeDeliveryValue,
 } from '@/lib/helpers/formPayloadLabels';
+import { sendMaxBotNotification } from '@/lib/api/maxBot';
 
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL!;
 const CF7_FORM_ID = process.env.CF7_FORM_ID!;
@@ -66,6 +67,24 @@ export async function POST(req: NextRequest) {
                 { status: 400 },
             );
         }
+
+        await sendMaxBotNotification({
+            title: 'Аренда автомобиля',
+            fields: [
+                { label: 'Имя', value: clientName },
+                { label: 'Телефон', value: phone },
+                { label: 'Автомобиль', value: autoName },
+                { label: 'Цвет', value: autoColor },
+                { label: 'Дата аренды', value: rentDate },
+                { label: 'Период аренды', value: rentPeriod },
+                { label: 'Подача', value: normalizedDelivery },
+                { label: 'Опции', value: normalizedOptions },
+                { label: 'Способ связи', value: normalizedContactVia },
+                { label: 'Комментарий', value: comment },
+                { label: 'Цена за сутки', value: pricePerDay },
+                { label: 'Итого', value: totalPrice },
+            ],
+        });
 
         return NextResponse.json({ success: true });
     } catch (err: unknown) {

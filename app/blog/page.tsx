@@ -7,13 +7,34 @@ import { wpFetch } from '@/lib/api/wpCache';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogItemListJsonLd } from '@/lib/seo/structuredData';
+import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const NEWS_LIST_FIELDS =
     'id,slug,date,title,excerpt,_links,_embedded';
 
-export async function generateMetadata() {
-    return await fetchWPMetadata('/blog');
+export async function generateMetadata({
+    searchParams,
+}: {
+    searchParams: Promise<{ page?: string }>;
+}): Promise<Metadata> {
+    const [{ page }, wordpressMetadata] = await Promise.all([
+        searchParams,
+        fetchWPMetadata('/blog'),
+    ]);
+    const parsedPage = Number(page);
+    const currentPage =
+        Number.isInteger(parsedPage) && parsedPage > 1 ? parsedPage : 1;
+    const canonical =
+        currentPage === 1 ? '/blog' : `/blog?page=${currentPage}`;
+
+    return {
+        ...wordpressMetadata,
+        alternates: { canonical },
+        openGraph: wordpressMetadata.openGraph
+            ? { ...wordpressMetadata.openGraph, url: canonical }
+            : undefined,
+    };
 }
 
 async function getNews(page: number) {

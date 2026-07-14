@@ -1,23 +1,30 @@
-import js from '@eslint/js';
-import next from 'eslint-config-next';
-import prettierPlugin from 'eslint-plugin-prettier';
+import { FlatCompat } from '@eslint/eslintrc';
 import prettierConfig from 'eslint-config-prettier';
 
+const compat = new FlatCompat({
+    baseDirectory: import.meta.dirname,
+});
+
 export default [
-    ...next(),
     {
-        name: 'custom',
-        files: ['**/*.{js,ts,jsx,tsx}'],
-        plugins: {
-            prettier: prettierPlugin,
-        },
+        ignores: [
+            '.next/**',
+            'node_modules/**',
+            'public/**',
+            'tools/**',
+            '*.sql',
+            'migration*.txt',
+            'next-env.d.ts',
+        ],
+    },
+    ...compat.config({
+        extends: ['next/core-web-vitals', 'next/typescript'],
+    }),
+    {
+        files: ['next.config.js'],
         rules: {
-            // ✅ Включаем prettier как lint-правило
-            'prettier/prettier': 'error',
+            '@typescript-eslint/no-require-imports': 'off',
         },
     },
-    {
-        // ✅ Отключаем конфликты с Prettier
-        ...prettierConfig,
-    },
+    prettierConfig,
 ];

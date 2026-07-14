@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendMaxBotNotification } from '@/lib/api/maxBot';
 
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL!;
 const CF7_FORM_ID = process.env.CF7_CONTACT_COMMERTIAL_FORM_ID!;
@@ -41,6 +42,16 @@ export async function POST(req: NextRequest) {
                 { status: 400 },
             );
         }
+
+        await sendMaxBotNotification({
+            title: 'Коммерческое предложение',
+            fields: [
+                { label: 'Класс авто', value: classAuto },
+                { label: 'Бюджет', value: clientBudget },
+                { label: 'Имя', value: clientName },
+                { label: 'Email', value: clientEmail },
+            ],
+        });
 
         return NextResponse.json({ success: true });
     } catch (err: unknown) {

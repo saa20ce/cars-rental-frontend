@@ -15,9 +15,17 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildCarsItemListJsonLd } from '@/lib/seo/structuredData';
+import type { Metadata } from 'next';
 
-export async function generateMetadata() {
-    return await fetchWPMetadata('/cars');
+export async function generateMetadata(): Promise<Metadata> {
+    const wordpressMetadata = await fetchWPMetadata('/cars');
+
+    return {
+        ...wordpressMetadata,
+        title: 'Автопарк: аренда автомобилей в Новосибирске | Рентасиб',
+        description:
+            'Автомобили в аренду в Новосибирске: эконом, комфорт, бизнес-класс, кроссоверы и минивэны. Выберите авто и рассчитайте стоимость онлайн.',
+    };
 }
 
 type CarsPageSearchParams = {

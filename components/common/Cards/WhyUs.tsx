@@ -53,8 +53,11 @@ export const WhyUs = ({ headingTag = 'h2' }: WhyUsProps = {}) => {
                 Почему нам доверяют:
             </HeadingTag>
             <ul className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-6  list-none p-0 m-0">
-                {itemListWhyUs.map((item) => (
-                    <li className="flex flex-row gap-[14px] bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10">
+                {itemListWhyUs.map((item, index) => (
+                    <li
+                        key={index}
+                        className="flex flex-row gap-[14px] bg-[#f6f6f60e] rounded-2xl p-5 lg:h-full lg:pb-6 lg:pt-6 lg:pr-10 lg:pl-10"
+                    >
                         <div className="h-[60px] min-w-[60px] lg:h-[70px] lg:min-w-[70px] flex-center bg-[#F6F6F60D] rounded-[8px] lg:rounded-[12px]">
                             {item.icon}
                         </div>

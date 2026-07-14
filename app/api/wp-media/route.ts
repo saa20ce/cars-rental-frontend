@@ -9,6 +9,7 @@ export const revalidate = 2592000;
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const sourceUrl = searchParams.get('url');
+    const useSocialFallback = searchParams.get('fallback') === 'social';
 
     if (!sourceUrl || !isAllowedWpMediaUrl(sourceUrl)) {
         return new Response('Invalid media URL', { status: 400 });
@@ -22,6 +23,12 @@ export async function GET(req: Request) {
     });
 
     if (!upstream.ok || !upstream.body) {
+        if (useSocialFallback) {
+            return Response.redirect(
+                new URL('/images/Banner.png', req.url),
+                307,
+            );
+        }
         return new Response('Media not found', { status: upstream.status });
     }
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendMaxBotNotification } from '@/lib/api/maxBot';
 
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
@@ -38,6 +39,16 @@ export async function POST(req: NextRequest) {
         const data = await res.json();
 
         if (res.ok && data.status === 'mail_sent') {
+            await sendMaxBotNotification({
+                title: 'Контактная форма',
+                fields: [
+                    { label: 'Имя', value: name },
+                    { label: 'Телефон', value: phone },
+                    { label: 'Email', value: email },
+                    { label: 'Комментарий', value: comment },
+                ],
+            });
+
             return NextResponse.json({ ok: true });
         } else {
             console.log('Ошибка CF7:', data.message || data);

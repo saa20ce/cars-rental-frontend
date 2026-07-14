@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import type { CSSProperties, MouseEventHandler } from 'react';
 import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
 import NextImage from 'next/image';
 import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
@@ -92,7 +93,13 @@ export default function SingleCarPageClient({
         }
     ];
 
-    const MyPrevArrow = (props: any) => {
+    type CarouselArrowProps = {
+        className?: string;
+        style?: CSSProperties;
+        onClick?: MouseEventHandler<HTMLDivElement>;
+    };
+
+    const MyPrevArrow = (props: CarouselArrowProps) => {
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>
@@ -101,7 +108,7 @@ export default function SingleCarPageClient({
         )
     };
 
-    const MyNextArrow = (props: any) => {
+    const MyNextArrow = (props: CarouselArrowProps) => {
         const { className, style, onClick } = props;
         return (
             <div className={className} style={style} onClick={onClick}>

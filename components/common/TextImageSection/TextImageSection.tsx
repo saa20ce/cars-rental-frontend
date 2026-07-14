@@ -80,7 +80,13 @@ export default function TextImageSection({
                     }
                     className={`relative aspect-[var(--aspectRatio)] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto rounded-[28px] overflow-hidden`}
                 >
-                    <Image fill alt={alt} src={src} className="object-cover" />
+                    <Image
+                        fill
+                        alt={alt}
+                        src={src}
+                        sizes={`(max-width: 1023px) 100vw, ${maxWidthImage}px`}
+                        className="object-cover"
+                    />
                 </div>
 
                 {elementItem && (

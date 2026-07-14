@@ -216,9 +216,8 @@ export default async function ServicesPage() {
                 <Accordion items={faqItems} />
             </section>
 
-            <ContactCard
-                children={
-                    <>
+            <ContactCard>
+                <>
                         <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
                             Наши контакты:
                         </h2>
@@ -231,9 +230,8 @@ export default async function ServicesPage() {
                                 Оставьте заявку на аренду через форму на сайте.
                             </li>
                         </ul>
-                    </>
-                }
-            />
+                </>
+            </ContactCard>
         </>
     );
 }

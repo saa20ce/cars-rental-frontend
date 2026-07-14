@@ -53,7 +53,7 @@ function websiteId() {
 function imageUrl(value: string | undefined | null) {
     if (!value) return '';
 
-    return absoluteUrl(proxyWpMediaUrl(value));
+    return absoluteUrl(proxyWpMediaUrl(value, { socialFallback: true }));
 }
 
 function compact<T extends Record<string, unknown>>(value: T): T {

@@ -206,7 +206,7 @@ export default async function Home() {
 
             <section className="py-6 lg:py-8 border-t border-b border-[#284B63B2]">
                 <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-6">
-                    Классы:
+                    Классы автомобилей для аренды
                 </h2>
                 <div className="flex gap-3 overflow-x-auto pb-4 lg:pb-0 lg:grid lg:grid-cols-6 lg:gap-4 lg:overflow-visible">
                     {classes.map((c) => (

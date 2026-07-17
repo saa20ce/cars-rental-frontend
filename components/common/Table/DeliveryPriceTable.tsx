@@ -99,7 +99,7 @@ export const DeliveryPriceTable = ({
         <>
             <Link
                 href="/service/dostavka-avto"
-                className="w-full lg:w-[160px] block mb-3 mt-5 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
+                className="w-full lg:w-[160px] block mb-3 mt-5 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-left"
             >
                 Карта доставок
             </Link>

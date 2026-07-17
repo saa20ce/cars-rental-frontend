@@ -56,7 +56,7 @@ export const servicesItems = [
         key: '1',
         title: 'Аренда авто для Юридических лиц',
         href: '/service/arenda-avtomobilej-dlya-biznesa',
-        src: '/images/servicesImages/1.jpg',
+        src: '/images/servicesImages/1.webp',
     },
     {
         key: '2',

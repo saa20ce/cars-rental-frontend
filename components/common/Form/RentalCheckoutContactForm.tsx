@@ -26,14 +26,6 @@ interface FormValues {
     clientName: string;
     phone: string;
     comment: string;
-    autoName: string;
-    autoColor: string;
-    rentDate: string;
-    rentPeriod: string;
-    delivery: string;
-    options: string;
-    totalPrice: number;
-    pricePerDay: number;
     personalDataConsent: boolean;
 }
 
@@ -69,15 +61,7 @@ export const RentalCheckoutContactForm: React.FC<
     const HeadingTag = headingTag;
 
     const initialValues: Partial<FormValues> = {
-        autoName,
-        autoColor,
-        rentDate,
-        rentPeriod,
-        delivery,
-        options,
         comment,
-        totalPrice,
-        pricePerDay,
     };
 
     const [loading, setLoading] = useState(false);
@@ -93,14 +77,14 @@ export const RentalCheckoutContactForm: React.FC<
         const payload = {
             clientName: values.clientName,
             phone: values.phone,
-            autoName: values.autoName,
-            autoColor: values.autoColor,
-            rentDate: values.rentDate,
-            rentPeriod: values.rentPeriod,
-            totalPrice: values.totalPrice,
-            pricePerDay: values.pricePerDay,
-            delivery: normalizeDeliveryValue(values.delivery),
-            options: normalizeAdditionalOptionsValue(values.options),
+            autoName,
+            autoColor,
+            rentDate,
+            rentPeriod,
+            totalPrice,
+            pricePerDay,
+            delivery: normalizeDeliveryValue(delivery),
+            options: normalizeAdditionalOptionsValue(options),
             contactVia: normalizeContactViaValue(contactVia),
             comment: values.comment?.trim()
                 ? values.comment
@@ -195,38 +179,6 @@ export const RentalCheckoutContactForm: React.FC<
                             placeholder="Введите..."
                             autoSize={{ minRows: 3, maxRows: 6 }}
                         />
-                    </Form.Item>
-
-                    <Form.Item name="autoName" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="autoColor" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="rentDate" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="rentPeriod" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="delivery" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="options" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="totalPrice" className="hidden">
-                        <Input disabled />
-                    </Form.Item>
-
-                    <Form.Item name="pricePerDay" className="hidden">
-                        <Input disabled />
                     </Form.Item>
 
                     <div className="flex flex-col gap-0 mb-[14px]">

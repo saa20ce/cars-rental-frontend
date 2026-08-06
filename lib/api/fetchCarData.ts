@@ -13,11 +13,15 @@ import {
     ADDITIONAL_OPTION_LABELS,
     DELIVERY_OPTION_LABELS,
 } from '@/lib/helpers/formPayloadLabels';
+import { cache } from 'react';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_BASE_URL = process.env.NEXT_PUBLIC_WP_BASE_URL;
 
 type WpOptionsAcf = Record<string, unknown>;
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
 
 const CAR_LIST_FIELDS = [
     'id',
@@ -140,16 +144,29 @@ async function enrichCarsDisplayTaxonomies(cars: Car[]): Promise<Car[]> {
     });
 }
 
-async function getWpOptionsAcf(): Promise<WpOptionsAcf | null> {
+const getWpOptionsAcf = cache(async (): Promise<WpOptionsAcf> => {
     const res = await wpFetch(`${WP_BASE_URL}/wp-json/acf/v3/options/options`, {
         next: { tags: ['wordpress-options'] },
+        fallbackOnError: false,
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+        throw new Error(
+            `[WordPress options] Request failed with status ${res.status}`,
+        );
+    }
 
     const json = await res.json();
-    return json?.acf || null;
-}
+    const acf = json?.acf;
+
+    if (!isRecord(acf)) {
+        throw new Error(
+            '[WordPress options] Response does not contain ACF data',
+        );
+    }
+
+    return acf;
+});
 
 export type SimilarCarsGroup = {
     title: string;
@@ -263,7 +280,11 @@ export async function getCarBySlug(
 
     const url = `${WP_API_URL}/cars?slug=${slug}&_embed=wp:featuredmedia,wp:term&${fields}`;
     const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
-    if (!res.ok) return null;
+    if (!res.ok) {
+        throw new Error(
+            `[WordPress cars] Car ${slug} request failed with status ${res.status}`,
+        );
+    }
 
     const data: Car[] = await res.json();
     const [car] = await enrichCarsDisplayTaxonomies(slimCars(data));
@@ -342,12 +363,19 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     return enrichCarsDisplayTaxonomies([...similarCars, ...priceMatched]);
 }
 
-export async function getSeasonDates(): Promise<SeasonData | null> {
+export async function getSeasonDates(): Promise<SeasonData> {
     const acf = await getWpOptionsAcf();
+    const seasonKeys = [
+        'season-summer-start',
+        'season-summer-end',
+        'season-winter-start',
+        'season-winter-end',
+    ] as const;
 
-    if (!acf) {
-        console.error('Error fetching season dates');
-        return null;
+    for (const key of seasonKeys) {
+        if (typeof acf[key] !== 'string' || acf[key].trim() === '') {
+            throw new Error(`[WordPress options] Invalid season field: ${key}`);
+        }
     }
 
     return acf as unknown as SeasonData;
@@ -355,11 +383,6 @@ export async function getSeasonDates(): Promise<SeasonData | null> {
 
 export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
     const acf = await getWpOptionsAcf();
-
-    if (!acf) {
-        console.error('Error fetching delivery options');
-        return { day: [], night: [] };
-    }
 
     const deliveryOrder = new Map(
         Object.keys(DELIVERY_OPTION_LABELS).map((key, index) => [key, index]),
@@ -371,32 +394,49 @@ export async function getDeliveryPrice(): Promise<DeliveryOptionsGrouped> {
         deliveryOrder.get(key) ?? Number.MAX_SAFE_INTEGER;
 
     const buildOptions = (
-        source?: Record<string, string>,
-        timeLabel = '',
+        source: unknown,
+        fieldName: string,
     ): DeliveryOption[] => {
-        if (!source || !timeLabel) return [];
+        if (!isRecord(source) || Object.keys(source).length === 0) {
+            throw new Error(
+                `[WordPress options] Delivery field ${fieldName} is empty or invalid`,
+            );
+        }
+
         return Object.entries(source)
             .sort(
                 ([keyA], [keyB]) =>
                     getDeliverySortIndex(keyA) - getDeliverySortIndex(keyB),
             )
-            .map(([key, value]) => ({
-                value: key,
-                label: `${mapLabel(key)} — ${value} ₽`,
-                price: parseInt(value, 10),
-            }));
+            .map(([key, value]) => {
+                const price = Number.parseInt(String(value), 10);
+
+                if (!Number.isFinite(price)) {
+                    throw new Error(
+                        `[WordPress options] Invalid delivery price: ${fieldName}.${key}`,
+                    );
+                }
+
+                return {
+                    value: key,
+                    label: `${mapLabel(key)} — ${value} ₽`,
+                    price,
+                };
+            });
     };
 
-    return {
-        day: buildOptions(
-            acf['dostavka_avto_den'] as Record<string, string> | undefined,
-            'день',
-        ),
-        night: buildOptions(
-            acf['dostavka_avto_noch'] as Record<string, string> | undefined,
-            'ночь',
-        ),
-    };
+    const day = buildOptions(acf['dostavka_avto_den'], 'dostavka_avto_den');
+    const night = buildOptions(acf['dostavka_avto_noch'], 'dostavka_avto_noch');
+    const dayKeys = day.map(({ value }) => value).sort();
+    const nightKeys = night.map(({ value }) => value).sort();
+
+    if (dayKeys.join('\0') !== nightKeys.join('\0')) {
+        throw new Error(
+            '[WordPress options] Day and night delivery districts do not match',
+        );
+    }
+
+    return { day, night };
 }
 
 export async function getAdditionalOptions(): Promise<
@@ -404,22 +444,29 @@ export async function getAdditionalOptions(): Promise<
 > {
     const acf = await getWpOptionsAcf();
 
-    if (!acf) {
-        console.error('Error fetching additional options');
-        return [];
+    const dopOptions = acf['dopolnitelnye_opczii'];
+
+    if (!isRecord(dopOptions) || Object.keys(dopOptions).length === 0) {
+        throw new Error(
+            '[WordPress options] Additional options are empty or invalid',
+        );
     }
 
-    const dopOptions = acf['dopolnitelnye_opczii'] as
-        | Record<string, string>
-        | undefined;
+    return Object.entries(dopOptions).map(([key, value]) => {
+        const price = Number.parseInt(String(value), 10);
 
-    if (!dopOptions || typeof dopOptions !== 'object') return [];
+        if (!Number.isFinite(price)) {
+            throw new Error(
+                `[WordPress options] Invalid additional option price: ${key}`,
+            );
+        }
 
-    return Object.entries(dopOptions).map(([key, value]) => ({
-        value: key,
-        label: ADDITIONAL_OPTION_LABELS[key] || key,
-        price: parseInt(value as string, 10),
-    }));
+        return {
+            value: key,
+            label: ADDITIONAL_OPTION_LABELS[key] || key,
+            price,
+        };
+    });
 }
 
 export async function getCars(
@@ -429,8 +476,15 @@ export async function getCars(
     params.set('_embed', 'wp:featuredmedia');
 
     const url = `${WP_API_URL}/cars?${params.toString()}&${CAR_LIST_FIELDS_PARAM}`;
-    const res = await wpFetch(url, { next: { tags: ['wordpress-cars'] } });
-    if (!res.ok) return [];
+    const res = await wpFetch(url, {
+        next: { tags: ['wordpress-cars'] },
+        fallbackOnError: false,
+    });
+    if (!res.ok) {
+        throw new Error(
+            `[WordPress cars] Cars request failed with status ${res.status}`,
+        );
+    }
     const data: Car[] = await res.json();
     return enrichCarsDisplayTaxonomies(slimCars(data));
 }

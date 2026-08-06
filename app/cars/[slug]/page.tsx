@@ -40,9 +40,6 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
     const similarCarsGroup = getSimilarCarsGroup(car);
     const additionalOptions = await getAdditionalOptions();
 
-    if (!deliveryPrice || !deliveryPrice.day || !deliveryPrice.night) {
-        return null;
-    }
     const breadcrumbs = await fetchBreadcrumbs(`/cars/${slug}`);
     const carJsonLd = buildCarJsonLd({ car, seasonDates, taxonomyValues });
 

@@ -42,7 +42,7 @@ function wpFallbackResponse(input: string | URL, err: unknown) {
     console.error('[wpFetch] WordPress request failed:', input.toString(), err);
 
     return new Response('[]', {
-        status: 200,
+        status: 503,
         headers: {
             'Content-Type': 'application/json',
             'X-WP-Fetch-Fallback': '1',

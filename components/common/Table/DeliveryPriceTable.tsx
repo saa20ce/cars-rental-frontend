@@ -72,6 +72,8 @@ export const DeliveryPriceTable = ({
         return groupDeliveryOptions(deliveryPrice?.day, deliveryPrice?.night);
     }, [deliveryPrice]);
 
+    const hasDeliveryOptions = groupedDeliveryOptions.length > 0;
+
     const handleSelectChange = (
         value: unknown,
         option?: DefaultOptionType | DefaultOptionType[] | undefined
@@ -151,6 +153,16 @@ export const DeliveryPriceTable = ({
                         </tr>
                     </thead>
                     <tbody>
+                        {!hasDeliveryOptions && (
+                            <tr>
+                                <td
+                                    className="px-4 py-5 text-center"
+                                    colSpan={3}
+                                >
+                                    Стоимость доставки временно недоступна
+                                </td>
+                            </tr>
+                        )}
                         {groupedDeliveryOptions.map(
                             ({ districts, priceDay, priceNight }, index) => {
                                 const isLast =

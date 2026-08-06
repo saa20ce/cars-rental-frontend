@@ -14,7 +14,7 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { DeliveryPriceTable } from '@/components/common/Cars';
 import MapPriceDelivery from '@/components/common/MapPriceDelivery/MapPriceDelivery';
 
-export const revalidate = 60 * 60 * 24;
+export const revalidate = 86400;
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/service/dostavka-avto');
@@ -49,12 +49,6 @@ const paragraphsSection4 = [
 export default async function CarRentalWithDelivery() {
     const breadcrumbs = await fetchBreadcrumbs('/service/dostavka-avto');
     const deliveryPrice = await getDeliveryPrice();
-
-    if (deliveryPrice.day.length === 0 || deliveryPrice.night.length === 0) {
-        throw new Error(
-            '[Delivery page] Delivery prices are empty; refusing to cache an incomplete page',
-        );
-    }
 
     return (
         <>

@@ -23,6 +23,10 @@ interface LinkItem {
     href: string;
 }
 
+type TaxonomyFetchOptions = {
+    strict?: boolean;
+};
+
 export async function fetchTermName(url: string): Promise<string | null> {
     try {
         const res = await wpFetch(url, { next: { tags: ['wordpress-taxonomies'] } });
@@ -70,12 +74,20 @@ export async function getCarTaxonomyNames(
 
 export async function fetchTaxonomyOptions(
     taxonomy: string,
+    options: TaxonomyFetchOptions = {},
 ): Promise<Array<{ value: string; label: string }>> {
     try {
         const res = await wpFetch(`${WP_API_URL}/${taxonomy}?per_page=100`, {
             next: { tags: ['wordpress-taxonomies'] },
+            fallbackOnError: !options.strict,
         });
         if (!res.ok) {
+            if (options.strict) {
+                throw new Error(
+                    `[WordPress taxonomy] ${taxonomy} request failed with status ${res.status}`,
+                );
+            }
+
             console.error(
                 `Ошибка при получении таксономии ${taxonomy}:`,
                 res.status,
@@ -83,11 +95,20 @@ export async function fetchTaxonomyOptions(
             return [];
         }
         const data: WpTerm[] = await res.json();
+
+        if (options.strict && (!Array.isArray(data) || data.length === 0)) {
+            throw new Error(
+                `[WordPress taxonomy] ${taxonomy} response is empty or invalid`,
+            );
+        }
+
         return data.map((term) => ({
             value: term.id.toString(),
             label: term.name,
         }));
     } catch (err) {
+        if (options.strict) throw err;
+
         console.error('Ошибка fetchTaxonomyOptions:', err);
         return [];
     }
@@ -95,12 +116,12 @@ export async function fetchTaxonomyOptions(
 
 export async function getAllTaxonomyOptions() {
     const [klass, marka, kuzov, privod, dvigatel, color] = await Promise.all([
-        fetchTaxonomyOptions('klass'),
-        fetchTaxonomyOptions('marka'),
-        fetchTaxonomyOptions('kuzov'),
-        fetchTaxonomyOptions('privod'),
-        fetchTaxonomyOptions('dvigatel'),
-        fetchTaxonomyOptions('color'),
+        fetchTaxonomyOptions('klass', { strict: true }),
+        fetchTaxonomyOptions('marka', { strict: true }),
+        fetchTaxonomyOptions('kuzov', { strict: true }),
+        fetchTaxonomyOptions('privod', { strict: true }),
+        fetchTaxonomyOptions('dvigatel', { strict: true }),
+        fetchTaxonomyOptions('color', { strict: true }),
     ]);
     return {
         klassOptions: klass,

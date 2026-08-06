@@ -14,7 +14,7 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { DeliveryPriceTable } from '@/components/common/Cars';
 import MapPriceDelivery from '@/components/common/MapPriceDelivery/MapPriceDelivery';
 
-export const revalidate = 300;
+export const revalidate = 60 * 60 * 24;
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/service/dostavka-avto');

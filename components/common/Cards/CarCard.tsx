@@ -25,6 +25,7 @@ import {
     isDaySeason,
     isDiscountActiveForDay,
     getDiscountedPriceForDay,
+    DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { ConfigProvider, Modal } from 'antd';
 import dynamic from 'next/dynamic';
@@ -69,8 +70,17 @@ export const CarCard: React.FC<CarCardProps> = ({
     const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
     const today = dayjs();
     const price = isDaySeason(today, seasonDates) ? seasonPrice : regularPrice;
-    const hasActiveDiscountToday = isDiscountActiveForDay(today, acf);
-    const priseDiscount = getDiscountedPriceForDay(price, today, acf);
+    const hasActiveDiscountToday = isDiscountActiveForDay(
+        today,
+        acf,
+        DISCOUNT_MIN_RENTAL_DAYS,
+    );
+    const priseDiscount = getDiscountedPriceForDay(
+        price,
+        today,
+        acf,
+        DISCOUNT_MIN_RENTAL_DAYS,
+    );
 
     const imageUrl =
         (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||

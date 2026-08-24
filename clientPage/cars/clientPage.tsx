@@ -18,6 +18,7 @@ import {
     getDiscountedPriceForDay,
     getDiscountPercentForDay,
     isDaySeason,
+    DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
 
 interface CarsPageClientProps {
@@ -53,7 +54,12 @@ const getCurrentCarPrice = (
         ? seasonPrice
         : regularPrice;
 
-    return getDiscountedPriceForDay(basePrice, today, car.acf);
+    return getDiscountedPriceForDay(
+        basePrice,
+        today,
+        car.acf,
+        DISCOUNT_MIN_RENTAL_DAYS,
+    );
 };
 
 export default function CarsPageClient({
@@ -164,8 +170,16 @@ export default function CarsPageClient({
 
     const sortedCars = [...filteredCars].sort((a: Car, b: Car) => {
         const today = dayjs();
-        const discountA = getDiscountPercentForDay(today, a.acf);
-        const discountB = getDiscountPercentForDay(today, b.acf);
+        const discountA = getDiscountPercentForDay(
+            today,
+            a.acf,
+            DISCOUNT_MIN_RENTAL_DAYS,
+        );
+        const discountB = getDiscountPercentForDay(
+            today,
+            b.acf,
+            DISCOUNT_MIN_RENTAL_DAYS,
+        );
 
         if (sortOrder === 'discount') {
             return (

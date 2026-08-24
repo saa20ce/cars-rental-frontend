@@ -5,6 +5,7 @@ import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import {
     getDiscountedPriceForDay,
     isDaySeason,
+    DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import type { Car, SeasonData, Term } from '@/lib/types/Car';
 import type { WPPost, WPPostDetails } from '@/lib/types/News';
@@ -104,7 +105,12 @@ function getCurrentDailyPrice(car: Car, seasonDates?: SeasonData | null) {
         ? seasonPrice
         : regularPrice;
 
-    return getDiscountedPriceForDay(basePrice, today, car.acf);
+    return getDiscountedPriceForDay(
+        basePrice,
+        today,
+        car.acf,
+        DISCOUNT_MIN_RENTAL_DAYS,
+    );
 }
 
 function buildCarOffer(car: Car, url: string, seasonDates?: SeasonData | null) {

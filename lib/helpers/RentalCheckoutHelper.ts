@@ -10,6 +10,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 export const TIME_OVERAGE_GRACE_MINUTES = 120;
 export const MIN_RENTAL_DAYS = 3;
+export const DISCOUNT_MIN_RENTAL_DAYS = 5;
 export const MIN_RENTAL_DAYS_ERROR_TEXT = 'Минимальная аренда от 3-х суток';
 export const DELIVERY_DAY_START_MINUTES = 10 * 60;
 export const DELIVERY_DAY_END_MINUTES = 19 * 60;
@@ -124,6 +125,7 @@ export function computeCostsChunked(
 ): number[] {
     const costs: number[] = [];
     let currentDay = startFull.clone();
+    const rentalDays = Math.ceil(endFull.diff(startFull, 'hour', true) / 24);
 
     while (currentDay.isBefore(endFull, 'day')) {
         const exactDiffHours = endFull.diff(currentDay, 'hour', true);
@@ -150,7 +152,12 @@ export function computeCostsChunked(
                 : chunkRange.price;
 
             costs.push(
-                getDiscountedPriceForDay(dailyPrice, currentDay, discountInfo),
+                getDiscountedPriceForDay(
+                    dailyPrice,
+                    currentDay,
+                    discountInfo,
+                    rentalDays,
+                ),
             );
             currentDay = currentDay.add(1, 'day');
         }
@@ -198,7 +205,10 @@ export const getDiscountPercent = (
 export const isDiscountActiveForDay = (
     day: Dayjs,
     discountInfo?: DiscountInfo | null,
+    rentalDays = 0,
 ): boolean => {
+    if (rentalDays < DISCOUNT_MIN_RENTAL_DAYS) return false;
+
     const discount = getDiscountPercent(discountInfo);
 
     if (!discount) return false;
@@ -222,8 +232,9 @@ export const isDiscountActiveForDay = (
 export const getDiscountPercentForDay = (
     day: Dayjs,
     discountInfo?: DiscountInfo | null,
+    rentalDays = 0,
 ): number => {
-    return isDiscountActiveForDay(day, discountInfo)
+    return isDiscountActiveForDay(day, discountInfo, rentalDays)
         ? getDiscountPercent(discountInfo)
         : 0;
 };
@@ -232,8 +243,9 @@ export const getDiscountedPriceForDay = (
     price: number,
     day: Dayjs,
     discountInfo?: DiscountInfo | null,
+    rentalDays = 0,
 ): number => {
-    const discount = getDiscountPercentForDay(day, discountInfo);
+    const discount = getDiscountPercentForDay(day, discountInfo, rentalDays);
 
     if (!discount) return price;
 

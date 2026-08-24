@@ -20,6 +20,7 @@ import type { Car, SeasonData } from '@/lib/types/Car';
 import {
     getDiscountedPriceForDay,
     isDaySeason,
+    DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
@@ -80,7 +81,12 @@ const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
         ? seasonPrice
         : regularPrice;
 
-    return getDiscountedPriceForDay(basePrice, today, car.acf);
+    return getDiscountedPriceForDay(
+        basePrice,
+        today,
+        car.acf,
+        DISCOUNT_MIN_RENTAL_DAYS,
+    );
 };
 
 const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>

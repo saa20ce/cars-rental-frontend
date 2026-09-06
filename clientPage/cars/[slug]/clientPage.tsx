@@ -65,7 +65,13 @@ export default function SingleCarPageClient({
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(() =>
         isDaySeason(dayjs(), seasonDates),
     );
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewIndex, setPreviewIndex] = useState(0);
+
+    const openPreview = (index: number) => {
+        setPreviewIndex(index);
+        setPreviewVisible(true);
+    };
 
     const galleryImages = useMemo(
         () => [
@@ -141,8 +147,8 @@ export default function SingleCarPageClient({
                                 <button
                                     type="button"
                                     className="block w-full cursor-zoom-in border-0 bg-transparent p-0"
-                                    aria-label="Открыть изображение автомобиля"
-                                    onClick={() => setPreviewImage(proxyWpMediaUrl(galleryImages[0]))}
+                                    aria-label="Открыть фото автомобиля на весь экран"
+                                    onClick={() => openPreview(0)}
                                 >
                                     <NextImage
                                         src={proxyWpMediaUrl(galleryImages[0])}
@@ -174,8 +180,8 @@ export default function SingleCarPageClient({
                                                 key={i}
                                                 type="button"
                                                 className="relative block w-full h-[225px] cursor-zoom-in overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
-                                                aria-label={`Открыть изображение автомобиля ${i + 1}`}
-                                                onClick={() => setPreviewImage(proxyWpMediaUrl(imgUrl))}
+                                                aria-label={`Открыть фото автомобиля ${i + 1} на весь экран`}
+                                                onClick={() => openPreview(i)}
                                             >
                                                 <NextImage
                                                     src={proxyWpMediaUrl(imgUrl)}
@@ -193,20 +199,30 @@ export default function SingleCarPageClient({
                             )}
                             {car.acf && <SaleInfo acf={car.acf} />}
                         </figure>
-                        {previewImage && (
-                            <AntImage
-                                src={previewImage}
-                                alt={car.acf?.nazvanie_avto || 'car image'}
-                                style={{ display: 'none' }}
+                        {galleryImages.length > 0 && (
+                            <AntImage.PreviewGroup
+                                items={galleryImages.map((url, index) => ({
+                                    src: proxyWpMediaUrl(url),
+                                    alt: `${car.acf?.nazvanie_avto || 'Автомобиль'} — фото ${index + 1}`,
+                                }))}
                                 preview={{
-                                    visible: Boolean(previewImage),
-                                    src: previewImage,
-                                    onVisibleChange: (visible) => {
-                                        if (!visible) {
-                                            setPreviewImage(null);
-                                        }
+                                    visible: previewVisible,
+                                    current: previewIndex,
+                                    onVisibleChange: setPreviewVisible,
+                                    onChange: setPreviewIndex,
+                                    countRender: (current, total) => `${current} из ${total}`,
+                                    styles: {
+                                        mask: {
+                                            backdropFilter: 'blur(30px)',
+                                            WebkitBackdropFilter: 'blur(30px)',
+                                        },
                                     },
-                                    toolbarRender: () => null,
+                                    toolbarRender: (_, { icons }) => (
+                                        <div className="ant-image-preview-operations">
+                                            {icons.zoomOutIcon}
+                                            {icons.zoomInIcon}
+                                        </div>
+                                    ),
                                 }}
                             />
                         )}

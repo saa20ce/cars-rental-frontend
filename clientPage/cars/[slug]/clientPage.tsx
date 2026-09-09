@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import type { CSSProperties, MouseEventHandler } from 'react';
 import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
 import NextImage from 'next/image';
@@ -33,6 +33,7 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
+import DraggablePreviewImage from '@/components/common/Cars/[slug]/DraggablePreviewImage';
 import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
 import { Accordion } from '@/lib/ui/common/Accordion';
@@ -67,8 +68,12 @@ export default function SingleCarPageClient({
     );
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewIndex, setPreviewIndex] = useState(0);
+    const previewDirection = useRef(0);
+    const carouselPointer = useRef<{ x: number; y: number } | null>(null);
+    const carouselDragged = useRef(false);
 
     const openPreview = (index: number) => {
+        previewDirection.current = 0;
         setPreviewIndex(index);
         setPreviewVisible(true);
     };
@@ -142,7 +147,30 @@ export default function SingleCarPageClient({
             <section className="lg:flex lg:w-full lg:gap-6">
                 <article className="lg:flex-1 lg:min-w-0">
                     <section className="carousel-wrapper">
-                        <figure className="relative rounded-[20px] lg:rounded-[32px] overflow-hidden">
+                        <figure
+                            className="relative rounded-[20px] lg:rounded-[32px] overflow-hidden"
+                            onPointerDownCapture={(event) => {
+                                carouselPointer.current = { x: event.clientX, y: event.clientY };
+                                carouselDragged.current = false;
+                            }}
+                            onPointerMoveCapture={(event) => {
+                                const start = carouselPointer.current;
+                                if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) {
+                                    carouselDragged.current = true;
+                                }
+                            }}
+                            onPointerUpCapture={() => { carouselPointer.current = null; }}
+                            onPointerCancelCapture={() => {
+                                carouselPointer.current = null;
+                                carouselDragged.current = true;
+                            }}
+                            onClickCapture={(event) => {
+                                if (carouselDragged.current && event.detail !== 0) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                            }}
+                        >
                             {galleryImages.length === 1 && (
                                 <button
                                     type="button"
@@ -170,6 +198,8 @@ export default function SingleCarPageClient({
                                 >
                                     <Carousel
                                         arrows
+                                        draggable
+                                        swipeToSlide
                                         prevArrow={<MyPrevArrow />}
                                         nextArrow={<MyNextArrow />}
                                         dots
@@ -179,7 +209,7 @@ export default function SingleCarPageClient({
                                             <button
                                                 key={i}
                                                 type="button"
-                                                className="relative block w-full h-[225px] cursor-zoom-in overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
+                                                className="relative block w-full h-[225px] cursor-grab active:cursor-grabbing overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
                                                 aria-label={`Открыть фото автомобиля ${i + 1} на весь экран`}
                                                 onClick={() => openPreview(i)}
                                             >
@@ -187,6 +217,7 @@ export default function SingleCarPageClient({
                                                     src={proxyWpMediaUrl(imgUrl)}
                                                     alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
                                                     fill
+                                                    draggable={false}
                                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                     style={{ objectFit: 'cover' }}
                                                     priority={i === 0}
@@ -208,8 +239,28 @@ export default function SingleCarPageClient({
                                 preview={{
                                     visible: previewVisible,
                                     current: previewIndex,
+                                    imageRender: (image, { transform, current }) => (
+                                        <DraggablePreviewImage
+                                            key={current}
+                                            image={image}
+                                            scale={transform.scale}
+                                            canGoPrevious={current > 0}
+                                            canGoNext={current < galleryImages.length - 1}
+                                            enterDirection={previewDirection.current}
+                                            visible={previewVisible}
+                                            onSwipe={(direction) => {
+                                                previewDirection.current = direction;
+                                                setPreviewIndex((index) =>
+                                                    Math.max(0, Math.min(galleryImages.length - 1, index + direction))
+                                                );
+                                            }}
+                                        />
+                                    ),
                                     onVisibleChange: setPreviewVisible,
-                                    onChange: setPreviewIndex,
+                                    onChange: (index) => {
+                                        previewDirection.current = index > previewIndex ? 1 : -1;
+                                        setPreviewIndex(index);
+                                    },
                                     countRender: (current, total) => `${current} из ${total}`,
                                     styles: {
                                         mask: {

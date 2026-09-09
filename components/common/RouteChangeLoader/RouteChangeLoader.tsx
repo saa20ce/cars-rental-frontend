@@ -130,10 +130,11 @@ function RouteChangeLoaderInner() {
                     inset: 0;
                     z-index: 2147483647;
                     pointer-events: none;
+                    overflow: clip;
                 }
 
                 .route-change-loader__bar {
-                    position: fixed;
+                    position: absolute;
                     top: 0;
                     left: 0;
                     height: 3px;

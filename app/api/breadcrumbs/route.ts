@@ -17,9 +17,9 @@ export async function GET(req: Request) {
     } catch (err) {
         console.error('[api/breadcrumbs] fallback:', err);
         return Response.json([], {
-            status: 200,
+            status: 503,
             headers: {
-                'Cache-Control': cacheControlHeader(60, 300),
+                'Cache-Control': 'no-store',
             },
         });
     }

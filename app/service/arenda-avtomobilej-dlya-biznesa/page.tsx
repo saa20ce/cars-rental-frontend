@@ -26,7 +26,7 @@ export default async function СorporateRentalPage() {
     const letters = await fetchDjangoJson<Parameters<typeof LetterThanks>[0]['letters']>(
         '/api/thank-you-letters/',
         [],
-        { next: { revalidate: 60 * 60 } },
+        { next: { revalidate: 86400 } },
     );
     const { klassOptions } = await getAllTaxonomyOptions();
 

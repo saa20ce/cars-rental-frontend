@@ -123,6 +123,10 @@ textarea::placeholder {
 
 /* Desktop */
 @media (width >= 64rem) {
+    html {
+        overflow-x: clip;
+    }
+
     ::-webkit-scrollbar {
         height: 8px;
     }

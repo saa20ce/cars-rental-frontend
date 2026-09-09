@@ -11,7 +11,7 @@ const DEFAULT_WP_MEDIA_REVALIDATE_SECONDS = 60 * 60 * 24 * 30;
 
 function readPositiveInt(value: string | undefined, fallback: number) {
     const parsed = Number(value);
-    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+    return Number.isInteger(parsed) && parsed > 0 ? Math.max(86400, parsed) : fallback;
 }
 
 export const WP_REVALIDATE_SECONDS = readPositiveInt(
@@ -27,10 +27,10 @@ export const WP_MEDIA_REVALIDATE_SECONDS = readPositiveInt(
 export const WP_STALE_WHILE_REVALIDATE_SECONDS = WP_REVALIDATE_SECONDS * 7;
 export const WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS = 60 * 60 * 24 * 7;
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+const WP_CACHE_DISABLED = process.env.WP_CACHE_DISABLED === 'true';
 const WP_CACHE_BUILD_KEY =
     process.env.WP_CACHE_BUILD_KEY ||
-    `${process.env.NODE_ENV || 'local'}-${Date.now()}`;
+    'wordpress-v1';
 const WP_FETCH_RETRY_ATTEMPTS = 2;
 const WP_FETCH_RETRY_DELAY_MS = 500;
 
@@ -75,7 +75,12 @@ export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
         new Set(['wordpress', ...(requestInit.next?.tags ?? [])]),
     );
 
-    const fetchInit: NextFetchInit = IS_DEVELOPMENT
+    const skipCache = WP_CACHE_DISABLED ||
+        !['GET', 'HEAD'].includes((requestInit.method || 'GET').toUpperCase()) ||
+        requestInit.cache === 'no-store' || requestInit.cache === 'no-cache' ||
+        requestInit.next?.revalidate === 0;
+
+    const fetchInit: NextFetchInit = skipCache
         ? {
               ...requestInit,
               cache: 'no-store',
@@ -83,13 +88,15 @@ export async function wpFetch(input: string | URL, init: NextFetchInit = {}) {
         : {
               ...requestInit,
               next: {
-                  revalidate: WP_REVALIDATE_SECONDS,
                   ...requestInit.next,
+                  revalidate: requestInit.next?.revalidate === false
+                      ? false
+                      : Math.max(86400, requestInit.next?.revalidate ?? WP_REVALIDATE_SECONDS),
                   tags,
               },
           };
 
-    if (IS_DEVELOPMENT) {
+    if (skipCache) {
         delete fetchInit.next;
     }
 

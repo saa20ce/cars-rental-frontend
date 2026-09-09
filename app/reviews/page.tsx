@@ -18,12 +18,12 @@ export default async function ReviewsPage() {
         fetchDjangoJson<Parameters<typeof ReviewsClents>[0]['reviews']>(
             '/api/reviews/?status=published',
             [],
-            { next: { revalidate: 60 * 60 } },
+            { next: { revalidate: 86400 } },
         ),
         fetchDjangoJson<Parameters<typeof LetterThanks>[0]['letters']>(
             '/api/thank-you-letters/',
             [],
-            { next: { revalidate: 60 * 60 } },
+            { next: { revalidate: 86400 } },
         ),
     ]);
 

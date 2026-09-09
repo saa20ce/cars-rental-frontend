@@ -12,6 +12,8 @@ import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildSiteJsonLd } from '@/lib/seo/structuredData';
 import YandexMetrika from '@/components/common/Meta/YandexMetrika';
 
+export const revalidate = 86400;
+
 const lato = localFont({
     src: [
         {

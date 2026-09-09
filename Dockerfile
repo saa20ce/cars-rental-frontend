@@ -44,6 +44,7 @@ COPY --from=builder /app/.wp-cache-build-key ./.wp-cache-build-key
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY scripts/frontend-healthcheck.mjs /usr/local/bin/frontend-healthcheck.mjs
+COPY scripts/refresh-cache.mjs ./scripts/refresh-cache.mjs
 
 EXPOSE 3000
 CMD ["sh", "-c", "export WP_CACHE_BUILD_KEY=\"${WP_CACHE_BUILD_KEY:-$(cat .wp-cache-build-key 2>/dev/null || date +%s)}\"; npm run start"]

@@ -34,7 +34,7 @@ import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import HomeCarSearchForm from '@/components/common/Form/HomeCarSearchForm';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateMetadata() {
     return await fetchWPMetadata('/');

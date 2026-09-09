@@ -75,9 +75,6 @@ type CarDisplayTaxonomyMaps = {
     color: Map<number, string>;
 };
 
-let carDisplayTaxonomyMapsPromise: Promise<CarDisplayTaxonomyMaps> | null =
-    null;
-
 const buildTaxonomyMap = (options: TaxonomyOption[]) =>
     new Map(options.map((option) => [Number(option.value), option.label]));
 
@@ -101,9 +98,8 @@ const getEmbeddedTermName = (car: Car, taxonomy: string) => {
     return terms.find((term: Term) => term.taxonomy === taxonomy)?.name ?? '';
 };
 
-async function getCarDisplayTaxonomyMaps(): Promise<CarDisplayTaxonomyMaps> {
-    if (!carDisplayTaxonomyMapsPromise) {
-        carDisplayTaxonomyMapsPromise = Promise.all([
+const getCarDisplayTaxonomyMaps = cache(async (): Promise<CarDisplayTaxonomyMaps> => {
+        return Promise.all([
             fetchTaxonomyOptions('klass'),
             fetchTaxonomyOptions('kuzov'),
             fetchTaxonomyOptions('color'),
@@ -112,10 +108,7 @@ async function getCarDisplayTaxonomyMaps(): Promise<CarDisplayTaxonomyMaps> {
             kuzov: buildTaxonomyMap(kuzov),
             color: buildTaxonomyMap(color),
         }));
-    }
-
-    return carDisplayTaxonomyMapsPromise;
-}
+});
 
 async function enrichCarsDisplayTaxonomies(cars: Car[]): Promise<Car[]> {
     if (cars.length === 0) return cars;

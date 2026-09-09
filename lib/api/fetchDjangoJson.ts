@@ -20,7 +20,16 @@ export async function fetchDjangoJson<T>(
 
     try {
         const url = new URL(path, `${baseUrl.replace(/\/$/, '')}/`);
-        const res = await fetch(url.toString(), init);
+        const skipCache = !['GET', 'HEAD'].includes((init?.method || 'GET').toUpperCase()) ||
+            init?.cache === 'no-store' || init?.cache === 'no-cache' || init?.next?.revalidate === 0;
+        const res = await fetch(url.toString(), skipCache ? init : {
+            ...init,
+            next: {
+                ...init?.next,
+                revalidate: init?.next?.revalidate === false ? false : Math.max(86400, init?.next?.revalidate ?? 86400),
+                tags: [...new Set(['django', ...(init?.next?.tags ?? [])])],
+            },
+        });
 
         if (!res.ok) {
             console.error(

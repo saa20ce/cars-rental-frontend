@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { nextRentalWorkingDay } from '@/lib/helpers/rentalWorkingDays';
 import type { DatePickerProps } from 'antd';
 import { useRouter } from 'next/navigation';
 import CustomButton from '@/lib/ui/common/Button';
@@ -25,7 +26,7 @@ export default function HomeCarSearchForm({
     kuzovOptions,
 }: HomeCarSearchFormProps) {
     const router = useRouter();
-    const today = useMemo(() => dayjs(), []);
+    const today = useMemo(() => nextRentalWorkingDay(dayjs()), []);
     const defaultTimeValue = useMemo(() => {
         const now = dayjs();
         const hour =

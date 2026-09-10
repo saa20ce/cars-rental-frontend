@@ -1,4 +1,6 @@
 'use client';
+import { getOverMileagePrice } from '@/lib/helpers/overMileagePrice';
+import { isRentalDayOff, nextRentalWorkingDay } from '@/lib/helpers/rentalWorkingDays';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Car, PriceRange, SeasonData } from '@/lib/types/Car';
@@ -65,7 +67,7 @@ const parseStoredDate = (value?: string) => {
 
     const parsedDate = dayjs(value, 'YYYY-MM-DD', true);
 
-    return parsedDate.isValid() ? parsedDate : null;
+    return parsedDate.isValid() && !isRentalDayOff(parsedDate) ? parsedDate : null;
 };
 
 type RentalCheckoutHeadingTag = 'h2' | 'div';
@@ -170,7 +172,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             const storedValue = localStorage.getItem(RENTAL_PERIOD_STORAGE_KEY);
 
             if (!storedValue) {
-                setStartDate(dayjs());
+                setStartDate(nextRentalWorkingDay(dayjs()));
                 setHasLoadedStoredPeriod(true);
                 return;
             }
@@ -179,12 +181,12 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
             const storedStartDate = parseStoredDate(storedPeriod.startDate);
             const storedReturnDate = parseStoredDate(storedPeriod.returnDate);
 
-            setStartDate(storedStartDate ?? dayjs());
+            setStartDate(storedStartDate ?? nextRentalWorkingDay(dayjs()));
             setReturnDate(storedReturnDate);
             setStartTime(storedPeriod.startTime ?? '');
             setReturnTime(storedPeriod.returnTime ?? '');
         } catch {
-            setStartDate(dayjs());
+            setStartDate(nextRentalWorkingDay(dayjs()));
         } finally {
             setHasLoadedStoredPeriod(true);
         }
@@ -295,13 +297,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
     const hasDiscountedDays = totalPriceBeforeDiscount > totalPrice;
 
-    const rentRequirements = useMemo(() => {
-        const isBusiness = car.klass?.includes(269);
-
-        return {
-            overrun: isBusiness ? '12 ₽/км.' : '6 ₽/км.'
-        };
-    }, [car.klass]);
+    const overMileagePrice = getOverMileagePrice(car);
 
     const mileageLimitPerDay = useMemo(() => {
         return hasSeasonDays ? 300 : 400;
@@ -378,7 +374,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
 
                         <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                             <dt>Перепробег за 1 км</dt>
-                            <dd className="font-bold">{rentRequirements.overrun}</dd>
+                            <dd className="font-bold">{overMileagePrice} ₽/км.</dd>
                         </div>
 
                         {additionalOptionsTotal > 0 && (

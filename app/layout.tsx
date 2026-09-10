@@ -1,5 +1,6 @@
 import type { Viewport } from 'next';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import UpdatePathCookie from '@/components/common/Meta/UpdatePathCookie';
@@ -63,6 +64,12 @@ export default function RootLayout({
                 <main>{children}</main>
                 <Footer />
                 <CookieBanner />
+                <Script
+                    id="jivo-widget"
+                    src="https://code.jivo.ru/widget/Qz0Xf8xJVP"
+                    strategy="afterInteractive"
+                    async
+                />
             </body>
         </html>
     );

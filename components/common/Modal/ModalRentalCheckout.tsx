@@ -1,4 +1,5 @@
 'use client';
+import { getOverMileagePrice } from '@/lib/helpers/overMileagePrice';
 
 import React, { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -85,13 +86,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
 
     const hasDiscountedDays = totalPriceBeforeDiscount > totalPrice;
 
-    const rentRequirements = useMemo(() => {
-        const isBusiness = car.klass?.includes(269);
-
-        return {
-            overrun: isBusiness ? '12 ₽/км.' : '6 ₽/км.',
-        };
-    }, [car.klass]);
+    const overMileagePrice = getOverMileagePrice(car);
 
     const mileageLimitPerDay = useMemo(() => {
         return hasSeasonDays ? 300 : 400;
@@ -207,7 +202,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 Перепробег за 1 км
                             </dt>
                             <dd className={classes.descCard}>
-                                {rentRequirements.overrun}
+                                {overMileagePrice} ₽/км.
                             </dd>
                         </div>
                         {additionalOptionsTotal > 0 && (

@@ -6,12 +6,13 @@ import type {
     SeasonData,
 } from '@/lib/types/Car';
 import dayjs, { Dayjs } from 'dayjs';
+import { nextRentalWorkingDay } from './rentalWorkingDays';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 export const TIME_OVERAGE_GRACE_MINUTES = 120;
-export const MIN_RENTAL_DAYS = 3;
+export const MIN_RENTAL_DAYS = 2;
 export const DISCOUNT_MIN_RENTAL_DAYS = 5;
-export const MIN_RENTAL_DAYS_ERROR_TEXT = 'Минимальная аренда от 3-х суток';
+export const MIN_RENTAL_DAYS_ERROR_TEXT = 'Минимальная аренда от 2-х суток';
 export const DELIVERY_DAY_START_MINUTES = 10 * 60;
 export const DELIVERY_DAY_END_MINUTES = 19 * 60;
 export const DELIVERY_DAY_TIME_LABEL = '10:00 - 19:00';
@@ -71,7 +72,7 @@ export const getRentalDaysCount = (
 };
 
 export const getMinimumRentalReturnDate = (startDate: Dayjs) =>
-    startDate.startOf('day').add(MIN_RENTAL_DAYS, 'day');
+    nextRentalWorkingDay(startDate.startOf('day').add(MIN_RENTAL_DAYS, 'day'));
 export const isRentalPeriodBelowMinimum = (
     startDate: Dayjs | null,
     returnDate: Dayjs | null,

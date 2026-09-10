@@ -6,6 +6,7 @@ import type { DatePickerProps } from 'antd';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
 import { CalendarIcon } from '@/lib/ui/icons';
+import { isRentalDayOff } from '@/lib/helpers/rentalWorkingDays';
 
 export type CustomDatePickerProps = DatePickerProps & {
     width?: string | number;
@@ -15,6 +16,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
     width = '100%',
     onOpenChange,
     style,
+    disabledDate,
     ...rest
 }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -83,6 +85,9 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                     ...style,
                 }}
                 {...rest}
+                disabledDate={(date, info) =>
+                    isRentalDayOff(date) || Boolean(disabledDate?.(date, info))
+                }
             />
             <style jsx global>{`
                 .ant-picker-input > input::placeholder {

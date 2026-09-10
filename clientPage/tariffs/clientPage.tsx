@@ -1,4 +1,5 @@
 'use client';
+import { isRentalDayOff, nextRentalWorkingDay } from '@/lib/helpers/rentalWorkingDays';
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
@@ -65,7 +66,7 @@ const parseInitialDate = (date?: string) => {
 
     const parsedDate = dayjs(date);
 
-    return parsedDate.isValid() ? parsedDate.startOf('day') : null;
+    return parsedDate.isValid() && !isRentalDayOff(parsedDate) ? parsedDate.startOf('day') : null;
 };
 
 interface TariffsPageClientProps {
@@ -103,7 +104,7 @@ export default function TariffsPageClient({
     additionalOptions,
     initialSearchParams,
 }: TariffsPageClientProps) {
-    const today = useMemo(() => dayjs().startOf('day'), []);
+    const today = useMemo(() => nextRentalWorkingDay(dayjs().startOf('day')), []);
     const initialStartDate = useMemo(() => {
         const parsedDate = parseInitialDate(initialSearchParams?.startDate);
 

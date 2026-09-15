@@ -61,11 +61,34 @@ Next.js development cache.
 docker compose -f docker-compose.dev.yml exec -T frontend-dev node scripts/refresh-cache.mjs
 ```
 
-Для production после сборки нового образа и настройки секрета:
+На сервере команды выполняются **из соседнего deploy-репозитория**
+(`car-rental-deploy`), который управляет всем production-стеком.
+Compose из папки frontend предназначен для отдельного запуска.
+
+Если изменился код, сначала выполните деплой (из `main`):
+
+```sh
+cd /opt/car-rental/car-rental-deploy # замените путь на свой
+bash scripts/deploy.sh frontend
+```
+
+Скрипт обновляет репозитории, собирает frontend с новым ключом кэша WordPress,
+запускает стек и выполняет smoke-тесты. Дождитесь `Deployment finished`.
+Скрипт сообщает текущий этап каждые 10 секунд, в том числе при ожидании
+другого деплоя. `IN PROGRESS` означает, что команда ещё не завершилась,
+а не гарантирует, что внешняя сеть отвечает.
+
+Затем из **той же deploy-папки** обновите данные всех авто:
 
 ```sh
 docker compose exec -T frontend node scripts/refresh-cache.mjs
 ```
+
+Если изменились только данные WordPress, достаточно последней команды, без
+деплоя. В конце проверьте `Pages updated: N/N` и отсутствие `Failed`.
+`CACHE_REFRESH_SECRET` задаётся в `../cars-rental-frontend/.env.production`
+до деплоя; случайный ключ можно получить через `openssl rand -hex 32`.
+В deploy Compose значение `WP_CACHE_REVALIDATE_SECONDS` должно быть `"86400"`.
 
 Команда отправляет защищённый POST `/api/cache/refresh` с `action: "invalidate"`,
 дожидается сброса, затем получает все страницы списка авто через `action: "inventory"`.

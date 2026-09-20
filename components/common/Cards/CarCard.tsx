@@ -20,6 +20,7 @@ import {
     getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
+    getDeliveryCost,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
     isDaySeason,
@@ -139,11 +140,8 @@ export const CarCard: React.FC<CarCardProps> = ({
     }, [additionalOptionsSelected, additionalOptions]);
 
     const deliveryCost = useMemo(() => {
-        const selected = deliveryOptions.find(
-            (opt) => opt.value === deliveryOptionSelected,
-        );
-        return selected ? Number(selected.price) || 0 : 0;
-    }, [deliveryOptionSelected, deliveryOptions]);
+        return getDeliveryCost(deliveryOptions, deliveryOptionSelected, startTime);
+    }, [deliveryOptionSelected, deliveryOptions, startTime]);
 
     const totalPrice =
         dailyCosts.reduce((acc, val) => acc + val, 0) +

@@ -12,6 +12,7 @@ import {
     getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
+    getDeliveryCost,
     isDaySeason,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
@@ -325,12 +326,8 @@ export default function TariffsPageClient({
     }, [deliveryPrice, defaultTimeValue, startTime]);
 
     const deliveryCost = useMemo(() => {
-        const selected = deliveryOptions.find(
-            (opt) => opt.value === deliveryOptionSelected,
-        );
-
-        return selected ? Number(selected.price) || 0 : 0;
-    }, [deliveryOptionSelected, deliveryOptions]);
+        return getDeliveryCost(deliveryOptions, deliveryOptionSelected, startTime || defaultTimeValue);
+    }, [deliveryOptionSelected, deliveryOptions, startTime, defaultTimeValue]);
 
     const additionalOptionsTotal = useMemo(() => {
         return additionalOptions

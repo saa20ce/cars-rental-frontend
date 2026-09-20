@@ -4,7 +4,7 @@ export type FormOption = {
 };
 
 export const NO_DELIVERY_VALUE = 'none';
-export const NO_DELIVERY_LABEL = 'Без подачи';
+export const NO_DELIVERY_LABEL = 'В офисе';
 
 export const DELIVERY_OPTION_LABELS: Record<string, string> = {
     aeroport: 'Аэропорт',

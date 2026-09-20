@@ -48,6 +48,20 @@ export const getDeliveryOptionsForTime = (
     return isDeliveryDayTime(time) ? deliveryPrice.day : deliveryPrice.night;
 };
 
+export const getDeliveryCost = (
+    options: DeliveryOption[],
+    selectedValue: string,
+    pickupTime: string,
+): number => {
+    if (selectedValue === 'none') {
+        if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(pickupTime)) return 0;
+        const minutes = getTimeMinutes(pickupTime);
+        return minutes >= 18 * 60 + 59 || minutes < 9 * 60 ? 1000 : 0;
+    }
+    const selected = options.find(option => option.value === selectedValue);
+    return selected ? Number(selected.price) || 0 : 0;
+};
+
 export const getRentalDaysCount = (
     startDate: Dayjs | null,
     returnDate: Dayjs | null,

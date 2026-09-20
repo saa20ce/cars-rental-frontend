@@ -36,7 +36,7 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
 }) => {
     const TitleTag = titleTag;
     const optionsWithNoDelivery = [
-        { label: 'Без подачи', value: 'none' },
+        { label: 'В офисе', value: 'none' },
         ...deliveryOptions,
     ];
 
@@ -57,6 +57,12 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                             style={{ width: '100%', height: '36px', }}
                         />
                     </div>
+                    {deliveryOptionSelected === 'none' && (
+                        <p className="mt-2 text-sm text-[#f6f6f699]">
+                            Выдача в офисе с 18:59 до 08:59 — 1 000 ₽,
+                            с 09:00 до 18:58 — бесплатно.
+                        </p>
+                    )}
                 </div>
 
                 <div className="mt-[12px] lg:mt-[14px]">

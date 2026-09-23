@@ -37,6 +37,9 @@ export const metadata = {
     alternates: {
         canonical: './',
     },
+    verification: {
+        yandex: 'e7809f08cf772978',
+    },
 };
 
 export const viewport: Viewport = {

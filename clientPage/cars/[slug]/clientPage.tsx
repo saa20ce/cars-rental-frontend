@@ -4,7 +4,6 @@ import React, { useState, useMemo, useRef } from 'react';
 import type { CSSProperties, MouseEventHandler } from 'react';
 import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
 import NextImage from 'next/image';
-import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 import dayjs from 'dayjs';
 import './index.css';
 import {
@@ -179,7 +178,7 @@ export default function SingleCarPageClient({
                                     onClick={() => openPreview(0)}
                                 >
                                     <NextImage
-                                        src={proxyWpMediaUrl(galleryImages[0])}
+                                        src={galleryImages[0]}
                                         alt={car.acf?.nazvanie_avto || 'car image'}
                                         width={725}
                                         height={385}
@@ -214,7 +213,7 @@ export default function SingleCarPageClient({
                                                 onClick={() => openPreview(i)}
                                             >
                                                 <NextImage
-                                                    src={proxyWpMediaUrl(imgUrl)}
+                                                    src={imgUrl}
                                                     alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
                                                     fill
                                                     draggable={false}
@@ -233,7 +232,7 @@ export default function SingleCarPageClient({
                         {galleryImages.length > 0 && (
                             <AntImage.PreviewGroup
                                 items={galleryImages.map((url, index) => ({
-                                    src: proxyWpMediaUrl(url),
+                                    src: url,
                                     alt: `${car.acf?.nazvanie_avto || 'Автомобиль'} — фото ${index + 1}`,
                                 }))}
                                 preview={{

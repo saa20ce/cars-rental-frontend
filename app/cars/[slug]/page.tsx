@@ -42,17 +42,23 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
 
     const breadcrumbs = await fetchBreadcrumbs(`/cars/${slug}`);
     const carJsonLd = buildCarJsonLd({ car, seasonDates, taxonomyValues });
+    const clientCar = { ...car, _links: undefined, _embedded: undefined };
+    const clientSimilarCars = similarCars.map((similarCar) => ({
+        ...similarCar,
+        _links: undefined,
+        _embedded: undefined,
+    }));
 
     return (
         <>
             <JsonLd id="car-jsonld" data={carJsonLd} />
             <Breadcrumbs crumbs={breadcrumbs} />
             <SingleCarPageClient
-                car={car}
+                car={clientCar}
                 seasonDates={seasonDates}
                 priceRanges={priceRanges}
                 taxonomyValues={taxonomyValues}
-                similarCars={similarCars}
+                similarCars={clientSimilarCars}
                 similarCarsHref={similarCarsGroup?.href ?? '/cars'}
                 similarCarsBtnTitle={similarCarsGroup?.btnTitle ?? 'Все авто'}
                 additionalOptions={additionalOptions}

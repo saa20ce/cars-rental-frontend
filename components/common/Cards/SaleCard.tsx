@@ -1,5 +1,4 @@
 import React from 'react';
-import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 
 interface SaleCardProps {
     title?: string;
@@ -8,10 +7,7 @@ interface SaleCardProps {
     link?: string;
 }
 
-const wpBaseUrl = process.env.NEXT_PUBLIC_WP_BASE_URL;
-const defaultImageUrl = wpBaseUrl
-    ? proxyWpMediaUrl(wpBaseUrl + '/wp-content/uploads/2025/04/223_rectangle.png')
-    : '';
+const defaultImageUrl = '/wp-content/uploads/2025/04/223_rectangle.png';
 
 export const SaleCard: React.FC<SaleCardProps> = ({
     title = 'Скидка 20%',

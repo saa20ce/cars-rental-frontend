@@ -11,6 +11,11 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
+                hostname: 'rentasib.ru',
+                pathname: '/wp-content/uploads/**',
+            },
+            {
+                protocol: 'https',
                 hostname: 'staged.rentasib.ru',
                 pathname: '/wp-content/uploads/**',
             },

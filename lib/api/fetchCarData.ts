@@ -289,7 +289,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
 
     if (group) {
         const res = await wpFetch(
-            `${WP_API_URL}/cars?${group.taxonomy}=${group.id}&exclude=${car.id}&per_page=10&_embed=wp:featuredmedia,wp:term`,
+            `${WP_API_URL}/cars?${group.taxonomy}=${group.id}&exclude=${car.id}&per_page=10&_embed=wp:featuredmedia,wp:term&${CAR_LIST_FIELDS_PARAM}`,
             { next: { tags: ['wordpress-cars'] } },
         );
 
@@ -310,7 +310,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     const markaId = markaIds[0];
 
     const res = await wpFetch(
-        `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia,wp:term`,
+        `${WP_API_URL}/cars?marka=${markaId}&per_page=5&_embed=wp:featuredmedia,wp:term&${CAR_LIST_FIELDS_PARAM}`,
         { next: { tags: ['wordpress-cars'] } },
     );
 
@@ -325,7 +325,7 @@ export async function getSimilarCars(car: Car): Promise<Car[]> {
     }
 
     const fallbackRes = await wpFetch(
-        `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia,wp:term`,
+        `${WP_API_URL}/cars?per_page=20&_embed=wp:featuredmedia,wp:term&${CAR_LIST_FIELDS_PARAM}`,
         { next: { tags: ['wordpress-cars'] } },
     );
     if (!fallbackRes.ok) return enrichCarsDisplayTaxonomies(similarCars);

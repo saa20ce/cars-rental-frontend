@@ -3,6 +3,7 @@ import {
     WP_MEDIA_REVALIDATE_SECONDS,
     WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS,
 } from '@/lib/api/wpCache';
+import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 export const revalidate = 2592000;
 
@@ -15,19 +16,31 @@ export async function GET(req: Request) {
         return new Response('Invalid media URL', { status: 400 });
     }
 
-    const upstream = await fetch(sourceUrl, {
-        next: {
-            revalidate: WP_MEDIA_REVALIDATE_SECONDS,
-            tags: ['wordpress-media'],
-        },
-    });
+    const socialFallback = () =>
+        Response.redirect(
+            new URL('/images/Banner.png', getSiteUrl(req)),
+            307,
+        );
+
+    let upstream: Response;
+
+    try {
+        upstream = await fetch(sourceUrl, {
+            next: {
+                revalidate: WP_MEDIA_REVALIDATE_SECONDS,
+                tags: ['wordpress-media'],
+            },
+        });
+    } catch (error) {
+        console.error('[wp-media] Upstream request failed:', error);
+        return useSocialFallback
+            ? socialFallback()
+            : new Response('Media unavailable', { status: 502 });
+    }
 
     if (!upstream.ok || !upstream.body) {
         if (useSocialFallback) {
-            return Response.redirect(
-                new URL('/images/Banner.png', req.url),
-                307,
-            );
+            return socialFallback();
         }
         return new Response('Media not found', { status: upstream.status });
     }

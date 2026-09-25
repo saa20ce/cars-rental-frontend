@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     if (!page || page < 1) page = 1;
     const perPage = 100;
 
-    const wpUrl = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&_fields=slug,date`;
+    const wpUrl = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&_fields=slug,date,modified`;
 
     const res = await wpFetch(wpUrl, { next: { tags: ['wordpress-news'] } });
 
@@ -50,10 +50,10 @@ export async function GET(request: Request) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${posts
     .map(
-        (post: { slug: string; date: string }) => `
+        (post: { slug: string; date: string; modified?: string }) => `
   <url>
     <loc>${baseUrl.replace(/\/$/, '')}/${post.slug}</loc>
-    <lastmod>${new Date(post.date).toISOString()}</lastmod>
+    <lastmod>${new Date(post.modified || post.date).toISOString()}</lastmod>
   </url>`,
     )
     .join('')}

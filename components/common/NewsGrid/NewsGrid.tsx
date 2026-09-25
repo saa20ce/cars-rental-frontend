@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
 
 type Post = {
     id: number;
@@ -21,7 +20,6 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
             {posts.map((post) => {
                 const image =
                     post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-                const proxiedImage = proxyWpMediaUrl(image);
                 const date = new Date(post.date).toLocaleDateString('ru-RU', {
                     day: 'numeric',
                     month: 'long',
@@ -38,7 +36,7 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
                             {image ? (
                                 <div className="relative overflow-hidden rounded-xl aspect-[360/206] lg:aspect-[404/231]">
                                     <Image
-                                        src={proxiedImage}
+                                        src={image}
                                         alt={post.title.rendered}
                                         fill
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

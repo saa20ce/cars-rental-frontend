@@ -36,7 +36,21 @@ export default async function TariffsPage({
     searchParams?: Promise<TariffsPageSearchParams>;
 }) {
     const params = (await searchParams) ?? {};
-    const cars = await getCars({ per_page: '100' });
+    const [
+        cars,
+        taxonomyOptions,
+        deliveryPrice,
+        additionalOptions,
+        seasonDates,
+        breadcrumbs,
+    ] = await Promise.all([
+        getCars({ per_page: '100' }),
+        getAllTaxonomyOptions(),
+        getDeliveryPrice(),
+        getAdditionalOptions(),
+        getSeasonDates(),
+        fetchBreadcrumbs('/tarify'),
+    ]);
     const {
         klassOptions,
         markaOptions,
@@ -44,13 +58,7 @@ export default async function TariffsPage({
         privodOptions,
         dvigatelOptions,
         colorOptions,
-    } = await getAllTaxonomyOptions();
-
-    const deliveryPrice = await getDeliveryPrice();
-    const additionalOptions = await getAdditionalOptions();
-
-    const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/tarify');
+    } = taxonomyOptions;
 
     return (
         <>

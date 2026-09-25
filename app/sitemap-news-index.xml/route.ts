@@ -22,7 +22,6 @@ ${Array.from(
     (_, i) => `
   <sitemap>
     <loc>${baseUrl.replace(/\/$/, '')}/sitemap-news-${i + 1}.xml</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>`,
 ).join('')}
 </sitemapindex>`;

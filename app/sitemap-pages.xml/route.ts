@@ -4,7 +4,6 @@ import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
-    const lastModified = new Date().toISOString();
 
     const urls: string[] = [];
     mapSite.forEach((section) => {
@@ -22,7 +21,6 @@ ${urls
         (href) => `
   <url>
     <loc>${baseUrl.replace(/\/$/, '')}${href}</loc>
-    <lastmod>${lastModified}</lastmod>
   </url>`,
     )
     .join('')}

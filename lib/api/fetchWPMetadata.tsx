@@ -75,12 +75,6 @@ function normalizeRobots(value: string | null | undefined) {
         .split(',')
         .map((directive) => directive.trim())
         .filter(Boolean)
-        .map((directive) => {
-            const normalized = directive.toLowerCase();
-            if (normalized === 'noindex') return 'index';
-            if (normalized === 'nofollow') return 'follow';
-            return directive;
-        })
         .filter(
             (directive, index, directives) =>
                 directives.findIndex(

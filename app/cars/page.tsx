@@ -42,8 +42,21 @@ export default async function CarsPage({
     const defaultKlass = typeof params.klass === 'string' ? params.klass : '';
     const defaultKuzov = typeof params.kuzov === 'string' ? params.kuzov : '';
 
-    const cars = await getCars({ per_page: '100' });
-
+    const [
+        cars,
+        taxonomyOptions,
+        deliveryPrice,
+        breadcrumbs,
+        additionalOptions,
+        seasonDates,
+    ] = await Promise.all([
+        getCars({ per_page: '100' }),
+        getAllTaxonomyOptions(),
+        getDeliveryPrice(),
+        fetchBreadcrumbs('/cars'),
+        getAdditionalOptions(),
+        getSeasonDates(),
+    ]);
     const {
         klassOptions,
         markaOptions,
@@ -51,12 +64,7 @@ export default async function CarsPage({
         privodOptions,
         dvigatelOptions,
         colorOptions,
-    } = await getAllTaxonomyOptions();
-
-    const deliveryPrice = await getDeliveryPrice();
-    const breadcrumbs = await fetchBreadcrumbs('/cars');
-    const additionalOptions = await getAdditionalOptions();
-    const seasonDates = await getSeasonDates();
+    } = taxonomyOptions;
     const carsItemListJsonLd = buildCarsItemListJsonLd(cars, seasonDates);
 
     return (

@@ -1,4 +1,5 @@
 import { Car } from '@/lib/types/Car';
+import { publicWpMediaUrls } from '@/lib/api/wpMediaProxy';
 
 function pickImageUrl(c: Car): string {
     const sizes = c._embedded?.['wp:featuredmedia']?.[0]?.media_details?.sizes;
@@ -16,9 +17,10 @@ function pickImageUrl(c: Car): string {
 }
 
 function slimCar(c: Car): Car {
+    const car = publicWpMediaUrls(c);
     return {
-        ...c,
-        imageUrl: pickImageUrl(c),
+        ...car,
+        imageUrl: pickImageUrl(car),
     };
 }
 

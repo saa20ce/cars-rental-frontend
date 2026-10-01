@@ -734,6 +734,7 @@ export default function TariffsPageClient({
                                                 alt={'\u0410\u043a\u0446\u0438\u044f \u0430\u0440\u0435\u043d\u0434\u044b \u0430\u0432\u0442\u043e'}
                                                 className="w-full rounded-3xl object-cover"
                                                 sizes="100vw"
+                                                quality={80}
                                             />
                                         </div>
                                     )}

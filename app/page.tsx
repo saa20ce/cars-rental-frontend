@@ -199,6 +199,7 @@ export default async function Home() {
                             alt="Аренда авто в Новосибирске"
                             className="max-h-[208px] md:max-h-[350px] lg:max-h-none h-full w-full"
                             sizes="(max-width: 1023px) 100vw, 725px"
+                            quality={80}
                             priority
                         />
                     </div>

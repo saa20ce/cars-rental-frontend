@@ -12,6 +12,7 @@ import type {
 import CustomButton from '@/lib/ui/common/Button';
 import SaleInfo from './SaleInfo';
 import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     computeCostsChunked,
@@ -65,11 +66,15 @@ export const CarCard: React.FC<CarCardProps> = ({
     titleTag = 'h3'
 }) => {
     const TitleTag = titleTag;
+    const carSeasonDates = useMemo(
+        () => getSeasonDatesForCar(car, seasonDates),
+        [car, seasonDates],
+    );
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
     const regularPrice = Number(acf['1-3_dnya']);
     const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
     const today = dayjs();
-    const price = isDaySeason(today, seasonDates) ? seasonPrice : regularPrice;
+    const price = isDaySeason(today, carSeasonDates) ? seasonPrice : regularPrice;
     const hasActiveDiscountToday = isDiscountActiveForDay(
         today,
         acf,
@@ -187,12 +192,12 @@ export const CarCard: React.FC<CarCardProps> = ({
 
         if (daysCount !== totalDays) setDaysCount(totalDays);
 
-        let allDaysSeason = Boolean(seasonDates);
-        if (seasonDates) {
+        let allDaysSeason = Boolean(carSeasonDates);
+        if (carSeasonDates) {
             let currentDay = startFull;
 
             while (currentDay.isBefore(billingEndDate, 'day')) {
-                if (!isDaySeason(currentDay, seasonDates)) {
+                if (!isDaySeason(currentDay, carSeasonDates)) {
                     allDaysSeason = false;
                     break;
                 }
@@ -206,7 +211,7 @@ export const CarCard: React.FC<CarCardProps> = ({
             startFull,
             billingEndDate,
             priceRanges,
-            seasonDates,
+            carSeasonDates,
         );
         if (dailyCostsBeforeDiscount.toString() !== costsBeforeDiscount.toString()) {
             setDailyCostsBeforeDiscount(costsBeforeDiscount);
@@ -216,7 +221,7 @@ export const CarCard: React.FC<CarCardProps> = ({
             startFull,
             billingEndDate,
             priceRanges,
-            seasonDates,
+            carSeasonDates,
             car.acf,
         );
         if (dailyCosts.toString() !== costs.toString()) setDailyCosts(costs);
@@ -229,7 +234,7 @@ export const CarCard: React.FC<CarCardProps> = ({
         priceRanges,
         returnDate,
         returnTime,
-        seasonDates,
+        carSeasonDates,
         startDate,
         startTime,
     ]);

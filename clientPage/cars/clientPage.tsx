@@ -14,6 +14,7 @@ import {
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
 import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import {
     getDiscountedPriceForDay,
     getDiscountPercentForDay,
@@ -50,7 +51,7 @@ const getCurrentCarPrice = (
     const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
     const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
     const today = dayjs();
-    const basePrice = isDaySeason(today, seasonDates ?? null)
+    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
         ? seasonPrice
         : regularPrice;
 

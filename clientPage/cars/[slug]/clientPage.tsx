@@ -39,6 +39,7 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { faqItems } from '@/lib/data/faqItems';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -62,8 +63,12 @@ export default function SingleCarPageClient({
     similarCarsBtnTitle,
     additionalOptions
 }: SingleCarPageClientProps) {
+    const carSeasonDates = useMemo(
+        () => getSeasonDatesForCar(car, seasonDates),
+        [car, seasonDates],
+    );
     const [seasonModeSwitch, setSeasonModeSwitch] = useState(() =>
-        isDaySeason(dayjs(), seasonDates),
+        isDaySeason(dayjs(), carSeasonDates),
     );
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewIndex, setPreviewIndex] = useState(0);
@@ -282,7 +287,7 @@ export default function SingleCarPageClient({
                         <PriceCards
                             priceRanges={priceRanges}
                             seasonModeSwitch={seasonModeSwitch}
-                            seasonDates={seasonDates}
+                            seasonDates={carSeasonDates}
                             itemLabelTag="div"
                         />
                     )}
@@ -300,7 +305,7 @@ export default function SingleCarPageClient({
                         car={car}
                         additionalOptions={additionalOptions}
                         deliveryPrice={deliveryPrice}
-                        seasonDates={seasonDates}
+                        seasonDates={carSeasonDates}
                         priceRanges={priceRanges}
                         setSeasonModeSwitch={setSeasonModeSwitch}
                         periodSubheadingTag="div"

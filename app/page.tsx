@@ -17,6 +17,7 @@ import {
 } from '@/lib/api/fetchCarData';
 import Link from 'next/link';
 import type { Car, SeasonData } from '@/lib/types/Car';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import {
     getDiscountedPriceForDay,
     isDaySeason,
@@ -77,7 +78,7 @@ const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
     const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
     const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
     const today = dayjs();
-    const basePrice = isDaySeason(today, seasonDates)
+    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
         ? seasonPrice
         : regularPrice;
 

@@ -46,6 +46,7 @@ import {
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
 import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import Banner from '@/public/images/Banner.png';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -187,19 +188,20 @@ export default function TariffsPageClient({
 
         const enriched = initialCars.map((car) => {
             const priceRanges = buildPriceRangesFromACF(car.acf || {});
+            const carSeasonDates = getSeasonDatesForCar(car, seasonDates);
 
             const costsBeforeDiscount = computeCostsChunked(
                 startDate.startOf('day'),
                 billingEndDate,
                 priceRanges,
-                seasonDates,
+                carSeasonDates,
             );
 
             const costs = computeCostsChunked(
                 startDate.startOf('day'),
                 billingEndDate,
                 priceRanges,
-                seasonDates,
+                carSeasonDates,
                 car.acf,
             );
 
@@ -339,6 +341,11 @@ export default function TariffsPageClient({
         return selectedCar ? buildPriceRangesFromACF(selectedCar.acf || {}) : [];
     }, [selectedCar]);
 
+    const selectedCarSeasonDates = useMemo(
+        () => selectedCar ? getSeasonDatesForCar(selectedCar, seasonDates) : seasonDates,
+        [selectedCar, seasonDates],
+    );
+
     const selectedCarCostsBeforeDiscount = useMemo(() => {
         if (!startDate || !billingEndDate || !selectedCar) return [];
 
@@ -346,9 +353,9 @@ export default function TariffsPageClient({
             startDate.startOf('day'),
             billingEndDate,
             selectedCarPriceRanges,
-            seasonDates,
+            selectedCarSeasonDates,
         );
-    }, [billingEndDate, seasonDates, selectedCar, selectedCarPriceRanges, startDate]);
+    }, [billingEndDate, selectedCar, selectedCarPriceRanges, selectedCarSeasonDates, startDate]);
 
     const selectedCarCosts = useMemo(() => {
         if (!startDate || !billingEndDate || !selectedCar) return [];
@@ -357,12 +364,12 @@ export default function TariffsPageClient({
             startDate.startOf('day'),
             billingEndDate,
             selectedCarPriceRanges,
-            seasonDates,
+            selectedCarSeasonDates,
             selectedCar.acf,
         );
     }, [
         billingEndDate,
-        seasonDates,
+        selectedCarSeasonDates,
         selectedCar,
         selectedCarPriceRanges,
         startDate,
@@ -389,19 +396,19 @@ export default function TariffsPageClient({
         deliveryCost;
 
     const hasSeasonDays = useMemo(() => {
-        if (!startDate || !billingEndDate || !seasonDates) return false;
+        if (!startDate || !billingEndDate || !selectedCarSeasonDates) return false;
 
         let currentDay = startDate.startOf('day');
 
         while (currentDay.isBefore(billingEndDate, 'day')) {
-            if (!isDaySeason(currentDay, seasonDates)) {
+            if (!isDaySeason(currentDay, selectedCarSeasonDates)) {
                 return false;
             }
             currentDay = currentDay.add(1, 'day');
         }
 
         return true;
-    }, [billingEndDate, seasonDates, startDate]);
+    }, [billingEndDate, selectedCarSeasonDates, startDate]);
 
     const closeModal = () => setModalVisible(false);
 

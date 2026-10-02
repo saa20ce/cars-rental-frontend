@@ -2,6 +2,7 @@ import 'server-only';
 import { load } from 'cheerio';
 import dayjs from 'dayjs';
 import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
+import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import {
     getDiscountedPriceForDay,
     isDaySeason,
@@ -101,7 +102,7 @@ function getCurrentDailyPrice(car: Car, seasonDates?: SeasonData | null) {
     const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
     const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
     const today = dayjs();
-    const basePrice = isDaySeason(today, seasonDates ?? null)
+    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
         ? seasonPrice
         : regularPrice;
 

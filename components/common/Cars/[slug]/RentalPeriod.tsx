@@ -9,6 +9,8 @@ import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import 'dayjs/locale/ru';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
+import { getNextRentalHour } from '@/lib/helpers/rentalTime';
+import { useRentalPeriodTime } from '@/lib/hooks/useRentalPeriodTime';
 import { AdditionalServices } from './AdditionalServices';
 import dynamic from 'next/dynamic';
 
@@ -172,20 +174,15 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
     const [isChainActive, setIsChainActive] = useState(false);
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
 
-    const timeOptions = Array.from({ length: 24 }, (_, i) => {
-        const hour = i.toString().padStart(2, '0');
-        return { value: `${hour}:00`, label: `${hour}:00` };
+    const {
+        defaultTimeValue, startTimeOptions, returnTimeOptions,
+        refreshTime, changeStartTime, changeReturnTime,
+    } = useRentalPeriodTime({
+        startDate, returnDate, startTime, returnTime,
+        onStartDateChange, onReturnDateChange, onStartTimeChange, onReturnTimeChange,
     });
-
-    const defaultTimeValue = useMemo(() => {
-        const now = dayjs();
-        const hour =
-            now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
-        return `${hour.toString().padStart(2, '0')}:00`;
-    }, []);
-
     const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-        return current && current < dayjs().startOf('day');
+        return current && current < getNextRentalHour(dayjs()).startOf('day');
     };
 
     const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
@@ -234,10 +231,11 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
                     <CustomSelect
                         placeholder="18:00"
-                        options={timeOptions}
+                        options={startTimeOptions}
                         className="timePicker"
                         value={startTime || defaultTimeValue}
-                        onChange={(val) => onStartTimeChange?.(val as string)}
+                        onOpenChange={refreshTime}
+                        onChange={changeStartTime}
                     />
                 </div>
 
@@ -255,10 +253,11 @@ export const RentalPeriod: React.FC<RentalPeriodProps> = ({
 
                     <CustomSelect
                         placeholder="18:00"
-                        options={timeOptions}
+                        options={returnTimeOptions}
                         className="timePicker"
                         value={returnTime || defaultTimeValue}
-                        onChange={(val) => onReturnTimeChange?.(val as string)}
+                        onOpenChange={refreshTime}
+                        onChange={changeReturnTime}
                     />
                 </div>
             </div>

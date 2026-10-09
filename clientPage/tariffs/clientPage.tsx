@@ -1,5 +1,7 @@
 'use client';
-import { isRentalDayOff, nextRentalWorkingDay } from '@/lib/helpers/rentalWorkingDays';
+import { isRentalDayOff } from '@/lib/helpers/rentalWorkingDays';
+import { getNextRentalHour } from '@/lib/helpers/rentalTime';
+import { useRentalPeriodTime } from '@/lib/hooks/useRentalPeriodTime';
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
@@ -12,7 +14,8 @@ import {
     getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
-    getDeliveryCost,
+    getDeliveryCostForTime,
+    getAfterHoursCost,
     isDaySeason,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
@@ -86,7 +89,7 @@ interface TariffsPageClientProps {
 }
 
 const disabledDateStart: RangePickerProps['disabledDate'] = (current) => {
-    return current && current < dayjs().startOf('day');
+    return current && current < getNextRentalHour(dayjs()).startOf('day');
 };
 
 const disabledDateFinish: RangePickerProps['disabledDate'] = (current) => {
@@ -106,7 +109,7 @@ export default function TariffsPageClient({
     additionalOptions,
     initialSearchParams,
 }: TariffsPageClientProps) {
-    const today = useMemo(() => nextRentalWorkingDay(dayjs().startOf('day')), []);
+    const today = useMemo(() => getNextRentalHour(dayjs()).startOf('day'), []);
     const initialStartDate = useMemo(() => {
         const parsedDate = parseInitialDate(initialSearchParams?.startDate);
 
@@ -159,7 +162,7 @@ export default function TariffsPageClient({
     const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
         string[]
     >([]);
-    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('none');
     const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
     const klassOptionsWithKuzov = useMemo(
         () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
@@ -288,17 +291,16 @@ export default function TariffsPageClient({
         setCars(filtered);
     };
 
-    const timeOptions = Array.from({ length: 24 }, (_, i) => {
-        const hour = i.toString().padStart(2, '0');
-        return { value: `${hour}:00`, label: `${hour}:00` };
+    const {
+        defaultTimeValue, startTimeOptions, returnTimeOptions,
+        refreshTime, changeStartTime, changeReturnTime,
+    } = useRentalPeriodTime({
+        startDate, returnDate, startTime, returnTime,
+        onStartDateChange: setStartDate,
+        onReturnDateChange: setReturnDate,
+        onStartTimeChange: setStartTime,
+        onReturnTimeChange: setReturnTime,
     });
-
-    const defaultTimeValue = useMemo(() => {
-        const now = dayjs();
-        const hour =
-            now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
-        return `${hour.toString().padStart(2, '0')}:00`;
-    }, []);
 
     useEffect(() => {
         setStartTime((current) => current || defaultTimeValue);
@@ -328,8 +330,20 @@ export default function TariffsPageClient({
     }, [deliveryPrice, defaultTimeValue, startTime]);
 
     const deliveryCost = useMemo(() => {
-        return getDeliveryCost(deliveryOptions, deliveryOptionSelected, startTime || defaultTimeValue);
-    }, [deliveryOptionSelected, deliveryOptions, startTime, defaultTimeValue]);
+        return getDeliveryCostForTime(
+            deliveryPrice,
+            deliveryOptionSelected,
+            startTime || defaultTimeValue,
+        );
+    }, [deliveryOptionSelected, deliveryPrice, startTime, defaultTimeValue]);
+
+    const afterHoursCost = useMemo(() => {
+        return getAfterHoursCost(
+            deliveryOptionSelected,
+            startTime || defaultTimeValue,
+            returnDate ? returnTime || defaultTimeValue : '',
+        );
+    }, [deliveryOptionSelected, startTime, returnTime, returnDate, defaultTimeValue]);
 
     const additionalOptionsTotal = useMemo(() => {
         return additionalOptions
@@ -388,12 +402,13 @@ export default function TariffsPageClient({
         selectedCarRentalTotal;
 
     const modalTotalPrice =
-        selectedCarRentalTotal + additionalOptionsTotal + deliveryCost;
+        selectedCarRentalTotal + additionalOptionsTotal + deliveryCost + afterHoursCost;
 
     const modalTotalPriceBeforeDiscount =
         selectedCarRentalTotalBeforeDiscount +
         additionalOptionsTotal +
-        deliveryCost;
+        deliveryCost +
+        afterHoursCost;
 
     const hasSeasonDays = useMemo(() => {
         if (!startDate || !billingEndDate || !selectedCarSeasonDates) return false;
@@ -417,7 +432,7 @@ export default function TariffsPageClient({
 
         setSelectedCar(car);
         setAdditionalOptionsSelected([]);
-        setDeliveryOption('');
+        setDeliveryOption('none');
         setIsSubmitted(false);
         setModalVisible(true);
     };
@@ -540,12 +555,11 @@ export default function TariffsPageClient({
 
                                     <CustomSelect
                                         placeholder="18:00"
-                                        options={timeOptions}
+                                        options={startTimeOptions}
                                         className="timePicker"
                                         value={startTime || defaultTimeValue}
-                                        onChange={(val) =>
-                                            setStartTime(val as string)
-                                        }
+                                        onOpenChange={refreshTime}
+                                        onChange={changeStartTime}
                                     />
                                 </div>
 
@@ -580,12 +594,11 @@ export default function TariffsPageClient({
 
                                     <CustomSelect
                                         placeholder="18:00"
-                                        options={timeOptions}
+                                        options={returnTimeOptions}
                                         className="timePicker"
                                         value={returnTime || defaultTimeValue}
-                                        onChange={(val) =>
-                                            setReturnTime(val as string)
-                                        }
+                                        onOpenChange={refreshTime}
+                                        onChange={changeReturnTime}
                                     />
                                 </div>
                             </div>
@@ -841,6 +854,7 @@ export default function TariffsPageClient({
                             car={selectedCar}
                             additionalOptionsTotal={additionalOptionsTotal}
                             deliveryCost={deliveryCost}
+                            afterHoursCost={afterHoursCost}
                             startDate={startDate.format('YYYY-MM-DD')}
                             returnDate={returnDate.format('YYYY-MM-DD')}
                             startTime={startTime || defaultTimeValue}

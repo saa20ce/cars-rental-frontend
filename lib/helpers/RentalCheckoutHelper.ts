@@ -17,6 +17,7 @@ export const DELIVERY_DAY_START_MINUTES = 10 * 60;
 export const DELIVERY_DAY_END_MINUTES = 19 * 60;
 export const DELIVERY_DAY_TIME_LABEL = '10:00 - 19:00';
 export const DELIVERY_NIGHT_TIME_LABEL = '19:01 - 09:59';
+export const AFTER_HOURS_OFFICE_FEE = 1000;
 
 type DiscountInfo = Pick<CarACF, 'skidka' | 'skidka_start' | 'skidka_end'>;
 
@@ -51,15 +52,37 @@ export const getDeliveryOptionsForTime = (
 export const getDeliveryCost = (
     options: DeliveryOption[],
     selectedValue: string,
-    pickupTime: string,
 ): number => {
-    if (selectedValue === 'none') {
-        if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(pickupTime)) return 0;
-        const minutes = getTimeMinutes(pickupTime);
-        return minutes >= 18 * 60 + 59 || minutes < 9 * 60 ? 1000 : 0;
-    }
+    if (selectedValue === 'none') return 0;
+
     const selected = options.find(option => option.value === selectedValue);
     return selected ? Number(selected.price) || 0 : 0;
+};
+
+export const getDeliveryCostForTime = (
+    deliveryPrice: DeliveryPrice | null | undefined,
+    selectedValue: string,
+    pickupTime: string,
+): number =>
+    getDeliveryCost(
+        getDeliveryOptionsForTime(deliveryPrice, pickupTime),
+        selectedValue,
+    );
+
+export const getAfterHoursCost = (
+    selectedValue: string,
+    pickupTime: string,
+    returnTime = '',
+): number => {
+    if (selectedValue !== 'none') return 0;
+
+    return [pickupTime, returnTime].reduce((total, time) => {
+        if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) return total;
+
+        const minutes = getTimeMinutes(time);
+        const isAfterHours = minutes >= 18 * 60 + 59 || minutes < 9 * 60;
+        return total + (isAfterHours ? AFTER_HOURS_OFFICE_FEE : 0);
+    }, 0);
 };
 
 export const getRentalDaysCount = (

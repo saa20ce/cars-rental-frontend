@@ -2,6 +2,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { NO_DELIVERY_LABEL, NO_DELIVERY_VALUE } from '@/lib/helpers/formPayloadLabels';
 
 const CheckboxGroup = dynamic(
     () => import('antd/lib/checkbox/Group').then(m => m.default || m),
@@ -30,15 +31,24 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
     additionalOptionsSelected = [],
     setAdditionalOptions = () => { },
     deliveryOptions = [],
-    deliveryOptionSelected,
+    deliveryOptionSelected = NO_DELIVERY_VALUE,
     setDeliveryOption,
     titleTag = 'h4',
 }) => {
     const TitleTag = titleTag;
     const optionsWithNoDelivery = [
-        { label: 'В офисе', value: 'none' },
+        { label: NO_DELIVERY_LABEL, value: NO_DELIVERY_VALUE },
         ...deliveryOptions,
     ];
+
+    React.useEffect(() => {
+        if (
+            deliveryOptionSelected !== NO_DELIVERY_VALUE &&
+            !deliveryOptions.some(option => option.value === deliveryOptionSelected)
+        ) {
+            setDeliveryOption(NO_DELIVERY_VALUE);
+        }
+    }, [deliveryOptionSelected, deliveryOptions, setDeliveryOption]);
 
     return (
         <>
@@ -51,16 +61,17 @@ export const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                         <CustomSelect
                             options={optionsWithNoDelivery}
                             onChange={(value) => setDeliveryOption(value as string)}
-                            value={deliveryOptionSelected || undefined}
+                            value={deliveryOptionSelected}
                             placeholder="Выберите место подачи"
                             listHeight={232}
                             style={{ width: '100%', height: '36px', }}
                         />
                     </div>
-                    {deliveryOptionSelected === 'none' && (
+                    {deliveryOptionSelected === NO_DELIVERY_VALUE && (
                         <p className="mt-2 text-sm text-[#f6f6f699]">
-                            Выдача в офисе с 18:59 до 08:59 — 1 000 ₽,
-                            с 09:00 до 18:58 — бесплатно.
+                            Выдача и прием в офисе с 18:59 до 08:59 —
+                            по 1 000 ₽ за каждую операцию, с 09:00 до 18:58 —
+                            бесплатно.
                         </p>
                     )}
                 </div>

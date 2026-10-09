@@ -1,9 +1,9 @@
 .descCard {
-    @apply text-[14px]/[20px] lg:text-[18px]/[28px] font-bold;
+    @apply text-[14px]/[20px] lg:text-[18px]/[28px] font-bold whitespace-nowrap shrink-0 text-right;
 }
 
 .headerCard {
-    @apply text-[14px]/[20px] lg:text-[16px]/[24px];
+    @apply text-[14px]/[20px] lg:text-[16px]/[24px] min-w-0;
 }
 
 .carPriceInfo {
@@ -11,7 +11,7 @@
 }
 
 .flexBetween {
-    @apply flex justify-between;
+    @apply flex justify-between gap-3;
 }
 
 .borderBot {

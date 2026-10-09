@@ -20,7 +20,8 @@ import {
     getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
-    getDeliveryCost,
+    getDeliveryCostForTime,
+    getAfterHoursCost,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
     isDaySeason,
@@ -128,7 +129,7 @@ export const CarCard: React.FC<CarCardProps> = ({
     const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
         string[]
     >([]);
-    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('none');
     const [modalVisible, setModalVisible] = useState(false);
     const closeModal = () => setModalVisible(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -143,17 +144,31 @@ export const CarCard: React.FC<CarCardProps> = ({
     }, [additionalOptionsSelected, additionalOptions]);
 
     const deliveryCost = useMemo(() => {
-        return getDeliveryCost(deliveryOptions, deliveryOptionSelected, startTime);
-    }, [deliveryOptionSelected, deliveryOptions, startTime]);
+        return getDeliveryCostForTime(
+            deliveryPrice,
+            deliveryOptionSelected,
+            startTime,
+        );
+    }, [deliveryOptionSelected, deliveryPrice, startTime]);
+
+    const afterHoursCost = useMemo(() => {
+        return getAfterHoursCost(
+            deliveryOptionSelected,
+            startTime,
+            returnDate ? returnTime : '',
+        );
+    }, [deliveryOptionSelected, startTime, returnTime, returnDate]);
 
     const totalPrice =
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         (additionalOptionsTotal ?? 0) +
-        deliveryCost;
+        deliveryCost +
+        afterHoursCost;
     const totalPriceBeforeDiscount =
         dailyCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) +
         (additionalOptionsTotal ?? 0) +
-        deliveryCost;
+        deliveryCost +
+        afterHoursCost;
 
 
     useEffect(() => {
@@ -378,6 +393,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                                     additionalOptionsTotal ?? 0
                                 }
                                 deliveryCost={deliveryCost}
+                                afterHoursCost={afterHoursCost}
                                 startDate={startDate.format('YYYY-MM-DD')}
                                 returnDate={returnDate.format('YYYY-MM-DD')}
                                 startTime={startTime}

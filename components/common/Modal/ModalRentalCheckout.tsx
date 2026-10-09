@@ -18,6 +18,7 @@ interface ModalRentalCheckoutProps {
     returnTime: string;
     hasSeasonDays: boolean;
     deliveryCost: number;
+    afterHoursCost: number;
     additionalOptionsTotal: number;
     additionalOptions: { label: string; value: string }[];
     additionalOptionsSelected: string[];
@@ -61,6 +62,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
     closeModal,
     setIsSubmitted,
     deliveryCost,
+    afterHoursCost,
     additionalOptionsTotal
 }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -223,6 +225,18 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 <dt className={classes.headerCard}>Доставка</dt>
                                 <dd className={classes.descCard}>
                                     {deliveryCost} ₽
+                                </dd>
+                            </div>
+                        )}
+                        {afterHoursCost > 0 && (
+                            <div
+                                className={`${classes.flexBetween} ${classes.borderBot} py-[6px] lg:py-[10px]`}
+                            >
+                                <dt className={classes.headerCard}>
+                                    Выдача/прием авто в нерабочее время
+                                </dt>
+                                <dd className={classes.descCard}>
+                                    {afterHoursCost} ₽
                                 </dd>
                             </div>
                         )}

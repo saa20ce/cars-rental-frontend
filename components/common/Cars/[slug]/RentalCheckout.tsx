@@ -14,7 +14,8 @@ import {
     getAverageDailyCost,
     getRentalDaysCountWithMinimum,
     getDeliveryOptionsForTime,
-    getDeliveryCost,
+    getDeliveryCostForTime,
+    getAfterHoursCost,
     isRentalPeriodBelowMinimum,
     MIN_RENTAL_DAYS_ERROR_TEXT,
 } from '@/lib/helpers/RentalCheckoutHelper';
@@ -127,7 +128,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     const [additionalOptionsSelected, setAdditionalOptions] = useState<
         string[]
     >([]);
-    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('');
+    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('none');
 
     const [modalVisible, setModalVisible] = useState(false);
     const openModal = async () => {
@@ -147,18 +148,32 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
     }, [additionalOptionsSelected, additionalOptions]);
 
     const deliveryCost = useMemo(() => {
-        return getDeliveryCost(deliveryOptions, deliveryOptionSelected, effectiveStartTime);
-    }, [deliveryOptionSelected, deliveryOptions, effectiveStartTime]);
+        return getDeliveryCostForTime(
+            deliveryPrice,
+            deliveryOptionSelected,
+            effectiveStartTime,
+        );
+    }, [deliveryOptionSelected, deliveryPrice, effectiveStartTime]);
+
+    const afterHoursCost = useMemo(() => {
+        return getAfterHoursCost(
+            deliveryOptionSelected,
+            effectiveStartTime,
+            returnDate ? effectiveReturnTime : '',
+        );
+    }, [deliveryOptionSelected, effectiveStartTime, effectiveReturnTime, returnDate]);
 
     const totalPrice =
         dailyCosts.reduce((acc, val) => acc + val, 0) +
         additionalOptionsTotal +
-        deliveryCost;
+        deliveryCost +
+        afterHoursCost;
 
     const totalPriceBeforeDiscount =
         dailyCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) +
         additionalOptionsTotal +
-        deliveryCost;
+        deliveryCost +
+        afterHoursCost;
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -387,7 +402,17 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         {deliveryCost > 0 && (
                             <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
                                 <dt>Доставка</dt>
-                                <dd className="font-bold">{deliveryCost} ₽</dd>
+                                <dd className="font-bold whitespace-nowrap shrink-0">
+                                    {deliveryCost} ₽
+                                </dd>
+                            </div>
+                        )}
+                        {afterHoursCost > 0 && (
+                            <div className="flex justify-between border-b border-[#f6f6f638] pb-2">
+                                <dt>Выдача/прием авто в нерабочее время</dt>
+                                <dd className="font-bold whitespace-nowrap shrink-0">
+                                    {afterHoursCost} ₽
+                                </dd>
                             </div>
                         )}
                     </dl>
@@ -505,6 +530,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                             car={car}
                             additionalOptionsTotal={additionalOptionsTotal}
                             deliveryCost={deliveryCost}
+                            afterHoursCost={afterHoursCost}
                             startDate={startDate.format('YYYY-MM-DD')}
                             returnDate={returnDate.format('YYYY-MM-DD')}
                             startTime={effectiveStartTime}

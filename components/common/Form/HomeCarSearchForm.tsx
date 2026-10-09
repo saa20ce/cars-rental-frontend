@@ -2,7 +2,8 @@
 
 import React, { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { nextRentalWorkingDay } from '@/lib/helpers/rentalWorkingDays';
+import { getNextRentalHour, isPastRentalTime } from '@/lib/helpers/rentalTime';
+import { useRentalPeriodTime } from '@/lib/hooks/useRentalPeriodTime';
 import type { DatePickerProps } from 'antd';
 import { useRouter } from 'next/navigation';
 import CustomButton from '@/lib/ui/common/Button';
@@ -16,24 +17,13 @@ interface HomeCarSearchFormProps {
     kuzovOptions: Array<{ value: string; label: string }>;
 }
 
-const timeOptions = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, '0');
-    return { value: `${hour}:00`, label: `${hour}:00` };
-});
-
 export default function HomeCarSearchForm({
     klassOptions,
     kuzovOptions,
 }: HomeCarSearchFormProps) {
     const router = useRouter();
-    const today = useMemo(() => nextRentalWorkingDay(dayjs()), []);
-    const defaultTimeValue = useMemo(() => {
-        const now = dayjs();
-        const hour =
-            now.minute() >= 30 ? now.add(1, 'hour').hour() : now.hour();
-
-        return `${hour.toString().padStart(2, '0')}:00`;
-    }, []);
+    const today = useMemo(() => getNextRentalHour(dayjs()), []);
+    const defaultTimeValue = today.format('HH:mm');
 
     const [startDate, setStartDate] = useState<Dayjs | null>(today);
     const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
@@ -42,6 +32,16 @@ export default function HomeCarSearchForm({
     const [selectedKlass, setSelectedKlass] = useState('');
     const [isChainActive, setIsChainActive] = useState(false);
     const [isReturnDateOpen, setIsReturnDateOpen] = useState(false);
+    const {
+        startTimeOptions, returnTimeOptions,
+        refreshTime, changeStartTime, changeReturnTime,
+    } = useRentalPeriodTime({
+        startDate, returnDate, startTime, returnTime,
+        onStartDateChange: setStartDate,
+        onReturnDateChange: setReturnDate,
+        onStartTimeChange: setStartTime,
+        onReturnTimeChange: setReturnTime,
+    });
 
     const klassOptionsWithKuzov = useMemo(
         () => buildKlassOptionsWithKuzov(klassOptions, kuzovOptions),
@@ -49,7 +49,7 @@ export default function HomeCarSearchForm({
     );
 
     const disabledDateStart: DatePickerProps['disabledDate'] = (current) =>
-        !!current && current.isBefore(dayjs().startOf('day'), 'day');
+        !!current && current.isBefore(getNextRentalHour(dayjs()), 'day');
 
     const disabledDateFinish: DatePickerProps['disabledDate'] = (current) => {
         if (!startDate) return true;
@@ -59,6 +59,12 @@ export default function HomeCarSearchForm({
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        const now = dayjs();
+        if (isPastRentalTime(startDate, startTime, now) || isPastRentalTime(returnDate, returnTime, now)) {
+            refreshTime();
+            return;
+        }
 
         const params = new URLSearchParams();
 
@@ -129,10 +135,11 @@ export default function HomeCarSearchForm({
 
                         <CustomSelect
                             placeholder="18:00"
-                            options={timeOptions}
+                            options={startTimeOptions}
                             className="timePicker"
                             value={startTime}
-                            onChange={(value) => setStartTime(value as string)}
+                            onOpenChange={refreshTime}
+                            onChange={changeStartTime}
                         />
                     </div>
 
@@ -150,10 +157,11 @@ export default function HomeCarSearchForm({
 
                         <CustomSelect
                             placeholder="18:00"
-                            options={timeOptions}
+                            options={returnTimeOptions}
                             className="timePicker"
                             value={returnTime}
-                            onChange={(value) => setReturnTime(value as string)}
+                            onOpenChange={refreshTime}
+                            onChange={changeReturnTime}
                         />
                     </div>
 

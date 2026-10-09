@@ -7,6 +7,14 @@ import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 export const revalidate = 2592000;
 
+// Production Nginx sends /wp-content/uploads/* here before Next.js redirects run.
+const LEGACY_DOCUMENT_REDIRECTS: Record<string, string> = {
+    '/wp-content/uploads/2026/01/dogovor-arendy.pdf':
+        '/docs/dogovor-arendy.pdf',
+    '/wp-content/uploads/2026/05/01-politika-obrabotki-pdn-ooo-rentasib.pdf':
+        '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf',
+};
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const sourceUrl = searchParams.get('url');
@@ -14,6 +22,11 @@ export async function GET(req: Request) {
 
     if (!sourceUrl || !isAllowedWpMediaUrl(sourceUrl)) {
         return new Response('Invalid media URL', { status: 400 });
+    }
+
+    const documentPath = LEGACY_DOCUMENT_REDIRECTS[new URL(sourceUrl).pathname];
+    if (documentPath) {
+        return Response.redirect(new URL(documentPath, getSiteUrl(req)), 308);
     }
 
     const socialFallback = () =>

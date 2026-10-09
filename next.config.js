@@ -42,6 +42,31 @@ const nextConfig = {
         ];
     },
 
+    async redirects() {
+        return [
+            {
+                source: '/blog/page/1',
+                destination: '/blog',
+                permanent: true,
+            },
+            {
+                source: '/blog/page/:page(\\d+)',
+                destination: '/blog?page=:page',
+                permanent: true,
+            },
+            {
+                source: '/wp-content/uploads/2026/01/dogovor-arendy.pdf',
+                destination: '/docs/dogovor-arendy.pdf',
+                permanent: true,
+            },
+            {
+                source: '/wp-content/uploads/2026/05/01-politika-obrabotki-pdn-ooo-rentasib.pdf',
+                destination: '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf',
+                permanent: true,
+            },
+        ];
+    },
+
     async rewrites() {
         return [
             {

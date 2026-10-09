@@ -17,6 +17,9 @@ import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildCarsItemListJsonLd } from '@/lib/seo/structuredData';
 import type { Metadata } from 'next';
 
+// Prices and seasonal discounts depend on the current day, even if WordPress data is unchanged.
+export const revalidate = 300;
+
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata('/cars');
 
@@ -28,20 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-type CarsPageSearchParams = {
-    klass?: string;
-    kuzov?: string;
-};
-
-export default async function CarsPage({
-    searchParams,
-}: {
-    searchParams?: Promise<CarsPageSearchParams>;
-}) {
-    const params = (await searchParams) ?? {};
-    const defaultKlass = typeof params.klass === 'string' ? params.klass : '';
-    const defaultKuzov = typeof params.kuzov === 'string' ? params.kuzov : '';
-
+export default async function CarsPage() {
     const [
         cars,
         taxonomyOptions,
@@ -82,8 +72,7 @@ export default async function CarsPage({
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
-                defaultKlass={defaultKlass}
-                defaultKuzov={defaultKuzov}
+                syncFiltersWithUrl
                 carTitleTag="h2"
             />
             <RentSteps headingTag="div" stepTitleTag="div" />

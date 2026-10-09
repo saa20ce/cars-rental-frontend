@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
 import { CarCard } from '@/components/common/Cards/CarCard';
 import { CustomSelect } from '@/lib/ui/common/Select/CustomSelect';
@@ -42,6 +43,23 @@ interface CarsPageClientProps {
     seasonDates?: SeasonData | null;
     headingLevel?: 'h1' | 'h2';
     carTitleTag?: 'h2' | 'h3' | 'div';
+    syncFiltersWithUrl?: boolean;
+}
+
+function CarsUrlFilterSync({
+    onChange,
+}: {
+    onChange: (klass: string, kuzov: string) => void;
+}) {
+    const searchParams = useSearchParams();
+    const klass = searchParams.get('klass') ?? '';
+    const kuzov = searchParams.get('kuzov') ?? '';
+
+    useEffect(() => {
+        onChange(klass, kuzov);
+    }, [klass, kuzov, onChange]);
+
+    return null;
 }
 
 const getCurrentCarPrice = (
@@ -79,6 +97,7 @@ export default function CarsPageClient({
     seasonDates,
     headingLevel = 'h1',
     carTitleTag = 'h3',
+    syncFiltersWithUrl = false,
 }: CarsPageClientProps) {
     const [sortOrder, setSortOrder] = useState<'desc' | 'asc' | 'discount'>(
         'desc'
@@ -86,6 +105,12 @@ export default function CarsPageClient({
     const [selectedKlass, setSelectedKlass] = useState(defaultKlass);
     const [selectedMarka, setSelectedMarka] = useState(defaultMarka);
     const [selectedKuzov, setSelectedKuzov] = useState(defaultKuzov);
+    const defaultFilters = useRef({ klass: defaultKlass, kuzov: defaultKuzov });
+    const syncUrlFilters = useCallback((klass: string, kuzov: string) => {
+        defaultFilters.current = { klass, kuzov };
+        setSelectedKlass(klass);
+        setSelectedKuzov(kuzov);
+    }, []);
     const [selectedPrivod, setSelectedPrivod] = useState('');
     const [selectedDvigatel, setSelectedDvigatel] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
@@ -104,8 +129,8 @@ export default function CarsPageClient({
     const handleSortDiscount = () => setSortOrder('discount');
 
     const handleReset = () => {
-        setSelectedKuzov(defaultKuzov);
-        setSelectedKlass(defaultKlass);
+        setSelectedKuzov(defaultFilters.current.kuzov);
+        setSelectedKlass(defaultFilters.current.klass);
         setSelectedMarka(defaultMarka);
         setSelectedPrivod('');
         setSelectedDvigatel('');
@@ -201,6 +226,11 @@ export default function CarsPageClient({
 
     return (
         <>
+            {syncFiltersWithUrl && (
+                <Suspense fallback={null}>
+                    <CarsUrlFilterSync onChange={syncUrlFilters} />
+                </Suspense>
+            )}
             <section className="bg-[#f6f6f60e] rounded-3xl px-6 py-[28px] lg:py-[38px] lg:px-9">
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 lg:pb-8 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">

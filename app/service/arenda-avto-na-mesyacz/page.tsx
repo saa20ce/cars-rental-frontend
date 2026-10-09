@@ -24,7 +24,12 @@ export async function generateMetadata() {
 }
 
 export default async function MonthlyCarRentalPage() {
-    const cars = await getCars({ per_page: '100' });
+    const [cars, taxonomyOptions, seasonDates, breadcrumbs] = await Promise.all([
+        getCars({ per_page: '100' }),
+        getAllTaxonomyOptions(),
+        getSeasonDates(),
+        fetchBreadcrumbs('/service/monthly-car-rental'),
+    ]);
     const {
         klassOptions,
         markaOptions,
@@ -32,9 +37,7 @@ export default async function MonthlyCarRentalPage() {
         privodOptions,
         dvigatelOptions,
         colorOptions,
-    } = await getAllTaxonomyOptions();
-    const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/monthly-car-rental');
+    } = taxonomyOptions;
 
     return (
         <>

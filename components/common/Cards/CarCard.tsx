@@ -1,70 +1,51 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import dayjs from 'dayjs';
 import type {
     Car as LibCar,
     CarACF,
-    SeasonData,
-    PriceRange,
     DeliveryOptionsGrouped,
-    DeliveryOption,
+    SeasonData,
 } from '@/lib/types/Car';
-import CustomButton from '@/lib/ui/common/Button';
 import SaleInfo from './SaleInfo';
-import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
-import dayjs, { Dayjs } from 'dayjs';
 import {
-    computeCostsChunked,
-    getMinimumRentalReturnDate,
-    getAverageDailyCost,
-    getRentalDaysCountWithMinimum,
-    getDeliveryOptionsForTime,
-    getDeliveryCostForTime,
-    getAfterHoursCost,
-    isRentalPeriodBelowMinimum,
-    MIN_RENTAL_DAYS_ERROR_TEXT,
+    DISCOUNT_MIN_RENTAL_DAYS,
+    getDiscountedPriceForDay,
     isDaySeason,
     isDiscountActiveForDay,
-    getDiscountedPriceForDay,
-    DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
-import { ConfigProvider, Modal } from 'antd';
-import dynamic from 'next/dynamic';
-import ErrorBanner from '../ErrorBanner/ErrorBanner';
-const ModalRentalCheckout = dynamic(
-    () =>
-        import('../Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),
-    {
-        ssr: false,
-        loading: () => <div className="h-40">Загрузка...</div>
-    }
-);
-const SuccessRequest = dynamic(
-    () => import('../Modal/SuccessRequest').then((m) => m.default || m),
-    { ssr: false, loading: () => <div className="h-40">Загрузка...</div> }
-);
+
+const CarRentalDialog = dynamic(() => import('./CarRentalDialog'), {
+    ssr: false,
+    loading: () => (
+        <div
+            role="status"
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#0A1319CC] text-white"
+        >
+            Загрузка формы...
+        </div>
+    ),
+});
 
 type CarCardTitleTag = 'h2' | 'h3' | 'div';
 
 interface CarCardProps {
     car: LibCar;
-    additionalOptions?: {
-        label: string;
-        value: string;
-        price: number;
-    }[];
+    additionalOptions?: { label: string; value: string; price: number }[];
     deliveryPrice?: DeliveryOptionsGrouped;
-    seasonDates?: SeasonData | null
+    seasonDates?: SeasonData | null;
     titleTag?: CarCardTitleTag;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
     car,
     additionalOptions,
-    deliveryPrice = { day: [], night: [] },
+    deliveryPrice,
     seasonDates = null,
-    titleTag = 'h3'
+    titleTag = 'h3',
 }) => {
     const TitleTag = titleTag;
     const carSeasonDates = useMemo(
@@ -81,13 +62,12 @@ export const CarCard: React.FC<CarCardProps> = ({
         acf,
         DISCOUNT_MIN_RENTAL_DAYS,
     );
-    const priseDiscount = getDiscountedPriceForDay(
+    const discountedPrice = getDiscountedPriceForDay(
         price,
         today,
         acf,
         DISCOUNT_MIN_RENTAL_DAYS,
     );
-
     const imageUrl =
         (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
         (Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
@@ -95,210 +75,30 @@ export const CarCard: React.FC<CarCardProps> = ({
         (Array.isArray(acf.blue_gallery) && acf.blue_gallery[0]) ||
         (Array.isArray(acf.red_gallery) && acf.red_gallery[0]) ||
         '';
-
-
     const carLink = `/cars/${car.slug}`;
-    const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>(
-        []
-    );
-    const [priceRanges, setPriceRanges] = useState<PriceRange[]>([]);
-
-    const handleOrderClick = async () => {
-        try {
-            const priceRangesData = buildPriceRangesFromACF(car.acf || {});
-            setPriceRanges(priceRangesData);
-            import('../Modal/ModalRentalCheckout');
-            import('../Modal/SuccessRequest')
-        } catch (error) {
-            console.error('Ошибка при загрузке данных:', error)
-        }
-    };
-
-    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
-    const [returnDate, setReturnDate] = useState<Dayjs | null>(
-        dayjs().add(3, 'day'),
-    );
-    const [startTime, setStartTime] = useState('15:00');
-    const [returnTime, setReturnTime] = useState('15:00');
-    const [daysCount, setDaysCount] = useState(0);
-    const [dailyCosts, setDailyCosts] = useState<number[]>([]);
-    const [dailyCostsBeforeDiscount, setDailyCostsBeforeDiscount] = useState<
-        number[]
-    >([]);
-    const [hasSeasonDays, setHasSeasonDays] = useState(false);
-    const [additionalOptionsSelected, setAdditionalOptionsSelected] = useState<
-        string[]
-    >([]);
-    const [deliveryOptionSelected, setDeliveryOption] = useState<string>('none');
-    const [modalVisible, setModalVisible] = useState(false);
-    const closeModal = () => setModalVisible(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [minRentalBannerKey, setMinRentalBannerKey] = useState(0);
-
-    const pricePerDay = getAverageDailyCost(dailyCosts);
-
-    const additionalOptionsTotal = useMemo(() => {
-        return additionalOptions
-            ?.filter((opt) => additionalOptionsSelected.includes(opt.value))
-            ?.reduce((sum, opt) => sum + (opt.price ?? 0), 0);
-    }, [additionalOptionsSelected, additionalOptions]);
-
-    const deliveryCost = useMemo(() => {
-        return getDeliveryCostForTime(
-            deliveryPrice,
-            deliveryOptionSelected,
-            startTime,
-        );
-    }, [deliveryOptionSelected, deliveryPrice, startTime]);
-
-    const afterHoursCost = useMemo(() => {
-        return getAfterHoursCost(
-            deliveryOptionSelected,
-            startTime,
-            returnDate ? returnTime : '',
-        );
-    }, [deliveryOptionSelected, startTime, returnTime, returnDate]);
-
-    const totalPrice =
-        dailyCosts.reduce((acc, val) => acc + val, 0) +
-        (additionalOptionsTotal ?? 0) +
-        deliveryCost +
-        afterHoursCost;
-    const totalPriceBeforeDiscount =
-        dailyCostsBeforeDiscount.reduce((acc, val) => acc + val, 0) +
-        (additionalOptionsTotal ?? 0) +
-        deliveryCost +
-        afterHoursCost;
-
-
-    useEffect(() => {
-        if (!startDate || !returnDate) return;
-
-        const startFull = startDate.startOf('day');
-        const isBelowMinimum = isRentalPeriodBelowMinimum(
-            startDate,
-            returnDate,
-            startTime,
-            returnTime,
-        );
-
-        if (isBelowMinimum) {
-            const minimumReturnDate = getMinimumRentalReturnDate(startDate);
-
-            if (!returnDate.isSame(minimumReturnDate, 'day')) {
-                setReturnDate(minimumReturnDate);
-            }
-
-            setMinRentalBannerKey((prev) => prev + 1);
-        }
-
-        let totalDays = getRentalDaysCountWithMinimum(
-            startDate,
-            returnDate,
-            startTime,
-            returnTime,
-        );
-
-        if (totalDays < 1) {
-            totalDays = 1;
-        }
-
-        const billingEndDate = startFull.add(totalDays, 'day');
-
-        if (daysCount !== totalDays) setDaysCount(totalDays);
-
-        let allDaysSeason = Boolean(carSeasonDates);
-        if (carSeasonDates) {
-            let currentDay = startFull;
-
-            while (currentDay.isBefore(billingEndDate, 'day')) {
-                if (!isDaySeason(currentDay, carSeasonDates)) {
-                    allDaysSeason = false;
-                    break;
-                }
-                currentDay = currentDay.add(1, 'day');
-            }
-        }
-
-        if (hasSeasonDays !== allDaysSeason) setHasSeasonDays(allDaysSeason);
-
-        const costsBeforeDiscount = computeCostsChunked(
-            startFull,
-            billingEndDate,
-            priceRanges,
-            carSeasonDates,
-        );
-        if (dailyCostsBeforeDiscount.toString() !== costsBeforeDiscount.toString()) {
-            setDailyCostsBeforeDiscount(costsBeforeDiscount);
-        }
-
-        const costs = computeCostsChunked(
-            startFull,
-            billingEndDate,
-            priceRanges,
-            carSeasonDates,
-            car.acf,
-        );
-        if (dailyCosts.toString() !== costs.toString()) setDailyCosts(costs);
-    }, [
-        dailyCosts,
-        car.acf,
-        dailyCostsBeforeDiscount,
-        daysCount,
-        hasSeasonDays,
-        priceRanges,
-        returnDate,
-        returnTime,
-        carSeasonDates,
-        startDate,
-        startTime,
-    ]);
-    useEffect(() => {
-        if (!startTime) return;
-
-        const options = getDeliveryOptionsForTime(deliveryPrice, startTime);
-
-        const changed =
-            options.length !== deliveryOptions.length ||
-            options.some((opt, i) => {
-                const currentOption = deliveryOptions[i];
-
-                return (
-                    opt.value !== currentOption?.value ||
-                    opt.label !== currentOption?.label ||
-                    opt.price !== currentOption?.price
-                );
-            });
-
-        if (changed) setDeliveryOptions(options);
-    }, [startTime, deliveryPrice, deliveryOptions]);
+    const [hasOpenedDialog, setHasOpenedDialog] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
 
     return (
-        <article className="car-card flex flex-col justify-between bg-[#f6f6f60e] hover:bg-[#1E384A] transition-colors duration-300 rounded-2xl ">
-            {minRentalBannerKey > 0 && (
-                <ErrorBanner
-                    key={minRentalBannerKey}
-                    title={MIN_RENTAL_DAYS_ERROR_TEXT}
-                    text=""
-                    position="bottom"
-                />
-            )}
-            <div className="relative h-3/4 ">
+        <article className="car-card flex flex-col justify-between bg-[#f6f6f60e] hover:bg-[#1E384A] transition-colors duration-300 rounded-2xl">
+            <div className="relative h-3/4">
                 <Link
                     href={carLink}
                     passHref
                     className="contents hover:text-[#f6f6f6]"
                 >
-                    <div
-                        className="relative w-full min-w-[310px] z-0 mb-[14px] md:mb-4 rounded-2xl h-[252px] max-h-[252px]"
-                    >
+                    <div className="relative w-full min-w-[310px] z-0 mb-[14px] md:mb-4 rounded-2xl h-[252px] max-h-[252px]">
                         <Image
                             src={imageUrl}
-                            alt={`${car.acf?.nazvanie_avto ?? 'car'}`}
+                            alt={acf.nazvanie_avto ?? 'car'}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            style={{ objectFit: 'cover', zIndex: -1, borderRadius: '1rem' }}
-                            loading={'lazy'}
+                            style={{
+                                objectFit: 'cover',
+                                zIndex: -1,
+                                borderRadius: '1rem',
+                            }}
+                            loading="lazy"
                         />
                     </div>
                     <SaleInfo acf={acf} />
@@ -315,114 +115,43 @@ export const CarCard: React.FC<CarCardProps> = ({
                     {hasActiveDiscountToday ? (
                         <p className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#f6f6f6] flex items-center gap-[6px] lg:gap-2">
                             <span className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#FFD7A6]">
-                                {priseDiscount} Р/сут.
+                                {discountedPrice} Р/сут.
                             </span>
                             <span className="line-through text-[#F6F6F699] lg:hidden xl:block">
                                 {price} Р/сут.
                             </span>
                         </p>
                     ) : (
-                        <p className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#f6f6f6] ">
-                            {' '}
+                        <p className="font-bold text-[18px]/[28px] xl:text-[20px]/[28px] text-[#f6f6f6]">
                             {price} Р/сут.
                         </p>
                     )}
                 </div>
 
                 <div className="flex flex-col justify-end w-[103px] lg:justify-end">
-                    <CustomButton
-                        variant="default"
-                        style={{ height: '40px' }}
-                        className="font-medium hover:bg-[#f6f6f6] w-[103px]"
-                        onClick={async () => {
-                            await handleOrderClick();
-                            setModalVisible(true);
+                    <button
+                        type="button"
+                        className="h-10 w-[103px] rounded-xl bg-[#3c6e71] text-[#f6f6f6] font-medium hover:bg-[#f6f6f6] hover:text-[#3c6e71] transition-colors"
+                        onPointerEnter={() => void import('./CarRentalDialog')}
+                        onFocus={() => void import('./CarRentalDialog')}
+                        onClick={() => {
+                            setHasOpenedDialog(true);
+                            setDialogVisible(true);
                         }}
                     >
                         Оформить
-                    </CustomButton>
+                    </button>
                 </div>
-                <ConfigProvider
-                    theme={{
-                        components: {
-                            Modal: {
-                                contentBg: '#00000000',
-                                boxShadow: 'none',
-                            },
-                        },
-                    }}
-                >
-                    <Modal
-                        open={modalVisible}
-                        onCancel={closeModal}
-                        closeIcon={false}
-                        footer={null}
-                        width="100vw"
-                        style={{
-                            top: 0,
-                            left: 0,
-                            margin: 0,
-                            padding: 0,
-                        }}
-                        styles={{
-                            mask: {
-                                backdropFilter: 'blur(30px)',
-                                WebkitBackdropFilter: 'blur(30px)',
-                            },
-                            content: {
-                                padding: 8,
-                                color: '#f6f6f6',
-                            },
-                        }}
-                        centered
-                    >
-                        {isSubmitted && (
-                            <SuccessRequest
-                                reservation={true}
-                                onClick={() => {
-                                    setModalVisible(false);
-                                    setIsSubmitted(false);
-                                }}
-                            />
-                        )}
-
-                        {startDate && returnDate && !isSubmitted && (
-                            <ModalRentalCheckout
-                                car={car}
-                                additionalOptionsTotal={
-                                    additionalOptionsTotal ?? 0
-                                }
-                                deliveryCost={deliveryCost}
-                                afterHoursCost={afterHoursCost}
-                                startDate={startDate.format('YYYY-MM-DD')}
-                                returnDate={returnDate.format('YYYY-MM-DD')}
-                                startTime={startTime}
-                                returnTime={returnTime}
-                                hasSeasonDays={hasSeasonDays}
-                                additionalOptions={additionalOptions ?? []}
-                                additionalOptionsSelected={
-                                    additionalOptionsSelected
-                                }
-                                setAdditionalOptions={
-                                    setAdditionalOptionsSelected
-                                }
-                                deliveryOptions={deliveryOptions}
-                                deliveryOptionSelected={deliveryOptionSelected}
-                                setDeliveryOption={setDeliveryOption}
-                                daysCount={daysCount}
-                                pricePerDay={pricePerDay}
-                                totalPrice={totalPrice}
-                                setStartDate={setStartDate}
-                                setReturnDate={setReturnDate}
-                                totalPriceBeforeDiscount={totalPriceBeforeDiscount}
-                                setStartTime={setStartTime}
-                                setReturnTime={setReturnTime}
-                                closeModal={closeModal}
-                                setIsSubmitted={setIsSubmitted}
-                            />
-                        )}
-                    </Modal>
-                </ConfigProvider>
+                {hasOpenedDialog && (
+                    <CarRentalDialog
+                        car={car}
+                        additionalOptions={additionalOptions}
+                        deliveryPrice={deliveryPrice}
+                        seasonDates={seasonDates}
+                        open={dialogVisible}
+                        onClose={() => setDialogVisible(false)}
+                    />
+                )}
             </div>
         </article>
     );

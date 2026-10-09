@@ -30,13 +30,18 @@ for (const passengers of ['7', '9']) {
         wpDates,
     );
     assert.equal(dates['season-winter-start'], '10/11/2025');
+    assert.equal(dates['season-winter-end'], '28/02/2025');
 
     for (const [date, expected] of [
         ['2026-11-09', false],
         ['2026-11-10', true],
         ['2026-12-09', true],
         ['2027-01-20', true],
-        ['2027-01-21', false],
+        ['2027-01-21', true],
+        ['2027-02-28', true],
+        ['2027-03-01', false],
+        ['2028-02-28', true],
+        ['2028-02-29', false],
     ]) {
         assert.equal(
             isDaySeason(dayjs(date), dates),
@@ -49,6 +54,8 @@ for (const passengers of ['7', '9']) {
 const otherCarDates = getSeasonDatesForCar({ kuzov: [244] }, wpDates);
 assert.equal(isDaySeason(dayjs('2026-11-10'), otherCarDates), false);
 assert.equal(isDaySeason(dayjs('2026-12-10'), otherCarDates), true);
+assert.equal(isDaySeason(dayjs('2027-01-21'), otherCarDates), false);
 assert.equal(wpDates['season-winter-start'], '10/12/2025');
+assert.equal(wpDates['season-winter-end'], '20/01/2025');
 
 console.log('Season boundary checks passed');

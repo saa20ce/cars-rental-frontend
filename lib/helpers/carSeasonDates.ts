@@ -2,7 +2,7 @@ import type { Car, SeasonData } from '@/lib/types/Car';
 
 const MINIVAN_KUZOV_ID = 243;
 
-/** WordPress stores one global season; minivans and minibuses start winter earlier. */
+/** WordPress stores one global season; minivans and minibuses have a longer winter season. */
 export const getSeasonDatesForCar = (
     car: Car,
     seasonDates: SeasonData | null | undefined,
@@ -13,10 +13,12 @@ export const getSeasonDatesForCar = (
         return seasonDates;
     }
 
-    const year = seasonDates['season-winter-start'].split('/')[2];
+    const startYear = seasonDates['season-winter-start'].split('/')[2];
+    const endYear = seasonDates['season-winter-end'].split('/')[2];
 
     return {
         ...seasonDates,
-        'season-winter-start': year ? `10/11/${year}` : '10/11',
+        'season-winter-start': startYear ? `10/11/${startYear}` : '10/11',
+        'season-winter-end': endYear ? `28/02/${endYear}` : '28/02',
     };
 };

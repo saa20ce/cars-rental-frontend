@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
-import { isTransferArticleSlug } from '@/lib/seo/transferArticles';
+import { shouldNoindexNewsArticle } from '@/lib/seo/transferArticles';
 import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
@@ -74,7 +74,7 @@ export async function generateMetadata({
     const { slug } = await params;
     const metadata = await fetchWPMetadata('/' + slug);
 
-    if (!isTransferArticleSlug(slug)) return metadata;
+    if (!shouldNoindexNewsArticle(slug)) return metadata;
 
     return {
         ...metadata,

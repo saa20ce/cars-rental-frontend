@@ -1,6 +1,6 @@
 import 'server-only';
 import { wpFetch } from '@/lib/api/wpCache';
-import { isTransferArticleSlug } from './transferArticles';
+import { shouldNoindexNewsArticle } from './transferArticles';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_PAGE_SIZE = 100;
@@ -49,5 +49,5 @@ export async function getIndexableNewsPosts(): Promise<NewsSitemapPost[]> {
 
     return [firstPage, ...otherPages]
         .flatMap(({ posts }) => posts)
-        .filter((post) => post.slug && !isTransferArticleSlug(post.slug));
+        .filter((post) => post.slug && !shouldNoindexNewsArticle(post.slug));
 }

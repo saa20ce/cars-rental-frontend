@@ -67,7 +67,9 @@ const results = posts.map((post) => {
         transferSlug: /transf|transfer/i.test(post.slug),
         transferText: /трансфер/i.test(text),
         transferContext: contextAround(text, /трансфер/i),
+        transferMentions: (text.match(/трансфер/gi) ?? []).length,
         passengerServiceText: passengerServiceTerms.test(text),
+        passengerServiceContext: contextAround(text, passengerServiceTerms),
         driverText: /водител/i.test(text),
         stagedLinks: links.filter((link) => link.host === 'staged.rentasib.ru'),
         driverServiceLinks: links.filter((link) => /s-voditelem(?:\/|$)/.test(link.path)),
@@ -124,4 +126,18 @@ console.log(JSON.stringify({
         driverText: post.driverText,
         passengerServiceText: post.passengerServiceText,
     })),
+    ...(process.argv.includes('--review')
+        ? {
+              reviewCandidates: transferPosts
+                  .filter((post) => !post.transferSlug)
+                  .map((post) => ({
+                      id: post.id,
+                      slug: post.slug,
+                      title: post.title,
+                      transferMentions: post.transferMentions,
+                      transferContext: post.transferContext,
+                      passengerServiceContext: post.passengerServiceContext,
+                  })),
+          }
+        : {}),
 }, null, 2));

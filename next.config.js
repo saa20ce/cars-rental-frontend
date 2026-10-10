@@ -2,6 +2,7 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
 });
+const articleRedirects = require('./lib/seo/articleRedirects.json');
 
 const nextConfig = {
     reactStrictMode: true,
@@ -44,6 +45,11 @@ const nextConfig = {
 
     async redirects() {
         return [
+            ...articleRedirects.map(({ source, destination }) => ({
+                source: `/${source}`,
+                destination: `/${destination}`,
+                statusCode: 301,
+            })),
             {
                 source: '/blog/page/1',
                 destination: '/blog',

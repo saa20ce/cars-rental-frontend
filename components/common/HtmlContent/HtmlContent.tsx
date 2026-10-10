@@ -42,7 +42,7 @@ function rewriteSrcSet(value: string) {
         .join(', ');
 }
 
-function rewriteWpMediaUrls(html: string): string {
+function rewriteWpContentUrls(html: string): string {
     const $ = load(html);
 
     $('img, source').each((_, el) => {
@@ -54,11 +54,34 @@ function rewriteWpMediaUrls(html: string): string {
         if (srcset) element.attr('srcset', rewriteSrcSet(srcset));
     });
 
+    $('a[href]').each((_, el) => {
+        const anchor = $(el);
+        const href = anchor.attr('href');
+        if (!href) return;
+
+        try {
+            const url = new URL(href);
+            if (
+                url.hostname !== 'staged.rentasib.ru' ||
+                !['http:', 'https:'].includes(url.protocol) ||
+                /^\/(?:wp-content|wp-json|wp-admin|api)(?:\/|$)/.test(
+                    url.pathname,
+                ) ||
+                /\.[a-z0-9]{2,6}$/i.test(url.pathname)
+            )
+                return;
+
+            anchor.attr('href', `${url.pathname}${url.search}${url.hash}`);
+        } catch {
+            // Relative and malformed URLs are left unchanged.
+        }
+    });
+
     return $.html();
 }
 
 export default function HtmlContent({ details }: { details: NewsDetail }) {
-    const cleanedHtml = rewriteWpMediaUrls(
+    const cleanedHtml = rewriteWpContentUrls(
         replaceH1WithH2(details.content.rendered),
     );
     const headers = extractH2Headings(cleanedHtml);

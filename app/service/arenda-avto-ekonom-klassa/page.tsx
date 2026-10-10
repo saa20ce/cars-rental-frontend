@@ -32,7 +32,7 @@ export default async function EconomyClassRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/economy-class-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-avto-ekonom-klassa');
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />

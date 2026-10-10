@@ -39,7 +39,7 @@ export default async function SuvRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/suv-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-vnedorozhnika');
 
     return (
         <>

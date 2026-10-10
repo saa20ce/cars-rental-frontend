@@ -12,7 +12,7 @@ export async function generateMetadata() {
 }
 
 export default async function additionalServicesPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/additional-services');
+    const breadcrumbs = await fetchBreadcrumbs('/dop-service');
     return (
         <>
             <Breadcrumbs crumbs={breadcrumbs} />

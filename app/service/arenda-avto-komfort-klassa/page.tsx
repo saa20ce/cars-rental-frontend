@@ -34,7 +34,7 @@ export default async function ComfortClassRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/comfort-class-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-avto-komfort-klassa');
 
     return (
         <>

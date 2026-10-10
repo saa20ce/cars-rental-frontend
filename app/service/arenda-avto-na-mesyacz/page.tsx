@@ -28,7 +28,7 @@ export default async function MonthlyCarRentalPage() {
         getCars({ per_page: '100' }),
         getAllTaxonomyOptions(),
         getSeasonDates(),
-        fetchBreadcrumbs('/service/monthly-car-rental'),
+        fetchBreadcrumbs('/service/arenda-avto-na-mesyacz'),
     ]);
     const {
         klassOptions,
@@ -44,8 +44,7 @@ export default async function MonthlyCarRentalPage() {
             <Breadcrumbs crumbs={breadcrumbs} />
 
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
-                Широкий выбор автомобилей на месяц в Новосибирске Аренда авто на
-                месяц
+                Аренда авто на месяц в Новосибирске
             </h1>
 
             <p className="font-semibold text-[16px]/[24px] lg:text-[20px]/[28px] pb-[42px] lg:pb-[36px] mb-[42px] border-b border-[#284B63B2] -tracking-[0.2px]">
@@ -80,7 +79,7 @@ export default async function MonthlyCarRentalPage() {
                 maxWidthText="574"
                 header="Широкий выбор автомобилей на месяц в Новосибирске"
                 paragraphs={[
-                    'Наша компания предлагает разнообразные автомобили на месяц в Новосибирске, чтобы удовлетворить различные потребности клиентов. У нас есть экономичные модели, идеальные для городской езды, такие как Hyundai Solaris или Volkswagen Polo. Если вам нужен автомобиль премиум-класса, мы можем предложить вам Toyota Camry или Tank 300. Также в нашем автопарке есть внедорожники и минивэны, подходящие для семейных поездок или больших групп. Полный список автомобилей и их цены вы можете найти на нашем сайте в разделе автопарк.',
+                    'Наша компания предлагает разнообразные автомобили на месяц в Новосибирске, чтобы удовлетворить различные потребности клиентов. У нас есть экономичные модели, идеальные для городской езды, такие как Hyundai Solaris или Kia Rio X-Line. Если вам нужен автомобиль премиум-класса, мы можем предложить вам Toyota Camry или Tank 300. Также в нашем автопарке есть внедорожники и минивэны, подходящие для семейных поездок или больших групп. Полный список автомобилей и их цены вы можете найти на нашем сайте в разделе автопарк.',
                 ]}
             />
 

@@ -35,7 +35,7 @@ export default async function ChineseCarRentalPage() {
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
 
-    const breadcrumbs = await fetchBreadcrumbs('/service/chinese-car-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-kitajskih-avto');
 
     return (
         <>

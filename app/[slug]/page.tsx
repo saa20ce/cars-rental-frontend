@@ -93,7 +93,7 @@ export default async function NewsDetailPage({
     });
 
     const [breadcrumbs, newsRes] = await Promise.all([
-        fetchBreadcrumbs(`/blog/${slug}`),
+        fetchBreadcrumbs(`/blog/${slug}`, { currentPageHref: `/${slug}` }),
         wpFetch(`${WP_API_URL}/posts?${relatedParams}`, {
             next: { tags: ['wordpress-news'] },
         }),

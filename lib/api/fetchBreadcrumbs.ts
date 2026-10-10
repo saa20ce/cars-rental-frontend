@@ -14,19 +14,19 @@ const staticPages: Record<string, string> = {
     contacts: 'Контакты',
     service: 'Услуги',
     reviews: 'Отзывы',
-    'corporate-rental': 'Аренда автомобилей для юридических лиц',
-    'additional-services': 'Дополнительные услуги',
-    'business-class-rental': 'Аренда авто бизнесс класса',
-    'comfort-class-rental': 'Аренда авто комфорт класса',
-    'economy-class-rental': 'Аренда авто эконом класса',
-    'crossover-rental': 'Аренда кроссоверов',
-    'suv-rental': 'Аренда внедорожника',
-    'minivan-rental': 'Прокат минивэнов и микроавтобусов',
-    'monthly-car-rental': 'Аренда авто на месяц',
-    'weekly-car-rental': 'Аренда авто на неделю',
-    'chinese-car-rental': 'Аренда китайских авто',
-    'premium-car-rental': 'Аренда премиальных авто',
-    'sedan-rental': 'Аренда седанов',
+    'arenda-avtomobilej-dlya-biznesa': 'Аренда автомобилей для юридических лиц',
+    'dop-service': 'Дополнительные услуги',
+    'arenda-avto-biznes-klassa': 'Аренда авто бизнес-класса',
+    'arenda-avto-komfort-klassa': 'Аренда авто комфорт-класса',
+    'arenda-avto-ekonom-klassa': 'Аренда авто эконом-класса',
+    'arenda-krossoverov': 'Аренда кроссоверов',
+    'arenda-vnedorozhnika': 'Аренда внедорожника',
+    'prokat-minivenov-i-mikroavtobusov': 'Прокат минивэнов и микроавтобусов',
+    'arenda-avto-na-mesyacz': 'Аренда авто на месяц',
+    'arenda-avto-na-nedelyu': 'Аренда авто на неделю',
+    'arenda-kitajskih-avto': 'Аренда китайских авто',
+    'arenda-premialnyh-avto': 'Аренда премиальных авто',
+    'arenda-sedanov': 'Аренда седанов',
     'arenda-avto-s-detskim-kreslom': 'Аренда авто с детским креслом',
     'dostavka-avto': 'Аренда авто с доставкой',
     'arenda-avto-bez-voditelya': 'Аренда авто без водителя',
@@ -54,6 +54,7 @@ async function fetchTitleBySlug(
 
 export async function fetchBreadcrumbs(
     pathname: string,
+    options: { currentPageHref?: string } = {},
 ): Promise<BreadcrumbItem[]> {
     const segments = pathname.split('/').filter(Boolean);
     const items: BreadcrumbItem[] = [];
@@ -90,7 +91,9 @@ export async function fetchBreadcrumbs(
         if (!title) title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
         items.push({
-            href: '/' + segments.slice(0, i + 1).join('/'),
+            href: i === segments.length - 1 && options.currentPageHref
+                ? options.currentPageHref
+                : '/' + segments.slice(0, i + 1).join('/'),
             title,
             isLast: i === segments.length - 1
         });

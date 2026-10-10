@@ -39,7 +39,7 @@ export default async function CrossoverRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/crossover-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-krossoverov');
 
     return (
         <>

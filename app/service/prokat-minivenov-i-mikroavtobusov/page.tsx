@@ -37,7 +37,7 @@ export default async function MinivanRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/minivan-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/prokat-minivenov-i-mikroavtobusov');
 
     return (
         <>

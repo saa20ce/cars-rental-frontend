@@ -22,7 +22,7 @@ export async function generateMetadata() {
 }
 
 export default async function СorporateRentalPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/service/corporate-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-avtomobilej-dlya-biznesa');
     const letters = await fetchDjangoJson<Parameters<typeof LetterThanks>[0]['letters']>(
         '/api/thank-you-letters/',
         [],

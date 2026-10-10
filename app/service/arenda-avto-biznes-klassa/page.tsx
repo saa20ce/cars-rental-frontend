@@ -42,7 +42,7 @@ export default async function BusinessClassRentalPage() {
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
     const breadcrumbs = await fetchBreadcrumbs(
-        '/service/business-class-rental',
+        '/service/arenda-avto-biznes-klassa',
     );
 
     return (

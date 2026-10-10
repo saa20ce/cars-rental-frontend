@@ -34,7 +34,7 @@ export default async function WeeklyCarRentalPage() {
         colorOptions,
     } = await getAllTaxonomyOptions();
     const seasonDates = await getSeasonDates();
-    const breadcrumbs = await fetchBreadcrumbs('/service/weekly-car-rental');
+    const breadcrumbs = await fetchBreadcrumbs('/service/arenda-avto-na-nedelyu');
 
     return (
         <>

@@ -55,6 +55,56 @@ const nextConfig = {
                 permanent: true,
             },
             {
+                source: '/category/blog',
+                destination: '/blog',
+                permanent: true,
+            },
+            {
+                source: '/category/stati',
+                destination: '/blog',
+                permanent: true,
+            },
+            {
+                source: '/category/stati/page/:page(\\d+)',
+                destination: '/blog?page=:page',
+                permanent: true,
+            },
+            {
+                source: '/uslugi',
+                destination: '/service',
+                permanent: true,
+            },
+            {
+                source: '/usloviya-arendy',
+                destination: '/require',
+                permanent: true,
+            },
+            {
+                source: '/service/arenda-avto-dlya-biznesa',
+                destination: '/service/arenda-avtomobilej-dlya-biznesa',
+                permanent: true,
+            },
+            {
+                source: '/service/arenda-avtomobilya-dlya-biznesa',
+                destination: '/service/arenda-avtomobilej-dlya-biznesa',
+                permanent: true,
+            },
+            {
+                source: '/service/arenda-avtomobilya-s-boksom-na-kryshe',
+                destination: '/service/arenda-avtomobilya-s-boksom-na-kryshu',
+                permanent: true,
+            },
+            {
+                source: '/service/comfort-class-rental',
+                destination: '/service/arenda-avto-komfort-klassa',
+                permanent: true,
+            },
+            {
+                source: '/service/economy-class-rental',
+                destination: '/service/arenda-avto-ekonom-klassa',
+                permanent: true,
+            },
+            {
                 source: '/wp-content/uploads/2026/01/dogovor-arendy.pdf',
                 destination: '/docs/dogovor-arendy.pdf',
                 permanent: true,

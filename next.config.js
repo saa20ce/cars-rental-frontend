@@ -90,6 +90,21 @@ const nextConfig = {
                 permanent: true,
             },
             {
+                source: '/service/arenda-avto-dlya-yuridicheskih-licz',
+                destination: '/service/arenda-avtomobilej-dlya-biznesa',
+                permanent: true,
+            },
+            {
+                source: '/social',
+                destination: '/contacts',
+                permanent: true,
+            },
+            {
+                source: '/cars/arenda-toyota-camry-2023',
+                destination: '/cars/arenda-toyota-camry-2022',
+                permanent: true,
+            },
+            {
                 source: '/service/arenda-avtomobilya-s-boksom-na-kryshe',
                 destination: '/service/arenda-avtomobilya-s-boksom-na-kryshu',
                 permanent: true,

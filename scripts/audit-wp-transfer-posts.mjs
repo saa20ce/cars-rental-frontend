@@ -54,6 +54,7 @@ const results = posts.map((post) => {
             links.push({
                 host: url.hostname,
                 path: url.pathname.replace(/\/$/, '') || '/',
+                href,
             });
         } catch {
             // Ignore malformed links while auditing the rest of the article.
@@ -76,6 +77,68 @@ const results = posts.map((post) => {
         links,
     };
 });
+
+if (process.argv.includes('--links-only')) {
+    const stagedLinkPosts = results
+        .filter((post) => !post.transferSlug && post.stagedLinks.length)
+        .map((post) => ({
+            id: post.id,
+            slug: post.slug,
+            links: [...new Set(post.stagedLinks.map((link) => link.href))],
+        }));
+    const offset = Number(process.argv.find((arg) => arg.startsWith('--offset='))?.split('=')[1] ?? 0);
+    console.log(JSON.stringify({
+        totalPosts: results.length,
+        totalStagedLinkPosts: stagedLinkPosts.length,
+        offset,
+        stagedLinkPosts: stagedLinkPosts.slice(offset, offset + 20),
+    }));
+    process.exit(0);
+}
+
+if (process.argv.includes('--links-summary')) {
+    const paths = new Map();
+    for (const post of results.filter((item) => !item.transferSlug)) {
+        for (const link of post.stagedLinks) {
+            const entry = paths.get(link.path) ?? { path: link.path, count: 0, postIds: [] };
+            entry.count += 1;
+            if (!entry.postIds.includes(post.id)) entry.postIds.push(post.id);
+            paths.set(link.path, entry);
+        }
+    }
+    console.log(JSON.stringify({
+        totalPosts: results.length,
+        stagedLinkPosts: results.filter((post) => !post.transferSlug && post.stagedLinks.length).length,
+        paths: [...paths.values()].sort((a, b) => b.count - a.count),
+    }));
+    process.exit(0);
+}
+
+if (process.argv.includes('--check-links')) {
+    const paths = [...new Set(results
+        .filter((post) => !post.transferSlug)
+        .flatMap((post) => post.stagedLinks.map((link) => link.path)))];
+    const checks = [];
+
+    for (let offset = 0; offset < paths.length; offset += 4) {
+        const batch = await Promise.all(paths.slice(offset, offset + 4).map(async (path) => {
+            try {
+                const response = await fetch(`${origin}${path}`, {
+                    method: 'HEAD',
+                    redirect: 'manual',
+                    signal: AbortSignal.timeout(15_000),
+                });
+                return { path, status: response.status, location: response.headers.get('location') };
+            } catch (error) {
+                return { path, error: String(error) };
+            }
+        }));
+        checks.push(...batch);
+    }
+
+    console.log(JSON.stringify({ paths: checks.length, checks }));
+    process.exit(0);
+}
 
 const transferPosts = results.filter(
     (post) => post.transferSlug || post.transferText || /с водителем/i.test(post.title),

@@ -18,5 +18,13 @@
     {
         "source": "luchshie-avtomobili-dlya-korporativnyh-meropriyatij-2",
         "destination": "luchshie-avtomobili-dlya-korporativnyh-meropriyatij"
+    },
+    {
+        "source": "korporativnye-meropriyatiya-i-poezdki-2",
+        "destination": "korporativnye-meropriyatiya-i-poezdki"
+    },
+    {
+        "source": "organizacziya-transporta-dlya-korporativnyh-meropriyatij-v-nsk",
+        "destination": "korporativnye-meropriyatiya-i-poezdki"
     }
 ]

@@ -11,9 +11,14 @@ import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service'),
+        'Услуги аренды автомобилей в Новосибирске | Рентасиб',
+        'Аренда авто без водителя в Новосибирске: автомобили разных классов, доставка машины по адресу и дополнительные опции. Выберите подходящую услугу.',
+    );
 }
 
 export default async function ServicesPage() {
@@ -159,10 +164,13 @@ export default async function ServicesPage() {
                         помещаются в багажник автомобиля.
                     </p>
                     <p className="mb-2 lg:mb-3">
-                        Если вам нужно быстро и безопасно добраться до аэропорта
-                        или на вокзал, то мы готовы предложить вам услуги
-                        трансфера. Наш водитель встретит вас в указанном месте и
-                        довезет до места назначения вовремя и безопасно.
+                        Если вам удобнее получить автомобиль в аэропорту, на
+                        вокзале или по другому адресу, закажите{' '}
+                        <Link href="/service/dostavka-avto" className="underline">
+                            доставку автомобиля
+                        </Link>
+                        . Мы согласуем время и место передачи машины, после чего
+                        вы сможете самостоятельно отправиться в поездку.
                     </p>
                     <p className="mb-2 lg:mb-3">
                         Наконец, мы предоставляем аренду авто на свадьбу и

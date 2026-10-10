@@ -11,13 +11,18 @@ import {
 import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 import { DeliveryPriceTable } from '@/components/common/Cars';
 import MapPriceDelivery from '@/components/common/MapPriceDelivery/MapPriceDelivery';
 
 export const revalidate = 86400;
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/dostavka-avto');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/dostavka-avto'),
+        'Аренда авто с доставкой в Новосибирске | Рентасиб',
+        'Доставим арендованный автомобиль по удобному адресу в Новосибирске, в аэропорт или на вокзал. Согласуйте место и время передачи машины.',
+    );
 }
 const paragraphsSection1 = [
     'Аренда авто с доставкой по городу – это удобный и быстрый способ арендовать автомобиль без лишних забот. Вы можете выбрать подходящий для вас автомобиль из широкого ассортимента нашего автопарка, и мы доставим его прямо к вашему адресу.',
@@ -42,8 +47,8 @@ const paragraphsSection3 = [
 ];
 const paragraphsSection4 = [
     'Аренда авто с доставкой не только позволяет сэкономить время и усилия на поездки до пункта проката, но и дает возможность насладиться удобством и комфортом перемещения в новом городе.',
-    'Кроме того, такой трансфер гарантирует конфиденциальность и безопасность, что особенно важно для иностранных туристов.',
-    'При аренде авто с доставкой в Новосибирске вы можете заказать встречу в аэропорту или на ж/д вокзале, что существенно облегчит вашу поездку.',
+    'Место и время передачи автомобиля можно согласовать заранее, чтобы получить машину там, где вам удобно.',
+    'В Новосибирске можно заказать доставку арендованного автомобиля к аэропорту или ж/д вокзалу и продолжить поездку самостоятельно.',
 ];
 
 export default async function CarRentalWithDelivery() {
@@ -164,7 +169,7 @@ export default async function CarRentalWithDelivery() {
                 pyTextBlock="12"
                 maxWidthText="574"
                 maxWidthImage="618"
-                header="Особенности трансфера при аренде авто с доставкой"
+                header="Как проходит доставка арендованного автомобиля"
                 headingTag="div"
                 paragraphs={paragraphsSection4}
             />

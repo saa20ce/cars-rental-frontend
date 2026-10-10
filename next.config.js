@@ -120,6 +120,11 @@ const nextConfig = {
                 permanent: true,
             },
             {
+                source: '/wp-content/uploads/2026/01/dogovor-arendy.docx',
+                destination: '/docs/dogovor-arendy.docx',
+                permanent: true,
+            },
+            {
                 source: '/wp-content/uploads/2026/01/dogovor-arendy.pdf',
                 destination: '/docs/dogovor-arendy.pdf',
                 permanent: true,

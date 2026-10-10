@@ -5,10 +5,16 @@ import { faqItems } from '@/lib/data/faqItems';
 import { additionalServicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/dop-service');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/dop-service'),
+        'Дополнительные услуги при аренде авто | Рентасиб',
+        'Доставка арендованного автомобиля по Новосибирску, детские кресла и бокс для багажа. Узнайте о дополнительных возможностях проката.',
+    );
 }
 
 export default async function additionalServicesPage() {
@@ -98,10 +104,13 @@ export default async function additionalServicesPage() {
                         помещаются в багажник автомобиля.
                     </p>
                     <p className="mb-2 lg:mb-3">
-                        Если вам нужно быстро и безопасно добраться до аэропорта
-                        или на вокзал, то мы готовы предложить вам услуги
-                        трансфера. Наш водитель встретит вас в указанном месте и
-                        довезет до места назначения вовремя и безопасно.
+                        Чтобы начать поездку из аэропорта, от вокзала или с
+                        другого удобного адреса, воспользуйтесь{' '}
+                        <Link href="/service/dostavka-avto" className="underline">
+                            доставкой арендованного автомобиля
+                        </Link>
+                        . Передадим машину в согласованном месте, а дальше вы
+                        сможете ехать самостоятельно.
                     </p>
                     <p className="mb-2 lg:mb-3">
                         Наконец, мы предоставляем аренду авто на свадьбу и

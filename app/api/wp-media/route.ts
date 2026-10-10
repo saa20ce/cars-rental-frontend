@@ -9,6 +9,8 @@ export const revalidate = 2592000;
 
 // Production Nginx sends /wp-content/uploads/* here before Next.js redirects run.
 const LEGACY_DOCUMENT_REDIRECTS: Record<string, string> = {
+    '/wp-content/uploads/2026/01/dogovor-arendy.docx':
+        '/docs/dogovor-arendy.docx',
     '/wp-content/uploads/2026/01/dogovor-arendy.pdf':
         '/docs/dogovor-arendy.pdf',
     '/wp-content/uploads/2026/05/01-politika-obrabotki-pdn-ooo-rentasib.pdf':

@@ -10,6 +10,8 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
+import { isTransferArticleSlug } from '@/lib/seo/transferArticles';
+import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const NEWS_SUMMARY_FIELDS =
@@ -68,9 +70,16 @@ export async function generateMetadata({
     params,
 }: {
     params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
     const { slug } = await params;
-    return await fetchWPMetadata('/' + slug);
+    const metadata = await fetchWPMetadata('/' + slug);
+
+    if (!isTransferArticleSlug(slug)) return metadata;
+
+    return {
+        ...metadata,
+        robots: { index: false, follow: true },
+    };
 }
 
 export default async function NewsDetailPage({

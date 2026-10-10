@@ -1,19 +1,23 @@
-import { cacheControlHeader, wpFetch } from '@/lib/api/wpCache';
+import { cacheControlHeader } from '@/lib/api/wpCache';
+import { getIndexableNewsPosts } from '@/lib/seo/newsSitemap';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
-
-const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
 
-    const res = await wpFetch(`${WP_API_URL}/posts?per_page=1`, {
-        next: { tags: ['wordpress-news'] },
-    });
-    if (!res.ok) return new Response('Ошибка WP API', { status: 500 });
+    let posts;
+    try {
+        posts = await getIndexableNewsPosts();
+    } catch (error) {
+        console.error('[news sitemap index]', error);
+        return new Response('Ошибка WP API', {
+            status: 503,
+            headers: { 'Cache-Control': 'no-store' },
+        });
+    }
 
-    const totalPosts = Number(res.headers.get('X-WP-Total')) || 0;
     const perPage = 100;
-    const totalPages = Math.max(0, Math.ceil(totalPosts / perPage));
+    const totalPages = Math.ceil(posts.length / perPage);
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

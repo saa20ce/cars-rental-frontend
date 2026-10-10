@@ -1,7 +1,6 @@
-import { cacheControlHeader, WP_REVALIDATE_SECONDS, wpFetch } from '@/lib/api/wpCache';
+import { cacheControlHeader, WP_REVALIDATE_SECONDS } from '@/lib/api/wpCache';
+import { getIndexableNewsPosts } from '@/lib/seo/newsSitemap';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
-
-const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 function xmlResponse(xml: string, maxAgeSec = WP_REVALIDATE_SECONDS) {
     return new Response(xml, {
@@ -29,18 +28,19 @@ export async function GET(request: Request) {
     if (!page || page < 1) page = 1;
     const perPage = 100;
 
-    const wpUrl = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&_fields=slug,date,modified`;
-
-    const res = await wpFetch(wpUrl, { next: { tags: ['wordpress-news'] } });
-
-    if (!res.ok) {
+    let allPosts;
+    try {
+        allPosts = await getIndexableNewsPosts();
+    } catch (error) {
+        console.error('[news sitemap page]', error);
         return new Response('Ошибка при получении новостей', {
-            status: 500, headers: { 'Cache-Control': 'no-store' },
+            status: 503,
+            headers: { 'Cache-Control': 'no-store' },
         });
     }
 
-    const posts = await res.json();
-    if (!Array.isArray(posts) || posts.length === 0) {
+    const posts = allPosts.slice((page - 1) * perPage, page * perPage);
+    if (posts.length === 0) {
         const emptyXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
         return xmlResponse(emptyXml);
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${posts
     .map(
-        (post: { slug: string; date: string; modified?: string }) => `
+        (post) => `
   <url>
     <loc>${baseUrl.replace(/\/$/, '')}/${post.slug}</loc>
     <lastmod>${new Date(post.modified || post.date).toISOString()}</lastmod>

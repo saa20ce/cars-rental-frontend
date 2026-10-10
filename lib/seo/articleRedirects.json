@@ -26,5 +26,13 @@
     {
         "source": "organizacziya-transporta-dlya-korporativnyh-meropriyatij-v-nsk",
         "destination": "korporativnye-meropriyatiya-i-poezdki"
+    },
+    {
+        "source": "kak-arenda-avtomobilej-mozhet-uluchshit-klientskij-servis-vashej-kompanii-2",
+        "destination": "kak-arenda-avtomobilej-mozhet-uluchshit-klientskij-servis-vashej-kompanii"
+    },
+    {
+        "source": "kak-arenda-avto-vliyaet-na-uroven-klientskogo-servisa-kompanii",
+        "destination": "kak-arenda-avtomobilej-mozhet-uluchshit-klientskij-servis-vashej-kompanii"
     }
 ]

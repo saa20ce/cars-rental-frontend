@@ -4,9 +4,9 @@ const TRANSFER_ARTICLE_SLUG = /(?:^|-)transfer[a-z]*(?:-|$)/i;
 const UNSUPPORTED_SERVICE_ARTICLES = new Set([
     'preimushhestva-arendy-avtomobilej-s-voditelem',
 ]);
-// These posts recommend renting our cars for third-party transport services or
-// cargo vehicles, which we do not offer. Keep their URLs accessible while
-// excluding them from search until the content is corrected.
+// These posts promote third-party transport services or cargo vehicles that we
+// do not offer. Their WordPress posts are unpublished; keep this guard so stale
+// WordPress/frontend caches cannot serve the old content after deployment.
 const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
     'sovety-po-vyboru-avtomobilya-dlya-razlichnyh-tipov-biznesa',
     'kak-arendovannye-avtomobili-pomogayut-v-organizaczii-dostavki',
@@ -35,11 +35,15 @@ export function isTransferArticleSlug(slug: string): boolean {
     return TRANSFER_ARTICLE_SLUG.test(slug);
 }
 
+export function shouldHideNewsArticle(slug: string): boolean {
+    return UNSUPPORTED_COMMERCIAL_USE_ARTICLES.has(slug);
+}
+
 export function shouldNoindexNewsArticle(slug: string): boolean {
     return (
         isTransferArticleSlug(slug) ||
         UNSUPPORTED_SERVICE_ARTICLES.has(slug) ||
-        UNSUPPORTED_COMMERCIAL_USE_ARTICLES.has(slug) ||
+        shouldHideNewsArticle(slug) ||
         MERGED_ARTICLE_SLUGS.has(slug)
     );
 }

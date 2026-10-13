@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
-import { shouldNoindexNewsArticle } from '@/lib/seo/transferArticles';
+import { shouldHideNewsArticle, shouldNoindexNewsArticle } from '@/lib/seo/transferArticles';
 import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
@@ -72,6 +72,8 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
+
+    if (shouldHideNewsArticle(slug)) notFound();
     const metadata = await fetchWPMetadata('/' + slug);
 
     if (!shouldNoindexNewsArticle(slug)) return metadata;
@@ -88,6 +90,8 @@ export default async function NewsDetailPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
+
+    if (shouldHideNewsArticle(slug)) notFound();
 
     const summary = await fetchPostSummary(slug);
     if (!summary) notFound();

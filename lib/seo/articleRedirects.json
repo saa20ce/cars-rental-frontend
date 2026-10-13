@@ -42,5 +42,13 @@
     {
         "source": "arenda-mashiny-v-biznes-poezdkah-sravnenie",
         "destination": "preimushhestva-arendy-avtomobilej-dlya-biznes-poezdok-2"
+    },
+    {
+        "source": "vybor-avto-dlya-biznesa",
+        "destination": "kak-pravilno-vybrat-avtomobil-dlya-arendy-dlya-vashego-biznesa"
+    },
+    {
+        "source": "luchshie-praktiki-ispolzovaniya-arendovannyh-avtomobilej-dlya-biznesa",
+        "destination": "luchshie-praktiki-arendy-avto-dlya-biznesa"
     }
 ]

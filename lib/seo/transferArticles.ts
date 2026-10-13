@@ -46,7 +46,8 @@ export function shouldHideNewsArticle(slug: string): boolean {
     return (
         isTransferArticleSlug(slug) ||
         UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES.has(slug) ||
-        UNSUPPORTED_COMMERCIAL_USE_ARTICLES.has(slug)
+        UNSUPPORTED_COMMERCIAL_USE_ARTICLES.has(slug) ||
+        MERGED_ARTICLE_SLUGS.has(slug)
     );
 }
 

@@ -32,6 +32,9 @@ const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
     'kak-vybrat-podhodyashhij-avtomobil-dlya-dostavki-2',
     'kak-arenda-avtomobilej-pomogaet-uluchshit-logistiku-kompanii',
     'kak-arenda-avtomobilej-pomogaet-v-logistike-i-dostavke',
+    'kak-vybrat-avtomobil-dlya-transportirovki-speczificheskih-tovarov',
+    'kak-arenda-legkovyh-avtomobilej-pomogaet-v-sfere-obshhestvennogo-pitaniya',
+    'arenda-legkovyh-avtomobilej-dlya-transportnyh-i-logisticheskih-kompanij',
 ]);
 const MERGED_ARTICLE_SLUGS = new Set(articleRedirects.map(({ source }) => source));
 

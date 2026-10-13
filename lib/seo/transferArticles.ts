@@ -1,8 +1,12 @@
 import articleRedirects from './articleRedirects.json';
 
 const TRANSFER_ARTICLE_SLUG = /(?:^|-)transfer[a-z]*(?:-|$)/i;
-const UNSUPPORTED_SERVICE_ARTICLES = new Set([
+// These posts were unpublished because the service described by the whole
+// article is not offered. Guard their routes until all caches have expired.
+const UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES = new Set([
+    'kak-arenda-avtomobilej-pomogaet-turisticheskim-agentstvam',
     'preimushhestva-arendy-avtomobilej-s-voditelem',
+    'kak-arenda-avto-uluchshaet-servis',
 ]);
 // These posts promote third-party transport services or cargo vehicles that we
 // do not offer. Both they and passenger-transfer posts are unpublished in
@@ -38,13 +42,13 @@ export function isTransferArticleSlug(slug: string): boolean {
 export function shouldHideNewsArticle(slug: string): boolean {
     return (
         isTransferArticleSlug(slug) ||
+        UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES.has(slug) ||
         UNSUPPORTED_COMMERCIAL_USE_ARTICLES.has(slug)
     );
 }
 
 export function shouldNoindexNewsArticle(slug: string): boolean {
     return (
-        UNSUPPORTED_SERVICE_ARTICLES.has(slug) ||
         shouldHideNewsArticle(slug) ||
         MERGED_ARTICLE_SLUGS.has(slug)
     );

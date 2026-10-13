@@ -295,7 +295,7 @@ export const listItemsMonhtlyCarRentalPage1 = [
         icon: <SertificateIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: '4000+ довольных клиентов',
+        title: 'Подбор авто под поездку',
         icon: <FamilyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
@@ -303,11 +303,11 @@ export const listItemsMonhtlyCarRentalPage1 = [
         icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Аренда от 1800 рублей',
+        title: 'Тариф зависит от дат и авто',
         icon: <HandshakeAndDocumentIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Обновляемый автопарк из 70 автомобилей   ',
+        title: 'Седаны, кроссоверы и минивэны',
         icon: <KeyIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];
@@ -344,7 +344,7 @@ export const listItemsMonhtlyCarRentalPage2 = [
         icon: <RefuelingGunIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Работаем и доставляем по городу 24/7/365',
+        title: 'Доставка автомобиля по согласованию',
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
@@ -356,7 +356,7 @@ export const listItemsMonhtlyCarRentalPage2 = [
         icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Аренда автобокса 300 руб',
+        title: 'Автобокс по запросу',
         icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

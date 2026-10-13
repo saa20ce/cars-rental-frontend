@@ -12,6 +12,7 @@ import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
 import { shouldHideNewsArticle, shouldNoindexNewsArticle } from '@/lib/seo/transferArticles';
 import type { Metadata } from 'next';
+import { load } from 'cheerio';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const NEWS_SUMMARY_FIELDS =
@@ -119,6 +120,7 @@ export default async function NewsDetailPage({
         : [];
     const image = details._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const proxiedImage = proxyWpMediaUrl(image);
+    const imageAlt = load(details.title.rendered).text().trim() || 'Иллюстрация к статье';
     const articleJsonLd = buildBlogPostingJsonLd({
         post: details,
         pagePath: `/${slug}`,
@@ -134,7 +136,7 @@ export default async function NewsDetailPage({
                     {image && (
                         <Image
                             src={proxiedImage}
-                            alt="Фото прикрепленное к новости"
+                            alt={imageAlt}
                             width={900}
                             height={520}
                             sizes="(max-width: 1024px) 100vw, 75vw"

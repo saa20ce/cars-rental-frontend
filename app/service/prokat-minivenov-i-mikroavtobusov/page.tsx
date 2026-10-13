@@ -11,7 +11,7 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getCars, getSeasonDates } from '@/lib/api/fetchCarData';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import { faqItems } from '@/lib/data/faqItems';
-import { rentalTermsEconomItems, servicesItems } from '@/lib/data/itemsCards';
+import { rentalTermsMinivanItems, servicesItems } from '@/lib/data/itemsCards';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
@@ -22,8 +22,8 @@ export async function generateMetadata() {
 }
 
 const paragraphTextImageSection = [
-    'Аренда минивэна – это отличный выбор для путешествий большой семьей, корпоративных поездок или поездок на мероприятия. Минивэн сочетает в себе простор, комфорт и универсальность. Вместительный салон и гибкая система сидений позволяют разместить до 7-8 пассажиров с багажом, что особенно удобно для дальних поездок или путешествий за город.',
-    'Арендуя минивэн, вы получаете надежный и маневренный автомобиль, способный с легкостью справляться как с городскими, так и с междугородними маршрутами',
+    'Аренда минивэна или микроавтобуса без водителя подходит для самостоятельной поездки большой семьёй или компанией друзей. Число пассажирских мест, объём багажника и оснащение зависят от конкретной модели — проверьте их в карточке автомобиля перед бронированием.',
+    'Если планируете поездку за пределы Новосибирска, заранее проверьте условия аренды и согласуйте маршрут.',
 ];
 
 export default async function MinivanRentalPage() {
@@ -45,7 +45,7 @@ export default async function MinivanRentalPage() {
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
                 Аренда минивэнов и микроавтобусов в Новосибирске
             </h1>
-            <InfoThreeCard header="Арендуйте минивэн в Новосибирске и путешествуйте большой компанией от 2500 руб/сутки" />
+            <InfoThreeCard header="Выберите минивэн или микроавтобус для самостоятельной поездки по Новосибирску и за город" />
 
             <CarsPageClient
                 cars={cars}
@@ -79,8 +79,8 @@ export default async function MinivanRentalPage() {
             />
 
             <RentalTerms
-                header="Условия аренды внедорожника:"
-                items={rentalTermsEconomItems}
+                header="Условия аренды минивэна и микроавтобуса:"
+                items={rentalTermsMinivanItems}
             />
 
             <section className="pt-[42px] pb-[10px] lg:pt-[68px] lg:pb-[32px] border-b border-t border-[#284B63B2]">

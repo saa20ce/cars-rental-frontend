@@ -67,6 +67,39 @@ function cleanMetaValue(value: string | null | undefined) {
     return trimmed || undefined;
 }
 
+function splitCombinedSeoValue(value: string | undefined) {
+    const match = value?.match(
+        /^Title:\s*([\s\S]+?)\s+Description:\s*([\s\S]+)$/i,
+    );
+    if (!match) return undefined;
+
+    const stripQuotes = (part: string) =>
+        part
+            .trim()
+            .replace(/^["“«]+|["”»]+$/g, '')
+            .trim();
+    const title = stripQuotes(match[1]);
+    const description = stripQuotes(match[2]);
+
+    return title && description ? { title, description } : undefined;
+}
+
+function normalizeSeoTitleAndDescription(
+    title: string | undefined,
+    description: string | undefined,
+) {
+    const combinedTitle = splitCombinedSeoValue(title);
+    const combinedDescription = splitCombinedSeoValue(description);
+
+    return {
+        title: combinedTitle?.title || title || combinedDescription?.title,
+        description:
+            combinedDescription?.description ||
+            description ||
+            combinedTitle?.description,
+    };
+}
+
 function normalizeRobots(value: string | null | undefined) {
     const robots = cleanMetaValue(value);
     if (!robots) return undefined;
@@ -101,8 +134,10 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
             .get()
             .filter(Boolean);
 
-    const title = cleanMetaValue($('title').first().text());
-    const description = readName('description');
+    const { title, description } = normalizeSeoTitleAndDescription(
+        cleanMetaValue($('title').first().text()),
+        readName('description'),
+    );
     const robots = normalizeRobots(readName('robots'));
 
     if (title) metadata.title = title;
@@ -121,8 +156,12 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
         openGraph.type = ogType as SupportedOpenGraphType;
     }
 
-    openGraph.title = readProperty('og:title');
-    openGraph.description = readProperty('og:description');
+    const openGraphText = normalizeSeoTitleAndDescription(
+        readProperty('og:title'),
+        readProperty('og:description'),
+    );
+    openGraph.title = openGraphText.title;
+    openGraph.description = openGraphText.description;
     openGraph.siteName = readProperty('og:site_name');
     openGraph.locale = readProperty('og:locale');
     if (ogImages.length > 0) {
@@ -155,8 +194,12 @@ function parseRankMathHead(head: string, pagePath: string): Metadata {
         twitter.card = twitterCard;
     }
 
-    twitter.title = readName('twitter:title');
-    twitter.description = readName('twitter:description');
+    const twitterText = normalizeSeoTitleAndDescription(
+        readName('twitter:title'),
+        readName('twitter:description'),
+    );
+    twitter.title = twitterText.title;
+    twitter.description = twitterText.description;
     twitter.site = readName('twitter:site');
     twitter.creator = readName('twitter:creator');
     if (twitterImages.length > 0) {

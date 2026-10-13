@@ -22,12 +22,24 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata('/cars');
+    const title = 'Автопарк: аренда автомобилей в Новосибирске | Рентасиб';
+    const description =
+        'Автомобили в аренду в Новосибирске: эконом, комфорт, бизнес-класс, кроссоверы и минивэны. Выберите авто и рассчитайте стоимость онлайн.';
 
     return {
         ...wordpressMetadata,
-        title: 'Автопарк: аренда автомобилей в Новосибирске | Рентасиб',
-        description:
-            'Автомобили в аренду в Новосибирске: эконом, комфорт, бизнес-класс, кроссоверы и минивэны. Выберите авто и рассчитайте стоимость онлайн.',
+        title,
+        description,
+        openGraph: {
+            ...(wordpressMetadata.openGraph ?? {}),
+            title,
+            description,
+        },
+        twitter: {
+            ...(wordpressMetadata.twitter ?? {}),
+            title,
+            description,
+        },
     };
 }
 

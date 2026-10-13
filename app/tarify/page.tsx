@@ -21,12 +21,24 @@ type TariffsPageSearchParams = {
 
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata('/tarify');
+    const title = 'Тарифы на аренду авто в Новосибирске | Рентасиб';
+    const description =
+        'Цены и тарифы на аренду автомобилей в Новосибирске. Выберите даты и класс авто, чтобы рассчитать актуальную стоимость проката онлайн.';
 
     return {
         ...wordpressMetadata,
-        title: 'Тарифы на аренду авто в Новосибирске | Рентасиб',
-        description:
-            'Цены и тарифы на аренду автомобилей в Новосибирске. Выберите даты и класс авто, чтобы рассчитать актуальную стоимость проката онлайн.',
+        title,
+        description,
+        openGraph: {
+            ...(wordpressMetadata.openGraph ?? {}),
+            title,
+            description,
+        },
+        twitter: {
+            ...(wordpressMetadata.twitter ?? {}),
+            title,
+            description,
+        },
     };
 }
 

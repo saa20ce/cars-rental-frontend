@@ -38,5 +38,9 @@
     {
         "source": "preimushhestva-arendy-avtomobilej-dlya-delovyh-poezdok-2",
         "destination": "arenda-avto-dlya-delovogo-grafika-nsk"
+    },
+    {
+        "source": "arenda-mashiny-v-biznes-poezdkah-sravnenie",
+        "destination": "preimushhestva-arendy-avtomobilej-dlya-biznes-poezdok-2"
     }
 ]

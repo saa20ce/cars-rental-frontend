@@ -112,7 +112,11 @@ export default async function NewsDetailPage({
         }),
     ]);
 
-    const news: WPPost[] = newsRes.ok ? await newsRes.json() : [];
+    const news: WPPost[] = newsRes.ok
+        ? ((await newsRes.json()) as WPPost[]).filter(
+              (item) => item.slug && !shouldHideNewsArticle(item.slug),
+          )
+        : [];
     const image = details._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const proxiedImage = proxyWpMediaUrl(image);
     const articleJsonLd = buildBlogPostingJsonLd({

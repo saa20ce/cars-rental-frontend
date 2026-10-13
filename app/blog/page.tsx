@@ -9,6 +9,7 @@ import type { WPPost } from '@/lib/types/News';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogItemListJsonLd } from '@/lib/seo/structuredData';
+import { shouldHideNewsArticle } from '@/lib/seo/transferArticles';
 import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
@@ -55,20 +56,22 @@ async function getNews(page: number) {
     if (res.status === 400 || res.status === 404) notFound();
     if (!res.ok) throw new Error('Не удалось загрузить новости');
     const totalPages = Number(res.headers.get('X-WP-TotalPages'));
-    const posts = ((await res.json()) as WPPost[]).map((post): WPPost => {
-        const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+    const posts = ((await res.json()) as WPPost[])
+        .filter((post) => post.slug && !shouldHideNewsArticle(post.slug))
+        .map((post): WPPost => {
+            const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
 
-        return {
-            id: post.id,
-            slug: post.slug,
-            date: post.date,
-            title: post.title,
-            excerpt: post.excerpt,
-            _embedded: image
-                ? { 'wp:featuredmedia': [{ source_url: proxyWpMediaUrl(image) }] }
-                : undefined,
-        };
-    });
+            return {
+                id: post.id,
+                slug: post.slug,
+                date: post.date,
+                title: post.title,
+                excerpt: post.excerpt,
+                _embedded: image
+                    ? { 'wp:featuredmedia': [{ source_url: proxyWpMediaUrl(image) }] }
+                    : undefined,
+            };
+        });
     return { posts, totalPages };
 }
 

@@ -9,10 +9,12 @@ const UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES = new Set([
     'kak-arenda-avto-uluchshaet-servis',
     'preimushhestva-ispolzovaniya-avtomobilej-s-avtopilotom-dlya-arendy',
 ]);
-// These posts promote third-party transport services or cargo vehicles that we
-// do not offer. Both they and passenger-transfer posts are unpublished in
+// These posts promote commercial use of rental cars, cargo vehicles, or
+// branding services that we do not offer. They are unpublished in
 // WordPress. Keep this guard so stale caches cannot serve the old content.
 const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
+    'kak-ispolzovat-arendovannye-avtomobili-dlya-marketingovyh-czelej',
+    'preimushhestva-arendy-avtomobilej-dlya-provedeniya-reklamnyh-akczij',
     'sovety-po-vyboru-avtomobilya-dlya-razlichnyh-tipov-biznesa',
     'kak-arendovannye-avtomobili-pomogayut-v-organizaczii-dostavki',
     'kak-arendovannye-avtomobili-pomogayut-v-uluchshenii-logistiki',
@@ -42,7 +44,9 @@ const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
     'kak-arendovannye-avtomobili-pomogayut-v-obuchenii-personala',
     'ispolzovanie-arendovannyh-avtomobilej-dlya-brendinga-kompanii',
 ]);
-const MERGED_ARTICLE_SLUGS = new Set(articleRedirects.map(({ source }) => source));
+const MERGED_ARTICLE_SLUGS = new Set(
+    articleRedirects.map(({ source }) => source),
+);
 
 export function isTransferArticleSlug(slug: string): boolean {
     return TRANSFER_ARTICLE_SLUG.test(slug);
@@ -58,8 +62,5 @@ export function shouldHideNewsArticle(slug: string): boolean {
 }
 
 export function shouldNoindexNewsArticle(slug: string): boolean {
-    return (
-        shouldHideNewsArticle(slug) ||
-        MERGED_ARTICLE_SLUGS.has(slug)
-    );
+    return shouldHideNewsArticle(slug) || MERGED_ARTICLE_SLUGS.has(slug);
 }

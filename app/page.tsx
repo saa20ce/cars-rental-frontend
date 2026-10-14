@@ -205,10 +205,16 @@ export default async function Home() {
                                 </Link>
                             </div>
                             <Link
-                                href="service/arenda-avtomobilej-dlya-biznesa"
+                                href="/service/arenda-avto-na-mesyacz"
                                 className="block mt-4 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
                             >
-                                Аренда для Юридических лиц
+                                Аренда авто на месяц
+                            </Link>
+                            <Link
+                                href="/service/arenda-avtomobilej-dlya-biznesa"
+                                className="block mt-2 underline underline-offset-[5px] decoration-[.5px] text-[16px]/[24px] lg:text-[20px]/[28px] font-semibold text-center lg:text-left"
+                            >
+                                Аренда для юридических лиц
                             </Link>
                         </div>
                     </div>

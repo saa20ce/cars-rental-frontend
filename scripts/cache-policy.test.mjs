@@ -43,6 +43,49 @@ test('WordPress TTL floor, stable keys, overrides and uncached mutations', async
     }
 });
 
+test('WordPress media retries one network failure but not an HTTP 404', async () => {
+    const source = 'https://staged.rentasib.ru/wp-content/uploads/car.jpg';
+    const request = new Request(`https://rentasib.ru/api/wp-media?url=${encodeURIComponent(source)}`);
+    const mocks = {
+        '@/lib/api/wpMediaProxy': { isAllowedWpMediaUrl: () => true },
+        '@/lib/api/wpCache': {
+            WP_MEDIA_REVALIDATE_SECONDS: 86400,
+            WP_MEDIA_STALE_WHILE_REVALIDATE_SECONDS: 604800,
+        },
+        '@/lib/seo/siteUrl': { getSiteUrl: () => 'https://rentasib.ru' },
+    };
+    const loadRoute = fetch => load('app/api/wp-media/route.ts', {}, mocks, {
+        fetch, Headers, setTimeout: callback => callback(),
+        console: { error: () => {} },
+    });
+
+    let calls = 0;
+    const recovered = loadRoute(async () => {
+        if (++calls === 1) throw new Error('temporary connection failure');
+        return new Response('image', { headers: { 'content-type': 'image/jpeg' } });
+    });
+    const response = await recovered.GET(request);
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), 'image');
+    assert.equal(calls, 2);
+
+    calls = 0;
+    const missing = loadRoute(async () => {
+        calls += 1;
+        return new Response('missing', { status: 404 });
+    });
+    assert.equal((await missing.GET(request)).status, 404);
+    assert.equal(calls, 1);
+
+    calls = 0;
+    const unavailable = loadRoute(async () => {
+        calls += 1;
+        throw new Error('persistent connection failure');
+    });
+    assert.equal((await unavailable.GET(request)).status, 502);
+    assert.equal(calls, 2);
+});
+
 test('Refresh requires authentication, invalidates caches, and paginates inventory', async () => {
     const invalidated = [];
     let upstreamUrl;

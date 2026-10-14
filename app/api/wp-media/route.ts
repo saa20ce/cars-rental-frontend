@@ -6,6 +6,8 @@ import {
 import { getSiteUrl } from '@/lib/seo/siteUrl';
 
 export const revalidate = 2592000;
+const MEDIA_FETCH_ATTEMPTS = 2;
+const MEDIA_RETRY_DELAY_MS = 250;
 
 // Production Nginx sends /wp-content/uploads/* here before Next.js redirects run.
 const LEGACY_DOCUMENT_REDIRECTS: Record<string, string> = {
@@ -37,20 +39,30 @@ export async function GET(req: Request) {
             307,
         );
 
-    let upstream: Response;
+    let upstream: Response | undefined;
 
-    try {
-        upstream = await fetch(sourceUrl, {
-            next: {
-                revalidate: WP_MEDIA_REVALIDATE_SECONDS,
-                tags: ['wordpress-media'],
-            },
-        });
-    } catch (error) {
-        console.error('[wp-media] Upstream request failed:', error);
-        return useSocialFallback
-            ? socialFallback()
-            : new Response('Media unavailable', { status: 502 });
+    for (let attempt = 0; attempt < MEDIA_FETCH_ATTEMPTS; attempt += 1) {
+        try {
+            upstream = await fetch(sourceUrl, {
+                next: {
+                    revalidate: WP_MEDIA_REVALIDATE_SECONDS,
+                    tags: ['wordpress-media'],
+                },
+            });
+            break;
+        } catch (error) {
+            if (attempt + 1 === MEDIA_FETCH_ATTEMPTS) {
+                console.error('[wp-media] Upstream request failed:', error);
+                return useSocialFallback
+                    ? socialFallback()
+                    : new Response('Media unavailable', { status: 502 });
+            }
+            await new Promise(resolve => setTimeout(resolve, MEDIA_RETRY_DELAY_MS));
+        }
+    }
+
+    if (!upstream) {
+        return new Response('Media unavailable', { status: 502 });
     }
 
     if (!upstream.ok || !upstream.body) {

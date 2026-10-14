@@ -2,6 +2,20 @@ import { cacheControlHeader, WP_REVALIDATE_SECONDS } from '@/lib/api/wpCache';
 import { getIndexableNewsPosts } from '@/lib/seo/newsSitemap';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
 
+export const dynamic = 'force-static';
+export const revalidate = 86400;
+
+const POSTS_PER_SITEMAP = 100;
+
+export async function generateStaticParams() {
+    const posts = await getIndexableNewsPosts();
+    const pageCount = Math.ceil(posts.length / POSTS_PER_SITEMAP);
+
+    return Array.from({ length: pageCount }, (_, index) => ({
+        page: String(index + 1),
+    }));
+}
+
 function xmlResponse(xml: string, maxAgeSec = WP_REVALIDATE_SECONDS) {
     return new Response(xml, {
         headers: {
@@ -11,39 +25,31 @@ function xmlResponse(xml: string, maxAgeSec = WP_REVALIDATE_SECONDS) {
     });
 }
 
-export async function GET(request: Request) {
-    const baseUrl = getSiteUrl(request);
-    let page = 1;
-    try {
-        const url = new URL(request.url);
-        const pathname = url.pathname;
-        const m1 = pathname.match(/\/sitemap-news\/(\d+)$/);
-        const m2 = pathname.match(/\/sitemap-news-(\d+)(?:\.xml)?$/);
-        if (m1) page = Number(m1[1]);
-        else if (m2) page = Number(m2[1]);
-    } catch {
-        page = 1;
+export async function GET(
+    _request: Request,
+    { params }: { params: Promise<{ page: string }> },
+) {
+    const baseUrl = getSiteUrl();
+    const page = Number((await params).page);
+    if (!Number.isInteger(page) || page < 1) {
+        return new Response('Not Found', { status: 404 });
     }
-
-    if (!page || page < 1) page = 1;
-    const perPage = 100;
 
     let allPosts;
     try {
         allPosts = await getIndexableNewsPosts();
     } catch (error) {
         console.error('[news sitemap page]', error);
-        return new Response('Ошибка при получении новостей', {
-            status: 503,
-            headers: { 'Cache-Control': 'no-store' },
-        });
+        // Keep the previously generated XML if WordPress is unavailable.
+        throw error;
     }
 
-    const posts = allPosts.slice((page - 1) * perPage, page * perPage);
+    const posts = allPosts.slice(
+        (page - 1) * POSTS_PER_SITEMAP,
+        page * POSTS_PER_SITEMAP,
+    );
     if (posts.length === 0) {
-        const emptyXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
-        return xmlResponse(emptyXml);
+        return new Response('Not Found', { status: 404 });
     }
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>

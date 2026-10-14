@@ -2,18 +2,19 @@ import { cacheControlHeader } from '@/lib/api/wpCache';
 import { getIndexableNewsPosts } from '@/lib/seo/newsSitemap';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
 
-export async function GET(request: Request) {
-    const baseUrl = getSiteUrl(request);
+export const dynamic = 'force-static';
+export const revalidate = 86400;
+
+export async function GET() {
+    const baseUrl = getSiteUrl();
 
     let posts;
     try {
         posts = await getIndexableNewsPosts();
     } catch (error) {
         console.error('[news sitemap index]', error);
-        return new Response('Ошибка WP API', {
-            status: 503,
-            headers: { 'Cache-Control': 'no-store' },
-        });
+        // A failed refresh must not replace the last good sitemap with a 503.
+        throw error;
     }
 
     const perPage = 100;

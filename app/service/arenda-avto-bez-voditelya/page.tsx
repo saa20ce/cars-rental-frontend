@@ -15,9 +15,14 @@ import {
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-bez-voditelya');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-bez-voditelya'),
+        'Аренда авто без водителя в Новосибирске | Рентасиб',
+        'Выберите автомобиль для самостоятельной поездки по Новосибирску и за город. Сравните доступные модели, тарифы и условия аренды на нужные даты.',
+    );
 }
 
 export default async function CarRentalWithoutDriverPage() {

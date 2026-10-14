@@ -18,9 +18,14 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-na-mesyacz');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-na-mesyacz'),
+        'Аренда авто на месяц без водителя в Новосибирске | Рентасиб',
+        'Прокат автомобиля на месяц без водителя в Новосибирске. Выберите модель и даты, сравните тарифы и уточните залог, пробег и условия аренды.',
+    );
 }
 
 export default async function MonthlyCarRentalPage() {

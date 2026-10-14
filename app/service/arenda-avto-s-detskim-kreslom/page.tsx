@@ -10,6 +10,7 @@ import {
     getSeasonDates,
 } from '@/lib/api/fetchCarData';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 import { servicesItems } from '@/lib/data/itemsCards';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import { Number1Icon } from '@/lib/ui/icons/Number1Icon';
@@ -58,7 +59,11 @@ const itemsRules = [
     },
 ];
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-s-detskim-kreslom');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-s-detskim-kreslom'),
+        'Аренда авто с детским креслом в Новосибирске | Рентасиб',
+        'Детское кресло предоставляется бесплатно при аренде автомобиля и при наличии. Сообщите возраст, рост и вес ребёнка при бронировании; отдельно кресла не сдаём.',
+    );
 }
 
 export default async function CarRentalWithChildSeatPage() {

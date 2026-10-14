@@ -16,9 +16,14 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/prokat-minivenov-i-mikroavtobusov');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/prokat-minivenov-i-mikroavtobusov'),
+        'Аренда минивэнов и микроавтобусов без водителя | Рентасиб',
+        'Выберите минивэн или микроавтобус для самостоятельной поездки в Новосибирске. Сравните вместимость и тарифы; наличие уточняйте при бронировании.',
+    );
 }
 
 const paragraphTextImageSection = [

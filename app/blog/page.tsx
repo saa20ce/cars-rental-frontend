@@ -10,6 +10,8 @@ import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogItemListJsonLd } from '@/lib/seo/structuredData';
 import { shouldHideNewsArticle } from '@/lib/seo/transferArticles';
+import { getIndexableNewsPosts } from '@/lib/seo/newsSitemap';
+import { paginateNewsPosts } from '@/lib/seo/newsPagination';
 import type { Metadata } from 'next';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
@@ -45,10 +47,18 @@ export async function generateMetadata({
 
 async function getNews(page: number) {
     const PER_PAGE = 9;
+    const indexablePosts = await getIndexableNewsPosts();
+    const selected = paginateNewsPosts(indexablePosts, page, PER_PAGE);
+    if (!selected) notFound();
+    if (selected.posts.length === 0) {
+        return { posts: [], totalPages: selected.totalPages };
+    }
+
     const params = new URLSearchParams({
         _embed: 'wp:featuredmedia',
         per_page: String(PER_PAGE),
-        page: String(page),
+        include: selected.posts.map((post) => post.id).join(','),
+        orderby: 'include',
         _fields: NEWS_LIST_FIELDS,
     });
     const res = await wpFetch(
@@ -56,10 +66,12 @@ async function getNews(page: number) {
         { next: { tags: ['wordpress-news'] } },
     );
 
-    if (res.status === 400 || res.status === 404) notFound();
     if (!res.ok) throw new Error('Не удалось загрузить новости');
-    const totalPages = Number(res.headers.get('X-WP-TotalPages'));
-    const posts = ((await res.json()) as WPPost[])
+    const fetchedPosts = (await res.json()) as WPPost[];
+    const postsById = new Map(fetchedPosts.map((post) => [post.id, post]));
+    const posts = selected.posts
+        .map((post) => postsById.get(post.id))
+        .filter((post): post is WPPost => !!post)
         .filter((post) => post.slug && !shouldHideNewsArticle(post.slug))
         .map((post): WPPost => {
             const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
@@ -75,7 +87,7 @@ async function getNews(page: number) {
                     : undefined,
             };
         });
-    return { posts, totalPages };
+    return { posts, totalPages: selected.totalPages };
 }
 
 export default async function NewsPage({

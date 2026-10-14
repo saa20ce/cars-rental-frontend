@@ -6,6 +6,7 @@ const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const WP_PAGE_SIZE = 100;
 
 export type NewsSitemapPost = {
+    id: number;
     slug: string;
     date: string;
     modified?: string;
@@ -15,7 +16,7 @@ async function fetchNewsPage(page: number) {
     const params = new URLSearchParams({
         per_page: String(WP_PAGE_SIZE),
         page: String(page),
-        _fields: 'slug,date,modified',
+        _fields: 'id,slug,date,modified',
     });
     const response = await wpFetch(`${WP_API_URL}/posts?${params}`, {
         next: { tags: ['wordpress-news'] },

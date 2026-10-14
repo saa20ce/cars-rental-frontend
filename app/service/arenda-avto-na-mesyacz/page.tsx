@@ -20,6 +20,9 @@ import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
+// Card prices depend on today's season and active discounts.
+export const revalidate = 300;
+
 export async function generateMetadata() {
     return withEditorialMetadata(
         await fetchWPMetadata('/service/arenda-avto-na-mesyacz'),
@@ -53,10 +56,12 @@ export default async function MonthlyCarRentalPage() {
             </h1>
 
             <p className="font-semibold text-[16px]/[24px] lg:text-[20px]/[28px] pb-[42px] lg:pb-[36px] mb-[42px] border-b border-[#284B63B2] -tracking-[0.2px]">
-                Если автомобиль нужен на несколько недель или месяцев, сравните
-                доступные модели и условия длительной аренды. «Рентасиб» сдаёт
-                авто без водителя для личных и деловых поездок. Наличие
-                конкретной машины и стоимость аренды зависят от выбранных дат.
+                Если автомобиль нужен на месяц или дольше, сравните доступные
+                модели и условия длительной аренды. «Рентасиб» сдаёт авто без
+                водителя для личных и деловых поездок. На карточках показана
+                цена за сутки при аренде от 30 суток на текущую дату. Итоговая
+                стоимость зависит от выбранных дат, сезона и дополнительных
+                опций.
             </p>
 
             <CarsPageClient
@@ -69,6 +74,7 @@ export default async function MonthlyCarRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 headingLevel="h2"
+                priceMode="monthly"
             />
 
             <TextImageSection

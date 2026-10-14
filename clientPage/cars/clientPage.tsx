@@ -15,11 +15,12 @@ import {
     isKuzovOptionUsedAsKlass,
 } from '@/lib/helpers/carFilterOptions';
 import { compareCarsByPublishedDateDesc } from '@/lib/helpers/carSorting';
-import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import {
-    getDiscountedPriceForDay,
+    getCarDisplayPrice,
+    type CarDisplayPriceMode,
+} from '@/lib/helpers/carDisplayPrice';
+import {
     getDiscountPercentForDay,
-    isDaySeason,
     DISCOUNT_MIN_RENTAL_DAYS,
 } from '@/lib/helpers/RentalCheckoutHelper';
 
@@ -44,6 +45,7 @@ interface CarsPageClientProps {
     headingLevel?: 'h1' | 'h2';
     headingText?: string;
     introText?: string;
+    priceMode?: CarDisplayPriceMode;
     carTitleTag?: 'h2' | 'h3' | 'div';
     syncFiltersWithUrl?: boolean;
 }
@@ -67,21 +69,8 @@ function CarsUrlFilterSync({
 const getCurrentCarPrice = (
     car: Car,
     seasonDates: SeasonData | null | undefined,
-) => {
-    const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
-    const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
-    const today = dayjs();
-    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
-        ? seasonPrice
-        : regularPrice;
-
-    return getDiscountedPriceForDay(
-        basePrice,
-        today,
-        car.acf,
-        DISCOUNT_MIN_RENTAL_DAYS,
-    );
-};
+    priceMode: CarDisplayPriceMode,
+) => getCarDisplayPrice(car, seasonDates, priceMode).discountedPrice;
 
 export default function CarsPageClient({
     cars: initialCars,
@@ -100,6 +89,7 @@ export default function CarsPageClient({
     headingLevel = 'h1',
     headingText = 'Автопарк в Новосибирске',
     introText,
+    priceMode = 'short',
     carTitleTag = 'h3',
     syncFiltersWithUrl = false,
 }: CarsPageClientProps) {
@@ -169,7 +159,7 @@ export default function CarsPageClient({
             ? car.color?.includes(Number(selectedColor))
             : true;
 
-        const price = getCurrentCarPrice(car, seasonDates);
+        const price = getCurrentCarPrice(car, seasonDates, priceMode);
         const passengeres = parseInt(car.acf?.passengers || '0', 10);
 
         let priceMatch = true;
@@ -218,8 +208,8 @@ export default function CarsPageClient({
             );
         }
 
-        const finalPriceA = getCurrentCarPrice(a, seasonDates);
-        const finalPriceB = getCurrentCarPrice(b, seasonDates);
+        const finalPriceA = getCurrentCarPrice(a, seasonDates, priceMode);
+        const finalPriceB = getCurrentCarPrice(b, seasonDates, priceMode);
 
         const priceCompare = sortOrder === 'desc'
             ? finalPriceB - finalPriceA
@@ -468,6 +458,7 @@ export default function CarsPageClient({
                                     additionalOptions={additionalOptions}
                                     deliveryPrice={deliveryPrice}
                                     seasonDates={seasonDates}
+                                    priceMode={priceMode}
                                     titleTag={carTitleTag}
                                 />
                             </React.Fragment>

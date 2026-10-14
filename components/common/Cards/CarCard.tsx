@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import dayjs from 'dayjs';
 import type {
     Car as LibCar,
     CarACF,
@@ -10,13 +9,10 @@ import type {
     SeasonData,
 } from '@/lib/types/Car';
 import SaleInfo from './SaleInfo';
-import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 import {
-    DISCOUNT_MIN_RENTAL_DAYS,
-    getDiscountedPriceForDay,
-    isDaySeason,
-    isDiscountActiveForDay,
-} from '@/lib/helpers/RentalCheckoutHelper';
+    getCarDisplayPrice,
+    type CarDisplayPriceMode,
+} from '@/lib/helpers/carDisplayPrice';
 
 const CarRentalDialog = dynamic(() => import('./CarRentalDialog'), {
     ssr: false,
@@ -37,6 +33,7 @@ interface CarCardProps {
     additionalOptions?: { label: string; value: string; price: number }[];
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null;
+    priceMode?: CarDisplayPriceMode;
     titleTag?: CarCardTitleTag;
 }
 
@@ -45,29 +42,16 @@ export const CarCard: React.FC<CarCardProps> = ({
     additionalOptions,
     deliveryPrice,
     seasonDates = null,
+    priceMode = 'short',
     titleTag = 'h3',
 }) => {
     const TitleTag = titleTag;
-    const carSeasonDates = useMemo(
-        () => getSeasonDatesForCar(car, seasonDates),
-        [car, seasonDates],
-    );
     const acf: CarACF = car.acf ?? { nazvanie_avto: '', '30_dnej': '' };
-    const regularPrice = Number(acf['1-3_dnya']);
-    const seasonPrice = Number(acf['1-3_dnya_S']) || regularPrice;
-    const today = dayjs();
-    const price = isDaySeason(today, carSeasonDates) ? seasonPrice : regularPrice;
-    const hasActiveDiscountToday = isDiscountActiveForDay(
-        today,
-        acf,
-        DISCOUNT_MIN_RENTAL_DAYS,
-    );
-    const discountedPrice = getDiscountedPriceForDay(
+    const {
         price,
-        today,
-        acf,
-        DISCOUNT_MIN_RENTAL_DAYS,
-    );
+        discountedPrice,
+        hasActiveDiscount: hasActiveDiscountToday,
+    } = getCarDisplayPrice(car, seasonDates, priceMode);
     const imageUrl =
         (Array.isArray(acf.white_gallery) && acf.white_gallery[0]) ||
         (Array.isArray(acf.black_gallery) && acf.black_gallery[0]) ||
@@ -126,6 +110,11 @@ export const CarCard: React.FC<CarCardProps> = ({
                             {price} Р/сут.
                         </p>
                     )}
+                    {priceMode === 'monthly' && (
+                        <p className="mt-1 text-[12px]/[16px] text-[#F6F6F699]">
+                            при аренде от 30 суток
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex flex-col justify-end w-[103px] lg:justify-end">
@@ -148,6 +137,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                         additionalOptions={additionalOptions}
                         deliveryPrice={deliveryPrice}
                         seasonDates={seasonDates}
+                        initialRentalDays={priceMode === 'monthly' ? 30 : 3}
                         open={dialogVisible}
                         onClose={() => setDialogVisible(false)}
                     />

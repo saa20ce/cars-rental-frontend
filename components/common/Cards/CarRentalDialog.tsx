@@ -45,6 +45,7 @@ type CarRentalDialogProps = {
     additionalOptions?: { label: string; value: string; price: number }[];
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null;
+    initialRentalDays?: number;
     open: boolean;
     onClose: () => void;
 };
@@ -54,6 +55,7 @@ export default function CarRentalDialog({
     additionalOptions,
     deliveryPrice = EMPTY_DELIVERY_PRICE,
     seasonDates = null,
+    initialRentalDays = 3,
     open,
     onClose,
 }: CarRentalDialogProps) {
@@ -70,7 +72,7 @@ export default function CarRentalDialog({
     );
     const [startDate, setStartDate] = useState<Dayjs | null>(() => dayjs());
     const [returnDate, setReturnDate] = useState<Dayjs | null>(() =>
-        dayjs().add(3, 'day'),
+        dayjs().add(initialRentalDays, 'day'),
     );
     const [startTime, setStartTime] = useState('15:00');
     const [returnTime, setReturnTime] = useState('15:00');

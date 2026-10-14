@@ -85,6 +85,8 @@ export default async function CarsPage() {
                 deliveryPrice={deliveryPrice}
                 seasonDates={seasonDates}
                 syncFiltersWithUrl
+                headingText="Автопарк для аренды авто в Новосибирске"
+                introText="В каталоге — автомобили без водителя для личных и деловых поездок: эконом, комфорт, бизнес-класс, кроссоверы и минивэны. Выберите класс или марку и откройте карточку, чтобы рассчитать стоимость на нужные даты. Наличие конкретного автомобиля подтвердим при бронировании."
                 carTitleTag="h2"
             />
             <RentSteps headingTag="div" stepTitleTag="div" />

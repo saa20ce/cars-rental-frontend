@@ -42,6 +42,8 @@ interface CarsPageClientProps {
     deliveryPrice?: DeliveryOptionsGrouped;
     seasonDates?: SeasonData | null;
     headingLevel?: 'h1' | 'h2';
+    headingText?: string;
+    introText?: string;
     carTitleTag?: 'h2' | 'h3' | 'div';
     syncFiltersWithUrl?: boolean;
 }
@@ -96,6 +98,8 @@ export default function CarsPageClient({
     deliveryPrice,
     seasonDates,
     headingLevel = 'h1',
+    headingText = 'Автопарк в Новосибирске',
+    introText,
     carTitleTag = 'h3',
     syncFiltersWithUrl = false,
 }: CarsPageClientProps) {
@@ -235,13 +239,17 @@ export default function CarsPageClient({
                 <header className="flex flex-col lg:flex-row lg:justify-between pb-6 lg:pb-8 border-b-[1px] border-[#f6f6f638] ">
                     <div className="w-full max-w-[610px]">
                         <HeadingTag className="text-[24px]/[32px] lg:text-[30px]/[36px] font-bold mb-4 lg:mb-5">
-                            Автопарк в Новосибирске
+                            {headingText}
                         </HeadingTag>
-                        <p className="hidden lg:block text-[18px]/[28px] font-medium">
-                            Мы гордимся своим обновляемым автопарком, который
-                            всегда находится в отличном состоянии и готов
-                            предоставить вам максимальный комфорт во время
-                            поездки.
+                        <p
+                            className={
+                                introText
+                                    ? 'text-[14px]/[20px] lg:text-[18px]/[28px] font-medium'
+                                    : 'hidden lg:block text-[18px]/[28px] font-medium'
+                            }
+                        >
+                            {introText ??
+                                'Мы гордимся своим обновляемым автопарком, который всегда находится в отличном состоянии и готов предоставить вам максимальный комфорт во время поездки.'}
                         </p>
                     </div>
                     <div className="grid grid-cols-[max-content,max-content] lg:grid-cols-2 gap-x-[10px] gap-y-[6px] lg:gap-y-[22px] lg:gap-x-5 text-[14px]/[20px] lg:text-[16px]/[24px] font-semibold lg:font-bold lg:self-end lg:min-w-[383px]">

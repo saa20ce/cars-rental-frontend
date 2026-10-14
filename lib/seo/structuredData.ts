@@ -179,7 +179,6 @@ export function buildSiteJsonLd() {
                 },
                 currenciesAccepted: 'RUB',
                 paymentAccepted: 'Cash, Credit Card, Bank Transfer',
-                priceRange: 'от 1800 ₽/сутки',
                 sameAs: [
                     'https://t.me/Rentasib',
                     'https://vk.com/rentasib',

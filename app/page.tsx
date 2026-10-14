@@ -2,7 +2,6 @@ import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import {
-    AgeIcon,
     CarIcon,
     CheckRound,
     DocumentsIcon,
@@ -30,46 +29,45 @@ import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import Banner from '@/public/images/Banner.png';
 import { DocumentIconHomePage } from '@/lib/ui/icons/DocumentIconHomePage';
 import { CarIconHomePage } from '@/lib/ui/icons/CarIconHomePage';
-import { NumberIconHomePage } from '@/lib/ui/icons/NumberIconHomePage';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { getAllTaxonomyOptions } from '@/lib/api/fetchCarTaxonomies';
 import HomeCarSearchForm from '@/components/common/Form/HomeCarSearchForm';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export const revalidate = 86400;
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/'),
+        'Аренда авто без водителя в Новосибирске | Рентасиб',
+        'Аренда автомобилей без водителя в Новосибирске. Сравните доступные машины и тарифы на ваши даты, изучите условия и отправьте заявку на бронирование.',
+    );
 }
 
 const classes = [
     {
         title: 'Бизнес',
         src: '/images/servicesImages/3.jpg',
-        price: 7000,
         href: '/service/arenda-avto-biznes-klassa',
     },
     {
         title: 'Минивэн',
         src: '/images/servicesImages/dsc03710.jpg',
-        price: 6000,
         href: '/service/prokat-minivenov-i-mikroavtobusov',
     },
     {
         title: 'Кроссоверы',
         src: '/images/servicesImages/dsc05065-scaled.jpg',
-        price: 5000,
         href: '/service/arenda-krossoverov',
     },
     {
         title: 'Комфорт',
         src: '/images/servicesImages/dsc06740_1.jpg',
-        price: 4000,
         href: '/service/arenda-avto-komfort-klassa',
     },
     {
         title: 'Эконом',
         src: '/images/servicesImages/dsc04918_2-scaled.jpg',
-        price: 3600,
         href: '/service/arenda-avto-ekonom-klassa',
     },
 ];
@@ -173,8 +171,8 @@ export default async function Home() {
                             Арендуйте авто в Новосибирске
                         </h1>
                         <p className="hidden lg:block font-semibold text-[20px]/[28px] mb-9">
-                            Арендуйте автомобиль в Новосибирске по <br />{' '}
-                            выгодной цене от 1800 рублей/сутки
+                            Выберите автомобиль и проверьте стоимость аренды{' '}
+                            <br /> на нужные даты
                         </p>
                         <div className="order-3 w-full px-4 md:px-0">
                             <div className="flex gap-3 justify-center md:justify-start lg:mb-9">
@@ -241,7 +239,7 @@ export default async function Home() {
                                     {c.title}
                                 </div>
                                 <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
-                                    от {c.price} Р/сут.
+                                    Смотреть тарифы
                                 </span>
                             </div>
                         </Link>

@@ -370,7 +370,7 @@ export const listItemsComfortPage2 = [
         icon: <SaleIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Аренда от 1800 рублей',
+        title: 'Стоимость на выбранные даты',
         icon: <HandshakeAndDocumentIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

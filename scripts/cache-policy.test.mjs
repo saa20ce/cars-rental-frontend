@@ -108,17 +108,18 @@ test('Refresh requires authentication, invalidates caches, and paginates invento
     assert.equal((await api.POST(request({ action: 'invalidate' }, 'wrong'))).status, 401);
     assert.equal(invalidated.length, 0);
     assert.equal((await api.POST(request({ action: 'invalidate' }))).status, 200);
-    assert.deepEqual(invalidated, ['wordpress', 'django', '/']);
+    assert.deepEqual(invalidated, ['wordpress', 'django', '/', '/sitemap-cars.xml']);
     for (const paths of [null, ['/service/../admin'], ['//example.org'], Array(21).fill('/cars')]) {
         assert.equal((await api.POST(request({ action: 'invalidate', paths }))).status, 400);
     }
-    assert.deepEqual(invalidated, ['wordpress', 'django', '/']);
+    assert.deepEqual(invalidated, ['wordpress', 'django', '/', '/sitemap-cars.xml']);
     assert.equal((await api.POST(request({
         action: 'invalidate',
         paths: ['/service/arenda-krossoverov', '/service/arenda-vnedorozhnika', '/service/arenda-krossoverov'],
     }))).status, 200);
-    assert.deepEqual(invalidated.slice(3), [
-        'wordpress', 'django', '/', '/service/arenda-krossoverov', '/service/arenda-vnedorozhnika',
+    assert.deepEqual(invalidated.slice(4), [
+        'wordpress', 'django', '/', '/sitemap-cars.xml',
+        '/service/arenda-krossoverov', '/service/arenda-vnedorozhnika',
     ]);
     assert.equal((await api.POST(request(null))).status, 400);
     assert.equal((await api.POST(request({ action: 'inventory', page: -1 }))).status, 400);
@@ -161,7 +162,9 @@ for (const failPage of [false, true]) {
                 child.on('exit', resolve);
             });
             assert.equal(code, failPage ? 1 : 0);
-            assert.deepEqual(visited.sort(), ['/', '/cars', '/cars/car-1', '/cars/car-2']);
+            assert.deepEqual(visited.sort(), [
+                '/', '/cars', '/cars/car-1', '/cars/car-2', '/sitemap-cars.xml',
+            ]);
         } finally {
             await new Promise(resolve => server.close(resolve));
         }

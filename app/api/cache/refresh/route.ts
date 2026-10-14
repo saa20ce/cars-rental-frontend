@@ -36,6 +36,7 @@ export async function POST(request: Request) {
         revalidateTag('wordpress');
         revalidateTag('django');
         revalidatePath('/', 'layout');
+        revalidatePath('/sitemap-cars.xml');
         Array.from(new Set(paths as string[])).forEach((path) => revalidatePath(path));
         return respond({ invalidated: true });
     }

@@ -2,6 +2,9 @@ import { getCars } from '@/lib/api/fetchCarData';
 import { cacheControlHeader } from '@/lib/api/wpCache';
 import { getSiteUrl } from '@/lib/seo/siteUrl';
 
+export const dynamic = 'force-static';
+export const revalidate = 86400;
+
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
 

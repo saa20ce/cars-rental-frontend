@@ -27,7 +27,7 @@ for (let page = 1, totalPages = 1; page <= totalPages; page++) {
     for (const slug of result.slugs) slugs.add(slug);
 }
 
-const paths = ['/', '/cars', ...[...slugs].map(slug => `/cars/${encodeURIComponent(slug)}`)];
+const paths = ['/', '/cars', '/sitemap-cars.xml', ...[...slugs].map(slug => `/cars/${encodeURIComponent(slug)}`)];
 const failures = [];
 // Two pages at a time to avoid a request spike on WordPress.
 for (let start = 0; start < paths.length; start += 2) {

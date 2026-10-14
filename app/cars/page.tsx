@@ -17,8 +17,8 @@ import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildCarsItemListJsonLd } from '@/lib/seo/structuredData';
 import type { Metadata } from 'next';
 
-// Prices and seasonal discounts depend on the current day, even if WordPress data is unchanged.
-export const revalidate = 300;
+// Prices and seasonal discounts are refreshed with the daily WordPress cache.
+export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata('/cars');

@@ -20,8 +20,8 @@ import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import type { Metadata } from 'next';
 
-// Card prices depend on today's season and active discounts.
-export const revalidate = 300;
+// Card prices are refreshed with the daily WordPress cache.
+export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata(

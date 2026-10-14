@@ -20,9 +20,14 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-biznes-klassa');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-biznes-klassa'),
+        'Аренда авто бизнес-класса без водителя в Новосибирске | Рентасиб',
+        'Аренда автомобилей бизнес-класса без водителя в Новосибирске. Сравните доступные модели и тарифы для деловой или личной поездки.',
+    );
 }
 
 const paragraphTextImageSection = [

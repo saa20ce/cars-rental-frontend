@@ -16,9 +16,14 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-ekonom-klassa');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-ekonom-klassa'),
+        'Аренда авто эконом-класса без водителя в Новосибирске | Рентасиб',
+        'Выберите автомобиль эконом-класса для самостоятельной поездки. Сравните доступные модели, тарифы и условия аренды на нужные даты.',
+    );
 }
 
 export default async function EconomyClassRentalPage() {

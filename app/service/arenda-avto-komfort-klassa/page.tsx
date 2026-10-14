@@ -18,9 +18,14 @@ import { Accordion } from '@/lib/ui/common/Accordion';
 import { ArrowRightLinkIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
+import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 
 export async function generateMetadata() {
-    return await fetchWPMetadata('/service/arenda-avto-komfort-klassa');
+    return withEditorialMetadata(
+        await fetchWPMetadata('/service/arenda-avto-komfort-klassa'),
+        'Аренда авто комфорт-класса без водителя в Новосибирске | Рентасиб',
+        'Выберите автомобиль комфорт-класса для самостоятельной поездки по Новосибирску. Сравните модели, комплектации и стоимость на нужные даты.',
+    );
 }
 
 export default async function ComfortClassRentalPage() {

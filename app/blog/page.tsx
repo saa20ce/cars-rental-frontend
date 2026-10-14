@@ -33,6 +33,9 @@ export async function generateMetadata({
 
     return {
         ...wordpressMetadata,
+        // WordPress marks its blog archive noindex,nofollow, but this frontend
+        // archive is the primary internal path to published articles.
+        robots: { index: true, follow: true },
         alternates: { canonical },
         openGraph: wordpressMetadata.openGraph
             ? { ...wordpressMetadata.openGraph, url: canonical }

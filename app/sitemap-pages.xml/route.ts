@@ -5,13 +5,10 @@ import { getSiteUrl } from '@/lib/seo/siteUrl';
 export async function GET(request: Request) {
     const baseUrl = getSiteUrl(request);
 
-    // The blog index currently has noindex in WordPress metadata.
-    // Keep the navigation link, but do not advertise it as indexable in XML.
-    const excludedPaths = new Set(['/blog']);
     const urls: string[] = [];
     mapSite.forEach((section) => {
         section.items.forEach((item) => {
-            if (!item.href.startsWith('/docs/') && !excludedPaths.has(item.href)) {
+            if (!item.href.startsWith('/docs/')) {
                 urls.push(item.href);
             }
         });

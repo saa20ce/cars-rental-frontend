@@ -37,6 +37,10 @@ const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
     'kak-arenda-legkovyh-avtomobilej-pomogaet-v-sfere-obshhestvennogo-pitaniya',
     'arenda-legkovyh-avtomobilej-dlya-transportnyh-i-logisticheskih-kompanij',
     'preimushhestva-arendy-avtomobilej-dlya-transportnyh-kompanij',
+    'kak-arendovannye-avtomobili-pomogayut-v-upravlenii-skladom',
+    'kak-organizovat-korporativnye-treningi-s-arendovannymi-avtomobilyami',
+    'kak-arendovannye-avtomobili-pomogayut-v-obuchenii-personala',
+    'ispolzovanie-arendovannyh-avtomobilej-dlya-brendinga-kompanii',
 ]);
 const MERGED_ARTICLE_SLUGS = new Set(articleRedirects.map(({ source }) => source));
 

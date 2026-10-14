@@ -39,7 +39,7 @@ export default async function EconomyClassRentalPage() {
             <h1 className="text-[24px]/[32px] lg:text-[36px]/[40px] font-bold mb-4 lg:mb-5">
                 Аренда авто эконом класса в Новосибирске
             </h1>
-            <InfoThreeCard header="Арендуйте автомобиль в Новосибирске по самой выгодной цене от 1800 руб/сутки" />
+            <InfoThreeCard header="Выберите автомобиль эконом-класса и проверьте тариф на нужные даты" />
 
             <CarsPageClient
                 cars={cars}

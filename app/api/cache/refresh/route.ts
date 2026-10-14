@@ -27,9 +27,16 @@ export async function POST(request: Request) {
     if (!body || typeof body !== 'object') return respond({ error: 'Invalid body' }, 400);
 
     if (body.action === 'invalidate') {
+        const paths = body.paths === undefined ? [] : body.paths;
+        if (!Array.isArray(paths) || paths.length > 20 || paths.some(
+            (path: unknown) => typeof path !== 'string' || path.length > 200 ||
+                !/^\/(?:[a-z0-9-]+\/)*[a-z0-9-]+$/.test(path),
+        )) return respond({ error: 'Invalid paths' }, 400);
+
         revalidateTag('wordpress');
         revalidateTag('django');
         revalidatePath('/', 'layout');
+        Array.from(new Set(paths as string[])).forEach((path) => revalidatePath(path));
         return respond({ invalidated: true });
     }
 

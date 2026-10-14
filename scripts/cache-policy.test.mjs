@@ -66,6 +66,17 @@ test('Refresh requires authentication, invalidates caches, and paginates invento
     assert.equal(invalidated.length, 0);
     assert.equal((await api.POST(request({ action: 'invalidate' }))).status, 200);
     assert.deepEqual(invalidated, ['wordpress', 'django', '/']);
+    for (const paths of [null, ['/service/../admin'], ['//example.org'], Array(21).fill('/cars')]) {
+        assert.equal((await api.POST(request({ action: 'invalidate', paths }))).status, 400);
+    }
+    assert.deepEqual(invalidated, ['wordpress', 'django', '/']);
+    assert.equal((await api.POST(request({
+        action: 'invalidate',
+        paths: ['/service/arenda-krossoverov', '/service/arenda-vnedorozhnika', '/service/arenda-krossoverov'],
+    }))).status, 200);
+    assert.deepEqual(invalidated.slice(3), [
+        'wordpress', 'django', '/', '/service/arenda-krossoverov', '/service/arenda-vnedorozhnika',
+    ]);
     assert.equal((await api.POST(request(null))).status, 400);
     assert.equal((await api.POST(request({ action: 'inventory', page: -1 }))).status, 400);
     const result = await api.POST(request({ action: 'inventory', page: 2 }));

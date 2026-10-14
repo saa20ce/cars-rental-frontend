@@ -16,15 +16,15 @@ type InfoThreeCardProps = {
 
 const defaultItems = [
     {
-        title: 'Доставляем до места',
+        title: 'Доставка автомобиля по согласованию',
         icon: <MapIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Оформляем дистанционно за 10 минут',
+        title: 'Оформление по договору аренды',
         icon: <DocumentCar className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: 'Работаем 24/7',
+        title: 'Поможем выбрать автомобиль',
         icon: <GrayPhoneIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

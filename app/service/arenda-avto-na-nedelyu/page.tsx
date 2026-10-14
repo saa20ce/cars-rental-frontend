@@ -20,6 +20,9 @@ import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import type { Metadata } from 'next';
 
+// Card prices depend on today's season and active discounts.
+export const revalidate = 300;
+
 export async function generateMetadata(): Promise<Metadata> {
     const wordpressMetadata = await fetchWPMetadata(
         '/service/arenda-avto-na-nedelyu',
@@ -67,9 +70,10 @@ export default async function WeeklyCarRentalPage() {
             </h1>
 
             <p className="font-semibold text-[16px]/[24px] lg:text-[20px]/[28px] pb-[42px] lg:pb-[36px] mb-[42px] border-b border-[#284B63B2] -tracking-[0.2px]">
-                Выберите автомобиль для самостоятельных поездок на несколько
-                дней или неделю. Наличие и стоимость зависят от модели, дат и
-                сезона. Сравните цены в разделе{' '}
+                Выберите автомобиль для самостоятельных поездок на неделю. На
+                карточках показана цена за сутки при аренде на 4–9 суток на
+                текущую дату. Итоговая стоимость зависит от модели, выбранных
+                дат и сезона. Сравните цены в разделе{' '}
                 <Link href="/tarify" className="underline">
                     тарифов
                 </Link>
@@ -90,6 +94,7 @@ export default async function WeeklyCarRentalPage() {
                 colorOptions={colorOptions}
                 seasonDates={seasonDates}
                 headingLevel="h2"
+                priceMode="weekly"
             />
 
             <TextImageSection

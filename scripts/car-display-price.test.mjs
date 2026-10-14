@@ -45,6 +45,8 @@ const car = {
     acf: {
         '1-3_dnya': '9000',
         '1-3_dnya_S': '13000',
+        '4-9_dnej': '8000',
+        '4-9_dnej_S': '12000',
         '30_dnej': '6500',
         '30_dnej_S': '9000',
     },
@@ -65,6 +67,40 @@ test('monthly cards use 30+ rates while ordinary cards keep short-term rates', (
             .price,
         9000,
     );
+});
+
+test('weekly cards use 4–9 day rates, including seasonal rates', () => {
+    const today = dayjs('2026-10-14');
+    assert.equal(
+        getCarDisplayPrice(car, seasonDates, 'weekly', today).price,
+        8000,
+    );
+    assert.equal(
+        getCarDisplayPrice(car, seasonDates, 'weekly', dayjs('2026-12-15'))
+            .price,
+        12000,
+    );
+});
+
+test('weekly cards apply active discounts for a seven-day rental', () => {
+    const discountedCar = {
+        ...car,
+        acf: {
+            ...car.acf,
+            skidka: '10',
+            skidka_start: '2026-10-01',
+            skidka_end: '2026-10-31',
+        },
+    };
+    const result = getCarDisplayPrice(
+        discountedCar,
+        seasonDates,
+        'weekly',
+        dayjs('2026-10-14'),
+    );
+    assert.equal(result.price, 8000);
+    assert.equal(result.discountedPrice, 7200);
+    assert.equal(result.hasActiveDiscount, true);
 });
 
 test('monthly cards apply active long-rental discounts', () => {

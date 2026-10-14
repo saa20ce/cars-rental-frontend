@@ -110,9 +110,11 @@ export const CarCard: React.FC<CarCardProps> = ({
                             {price} Р/сут.
                         </p>
                     )}
-                    {priceMode === 'monthly' && (
+                    {priceMode !== 'short' && (
                         <p className="mt-1 text-[12px]/[16px] text-[#F6F6F699]">
-                            при аренде от 30 суток
+                            {priceMode === 'weekly'
+                                ? 'при аренде на 4–9 суток'
+                                : 'при аренде от 30 суток'}
                         </p>
                     )}
                 </div>
@@ -137,7 +139,13 @@ export const CarCard: React.FC<CarCardProps> = ({
                         additionalOptions={additionalOptions}
                         deliveryPrice={deliveryPrice}
                         seasonDates={seasonDates}
-                        initialRentalDays={priceMode === 'monthly' ? 30 : 3}
+                        initialRentalDays={
+                            priceMode === 'monthly'
+                                ? 30
+                                : priceMode === 'weekly'
+                                  ? 7
+                                  : 3
+                        }
                         open={dialogVisible}
                         onClose={() => setDialogVisible(false)}
                     />

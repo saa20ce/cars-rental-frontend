@@ -9,10 +9,12 @@ const UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES = new Set([
     'kak-arenda-avto-uluchshaet-servis',
     'preimushhestva-ispolzovaniya-avtomobilej-s-avtopilotom-dlya-arendy',
 ]);
-// These posts promote commercial use of rental cars, cargo vehicles, or
-// branding services that we do not offer. They are unpublished in
+// These posts promote commercial use of rental cars, adapted or cargo
+// vehicles, or branding services that we do not offer. They are unpublished in
 // WordPress. Keep this guard so stale caches cannot serve the old content.
 const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
+    'preimushhestva-arendy-avto-dlya-dostavok',
+    'kak-arendovat-avtomobili-dlya-speczialnyh-nuzhd',
     'kak-ispolzovat-arendovannye-avtomobili-dlya-marketingovyh-czelej',
     'preimushhestva-arendy-avtomobilej-dlya-provedeniya-reklamnyh-akczij',
     'sovety-po-vyboru-avtomobilya-dlya-razlichnyh-tipov-biznesa',

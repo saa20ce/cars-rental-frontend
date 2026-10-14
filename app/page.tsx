@@ -1,12 +1,7 @@
 import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import {
-    CarIcon,
-    CheckRound,
-    DocumentsIcon,
-    LineIcon,
-} from '@/lib/ui/icons';
+import { CarIcon, CheckRound, DocumentsIcon, LineIcon } from '@/lib/ui/icons';
 import {
     getAdditionalOptions,
     getCarsByClass,
@@ -70,15 +65,26 @@ const classes = [
         src: '/images/servicesImages/dsc04918_2-scaled.jpg',
         href: '/service/arenda-avto-ekonom-klassa',
     },
-];
+] as const;
+
+const getHomeCarBasePrice = (car: Car, seasonDates: SeasonData | null) => {
+    const regularPrice = Number(car.acf?.['1-3_dnya']);
+    const seasonPrice = Number(car.acf?.['1-3_dnya_S']);
+    const currentPrice =
+        isDaySeason(dayjs(), getSeasonDatesForCar(car, seasonDates)) &&
+        Number.isFinite(seasonPrice) &&
+        seasonPrice > 0
+            ? seasonPrice
+            : regularPrice;
+
+    return Number.isFinite(currentPrice) && currentPrice > 0
+        ? currentPrice
+        : null;
+};
 
 const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
-    const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
-    const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
+    const basePrice = getHomeCarBasePrice(car, seasonDates) ?? 0;
     const today = dayjs();
-    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
-        ? seasonPrice
-        : regularPrice;
 
     return getDiscountedPriceForDay(
         basePrice,
@@ -86,6 +92,14 @@ const getHomeCarPrice = (car: Car, seasonDates: SeasonData | null) => {
         car.acf,
         DISCOUNT_MIN_RENTAL_DAYS,
     );
+};
+
+const getClassStartingPrice = (cars: Car[], seasonDates: SeasonData | null) => {
+    const prices = cars
+        .map((car) => getHomeCarBasePrice(car, seasonDates))
+        .filter((price): price is number => price !== null);
+
+    return prices.length > 0 ? Math.min(...prices) : null;
 };
 
 const sortCarsByPriceDesc = (cars: Car[], seasonDates: SeasonData | null) =>
@@ -140,6 +154,13 @@ export default async function Home() {
         Кроссоверы: sortCarsByPriceDesc(crossoversCars, seasonDates),
         Комфорт: sortCarsByPriceDesc(comfortCars, seasonDates),
         Эконом: sortCarsByPriceDesc(economyCars, seasonDates),
+    };
+    const classStartingPrices = {
+        Бизнес: getClassStartingPrice(businessCars, seasonDates),
+        Минивэн: getClassStartingPrice(minivanCars, seasonDates),
+        Кроссоверы: getClassStartingPrice(crossoversCars, seasonDates),
+        Комфорт: getClassStartingPrice(comfortCars, seasonDates),
+        Эконом: getClassStartingPrice(economyCars, seasonDates),
     };
     const galleryButtonTitles = {
         Бизнес: 'Все бизнес',
@@ -215,35 +236,41 @@ export default async function Home() {
                     Классы автомобилей для аренды
                 </h2>
                 <div className="flex gap-3 overflow-x-auto pb-4 lg:pb-0 lg:grid lg:grid-cols-6 lg:gap-4 lg:overflow-visible">
-                    {classes.map((c) => (
-                        <Link
-                            href={c.href}
-                            key={c.title}
-                            className="min-w-[126px] md:min-w-[171px] lg:min-w-0 bg-[#F6F6F60D] hover:bg-[#1E384A] rounded-[16px] transition-colors duration-300 cursor-pointer hover:text-[#f6f6f6]"
-                        >
-                            <div className="relative w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]">
-                                <Image
-                                    src={c.src}
-                                    alt="фото автомобиля"
-                                    fill
-                                    sizes="(max-width: 767px) 126px, (max-width: 1023px) 171px, 200px"
-                                    style={{
-                                        objectFit: 'cover',
-                                        borderRadius: '8px',
-                                    }}
-                                    loading={'lazy'}
-                                />
-                            </div>
-                            <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
-                                <div className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
-                                    {c.title}
+                    {classes.map((c) => {
+                        const startingPrice = classStartingPrices[c.title];
+
+                        return (
+                            <Link
+                                href={c.href}
+                                key={c.title}
+                                className="min-w-[126px] md:min-w-[171px] lg:min-w-0 bg-[#F6F6F60D] hover:bg-[#1E384A] rounded-[16px] transition-colors duration-300 cursor-pointer hover:text-[#f6f6f6]"
+                            >
+                                <div className="relative w-full h-[84px] object-cover md:h-[131px] rounded-[8px] lg:rounded-[12px]">
+                                    <Image
+                                        src={c.src}
+                                        alt="фото автомобиля"
+                                        fill
+                                        sizes="(max-width: 767px) 126px, (max-width: 1023px) 171px, 200px"
+                                        style={{
+                                            objectFit: 'cover',
+                                            borderRadius: '8px',
+                                        }}
+                                        loading={'lazy'}
+                                    />
                                 </div>
-                                <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
-                                    Смотреть тарифы
-                                </span>
-                            </div>
-                        </Link>
-                    ))}
+                                <div className="px-[14px] pb-[10px] lg:px-5 lg:pb-5 mt-1 lg:mt-3">
+                                    <div className="font-medium text-[#F6F6F699] text-[14px]/[20px] lg:text-[18px]/[28px] lg:mb-1">
+                                        {c.title}
+                                    </div>
+                                    <span className="font-bold text-[14px]/[20px] lg:text-[20px]/[28px]">
+                                        {startingPrice !== null
+                                            ? `от ${startingPrice.toLocaleString('ru-RU')} ₽/сут.`
+                                            : 'Уточнить стоимость'}
+                                    </span>
+                                </div>
+                            </Link>
+                        );
+                    })}
                 </div>
             </section>
             <section className="py-[42px] lg:py-[68px]">

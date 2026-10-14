@@ -11,7 +11,6 @@ import { MapIcon } from '../ui/icons/MapIcon';
 import { MenIcon } from '../ui/icons/MenIcon';
 import { PcIcon } from '../ui/icons/PcIcon';
 import { RefuelingGunIcon } from '../ui/icons/RefuelingGunIcon';
-import { SafeIcon } from '../ui/icons/SafeIcon';
 import { SaleIcon } from '../ui/icons/SaleIcon';
 import { SertificateIcon } from '../ui/icons/SertificateIcon';
 import { SteeringWheelIcon } from '../ui/icons/SteeringWheelIcon';
@@ -130,25 +129,17 @@ export const infoThreeCardItems = [
     {
         title: (
             <>
-                Персональный <br className="hidden lg:block" /> менеджер 24/7
+                Условия под <br className="hidden lg:block" /> вашу задачу
             </>
         ),
         icon: <MenIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: (
-            <>
-                Оплата по счету с НДС 22%.
-            </>
-        ),
+        title: 'Стоимость в индивидуальном предложении',
         icon: <ListIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
     {
-        title: (
-            <>
-                Электронный <br className="hidden lg:block" /> документооборот
-            </>
-        ),
+        title: 'Оформление по договору аренды',
         icon: <PcIcon className="w-9 h-8 lg:w-12 lg:h-12" />,
     },
 ];

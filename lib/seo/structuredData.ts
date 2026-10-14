@@ -1,13 +1,7 @@
 import 'server-only';
 import { load } from 'cheerio';
-import dayjs from 'dayjs';
 import { proxyWpMediaUrl } from '@/lib/api/wpMediaProxy';
-import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
-import {
-    getDiscountedPriceForDay,
-    isDaySeason,
-    DISCOUNT_MIN_RENTAL_DAYS,
-} from '@/lib/helpers/RentalCheckoutHelper';
+import { getCarDisplayPrice } from '@/lib/helpers/carDisplayPrice';
 import type { Car, SeasonData, Term } from '@/lib/types/Car';
 import type { WPPost, WPPostDetails } from '@/lib/types/News';
 import { getSiteUrl } from './siteUrl';
@@ -98,24 +92,8 @@ function numberFromString(value: string | undefined) {
     return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-function getCurrentDailyPrice(car: Car, seasonDates?: SeasonData | null) {
-    const regularPrice = Number(car.acf?.['1-3_dnya']) || 0;
-    const seasonPrice = Number(car.acf?.['1-3_dnya_S']) || regularPrice;
-    const today = dayjs();
-    const basePrice = isDaySeason(today, getSeasonDatesForCar(car, seasonDates))
-        ? seasonPrice
-        : regularPrice;
-
-    return getDiscountedPriceForDay(
-        basePrice,
-        today,
-        car.acf,
-        DISCOUNT_MIN_RENTAL_DAYS,
-    );
-}
-
 function buildCarOffer(car: Car, url: string, seasonDates?: SeasonData | null) {
-    const price = getCurrentDailyPrice(car, seasonDates);
+    const price = getCarDisplayPrice(car, seasonDates).discountedPrice;
 
     if (!price) return undefined;
 
@@ -124,7 +102,6 @@ function buildCarOffer(car: Car, url: string, seasonDates?: SeasonData | null) {
         url,
         price,
         priceCurrency: 'RUB',
-        availability: 'https://schema.org/InStock',
         businessFunction: 'https://purl.org/goodrelations/v1#LeaseOut',
         seller: {
             '@id': organizationId(),

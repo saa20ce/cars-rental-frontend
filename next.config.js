@@ -106,6 +106,17 @@ const nextConfig = {
                 permanent: true,
             },
             {
+                source: '/privacy',
+                destination: '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf',
+                permanent: true,
+            },
+            {
+                source: '/soglasie',
+                destination:
+                    '/docs/02-soglasie-na-obrabotku-pdn-dlya-sajta-ooo-rentasib.pdf',
+                permanent: true,
+            },
+            {
                 source: '/cars/arenda-toyota-camry-2023',
                 destination: '/cars/arenda-toyota-camry-2022',
                 permanent: true,

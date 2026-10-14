@@ -7,6 +7,7 @@ const UNPUBLISHED_UNSUPPORTED_SERVICE_ARTICLES = new Set([
     'kak-arenda-avtomobilej-pomogaet-turisticheskim-agentstvam',
     'preimushhestva-arendy-avtomobilej-s-voditelem',
     'kak-arenda-avto-uluchshaet-servis',
+    'preimushhestva-ispolzovaniya-avtomobilej-s-avtopilotom-dlya-arendy',
 ]);
 // These posts promote third-party transport services or cargo vehicles that we
 // do not offer. Both they and passenger-transfer posts are unpublished in
@@ -35,6 +36,7 @@ const UNSUPPORTED_COMMERCIAL_USE_ARTICLES = new Set([
     'kak-vybrat-avtomobil-dlya-transportirovki-speczificheskih-tovarov',
     'kak-arenda-legkovyh-avtomobilej-pomogaet-v-sfere-obshhestvennogo-pitaniya',
     'arenda-legkovyh-avtomobilej-dlya-transportnyh-i-logisticheskih-kompanij',
+    'preimushhestva-arendy-avtomobilej-dlya-transportnyh-kompanij',
 ]);
 const MERGED_ARTICLE_SLUGS = new Set(articleRedirects.map(({ source }) => source));
 

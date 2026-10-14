@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { load } from 'cheerio';
 
 const apiUrl = process.env.NEXT_PUBLIC_WP_API_URL?.replace(/\/$/, '');
@@ -78,8 +79,16 @@ const results = posts.map((post) => {
     };
 });
 
+// Redirect sources remain published in WordPress, but visitors and crawlers see
+// their destination articles. Audit only content that can actually be reached.
+const redirectSources = new Set(
+    JSON.parse(readFileSync(new URL('../lib/seo/articleRedirects.json', import.meta.url), 'utf8'))
+        .map((redirect) => redirect.source),
+);
+const activeResults = results.filter((post) => !redirectSources.has(post.slug));
+
 if (process.argv.includes('--links-only')) {
-    const stagedLinkPosts = results
+    const stagedLinkPosts = activeResults
         .filter((post) => !post.transferSlug && post.stagedLinks.length)
         .map((post) => ({
             id: post.id,
@@ -89,6 +98,7 @@ if (process.argv.includes('--links-only')) {
     const offset = Number(process.argv.find((arg) => arg.startsWith('--offset='))?.split('=')[1] ?? 0);
     console.log(JSON.stringify({
         totalPosts: results.length,
+        auditedPosts: activeResults.length,
         totalStagedLinkPosts: stagedLinkPosts.length,
         offset,
         stagedLinkPosts: stagedLinkPosts.slice(offset, offset + 20),
@@ -98,7 +108,7 @@ if (process.argv.includes('--links-only')) {
 
 if (process.argv.includes('--links-summary')) {
     const paths = new Map();
-    for (const post of results.filter((item) => !item.transferSlug)) {
+    for (const post of activeResults.filter((item) => !item.transferSlug)) {
         for (const link of post.stagedLinks) {
             const entry = paths.get(link.path) ?? { path: link.path, count: 0, postIds: [] };
             entry.count += 1;
@@ -108,14 +118,15 @@ if (process.argv.includes('--links-summary')) {
     }
     console.log(JSON.stringify({
         totalPosts: results.length,
-        stagedLinkPosts: results.filter((post) => !post.transferSlug && post.stagedLinks.length).length,
+        auditedPosts: activeResults.length,
+        stagedLinkPosts: activeResults.filter((post) => !post.transferSlug && post.stagedLinks.length).length,
         paths: [...paths.values()].sort((a, b) => b.count - a.count),
     }));
     process.exit(0);
 }
 
 if (process.argv.includes('--check-links')) {
-    const paths = [...new Set(results
+    const paths = [...new Set(activeResults
         .filter((post) => !post.transferSlug)
         .flatMap((post) => post.stagedLinks.map((link) => link.path)))];
     const checks = [];
@@ -140,7 +151,7 @@ if (process.argv.includes('--check-links')) {
     process.exit(0);
 }
 
-const transferPosts = results.filter(
+const transferPosts = activeResults.filter(
     (post) => post.transferSlug || post.transferText || /с водителем/i.test(post.title),
 );
 const linkedPaths = new Map();
@@ -153,9 +164,10 @@ for (const post of transferPosts) {
 
 console.log(JSON.stringify({
     totalPosts: results.length,
+    auditedPosts: activeResults.length,
     transferPosts: transferPosts.length,
-    transferSlugs: results.filter((post) => post.transferSlug).length,
-    transferSlugsOutsideWordBoundary: results
+    transferSlugs: activeResults.filter((post) => post.transferSlug).length,
+    transferSlugsOutsideWordBoundary: activeResults
         .filter((post) => post.transferSlug && !/(?:^|-)transfer[a-z]*(?:-|$)/i.test(post.slug))
         .map((post) => post.slug),
     transferPostsMentioningDriver: transferPosts.filter((post) => post.driverText).length,

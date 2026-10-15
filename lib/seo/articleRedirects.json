@@ -54,5 +54,13 @@
     {
         "source": "kak-arendovannye-avtomobili-pomogayut-uluchshit-klientskij-servis",
         "destination": "kak-arenda-avtomobilej-mozhet-uluchshit-klientskij-servis-vashej-kompanii"
+    },
+    {
+        "source": "arenda-vnedorozhnika-v-novosibirske",
+        "destination": "service/arenda-vnedorozhnika"
+    },
+    {
+        "source": "prokat-lyuksovyh-avto-v-nsk",
+        "destination": "service/arenda-premialnyh-avto"
     }
 ]

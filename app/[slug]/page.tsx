@@ -10,9 +10,11 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildBlogPostingJsonLd } from '@/lib/seo/structuredData';
+import { removeLegacyCarCatalogue } from '@/lib/seo/articleContent';
 import { shouldHideNewsArticle, shouldNoindexNewsArticle } from '@/lib/seo/transferArticles';
 import type { Metadata } from 'next';
 import { load } from 'cheerio';
+import Link from 'next/link';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const NEWS_SUMMARY_FIELDS =
@@ -138,6 +140,16 @@ export default async function NewsDetailPage({
         pagePath: `/${slug}`,
         image,
     });
+    const articleDetails =
+        slug === 'arenda-mikroavtobusa-v-novosibirske'
+            ? {
+                  ...details,
+                  content: {
+                      ...details.content,
+                      rendered: removeLegacyCarCatalogue(details.content.rendered),
+                  },
+              }
+            : details;
 
     return (
         <>
@@ -155,7 +167,20 @@ export default async function NewsDetailPage({
                             className="w-full h-auto block rounded-[32px] mb-5 lg:mb-6"
                         />
                     )}
-                    <HtmlContent details={details} />
+                    <HtmlContent details={articleDetails} />
+                    {slug === 'arenda-mikroavtobusa-v-novosibirske' && (
+                        <p className="mt-6 rounded-2xl bg-[#1E384A] p-5 text-[16px]/[24px] lg:text-[18px]/[28px]">
+                            Подберите автомобиль для самостоятельной поездки в
+                            разделе{' '}
+                            <Link
+                                href="/service/prokat-minivenov-i-mikroavtobusov"
+                                className="font-semibold text-[#FFD7A6] underline underline-offset-4"
+                            >
+                                аренды минивэнов и микроавтобусов
+                            </Link>
+                            .
+                        </p>
+                    )}
                 </article>
                 <aside className="mt-[42px] lg:mt-0 grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:block flex-1 lg:max-w-[297px]">
                     {news.map((item) => (

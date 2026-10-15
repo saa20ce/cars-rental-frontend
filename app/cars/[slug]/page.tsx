@@ -16,6 +16,7 @@ import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildCarJsonLd } from '@/lib/seo/structuredData';
+import { withCurrentCarMetadata } from '@/lib/seo/carMetadata';
 
 type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
@@ -23,7 +24,12 @@ type SingleCarPageProps = {
 
 export async function generateMetadata({ params }: SingleCarPageProps) {
     const { slug } = await params;
-    return await fetchWPMetadata(`/cars/${slug}`);
+    const [wordpressMetadata, car] = await Promise.all([
+        fetchWPMetadata(`/cars/${slug}`),
+        getCarBySlug(slug, true),
+    ]);
+
+    return withCurrentCarMetadata(wordpressMetadata, car);
 }
 
 export default async function SingleCarPage({ params }: SingleCarPageProps) {

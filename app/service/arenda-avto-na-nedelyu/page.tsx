@@ -81,6 +81,13 @@ export default async function WeeklyCarRentalPage() {
                 <Link href="/require" className="underline">
                     условиями аренды
                 </Link>
+                . Если планируете поездки на 30 суток и более, посмотрите{' '}
+                <Link
+                    href="/service/arenda-avto-na-mesyacz"
+                    className="underline underline-offset-4"
+                >
+                    аренду авто на месяц
+                </Link>
                 .
             </p>
 

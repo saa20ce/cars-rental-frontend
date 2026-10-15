@@ -61,7 +61,14 @@ export default async function MonthlyCarRentalPage() {
                 водителя для личных и деловых поездок. На карточках показана
                 цена за сутки при аренде от 30 суток на текущую дату. Итоговая
                 стоимость зависит от выбранных дат, сезона и дополнительных
-                опций.
+                опций. Если нужен автомобиль на меньший срок, посмотрите{' '}
+                <Link
+                    href="/service/arenda-avto-na-nedelyu"
+                    className="underline underline-offset-4"
+                >
+                    аренду авто на неделю
+                </Link>
+                .
             </p>
 
             <CarsPageClient

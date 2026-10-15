@@ -43,10 +43,22 @@ async function fetchPostSummary(slug: string) {
         next: { tags: ['wordpress-news'] },
     });
 
-    if (!res.ok) return undefined;
+    // A temporary WordPress failure is not evidence that the article was
+    // removed. Only an empty, successful search means the slug is missing.
+    if (!res.ok) {
+        throw new Error(
+            `WordPress article lookup failed for ${slug}: ${res.status}`,
+        );
+    }
 
     const data = (await res.json()) as WPPostSummary[];
-    return Array.isArray(data) ? data[0] : undefined;
+    if (!Array.isArray(data)) {
+        throw new Error(
+            `WordPress article lookup returned invalid data for ${slug}`,
+        );
+    }
+
+    return data[0];
 }
 
 async function fetchPostDetails(post: WPPostSummary) {

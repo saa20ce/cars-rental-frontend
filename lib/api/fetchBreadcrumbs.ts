@@ -3,7 +3,7 @@ import { wpFetch } from './wpCache';
 export interface BreadcrumbItem {
     href: string;
     title: string;
-    isLast: boolean
+    isLast: boolean;
 }
 
 const staticPages: Record<string, string> = {
@@ -31,17 +31,19 @@ const staticPages: Record<string, string> = {
     'dostavka-avto': 'Аренда авто с доставкой',
     'arenda-avto-bez-voditelya': 'Аренда авто без водителя',
     'arenda-avtomobilya-s-boksom-na-kryshu': 'Аренда авто с боксом на крышу',
-    'arenda-avto-v-aeroportu': 'Аренда авто в аэропорту'
+    'arenda-avto-v-aeroportu': 'Аренда авто в аэропорту',
 };
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 
 async function fetchTitleBySlug(
     slug: string,
-    type: 'pages' | 'cars' | 'posts'
+    type: 'pages' | 'cars' | 'posts',
 ) {
     const url = `${WP_API_URL}/${type}?slug=${slug}`;
-    const res = await wpFetch(url, { next: { tags: ['wordpress-breadcrumbs'] } });
+    const res = await wpFetch(url, {
+        next: { tags: ['wordpress-breadcrumbs'] },
+    });
     if (!res.ok) return null;
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) return null;
@@ -54,7 +56,7 @@ async function fetchTitleBySlug(
 
 export async function fetchBreadcrumbs(
     pathname: string,
-    options: { currentPageHref?: string } = {},
+    options: { currentPageHref?: string; currentTitle?: string } = {},
 ): Promise<BreadcrumbItem[]> {
     const segments = pathname.split('/').filter(Boolean);
     const items: BreadcrumbItem[] = [];
@@ -68,15 +70,18 @@ export async function fetchBreadcrumbs(
         if (Array.isArray(homeData) && homeData[0]?.title?.rendered) {
             homeTitle = homeData[0].title.rendered;
         }
-    } catch { }
+    } catch {}
 
     items.push({ href: '/', title: homeTitle, isLast: segments.length === 0 });
 
     for (let i = 0; i < segments.length; i++) {
         const slug = segments[i];
         let title: string | null = null;
+        const isCurrentPage = i === segments.length - 1;
 
-        if (staticPages[slug]) {
+        if (isCurrentPage && options.currentTitle) {
+            title = options.currentTitle;
+        } else if (staticPages[slug]) {
             title = staticPages[slug];
         } else {
             if (segments[0] === 'cars' && i === 1) {
@@ -91,11 +96,12 @@ export async function fetchBreadcrumbs(
         if (!title) title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
         items.push({
-            href: i === segments.length - 1 && options.currentPageHref
-                ? options.currentPageHref
-                : '/' + segments.slice(0, i + 1).join('/'),
+            href:
+                isCurrentPage && options.currentPageHref
+                    ? options.currentPageHref
+                    : '/' + segments.slice(0, i + 1).join('/'),
             title,
-            isLast: i === segments.length - 1
+            isLast: isCurrentPage,
         });
     }
 

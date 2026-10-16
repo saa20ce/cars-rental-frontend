@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
-import type { CSSProperties, MouseEventHandler } from 'react';
-import { ConfigProvider, Carousel, Image as AntImage } from 'antd';
+import { Image as AntImage } from 'antd';
 import NextImage from 'next/image';
 import dayjs from 'dayjs';
 import './index.css';
@@ -11,7 +10,7 @@ import {
     RentalCheckout,
     CarCharacteristics,
     RentSteps,
-    DeliveryPriceTable
+    DeliveryPriceTable,
 } from '@/components/common/Cars/';
 
 import {
@@ -19,21 +18,19 @@ import {
     ArrowRightIcon,
     DocumentsIcon,
     CarIcon,
-    AgeIcon,
-    LineIcon
+    LineIcon,
 } from '@/lib/ui/icons';
 import type {
     Car,
     PriceRange,
     SeasonData,
-    DeliveryPrice
+    DeliveryPrice,
 } from '@/lib/types/Car';
 import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import DraggablePreviewImage from '@/components/common/Cars/[slug]/DraggablePreviewImage';
-import { SimpleTabs } from '@/components/common/SimpleTabs/SimpleTabs';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { faqItems } from '@/lib/data/faqItems';
@@ -49,7 +46,7 @@ interface SingleCarPageClientProps {
     similarCars: Car[];
     similarCarsHref: string;
     similarCarsBtnTitle: string;
-    additionalOptions: { label: string; value: string; price: number }[]
+    additionalOptions: { label: string; value: string; price: number }[];
 }
 
 export default function SingleCarPageClient({
@@ -61,7 +58,7 @@ export default function SingleCarPageClient({
     similarCars,
     similarCarsHref,
     similarCarsBtnTitle,
-    additionalOptions
+    additionalOptions,
 }: SingleCarPageClientProps) {
     const carSeasonDates = useMemo(
         () => getSeasonDatesForCar(car, seasonDates),
@@ -72,6 +69,7 @@ export default function SingleCarPageClient({
     );
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewIndex, setPreviewIndex] = useState(0);
+    const [galleryIndex, setGalleryIndex] = useState(0);
     const previewDirection = useRef(0);
     const carouselPointer = useRef<{ x: number; y: number } | null>(null);
     const carouselDragged = useRef(false);
@@ -88,48 +86,19 @@ export default function SingleCarPageClient({
             ...(car.acf?.black_gallery || []),
             ...(car.acf?.gray_gallery || []),
             ...(car.acf?.blue_gallery || []),
-            ...(car.acf?.red_gallery || [])
+            ...(car.acf?.red_gallery || []),
         ],
-        [car.acf]
+        [car.acf],
     );
 
-    const TAB_ITEMS = [
-        {
-            key: '1',
-            label: 'Характеристики',
-            children: (
-                <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
-            )
-        },
-        {
-            key: '2',
-            label: 'Комплектация',
-            children: 'Content of Tab Pane 2'
-        }
-    ];
-
-    type CarouselArrowProps = {
-        className?: string;
-        style?: CSSProperties;
-        onClick?: MouseEventHandler<HTMLDivElement>;
+    const showPreviousImage = () => {
+        setGalleryIndex((index) =>
+            index === 0 ? galleryImages.length - 1 : index - 1,
+        );
     };
 
-    const MyPrevArrow = (props: CarouselArrowProps) => {
-        const { className, style, onClick } = props;
-        return (
-            <div className={className} style={style} onClick={onClick}>
-                <ArrowLeftIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
-            </div>
-        )
-    };
-
-    const MyNextArrow = (props: CarouselArrowProps) => {
-        const { className, style, onClick } = props;
-        return (
-            <div className={className} style={style} onClick={onClick}>
-                <ArrowRightIcon className="w-5 h-9 lg:w-[30px] lg:h-[48px]" shadow={true} />
-            </div>
-        )
+    const showNextImage = () => {
+        setGalleryIndex((index) => (index + 1) % galleryImages.length);
     };
 
     const rentRequirements = useMemo(() => {
@@ -137,7 +106,7 @@ export default function SingleCarPageClient({
 
         return {
             experience: isBusiness ? 'От 10 лет' : 'От 3-х лет',
-            age: isBusiness ? 'От 30 лет' : 'От 23-х лет'
+            age: isBusiness ? 'От 30 лет' : 'От 23-х лет',
         };
     }, [car.klass]);
 
@@ -154,83 +123,143 @@ export default function SingleCarPageClient({
                         <figure
                             className="relative rounded-[20px] lg:rounded-[32px] overflow-hidden"
                             onPointerDownCapture={(event) => {
-                                carouselPointer.current = { x: event.clientX, y: event.clientY };
+                                carouselPointer.current = {
+                                    x: event.clientX,
+                                    y: event.clientY,
+                                };
                                 carouselDragged.current = false;
                             }}
                             onPointerMoveCapture={(event) => {
                                 const start = carouselPointer.current;
-                                if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) {
+                                if (
+                                    start &&
+                                    Math.hypot(
+                                        event.clientX - start.x,
+                                        event.clientY - start.y,
+                                    ) > 8
+                                ) {
                                     carouselDragged.current = true;
                                 }
                             }}
-                            onPointerUpCapture={() => { carouselPointer.current = null; }}
+                            onPointerUpCapture={(event) => {
+                                const start = carouselPointer.current;
+                                carouselPointer.current = null;
+
+                                if (!start || galleryImages.length < 2) return;
+
+                                const deltaX = event.clientX - start.x;
+                                const deltaY = event.clientY - start.y;
+
+                                if (
+                                    Math.abs(deltaX) > 48 &&
+                                    Math.abs(deltaX) > Math.abs(deltaY)
+                                ) {
+                                    carouselDragged.current = true;
+                                    if (deltaX > 0) showPreviousImage();
+                                    else showNextImage();
+                                }
+                            }}
                             onPointerCancelCapture={() => {
                                 carouselPointer.current = null;
                                 carouselDragged.current = true;
                             }}
                             onClickCapture={(event) => {
-                                if (carouselDragged.current && event.detail !== 0) {
+                                if (
+                                    carouselDragged.current &&
+                                    event.detail !== 0
+                                ) {
                                     event.preventDefault();
                                     event.stopPropagation();
                                 }
                             }}
                         >
-                            {galleryImages.length === 1 && (
-                                <button
-                                    type="button"
-                                    className="block w-full cursor-zoom-in border-0 bg-transparent p-0"
-                                    aria-label="Открыть фото автомобиля на весь экран"
-                                    onClick={() => openPreview(0)}
-                                >
-                                    <NextImage
-                                        src={galleryImages[0]}
-                                        alt={car.acf?.nazvanie_avto || 'car image'}
-                                        width={725}
-                                        height={385}
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                                        className="w-full h-[225px] rounded-[20px] lg:rounded-[32px] object-cover lg:h-[385px]"
-                                    />
-                                </button>
-                            )}
-                            {galleryImages.length > 1 && (
-                                <ConfigProvider
-                                    theme={{
-                                        components: {
-                                            Carousel: { arrowSize: 30 },
-                                        },
-                                    }}
-                                >
-                                    <Carousel
-                                        arrows
-                                        draggable
-                                        swipeToSlide
-                                        prevArrow={<MyPrevArrow />}
-                                        nextArrow={<MyNextArrow />}
-                                        dots
-                                        className="custom-carousel"
+                            {galleryImages.length > 0 && (
+                                <div className="relative h-[225px] w-full lg:h-[385px]">
+                                    <button
+                                        type="button"
+                                        className="relative block h-full w-full cursor-zoom-in overflow-hidden border-0 bg-transparent p-0"
+                                        aria-label={`Открыть фото автомобиля ${galleryIndex + 1} на весь экран`}
+                                        onClick={() =>
+                                            openPreview(galleryIndex)
+                                        }
                                     >
-                                        {galleryImages.map((imgUrl, i) => (
+                                        <NextImage
+                                            src={galleryImages[galleryIndex]}
+                                            alt={`${car.acf?.nazvanie_avto || 'Автомобиль'} — фото ${galleryIndex + 1}`}
+                                            fill
+                                            draggable={false}
+                                            sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
+                                            className="object-cover"
+                                            priority={galleryIndex === 0}
+                                            fetchPriority={
+                                                galleryIndex === 0
+                                                    ? 'high'
+                                                    : 'auto'
+                                            }
+                                        />
+                                    </button>
+                                    {galleryImages.length > 1 && (
+                                        <>
                                             <button
-                                                key={i}
                                                 type="button"
-                                                className="relative block w-full h-[225px] cursor-grab active:cursor-grabbing overflow-hidden border-0 bg-transparent p-0 object-cover lg:h-[385px]"
-                                                aria-label={`Открыть фото автомобиля ${i + 1} на весь экран`}
-                                                onClick={() => openPreview(i)}
+                                                aria-label="Предыдущее фото автомобиля"
+                                                onClick={showPreviousImage}
+                                                className="absolute left-[18px] top-1/2 z-10 -translate-y-1/2 border-0 bg-transparent p-2"
                                             >
-                                                <NextImage
-                                                    src={imgUrl}
-                                                    alt={`${car.acf?.nazvanie_avto ?? 'car'} ${i + 1}`}
-                                                    fill
-                                                    draggable={false}
-                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                    style={{ objectFit: 'cover' }}
-                                                    priority={i === 0}
-                                                    loading={i === 0 ? 'eager' : 'lazy'}
+                                                <ArrowLeftIcon
+                                                    className="h-9 w-5 lg:h-[48px] lg:w-[30px]"
+                                                    shadow
                                                 />
                                             </button>
-                                        ))}
-                                    </Carousel>
-                                </ConfigProvider>
+                                            <button
+                                                type="button"
+                                                aria-label="Следующее фото автомобиля"
+                                                onClick={showNextImage}
+                                                className="absolute right-[18px] top-1/2 z-10 -translate-y-1/2 border-0 bg-transparent p-2"
+                                            >
+                                                <ArrowRightIcon
+                                                    className="h-9 w-5 lg:h-[48px] lg:w-[30px]"
+                                                    shadow
+                                                />
+                                            </button>
+                                            <div
+                                                className="absolute bottom-[10px] left-1/2 z-10 flex max-w-[calc(100%_-_32px)] -translate-x-1/2 items-center justify-center lg:bottom-3"
+                                                aria-label="Выбор фотографии автомобиля"
+                                            >
+                                                {galleryImages.map(
+                                                    (_, index) => (
+                                                        <button
+                                                            key={index}
+                                                            type="button"
+                                                            aria-label={`Показать фото ${index + 1}`}
+                                                            aria-current={
+                                                                index ===
+                                                                galleryIndex
+                                                                    ? 'true'
+                                                                    : undefined
+                                                            }
+                                                            onClick={() =>
+                                                                setGalleryIndex(
+                                                                    index,
+                                                                )
+                                                            }
+                                                            className="flex h-5 w-5 shrink-0 items-center justify-center border-0 bg-transparent p-0"
+                                                        >
+                                                            <span
+                                                                className={`block h-2 w-2 rounded-full ${
+                                                                    index ===
+                                                                    galleryIndex
+                                                                        ? 'bg-[#F6F6F6]'
+                                                                        : 'bg-[#F6F6F633]'
+                                                                }`}
+                                                            />
+                                                        </button>
+                                                    ),
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
                             )}
                             {car.acf && <SaleInfo acf={car.acf} />}
                         </figure>
@@ -243,29 +272,47 @@ export default function SingleCarPageClient({
                                 preview={{
                                     visible: previewVisible,
                                     current: previewIndex,
-                                    imageRender: (image, { transform, current }) => (
+                                    imageRender: (
+                                        image,
+                                        { transform, current },
+                                    ) => (
                                         <DraggablePreviewImage
                                             key={current}
                                             image={image}
                                             scale={transform.scale}
                                             canGoPrevious={current > 0}
-                                            canGoNext={current < galleryImages.length - 1}
-                                            enterDirection={previewDirection.current}
+                                            canGoNext={
+                                                current <
+                                                galleryImages.length - 1
+                                            }
+                                            enterDirection={
+                                                previewDirection.current
+                                            }
                                             visible={previewVisible}
                                             onSwipe={(direction) => {
-                                                previewDirection.current = direction;
+                                                previewDirection.current =
+                                                    direction;
                                                 setPreviewIndex((index) =>
-                                                    Math.max(0, Math.min(galleryImages.length - 1, index + direction))
+                                                    Math.max(
+                                                        0,
+                                                        Math.min(
+                                                            galleryImages.length -
+                                                                1,
+                                                            index + direction,
+                                                        ),
+                                                    ),
                                                 );
                                             }}
                                         />
                                     ),
                                     onVisibleChange: setPreviewVisible,
                                     onChange: (index) => {
-                                        previewDirection.current = index > previewIndex ? 1 : -1;
+                                        previewDirection.current =
+                                            index > previewIndex ? 1 : -1;
                                         setPreviewIndex(index);
                                     },
-                                    countRender: (current, total) => `${current} из ${total}`,
+                                    countRender: (current, total) =>
+                                        `${current} из ${total}`,
                                     styles: {
                                         mask: {
                                             backdropFilter: 'blur(30px)',
@@ -296,7 +343,10 @@ export default function SingleCarPageClient({
                         <div className="text-[24px]/[32px] font-bold mb-5">
                             Характеристики
                         </div>
-                        <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
+                        <CarCharacteristics
+                            car={car}
+                            taxonomyValues={taxonomyValues}
+                        />
                     </section>
                 </article>
 
@@ -377,7 +427,10 @@ export default function SingleCarPageClient({
                         <div className="text-[20px]/[28px] font-bold mb-[16px]">
                             Характеристики
                         </div>
-                        <CarCharacteristics car={car} taxonomyValues={taxonomyValues} />
+                        <CarCharacteristics
+                            car={car}
+                            taxonomyValues={taxonomyValues}
+                        />
                     </section>
                 </article>
             </section>
@@ -428,5 +481,5 @@ export default function SingleCarPageClient({
 
             <HaveQuestions headingTag="div" />
         </>
-    )
+    );
 }

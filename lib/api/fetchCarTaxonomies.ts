@@ -29,7 +29,9 @@ type TaxonomyFetchOptions = {
 
 export async function fetchTermName(url: string): Promise<string | null> {
     try {
-        const res = await wpFetch(url, { next: { tags: ['wordpress-taxonomies'] } });
+        const res = await wpFetch(url, {
+            next: { tags: ['wordpress-taxonomies'] },
+        });
         if (!res.ok) {
             console.error('Ошибка при запросе таксономии:', url, res.status);
             return null;
@@ -49,27 +51,33 @@ export async function getCarTaxonomyNames(
     car: Car,
     configs: CarTaxonomyConfig[],
 ): Promise<Record<string, string>> {
-    const result: Record<string, string> = {};
-
     const wpTerms = car._links?.['wp:term'] || [];
+    const embeddedTerms = car._embedded?.['wp:term']?.flat() || [];
 
-    for (const cfg of configs) {
-        const termLink = wpTerms.find(
-            (linkItem: LinkItem) => linkItem.taxonomy === cfg.taxonomy,
-        );
-        if (termLink && termLink.href) {
-            const name = await fetchTermName(termLink.href);
-            if (name) {
-                result[cfg.fieldKey] = name;
-            } else {
-                result[cfg.fieldKey] = '';
+    const entries = await Promise.all(
+        configs.map(async (cfg) => {
+            const embeddedName = embeddedTerms.find(
+                (term) => term.taxonomy === cfg.taxonomy,
+            )?.name;
+
+            if (embeddedName) {
+                return [cfg.fieldKey, embeddedName] as const;
             }
-        } else {
-            result[cfg.fieldKey] = '';
-        }
-    }
 
-    return result;
+            const termLink = wpTerms.find(
+                (linkItem: LinkItem) => linkItem.taxonomy === cfg.taxonomy,
+            );
+
+            if (termLink && termLink.href) {
+                const name = await fetchTermName(termLink.href);
+                return [cfg.fieldKey, name || ''] as const;
+            }
+
+            return [cfg.fieldKey, ''] as const;
+        }),
+    );
+
+    return Object.fromEntries(entries);
 }
 
 export async function fetchTaxonomyOptions(

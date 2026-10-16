@@ -98,7 +98,8 @@ const getEmbeddedTermName = (car: Car, taxonomy: string) => {
     return terms.find((term: Term) => term.taxonomy === taxonomy)?.name ?? '';
 };
 
-const getCarDisplayTaxonomyMaps = cache(async (): Promise<CarDisplayTaxonomyMaps> => {
+const getCarDisplayTaxonomyMaps = cache(
+    async (): Promise<CarDisplayTaxonomyMaps> => {
         return Promise.all([
             fetchTaxonomyOptions('klass'),
             fetchTaxonomyOptions('kuzov'),
@@ -108,7 +109,8 @@ const getCarDisplayTaxonomyMaps = cache(async (): Promise<CarDisplayTaxonomyMaps
             kuzov: buildTaxonomyMap(kuzov),
             color: buildTaxonomyMap(color),
         }));
-});
+    },
+);
 
 async function enrichCarsDisplayTaxonomies(cars: Car[]): Promise<Car[]> {
     if (cars.length === 0) return cars;
@@ -221,7 +223,7 @@ export function getSimilarCarsGroup(car: Car): SimilarCarsGroup | null {
     );
 }
 
-export async function getCarBySlug(
+export const getCarBySlug = cache(async function getCarBySlug(
     slug: string,
     includeTaxonomies: boolean = false,
 ): Promise<Car | null> {
@@ -282,7 +284,7 @@ export async function getCarBySlug(
     const data: Car[] = await res.json();
     const [car] = await enrichCarsDisplayTaxonomies(slimCars(data));
     return car ?? null;
-}
+});
 
 export async function getSimilarCars(car: Car): Promise<Car[]> {
     const group = getSimilarCarsGroup(car);

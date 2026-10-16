@@ -45,5 +45,6 @@ next-env.d.ts
 *.sql
 
 tools/
+reports/
 
 migration*.txt

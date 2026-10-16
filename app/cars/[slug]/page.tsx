@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import {
     getCarBySlug,
+    getCars,
     getSeasonDates,
     getDeliveryPrice,
     getSimilarCars,
@@ -22,6 +23,18 @@ type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
 };
 
+// Car data and prices are refreshed by the daily WordPress cache. Keeping the
+// route in the full-page cache avoids rebuilding the same data waterfall for
+// every visitor.
+export const revalidate = 86400;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+    const cars = await getCars({ per_page: '100' });
+
+    return cars.map((car) => ({ slug: car.slug }));
+}
+
 export async function generateMetadata({ params }: SingleCarPageProps) {
     const { slug } = await params;
     const [wordpressMetadata, car] = await Promise.all([
@@ -38,15 +51,24 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
 
     if (!car) return notFound();
 
-    const seasonDates = await getSeasonDates();
     const priceRanges = buildPriceRangesFromACF(car.acf || {});
-    const deliveryPrice = await getDeliveryPrice();
-    const taxonomyValues = await getCarTaxonomyNames(car, CAR_TAXONOMIES);
-    const similarCars = await getSimilarCars(car);
     const similarCarsGroup = getSimilarCarsGroup(car);
-    const additionalOptions = await getAdditionalOptions();
-
-    const breadcrumbs = await fetchBreadcrumbs(`/cars/${slug}`);
+    const currentTitle = car.acf?.nazvanie_avto || car.title?.rendered;
+    const [
+        seasonDates,
+        deliveryPrice,
+        taxonomyValues,
+        similarCars,
+        additionalOptions,
+        breadcrumbs,
+    ] = await Promise.all([
+        getSeasonDates(),
+        getDeliveryPrice(),
+        getCarTaxonomyNames(car, CAR_TAXONOMIES),
+        getSimilarCars(car),
+        getAdditionalOptions(),
+        fetchBreadcrumbs(`/cars/${slug}`, { currentTitle }),
+    ]);
     const carJsonLd = buildCarJsonLd({ car, seasonDates, taxonomyValues });
     const clientCar = { ...car, _links: undefined, _embedded: undefined };
     const clientSimilarCars = similarCars.map((similarCar) => ({

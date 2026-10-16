@@ -77,7 +77,7 @@ export default function RootLayout({
                 <Script
                     id="jivo-widget"
                     src="https://code.jivo.ru/widget/Qz0Xf8xJVP"
-                    strategy="afterInteractive"
+                    strategy="lazyOnload"
                     async
                 />
             </body>

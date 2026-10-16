@@ -180,6 +180,7 @@ export default function SingleCarPageClient({
                                             sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                                             className="object-cover"
                                             priority={galleryIndex === 0}
+                                            decoding={galleryIndex === 0 ? 'sync' : 'async'}
                                             fetchPriority={
                                                 galleryIndex === 0
                                                     ? 'high'

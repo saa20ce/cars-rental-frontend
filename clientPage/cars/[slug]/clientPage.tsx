@@ -276,7 +276,7 @@ export default function SingleCarPageClient({
                                             sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                                             className="object-cover"
                                             priority={galleryIndex === 0}
-                                            decoding="async"
+                                            decoding="sync"
                                             onLoad={markHeroImageReady}
                                             onError={markHeroImageReady}
                                             fetchPriority={

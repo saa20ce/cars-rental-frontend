@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const COOKIE_CONSENT_STORAGE_KEY = 'rentasib-cookie-consent';
@@ -14,8 +13,7 @@ export default function CookieBanner() {
     useEffect(() => {
         try {
             setIsVisible(
-                localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY) !==
-                    'accepted',
+                localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY) !== 'accepted',
             );
         } catch {
             setIsVisible(true);
@@ -40,23 +38,23 @@ export default function CookieBanner() {
                 <p className="text-[12px]/[18px] font-semibold lg:text-[14px]/[20px]">
                     Мы используем файлы cookie для улучшения работы сайта.
                     Продолжая использовать сайт, вы соглашаетесь с нашей{' '}
-                    <Link
+                    <a
                         href={COOKIE_POLICY_HREF}
                         className="underline underline-offset-4"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         Политикой использования файлов cookie
-                    </Link>{' '}
+                    </a>{' '}
                     и{' '}
-                    <Link
+                    <a
                         href={PERSONAL_DATA_POLICY_HREF}
                         className="underline underline-offset-4"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         Политикой обработки персональных данных
-                    </Link>
+                    </a>
                     .
                 </p>
 

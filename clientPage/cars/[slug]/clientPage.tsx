@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
-import { Image as AntImage } from 'antd';
 import NextImage from 'next/image';
+import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
 import './index.css';
 import {
@@ -30,13 +30,17 @@ import { WhyUs } from '@/components/common/Cards/WhyUs';
 import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import Link from 'next/link';
 import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
-import DraggablePreviewImage from '@/components/common/Cars/[slug]/DraggablePreviewImage';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
 import { Accordion } from '@/lib/ui/common/Accordion';
 import { faqItems } from '@/lib/data/faqItems';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
+
+const CarImagePreview = dynamic(
+    () => import('@/components/common/Cars/[slug]/CarImagePreview'),
+    { ssr: false },
+);
 interface SingleCarPageClientProps {
     car: Car;
     seasonDates: SeasonData | null;
@@ -70,12 +74,10 @@ export default function SingleCarPageClient({
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewIndex, setPreviewIndex] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(0);
-    const previewDirection = useRef(0);
     const carouselPointer = useRef<{ x: number; y: number } | null>(null);
     const carouselDragged = useRef(false);
 
     const openPreview = (index: number) => {
-        previewDirection.current = 0;
         setPreviewIndex(index);
         setPreviewVisible(true);
     };
@@ -179,6 +181,12 @@ export default function SingleCarPageClient({
                                         type="button"
                                         className="relative block h-full w-full cursor-zoom-in overflow-hidden border-0 bg-transparent p-0"
                                         aria-label={`Открыть фото автомобиля ${galleryIndex + 1} на весь экран`}
+                                        onPointerEnter={() => {
+                                            void import('@/components/common/Cars/[slug]/CarImagePreview');
+                                        }}
+                                        onFocus={() => {
+                                            void import('@/components/common/Cars/[slug]/CarImagePreview');
+                                        }}
                                         onClick={() =>
                                             openPreview(galleryIndex)
                                         }
@@ -263,69 +271,14 @@ export default function SingleCarPageClient({
                             )}
                             {car.acf && <SaleInfo acf={car.acf} />}
                         </figure>
-                        {galleryImages.length > 0 && (
-                            <AntImage.PreviewGroup
-                                items={galleryImages.map((url, index) => ({
-                                    src: url,
-                                    alt: `${car.acf?.nazvanie_avto || 'Автомобиль'} — фото ${index + 1}`,
-                                }))}
-                                preview={{
-                                    visible: previewVisible,
-                                    current: previewIndex,
-                                    imageRender: (
-                                        image,
-                                        { transform, current },
-                                    ) => (
-                                        <DraggablePreviewImage
-                                            key={current}
-                                            image={image}
-                                            scale={transform.scale}
-                                            canGoPrevious={current > 0}
-                                            canGoNext={
-                                                current <
-                                                galleryImages.length - 1
-                                            }
-                                            enterDirection={
-                                                previewDirection.current
-                                            }
-                                            visible={previewVisible}
-                                            onSwipe={(direction) => {
-                                                previewDirection.current =
-                                                    direction;
-                                                setPreviewIndex((index) =>
-                                                    Math.max(
-                                                        0,
-                                                        Math.min(
-                                                            galleryImages.length -
-                                                                1,
-                                                            index + direction,
-                                                        ),
-                                                    ),
-                                                );
-                                            }}
-                                        />
-                                    ),
-                                    onVisibleChange: setPreviewVisible,
-                                    onChange: (index) => {
-                                        previewDirection.current =
-                                            index > previewIndex ? 1 : -1;
-                                        setPreviewIndex(index);
-                                    },
-                                    countRender: (current, total) =>
-                                        `${current} из ${total}`,
-                                    styles: {
-                                        mask: {
-                                            backdropFilter: 'blur(30px)',
-                                            WebkitBackdropFilter: 'blur(30px)',
-                                        },
-                                    },
-                                    toolbarRender: (_, { icons }) => (
-                                        <div className="ant-image-preview-operations">
-                                            {icons.zoomOutIcon}
-                                            {icons.zoomInIcon}
-                                        </div>
-                                    ),
-                                }}
+                        {previewVisible && galleryImages.length > 0 && (
+                            <CarImagePreview
+                                images={galleryImages}
+                                carName={car.acf?.nazvanie_avto || 'Автомобиль'}
+                                visible={previewVisible}
+                                current={previewIndex}
+                                onVisibleChange={setPreviewVisible}
+                                onCurrentChange={setPreviewIndex}
                             />
                         )}
                     </section>
@@ -416,6 +369,7 @@ export default function SingleCarPageClient({
                                 Полные условия аренды вы можете прочитать{' '}
                                 <Link
                                     href="/require"
+                                    prefetch={false}
                                     className="font-semibold underline underline-offset-[5px]"
                                 >
                                     ЗДЕСЬ

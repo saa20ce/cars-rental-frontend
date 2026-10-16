@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { Checkbox, Form } from 'antd';
 
 export const PERSONAL_DATA_CONSENT_HREF =
@@ -13,23 +12,23 @@ export function PersonalDataConsentText() {
     return (
         <span className="font-semibold text-[12px]/[16px] lg:text-[14px]/[20px] text-[#F6F6F699]">
             Нажимая кнопку, я даю свое{' '}
-            <Link
+            <a
                 href={PERSONAL_DATA_CONSENT_HREF}
                 className="underline text-[#F6F6F6]"
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 Согласие на обработку персональных данных
-            </Link>{' '}
+            </a>{' '}
             и соглашаюсь с{' '}
-            <Link
+            <a
                 href={PERSONAL_DATA_POLICY_HREF}
                 className="underline text-[#F6F6F6]"
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 Политикой обработки персональных данных
-            </Link>
+            </a>
             .
         </span>
     );
@@ -50,9 +49,7 @@ export function PersonalDataConsentFormItem({
                     validator: (_, value) =>
                         value
                             ? Promise.resolve()
-                            : Promise.reject(
-                                  new Error('Подтвердите согласие'),
-                              ),
+                            : Promise.reject(new Error('Подтвердите согласие')),
                 },
             ]}
         >

@@ -39,7 +39,7 @@ export const Navbar = () => {
             }`}
             ref={navbarRef}
         >
-            <Link href="/">
+            <Link href="/" prefetch={false}>
                 <LogoFull />
             </Link>
 

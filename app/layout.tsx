@@ -23,7 +23,7 @@ const lato = localFont({
             style: 'normal',
         },
         {
-            path: '../public/fonts/Lato-Semibold.woff2',
+            path: '../public/fonts/Lato-Semibold-ru.woff2',
             weight: '600',
             style: 'normal',
         },

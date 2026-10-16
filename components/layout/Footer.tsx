@@ -7,7 +7,7 @@ import {
     PointerIcon,
     DzenIcon,
     VkMiniIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
 } from '@/lib/ui/icons';
 import Link from 'next/link';
 import ModalTrigger from '../common/Modal/ModalTrigger';
@@ -66,9 +66,7 @@ export const Footer: React.FC = () => {
             <section className="flex flex-col gap-3 mb-[12px] lg:gap-5 lg:mb-5">
                 <div className="flex text-[18px] lg:text-[24px] font-[600] justify-between">
                     <div>
-                        <Link
-                            href="/karta-sajta"
-                        >
+                        <Link href="/karta-sajta">
                             Разделы сайта{' '}
                             <ChevronRightIcon width={10} height={32} />
                         </Link>
@@ -98,7 +96,7 @@ export const Footer: React.FC = () => {
                                     rel="noopener noreferrer"
                                     className="flex-center h-[30px] lg:h-[30px] w-[30px] lg:w-[30px]"
                                 >
-                                    <MaxIcon className='h-[30px] lg:h-[30px] w-[30px] lg:w-[30px]'/>
+                                    <MaxIcon className="h-[30px] lg:h-[30px] w-[30px] lg:w-[30px]" />
                                 </a>
                                 <a
                                     href="https://t.me/Rentasib"
@@ -216,22 +214,32 @@ export const Footer: React.FC = () => {
                 <div className=" text-[#9CA3AF] font-bold tracking-wide">
                     ИНН: 5405065213<br></br>
                     ОГРН: 1215400028238<br></br>
-                    E-mail: rentasib54@gmail.com<br></br>
-                    © ООО «Рентасиб», 2020—2026<br></br>
+                    E-mail: rentasib54@gmail.com<br></br>© ООО «Рентасиб»,
+                    2020—2026<br></br>
                 </div>
                 <div className="flex flex-col lg:flex-row text-[14px] lg:items-center lg:gap-6 mt-3 lg:mt-0">
-                    <Link
-                        href={'/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf'}
+                    <a
+                        href={
+                            '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf'
+                        }
                         className="underline underline-offset-4 mb-1 lg:mb-0"
                     >
                         Политика в отношении обработки персональных данных
-                    </Link>
-                    <Link href={"/docs/02-soglasie-na-obrabotku-pdn-dlya-sajta-ooo-rentasib.pdf"} className="underline underline-offset-4">
+                    </a>
+                    <a
+                        href={
+                            '/docs/02-soglasie-na-obrabotku-pdn-dlya-sajta-ooo-rentasib.pdf'
+                        }
+                        className="underline underline-offset-4"
+                    >
                         Согласие на обработку персональных данных
-                    </Link>
-                    <Link href={"/docs/03-politika-cookie-ooo-rentasib.pdf"} className="underline underline-offset-4">
+                    </a>
+                    <a
+                        href={'/docs/03-politika-cookie-ooo-rentasib.pdf'}
+                        className="underline underline-offset-4"
+                    >
                         Политика в отношении файлов Cookie
-                    </Link>
+                    </a>
                 </div>
             </section>
         </footer>

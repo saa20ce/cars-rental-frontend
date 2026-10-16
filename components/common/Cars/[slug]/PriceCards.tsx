@@ -158,7 +158,7 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
                                             className={`text-[14px]/[20px] lg:text-[18px]/[28px] font-bold transition-all`}
                                         >
                                             {finalPrice > 0
-                                                ? `${finalPrice.toLocaleString()} ₽/сут.`
+                                                ? `${finalPrice.toLocaleString('ru-RU')} ₽/сут.`
                                                 : '—'}
                                         </p>
                                     </li>

@@ -393,7 +393,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                                 )}
                             </dt>
                             <dd className="font-bold">
-                                {pricePerDay.toLocaleString()} ₽/сут.
+                                {pricePerDay.toLocaleString('ru-RU')} ₽/сут.
                             </dd>
                         </div>
 

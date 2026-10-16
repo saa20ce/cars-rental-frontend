@@ -180,7 +180,7 @@ export const ModalRentalCheckout: React.FC<ModalRentalCheckoutProps> = ({
                                 )}
                             </dt>
                             <dd className={classes.descCard}>
-                                {pricePerDay.toLocaleString()} ₽/сут.
+                                {pricePerDay.toLocaleString('ru-RU')} ₽/сут.
                             </dd>
                         </div>
 

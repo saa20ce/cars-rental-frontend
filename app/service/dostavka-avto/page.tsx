@@ -12,7 +12,7 @@ import { ArrowRightLinkIcon, LineIcon } from '@/lib/ui/icons';
 import Link from 'next/link';
 import { fetchWPMetadata } from '@/lib/api/fetchWPMetadata';
 import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
-import { DeliveryPriceTable } from '@/components/common/Cars';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
 import MapPriceDelivery from '@/components/common/MapPriceDelivery/MapPriceDelivery';
 
 export const revalidate = 86400;

@@ -1,4 +1,5 @@
-import { DeliveryPriceTable, RentSteps } from '@/components/common/Cars';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
+import { RentSteps } from '@/components/common/Steps/RentSteps';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import { CarIcon, CheckRound, DocumentsIcon, LineIcon } from '@/lib/ui/icons';

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import type { PriceRange, SeasonData } from '@/lib/types/Car';
-import { Switch, Tooltip } from 'antd';
 import { LineIcon, InfoIcon } from '@/lib/ui/icons';
 
 type PriceCardsItemLabelTag = 'h3' | 'div';
@@ -105,50 +104,25 @@ export const PriceCards: React.FC<PriceCardsProps> = ({
         <>
             <section>
                 <div className="flex items-center gap-2 lg:gap-[10px] mt-5 ml-2 lg:ml-6">
-                    <Switch checked={seasonModeSwitch} className="custom-switch" />
-                    <style jsx global>{`
-                    .ant-switch,
-                    .ant-switch:hover:not(.ant-switch-disabled) {
-                        background-color: #f6f6f675;
-                    }
-
-                    .ant-switch.ant-switch-checked,
-                    .ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled) {
-                        background-color: #3c6e71;
-                    }
-
-                    .ant-tooltip .ant-tooltip-inner {
-                        padding: 8px 10px;
-                    }
-
-                    .custom-switch {
-                        width: 56px !important;
-                        height: 28px !important;
-                    }
-
-                    .custom-switch .ant-switch-handle {
-                        width: 20px !important;
-                        height: 20px !important;
-                        top: 4px !important;
-                        left: 4px !important;
-                    }
-
-                    .custom-switch.ant-switch-checked .ant-switch-handle {
-                        left: calc(100% - 20px - 4px) !important; 
-                    }
-                    `}</style>
+                    <span
+                        role="img"
+                        aria-label={seasonModeSwitch ? 'Сезонный тариф' : 'Обычный тариф'}
+                        className={`relative inline-block h-7 w-14 shrink-0 rounded-full ${seasonModeSwitch ? 'bg-[#3c6e71]' : 'bg-[#f6f6f675]'}`}
+                    >
+                        <span
+                            className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-[left] ${seasonModeSwitch ? 'left-8' : 'left-1'}`}
+                        />
+                    </span>
                     <span className="text-[16px]/[24px] lg:text-[20px]/[28px] font-normal">Сезон</span>
                     <LineIcon />
-                    <Tooltip
-                        title={tooltipText(seasonDates)}
-                        color="#4b5563"
-                        arrow={false}
-
-                    >
-                        <div>
+                    <details className="relative group">
+                        <summary className="list-none cursor-pointer" aria-label="Показать даты сезонных тарифов">
                             <InfoIcon />
+                        </summary>
+                        <div className="absolute left-0 top-full z-20 mt-2 w-max max-w-[calc(100vw-48px)] rounded-lg bg-[#4b5563] px-[10px] py-2 shadow-lg">
+                            {tooltipText(seasonDates)}
                         </div>
-                    </Tooltip>
+                    </details>
                 </div>
 
                 <div className="-mx-4 lg:mx-0 mt-4 overflow-x-auto lg:overflow-visible scrollbar-hide">

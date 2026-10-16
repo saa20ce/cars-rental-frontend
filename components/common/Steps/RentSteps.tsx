@@ -109,6 +109,7 @@ export function RentSteps({
                 </ol>
                 <Link
                     href="/require"
+                    prefetch={false}
                     className="block lg:hidden underline underline-offset-[5px] text-center text-[20px]/[28px] font-semibold mt-5"
                 >
                     Полные условия

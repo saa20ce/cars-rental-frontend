@@ -1,15 +1,9 @@
 'use client';
 
 import type { DeliveryOption, DeliveryPrice } from '@/lib/types/Car';
-import type { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useMemo, useState } from 'react';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-const CustomSelect = dynamic(
-    () => import('@/lib/ui/common/Select/CustomSelect').then(m => m.CustomSelect || m),
-    { ssr: false, loading: () => null }
-);
 
 
 const normalizeKey = (key: string) => {
@@ -65,23 +59,11 @@ export const DeliveryPriceTable = ({
 }) => {
     const [timeRange, setTimeRange] = useState<'day' | 'night'>('day');
 
-    const getTimeLabel = (range: 'day' | 'night') =>
-        range === 'day' ? '10:00 - 19:00' : '19:01 - 09:59';
-
     const groupedDeliveryOptions = useMemo(() => {
         return groupDeliveryOptions(deliveryPrice?.day, deliveryPrice?.night);
     }, [deliveryPrice]);
 
     const hasDeliveryOptions = groupedDeliveryOptions.length > 0;
-
-    const handleSelectChange = (
-        value: unknown,
-        option?: DefaultOptionType | DefaultOptionType[] | undefined
-    ) => {
-        if (option && 'value' in option && 'label' in option) {
-            setTimeRange(value === '10:00 - 19:00' ? 'day' : 'night');
-        }
-    };
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -109,22 +91,15 @@ export const DeliveryPriceTable = ({
                 <div className="flex flex-row items-center">
                     <label htmlFor="time-select">Время:</label>
                     <div className="ml-[10px]">
-                        <CustomSelect
+                        <select
                             id="time-select"
-                            options={[
-                                {
-                                    value: '10:00 - 19:00',
-                                    label: '10:00 - 19:00',
-                                },
-                                {
-                                    value: '19:01 - 09:59',
-                                    label: '19:01 - 09:59',
-                                },
-                            ]}
-                            value={getTimeLabel(timeRange)}
-                            style={{ width: '146px' }}
-                            onChange={handleSelectChange}
-                        />
+                            value={timeRange}
+                            onChange={(event) => setTimeRange(event.target.value as 'day' | 'night')}
+                            className="h-9 w-[146px] rounded-xl border border-[#f6f6f647] bg-[#f6f6f638] px-3 text-[#f6f6f6]"
+                        >
+                            <option value="day" className="bg-[#284152]">10:00 - 19:00</option>
+                            <option value="night" className="bg-[#284152]">19:01 - 09:59</option>
+                        </select>
                     </div>
                 </div>
                 <div className="text-[#FFD7A6]">Доставка 24/7</div>

@@ -5,20 +5,15 @@ import NextImage from 'next/image';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
 import './index.css';
-import {
-    PriceCards,
-    RentalCheckout,
-    CarCharacteristics,
-    RentSteps,
-    DeliveryPriceTable,
-} from '@/components/common/Cars/';
+import { PriceCards } from '@/components/common/Cars/[slug]/PriceCards';
+import { RentalCheckout } from '@/components/common/Cars/[slug]/RentalCheckout';
+import { CarCharacteristics } from '@/components/common/Cars/[slug]/CarCharacteristics';
 
 import {
     ArrowLeftIcon,
     ArrowRightIcon,
     DocumentsIcon,
     CarIcon,
-    LineIcon,
 } from '@/lib/ui/icons';
 import type {
     Car,
@@ -26,13 +21,8 @@ import type {
     SeasonData,
     DeliveryPrice,
 } from '@/lib/types/Car';
-import { WhyUs } from '@/components/common/Cards/WhyUs';
-import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
 import Link from 'next/link';
-import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
 import SaleInfo from '@/components/common/Cards/SaleInfo';
-import { Accordion } from '@/lib/ui/common/Accordion';
-import { faqItems } from '@/lib/data/faqItems';
 import { MenIcon } from '@/lib/ui/icons/MenIcon';
 import { isDaySeason } from '@/lib/helpers/RentalCheckoutHelper';
 import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
@@ -47,9 +37,6 @@ interface SingleCarPageClientProps {
     priceRanges: PriceRange[];
     deliveryPrice: DeliveryPrice;
     taxonomyValues: Record<string, string>;
-    similarCars: Car[];
-    similarCarsHref: string;
-    similarCarsBtnTitle: string;
     additionalOptions: { label: string; value: string; price: number }[];
 }
 
@@ -59,9 +46,6 @@ export default function SingleCarPageClient({
     priceRanges,
     deliveryPrice,
     taxonomyValues,
-    similarCars,
-    similarCarsHref,
-    similarCarsBtnTitle,
     additionalOptions,
 }: SingleCarPageClientProps) {
     const carSeasonDates = useMemo(
@@ -323,6 +307,7 @@ export default function SingleCarPageClient({
                             </h2>
                             <Link
                                 href={'/require'}
+                                prefetch={false}
                                 className="lg:hidden underline underline-offset-4 text-[16px]/[24px] font-normal"
                             >
                                 Полные условия
@@ -389,51 +374,6 @@ export default function SingleCarPageClient({
                 </article>
             </section>
 
-            <div className="pb-[42px] lg:pb-[68px]">
-                <GalleryCars
-                    title="Похожие авто"
-                    btnTitle={similarCarsBtnTitle}
-                    similarCars={similarCars}
-                    href={similarCarsHref}
-                    titleTag="h3"
-                    carTitleTag="div"
-                    seasonDates={seasonDates}
-                    deliveryPrice={deliveryPrice}
-                    additionalOptions={additionalOptions}
-                />
-            </div>
-
-            <RentSteps headingTag="div" stepTitleTag="div" />
-
-            <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden"></div>
-
-            <section className="mt-10 lg:mt-[68px]">
-                <div className="flex flex-row">
-                    <div className="text-xl font-bold lg:text-3xl">
-                        Стоимость доставки авто:
-                    </div>
-                    <div className="hidden lg:block ml-4 mt-[6px]">
-                        <LineIcon />
-                    </div>
-                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
-                        Доставка 24/7
-                    </div>
-                </div>
-                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
-            </section>
-
-            <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]"></div>
-
-            <WhyUs headingTag="div" />
-
-            <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
-                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                    Часто задаваемые вопросы:
-                </div>
-                <Accordion items={faqItems} />
-            </section>
-
-            <HaveQuestions headingTag="div" />
         </>
     );
 }

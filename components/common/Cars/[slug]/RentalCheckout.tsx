@@ -38,7 +38,22 @@ const ConfigProvider = dynamic(
 );
 const RentalPeriod = dynamic(
     () => import('./RentalPeriod').then(m => m.RentalPeriod),
-    { ssr: false, loading: () => null }
+    {
+        ssr: false,
+        loading: () => (
+            <section
+                className="mt-6 min-h-[450px] w-full rounded-[24px] bg-[#284b63] px-6 py-7 lg:mt-0 lg:min-h-[380px] lg:max-w-[618px] lg:rounded-[32px] lg:p-9"
+                aria-label="Загружается форма бронирования"
+            >
+                <div className="mb-4 text-[20px]/[28px] font-bold lg:mb-5 lg:text-[24px]/[32px]">
+                    Форма бронирования
+                </div>
+                <div className="mb-[10px] text-[16px]/[24px] font-semibold lg:mb-3 lg:text-[18px]/[28px]">
+                    Период аренды:
+                </div>
+            </section>
+        ),
+    }
 );
 const ModalRentalCheckout = dynamic(
     () => import('@/components/common/Modal/ModalRentalCheckout').then((mod) => mod.ModalRentalCheckout),

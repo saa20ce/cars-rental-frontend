@@ -45,15 +45,21 @@ export default function ContactCard({ children }: { children: ReactNode }) {
                         className="block w-full h-full rounded-[12px] overflow-hidden shadow-lg"
                         aria-label="Открыть карту расположения офиса"
                     >
-                        <img
-                            src="https://static.maps.2gis.com/1.0?center=82.9256,55.0153&zoom=15&size=600,400&markers=82.9256,55.0153"
-                            alt="Карта расположения офиса по адресу Красный просп., 2/1"
-                            width={600}
-                            height={400}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-cover"
-                        />
+                        <picture>
+                            <source
+                                media="(min-width: 1024px)"
+                                srcSet="https://static.maps.2gis.com/1.0?center=82.9256,55.0153&zoom=15&size=600,400&markers=82.9256,55.0153"
+                            />
+                            <img
+                                src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                                alt="Карта расположения офиса по адресу Красный просп., 2/1"
+                                width={600}
+                                height={400}
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-full object-cover"
+                            />
+                        </picture>
                     </a>
                 </div>
             </div>

@@ -18,6 +18,14 @@ import { buildPriceRangesFromACF } from '@/lib/helpers/priceRanges';
 import JsonLd from '@/components/common/Meta/JsonLd';
 import { buildCarJsonLd } from '@/lib/seo/structuredData';
 import { withCurrentCarMetadata } from '@/lib/seo/carMetadata';
+import GalleryCars from '@/components/common/Cars/[slug]/GalleryCars';
+import { RentSteps } from '@/components/common/Steps/RentSteps';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
+import { WhyUs } from '@/components/common/Cards/WhyUs';
+import { HaveQuestions } from '@/components/common/Cards/HaveQuestions';
+import { Accordion } from '@/lib/ui/common/Accordion';
+import { faqItems } from '@/lib/data/faqItems';
+import { LineIcon } from '@/lib/ui/icons';
 
 type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
@@ -86,12 +94,54 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
                 seasonDates={seasonDates}
                 priceRanges={priceRanges}
                 taxonomyValues={taxonomyValues}
-                similarCars={clientSimilarCars}
-                similarCarsHref={similarCarsGroup?.href ?? '/cars'}
-                similarCarsBtnTitle={similarCarsGroup?.btnTitle ?? 'Все авто'}
                 additionalOptions={additionalOptions}
                 deliveryPrice={deliveryPrice}
             />
+            <div className="pb-[42px] lg:pb-[68px]">
+                <GalleryCars
+                    title="Похожие авто"
+                    btnTitle={similarCarsGroup?.btnTitle ?? 'Все авто'}
+                    similarCars={clientSimilarCars}
+                    href={similarCarsGroup?.href ?? '/cars'}
+                    titleTag="h3"
+                    carTitleTag="div"
+                    seasonDates={seasonDates}
+                    deliveryPrice={deliveryPrice}
+                    additionalOptions={additionalOptions}
+                />
+            </div>
+
+            <RentSteps headingTag="div" stepTitleTag="div" />
+
+            <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:hidden" />
+
+            <section className="mt-10 lg:mt-[68px]">
+                <div className="flex flex-row">
+                    <div className="text-xl font-bold lg:text-3xl">
+                        Стоимость доставки авто:
+                    </div>
+                    <div className="hidden lg:block ml-4 mt-[6px]">
+                        <LineIcon />
+                    </div>
+                    <div className="hidden text-[#FFD7A6] lg:block text-2xl ml-4 mt-[2px]">
+                        Доставка 24/7
+                    </div>
+                </div>
+                <DeliveryPriceTable deliveryPrice={deliveryPrice} />
+            </section>
+
+            <div className="w-full border-t-2 border-[#284B63B2] h-[1px] my-10 lg:my-[68px]" />
+
+            <WhyUs headingTag="div" />
+
+            <section className="py-[42px] lg:py-[68px] border-t border-[#284B63B2]">
+                <div className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                    Часто задаваемые вопросы:
+                </div>
+                <Accordion items={faqItems} />
+            </section>
+
+            <HaveQuestions headingTag="div" />
         </>
     );
 }

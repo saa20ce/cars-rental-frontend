@@ -1,6 +1,6 @@
 import AdditionalServicesCards from '@/components/common/Cards/AdditionalServicesCards';
 import ContactCard from '@/components/common/Cards/ConactCard';
-import { DeliveryPriceTable } from '@/components/common/Cars';
+import { DeliveryPriceTable } from '@/components/common/Table/DeliveryPriceTable';
 import Breadcrumbs from '@/components/common/Header/Breadcrumbs';
 import { fetchBreadcrumbs } from '@/lib/api/fetchBreadcrumbs';
 import { getDeliveryPrice } from '@/lib/api/fetchCarData';

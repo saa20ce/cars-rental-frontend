@@ -16,6 +16,9 @@ import YandexMetrika from '@/components/common/Meta/YandexMetrika';
 export const revalidate = 86400;
 
 const lato = localFont({
+    // Let the LCP image use the initial mobile bandwidth before downloading
+    // both font weights. With display: swap, text remains visible in fallback.
+    preload: false,
     src: [
         {
             path: '../public/fonts/Lato-Regular.woff2',

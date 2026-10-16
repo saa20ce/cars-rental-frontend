@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import NextImage from 'next/image';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
 import { PriceCards } from '@/components/common/Cars/[slug]/PriceCards';
-import { RentalCheckout } from '@/components/common/Cars/[slug]/RentalCheckout';
 import { CarCharacteristics } from '@/components/common/Cars/[slug]/CarCharacteristics';
 
 import { ArrowLeftIcon } from '@/lib/ui/icons/ArrowLeftIcon';
@@ -27,6 +26,26 @@ import { getSeasonDatesForCar } from '@/lib/helpers/carSeasonDates';
 const CarImagePreview = dynamic(
     () => import('@/components/common/Cars/[slug]/CarImagePreview'),
     { ssr: false },
+);
+const RentalCheckoutPlaceholder = () => (
+    <section
+        className="mt-6 min-h-[450px] w-full rounded-[24px] bg-[#284b63] px-6 py-7 lg:mt-0 lg:min-h-[380px] lg:max-w-[618px] lg:rounded-[32px] lg:p-9"
+        aria-label="Загружается форма бронирования"
+    >
+        <div className="mb-4 text-[20px]/[28px] font-bold lg:mb-5 lg:text-[24px]/[32px]">
+            Форма бронирования
+        </div>
+        <div className="mb-[10px] text-[16px]/[24px] font-semibold lg:mb-3 lg:text-[18px]/[28px]">
+            Период аренды:
+        </div>
+    </section>
+);
+const RentalCheckout = dynamic(
+    () =>
+        import('@/components/common/Cars/[slug]/RentalCheckout').then(
+            (mod) => mod.RentalCheckout,
+        ),
+    { ssr: false, loading: RentalCheckoutPlaceholder },
 );
 interface SingleCarPageClientProps {
     car: Car;
@@ -55,14 +74,12 @@ export default function SingleCarPageClient({
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewIndex, setPreviewIndex] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(0);
+    const [heroImageReady, setHeroImageReady] = useState(false);
+    const [isBookingNear, setIsBookingNear] = useState(false);
+    const [shouldLoadBooking, setShouldLoadBooking] = useState(false);
+    const bookingContainerRef = useRef<HTMLDivElement>(null);
     const carouselPointer = useRef<{ x: number; y: number } | null>(null);
     const carouselDragged = useRef(false);
-
-    const openPreview = (index: number) => {
-        setPreviewIndex(index);
-        setPreviewVisible(true);
-    };
-
     const galleryImages = useMemo(
         () => [
             ...(car.acf?.white_gallery || []),
@@ -73,6 +90,62 @@ export default function SingleCarPageClient({
         ],
         [car.acf],
     );
+
+    useEffect(() => {
+        const container = bookingContainerRef.current;
+        if (!container) return;
+
+        if (
+            window.matchMedia('(min-width: 1024px)').matches ||
+            !('IntersectionObserver' in window)
+        ) {
+            setShouldLoadBooking(true);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsBookingNear(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '0px 0px 100px 0px' },
+        );
+        observer.observe(container);
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isBookingNear || shouldLoadBooking) return;
+
+        if (!heroImageReady && galleryImages.length > 0) {
+            const timeout = window.setTimeout(
+                () => setShouldLoadBooking(true),
+                4000,
+            );
+            return () => window.clearTimeout(timeout);
+        }
+
+        // Give the main photo a paint opportunity before loading the booking UI.
+        let secondFrame = 0;
+        const firstFrame = window.requestAnimationFrame(() => {
+            secondFrame = window.requestAnimationFrame(() => {
+                setShouldLoadBooking(true);
+            });
+        });
+
+        return () => {
+            window.cancelAnimationFrame(firstFrame);
+            window.cancelAnimationFrame(secondFrame);
+        };
+    }, [galleryImages.length, heroImageReady, isBookingNear, shouldLoadBooking]);
+
+    const openPreview = (index: number) => {
+        setPreviewIndex(index);
+        setPreviewVisible(true);
+    };
 
     const showPreviousImage = () => {
         setGalleryIndex((index) =>
@@ -181,6 +254,8 @@ export default function SingleCarPageClient({
                                             className="object-cover"
                                             priority={galleryIndex === 0}
                                             decoding={galleryIndex === 0 ? 'sync' : 'async'}
+                                            onLoad={() => setHeroImageReady(true)}
+                                            onError={() => setHeroImageReady(true)}
                                             fetchPriority={
                                                 galleryIndex === 0
                                                     ? 'high'
@@ -286,17 +361,26 @@ export default function SingleCarPageClient({
                 </article>
 
                 <article className="lg:flex-1 lg:min-w-0">
-                    <RentalCheckout
-                        car={car}
-                        additionalOptions={additionalOptions}
-                        deliveryPrice={deliveryPrice}
-                        seasonDates={carSeasonDates}
-                        priceRanges={priceRanges}
-                        setSeasonModeSwitch={setSeasonModeSwitch}
-                        periodSubheadingTag="div"
-                        additionalServicesTitleTag="div"
-                        costHeadingTag="div"
-                    />
+                    <div
+                        ref={bookingContainerRef}
+                        onPointerDown={() => setShouldLoadBooking(true)}
+                    >
+                        {shouldLoadBooking ? (
+                            <RentalCheckout
+                                car={car}
+                                additionalOptions={additionalOptions}
+                                deliveryPrice={deliveryPrice}
+                                seasonDates={carSeasonDates}
+                                priceRanges={priceRanges}
+                                setSeasonModeSwitch={setSeasonModeSwitch}
+                                periodSubheadingTag="div"
+                                additionalServicesTitleTag="div"
+                                costHeadingTag="div"
+                            />
+                        ) : (
+                            <RentalCheckoutPlaceholder />
+                        )}
+                    </div>
 
                     <section className="mt-6 lg:mt-8 md:px-3 xl:px-7">
                         <div className="lg:text-2xl lg:mt-8 flex justify-between items-start">

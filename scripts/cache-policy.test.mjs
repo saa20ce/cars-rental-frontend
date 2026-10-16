@@ -170,3 +170,45 @@ for (const failPage of [false, true]) {
         }
     });
 }
+
+test('Refresh command warms the 750px mobile hero image from a car page', async () => {
+    const imagePath = '/_next/image?url=https%3A%2F%2Frentasib.ru%2Fwp-content%2Fuploads%2Fcar.jpg&w=750&q=75';
+    const visited = [];
+    const server = createServer(async (req, res) => {
+        if (req.method === 'POST') {
+            let raw = '';
+            for await (const chunk of req) raw += chunk;
+            const body = JSON.parse(raw);
+            res.setHeader('content-type', 'application/json');
+            res.end(body.action === 'inventory'
+                ? JSON.stringify({ slugs: ['car-1'], totalPages: 1 })
+                : '{}');
+            return;
+        }
+
+        visited.push(req.url);
+        if (req.url === '/cars/car-1') {
+            res.end(`<html><head><link rel="preload" as="image" imageSrcSet="${imagePath.replaceAll('&', '&amp;')} 750w"></head></html>`);
+        } else if (req.url === imagePath) {
+            assert.match(req.headers.accept, /image\/avif/);
+            res.setHeader('content-type', 'image/avif');
+            res.end('image');
+        } else {
+            res.end('<html>Page</html>');
+        }
+    });
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+    try {
+        const child = spawn(process.execPath, [
+            'scripts/refresh-cache.mjs', `http://127.0.0.1:${server.address().port}`,
+        ], { env: { ...process.env, CACHE_REFRESH_SECRET: 'test-secret' }, stdio: 'ignore' });
+        const code = await new Promise((resolve, reject) => {
+            child.on('error', reject);
+            child.on('exit', resolve);
+        });
+        assert.equal(code, 0);
+        assert.equal(visited.filter(path => path === imagePath).length, 1);
+    } finally {
+        await new Promise(resolve => server.close(resolve));
+    }
+});

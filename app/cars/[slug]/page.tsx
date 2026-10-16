@@ -31,6 +31,9 @@ type SingleCarPageProps = {
     params: Promise<{ slug: string }>;
 };
 
+const firstGalleryImage = (images: string[] | undefined) =>
+    Array.isArray(images) ? images.slice(0, 1) : undefined;
+
 // Car data and prices are refreshed by the daily WordPress cache. Keeping the
 // route in the full-page cache avoids rebuilding the same data waterfall for
 // every visitor.
@@ -83,6 +86,18 @@ export default async function SingleCarPage({ params }: SingleCarPageProps) {
         ...similarCar,
         _links: undefined,
         _embedded: undefined,
+        // Cards and their booking dialogs only use the first image of each
+        // colour. Avoid serializing every gallery image for below-fold cards.
+        acf: similarCar.acf
+            ? {
+                  ...similarCar.acf,
+                  white_gallery: firstGalleryImage(similarCar.acf.white_gallery),
+                  black_gallery: firstGalleryImage(similarCar.acf.black_gallery),
+                  gray_gallery: firstGalleryImage(similarCar.acf.gray_gallery),
+                  blue_gallery: firstGalleryImage(similarCar.acf.blue_gallery),
+                  red_gallery: firstGalleryImage(similarCar.acf.red_gallery),
+              }
+            : undefined,
     }));
 
     return (

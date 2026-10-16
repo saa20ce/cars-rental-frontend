@@ -2,7 +2,8 @@
 
 import React from 'react';
 import type { PriceRange, SeasonData } from '@/lib/types/Car';
-import { LineIcon, InfoIcon } from '@/lib/ui/icons';
+import { LineIcon } from '@/lib/ui/icons/LineIcon';
+import { InfoIcon } from '@/lib/ui/icons/InfoIcon';
 
 type PriceCardsItemLabelTag = 'h3' | 'div';
 

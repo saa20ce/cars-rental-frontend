@@ -4,17 +4,14 @@ import React, { useState, useMemo, useRef } from 'react';
 import NextImage from 'next/image';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
-import './index.css';
 import { PriceCards } from '@/components/common/Cars/[slug]/PriceCards';
 import { RentalCheckout } from '@/components/common/Cars/[slug]/RentalCheckout';
 import { CarCharacteristics } from '@/components/common/Cars/[slug]/CarCharacteristics';
 
-import {
-    ArrowLeftIcon,
-    ArrowRightIcon,
-    DocumentsIcon,
-    CarIcon,
-} from '@/lib/ui/icons';
+import { ArrowLeftIcon } from '@/lib/ui/icons/ArrowLeftIcon';
+import { ArrowRightIcon } from '@/lib/ui/icons/ArrowRightIcon';
+import { DocumentsIcon } from '@/lib/ui/icons/DocumentsIcon';
+import { CarIcon } from '@/lib/ui/icons/CarIcon';
 import type {
     Car,
     PriceRange,

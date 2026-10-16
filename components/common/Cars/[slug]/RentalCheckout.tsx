@@ -26,15 +26,17 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner';
 
 const Modal = dynamic(
     () => import('antd/es/modal').then(m => m.default || m),
-    { ssr: false, loading: () => null }
-);
-const Button = dynamic(
-    () => import('antd/es/button').then(m => m.default || m),
-    { ssr: false, loading: () => null }
-);
-const ConfigProvider = dynamic(
-    () => import('antd/es/config-provider').then(m => m.default || m),
-    { ssr: false, loading: () => null }
+    {
+        ssr: false,
+        loading: () => (
+            <div
+                role="status"
+                className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#0A1319CC] text-white"
+            >
+                Загрузка формы...
+            </div>
+        ),
+    }
 );
 const RentalPeriod = dynamic(
     () => import('./RentalPeriod').then(m => m.RentalPeriod),
@@ -461,51 +463,17 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         </div>
                     </div>
 
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Button: {
-                                    defaultBg: '#3c6e71',
-                                    defaultBorderColor: '#3c6e71',
-                                    defaultColor: '#f6f6f6',
-                                    contentFontSize: 16,
-                                    controlHeight: 42,
-                                    textHoverBg: '#f6f6f6',
-                                    colorPrimaryHover: '#f6f6f6',
-                                    colorBorderSecondary: '#3c6e71',
-                                    colorBorderBg: '#3c6e71',
-                                    colorBgContainer: '#3c6e71',
-                                    colorPrimaryBorderHover: '#3c6e71',
-                                    defaultHoverBorderColor: '#3c6e71',
-                                    defaultActiveBorderColor: '#3c6e71',
-                                    defaultActiveColor: '#f6f6f6',
-                                    colorBorder: '#3c6e71',
-                                    colorBgTextActive: '#3c6e71'
-                                }
-                            }
-                        }}
+                    <button
+                        type="button"
+                        className="h-[42px] w-full rounded-xl border border-[#3c6e71] bg-[#3c6e71] text-base text-[#f6f6f6] transition-colors hover:bg-[#4a8083] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f6f6f6] lg:h-[60px] lg:rounded-2xl lg:text-xl"
+                        onClick={openModal}
                     >
-                        <Button
-                            className="rounded-xl lg:text-xl lg:h-[60px] lg:rounded-2xl"
-                            block
-                            onClick={openModal}
-                        >
-                            Оставить заявку
-                        </Button>
-                    </ConfigProvider>
+                        Оставить заявку
+                    </button>
                 </section>
             )}
 
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Modal: {
-                            contentBg: '#00000000',
-                            boxShadow: 'none'
-                        }
-                    }
-                }}
-            >
+            {modalVisible && (
                 <Modal
                     open={modalVisible}
                     onCancel={closeModal}
@@ -525,7 +493,9 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         },
                         content: {
                             padding: 8,
-                            color: '#f6f6f6'
+                            color: '#f6f6f6',
+                            background: 'transparent',
+                            boxShadow: 'none',
                         }
                     }}
                     centered
@@ -572,7 +542,7 @@ export const RentalCheckout: React.FC<RentalCheckoutProps> = ({
                         />
                     )}
                 </Modal>
-            </ConfigProvider>
+            )}
         </section>
     )
 }

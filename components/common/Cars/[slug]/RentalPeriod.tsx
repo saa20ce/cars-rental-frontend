@@ -22,7 +22,7 @@ const RentalCheckoutContactForm = dynamic(
     () => import('@/components/common/Form/RentalCheckoutContactForm').then(m => m.RentalCheckoutContactForm),
     { ssr: false, loading: () => null }
 );
-import { CloseIcon } from '@/lib/ui/icons';
+import { CloseIcon } from '@/lib/ui/icons/CloseIcon';
 import {
     ADDITIONAL_OPTION_LABELS,
     DELIVERY_FORM_LABELS,

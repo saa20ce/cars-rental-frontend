@@ -23,6 +23,7 @@ export default function Breadcrumbs({
                                     <>
                                         <Link
                                             href={crumb.href || '#'}
+                                            prefetch={false}
                                             className="text-[#f6f6f6] hover:text-[#f6f6f6] hover:bg-[#1e384a] transition-colors rounded px-[2px]"
                                         >
                                             {crumb.title}

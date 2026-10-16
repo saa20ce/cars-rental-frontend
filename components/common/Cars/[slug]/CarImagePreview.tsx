@@ -3,6 +3,7 @@
 import { Image as AntImage } from 'antd';
 import { useRef } from 'react';
 import DraggablePreviewImage from './DraggablePreviewImage';
+import './CarImagePreview.css';
 
 interface CarImagePreviewProps {
     images: string[];

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
-import { ChevronDownIcon } from '@/lib/ui/icons';
+import { ChevronDownIcon } from '@/lib/ui/icons/ChevronDownIcon';
 
 export type CustomSelectProps = SelectProps<unknown> & { multiple?: boolean };
 

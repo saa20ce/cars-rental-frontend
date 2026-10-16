@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import type { Car, DeliveryOptionsGrouped, SeasonData } from '@/lib/types/Car';
-import { ArrowRightLinkIcon } from '@/lib/ui/icons';
+import { ArrowRightLinkIcon } from '@/lib/ui/icons/ArrowRightLinkIcon';
 import CarouselControls from '@/lib/ui/common/CarouselControls';
 import Link from 'next/link';
 

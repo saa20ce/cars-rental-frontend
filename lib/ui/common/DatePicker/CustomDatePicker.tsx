@@ -5,7 +5,7 @@ import { ConfigProvider, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import 'dayjs/locale/ru';
 import locale from 'antd/locale/ru_RU';
-import { CalendarIcon } from '@/lib/ui/icons';
+import { CalendarIcon } from '@/lib/ui/icons/CalendarIcon';
 import { isRentalDayOff } from '@/lib/helpers/rentalWorkingDays';
 
 export type CustomDatePickerProps = DatePickerProps & {

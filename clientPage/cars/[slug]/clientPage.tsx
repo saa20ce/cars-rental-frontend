@@ -75,6 +75,7 @@ export default function SingleCarPageClient({
     const [previewIndex, setPreviewIndex] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(0);
     const [heroImageReady, setHeroImageReady] = useState(false);
+    const heroReadyFrameRef = useRef<number | null>(null);
     const [isBookingNear, setIsBookingNear] = useState(false);
     const [shouldLoadBooking, setShouldLoadBooking] = useState(false);
     const bookingContainerRef = useRef<HTMLDivElement>(null);
@@ -90,6 +91,28 @@ export default function SingleCarPageClient({
         ],
         [car.acf],
     );
+
+    useEffect(
+        () => () => {
+            if (heroReadyFrameRef.current !== null) {
+                window.cancelAnimationFrame(heroReadyFrameRef.current);
+            }
+        },
+        [],
+    );
+
+    const markHeroImageReady = () => {
+        if (heroReadyFrameRef.current !== null) return;
+
+        // An image load event can fire before the first image paint. Let the
+        // browser paint it before rerendering the whole car details component.
+        heroReadyFrameRef.current = window.requestAnimationFrame(() => {
+            heroReadyFrameRef.current = window.requestAnimationFrame(() => {
+                heroReadyFrameRef.current = null;
+                setHeroImageReady(true);
+            });
+        });
+    };
 
     useEffect(() => {
         const container = bookingContainerRef.current;
@@ -254,8 +277,8 @@ export default function SingleCarPageClient({
                                             className="object-cover"
                                             priority={galleryIndex === 0}
                                             decoding="async"
-                                            onLoad={() => setHeroImageReady(true)}
-                                            onError={() => setHeroImageReady(true)}
+                                            onLoad={markHeroImageReady}
+                                            onError={markHeroImageReady}
                                             fetchPriority={
                                                 galleryIndex === 0
                                                     ? 'high'

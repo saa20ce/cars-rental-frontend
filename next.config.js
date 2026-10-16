@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-    enabled: process.env.ANALYZE === 'true',
-});
 const articleRedirects = require('./lib/seo/articleRedirects.json');
 
 const nextConfig = {
@@ -168,4 +165,7 @@ const nextConfig = {
     },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports =
+    process.env.ANALYZE === 'true'
+        ? require('@next/bundle-analyzer')({ enabled: true })(nextConfig)
+        : nextConfig;

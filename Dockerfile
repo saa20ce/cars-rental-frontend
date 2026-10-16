@@ -27,6 +27,9 @@ RUN RESOLVED_WP_CACHE_BUILD_KEY="${WP_CACHE_BUILD_KEY:-$(date +%s)}" && \
     echo "$RESOLVED_WP_CACHE_BUILD_KEY" > .wp-cache-build-key && \
     WP_CACHE_BUILD_KEY="$RESOLVED_WP_CACHE_BUILD_KEY" npm run build
 
+# Keep build-only tools (ESLint, Tailwind, etc.) out of the runtime image.
+RUN npm prune --omit=dev --no-audit --no-fund
+
 # ---------- runner ----------
 FROM node:20-alpine AS runner
 WORKDIR /app

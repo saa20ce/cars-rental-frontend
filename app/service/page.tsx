@@ -22,8 +22,10 @@ export async function generateMetadata() {
 }
 
 export default async function ServicesPage() {
-    const breadcrumbs = await fetchBreadcrumbs('/service');
-    const deliveryPrice = await getDeliveryPrice();
+    const [breadcrumbs, deliveryPrice] = await Promise.all([
+        fetchBreadcrumbs('/service'),
+        getDeliveryPrice(),
+    ]);
 
     return (
         <>
@@ -36,7 +38,10 @@ export default async function ServicesPage() {
                     Выберите из 70+ автомобилей самый подходящий под ваши
                     потребности и бюджет
                 </h2>
-                <AdditionalServicesCards items={servicesItems} />
+                <AdditionalServicesCards
+                    items={servicesItems}
+                    prioritizeFirstImage
+                />
                 <div className="w-full sm:flex sm:justify-end">
                     <Link
                         href={'/dop-service'}
@@ -71,7 +76,8 @@ export default async function ServicesPage() {
                         <p className="text-[14px]/[20px] lg:text-[16px]/[24px] font-medium mb-2 lg:mb-3">
                             При бронировании можно согласовать доставку
                             арендованного автомобиля по адресу в Новосибирске.
-                            Стоимость зависит от места и времени передачи машины.
+                            Стоимость зависит от места и времени передачи
+                            машины.
                         </p>
                     </article>
                     <div className="relative aspect-[3/2] lg:aspect-auto flex-1 lg:w-1/2 w-full mx-auto max-w-[618px] rounded-[20px] overflow-hidden min-h-[82px]">
@@ -79,6 +85,7 @@ export default async function ServicesPage() {
                             fill
                             alt="Рукопожатие, символизирующее сотрудничество"
                             src={'/images/handshake.webp'}
+                            sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                             className="object-cover"
                         />
                     </div>
@@ -129,6 +136,7 @@ export default async function ServicesPage() {
                             fill
                             alt="Мужчина за рулем автомобиля"
                             src={'/images/men.webp'}
+                            sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                             className="object-cover"
                         />
                     </div>
@@ -142,6 +150,7 @@ export default async function ServicesPage() {
                         fill
                         alt="Девушка заключившая договор"
                         src="/images/women.webp"
+                        sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                         className="object-cover"
                     />
                 </div>
@@ -166,7 +175,10 @@ export default async function ServicesPage() {
                     <p className="mb-2 lg:mb-3">
                         Если вам удобнее получить автомобиль в аэропорту, на
                         вокзале или по другому адресу, закажите{' '}
-                        <Link href="/service/dostavka-avto" className="underline">
+                        <Link
+                            href="/service/dostavka-avto"
+                            className="underline"
+                        >
                             доставку автомобиля
                         </Link>
                         . Мы согласуем время и место передачи машины, после чего
@@ -188,6 +200,7 @@ export default async function ServicesPage() {
                         fill
                         alt="Мужчина заключивший котракт"
                         src={'/images/contract.webp'}
+                        sizes="(max-width: 1023px) calc(100vw - 32px), 618px"
                         className="object-cover"
                     />
                 </div>
@@ -226,18 +239,14 @@ export default async function ServicesPage() {
 
             <ContactCard>
                 <>
-                        <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
-                            Наши контакты:
-                        </h2>
-                        <ul className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
-                            <li>
-                                Позвоните (номер на сайте) для консультации.
-                            </li>
-                            <li>Напишите нам по электронной почте.</li>
-                            <li>
-                                Оставьте заявку на аренду через форму на сайте.
-                            </li>
-                        </ul>
+                    <h2 className="text-[20px]/[28px] lg:text-[30px]/[36px] font-bold mb-5 lg:mb-6">
+                        Наши контакты:
+                    </h2>
+                    <ul className="text-[14px]/[20px] lg:text-[18px]/[28px] font-medium space-y-[10px] lg:space-y-3 list-disc ml-4">
+                        <li>Позвоните (номер на сайте) для консультации.</li>
+                        <li>Напишите нам по электронной почте.</li>
+                        <li>Оставьте заявку на аренду через форму на сайте.</li>
+                    </ul>
                 </>
             </ContactCard>
         </>

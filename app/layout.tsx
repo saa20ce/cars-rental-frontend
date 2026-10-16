@@ -54,7 +54,14 @@ export default function RootLayout({
     const siteJsonLd = buildSiteJsonLd();
 
     return (
-        <html lang="ru">
+        <html lang="ru" suppressHydrationWarning>
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `try{if(localStorage.getItem('rentasib-cookie-consent')==='accepted')document.documentElement.dataset.cookieConsent='accepted'}catch(e){}`,
+                    }}
+                />
+            </head>
             <body
                 className={`px-4 pt-[10px] pb-2 ${lato.variable} antialiased lg:max-w-[1280px] lg:mx-auto lg:px-[10px] lg:py-5 min-h-screen`}
             >

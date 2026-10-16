@@ -23,6 +23,10 @@ body {
     font-family: var(--font-lato), Arial, Helvetica, sans-serif;
 }
 
+html[data-cookie-consent='accepted'] .cookie-banner {
+    display: none;
+}
+
 svg {
     display: inline-block;
 }

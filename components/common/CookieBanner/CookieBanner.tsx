@@ -8,7 +8,7 @@ const PERSONAL_DATA_POLICY_HREF =
     '/docs/01-politika-obrabotki-pdn-ooo-rentasib.pdf';
 
 export default function CookieBanner() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         try {
@@ -24,6 +24,7 @@ export default function CookieBanner() {
         try {
             localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, 'accepted');
         } finally {
+            document.documentElement.dataset.cookieConsent = 'accepted';
             setIsVisible(false);
         }
     };
@@ -33,7 +34,7 @@ export default function CookieBanner() {
     }
 
     return (
-        <div className="fixed inset-x-4 bottom-4 z-[1000] lg:left-1/2 lg:right-auto lg:w-[calc(100%-40px)] lg:max-w-[1240px] lg:-translate-x-1/2">
+        <div className="cookie-banner fixed inset-x-4 bottom-4 z-[1000] lg:left-1/2 lg:right-auto lg:w-[calc(100%-40px)] lg:max-w-[1240px] lg:-translate-x-1/2">
             <div className="flex flex-col gap-4 rounded-[16px] bg-[#1E384A] p-4 text-[#F6F6F6] shadow-[0_12px_40px_rgba(0,0,0,0.28)] ring-1 ring-[#F6F6F633] lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:p-5">
                 <p className="text-[12px]/[18px] font-semibold lg:text-[14px]/[20px]">
                     Мы используем файлы cookie для улучшения работы сайта.

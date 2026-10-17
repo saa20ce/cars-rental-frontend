@@ -78,6 +78,43 @@ test('replaces only the outdated description when the title is accurate', () => 
     assert.doesNotMatch(result.openGraph.description, /7000/);
 });
 
+test('distinguishes colour variants in fallback descriptions only', () => {
+    const original = {
+        title: 'Аренда Hyundai Creta 2021 | Рентасиб',
+        description: 'Цена от 4000 руб/сутки.',
+        openGraph: { description: 'Цена от 4000 руб/сутки.' },
+    };
+    const white = withCurrentCarMetadata(original, {
+        title: { rendered: 'Hyundai Creta 2021' },
+        acf: { nazvanie_avto: 'Hyundai Creta 2021' },
+        colorName: 'Белый',
+    });
+    const black = withCurrentCarMetadata(original, {
+        title: { rendered: 'Hyundai Creta 2021' },
+        acf: { nazvanie_avto: 'Hyundai Creta 2021' },
+        colorName: 'Черный',
+    });
+
+    assert.equal(white.title, original.title);
+    assert.match(white.description, /Hyundai Creta 2021 \(белый\)/);
+    assert.match(black.description, /Hyundai Creta 2021 \(черный\)/);
+    assert.notEqual(white.description, black.description);
+    assert.equal(white.openGraph.description, white.description);
+});
+
+test('does not repeat a colour already present in the car name', () => {
+    const result = withCurrentCarMetadata(
+        { description: 'Цена от 4000 руб/сутки.' },
+        {
+            title: { rendered: 'Hyundai Creta 2021 чёрный' },
+            acf: { nazvanie_avto: 'Hyundai Creta 2021 чёрный' },
+            colorName: 'Черный',
+        },
+    );
+
+    assert.doesNotMatch(result.description, /\(черный\)/);
+});
+
 test('keeps metadata when there is no car data', () => {
     const original = { title: 'Ручной заголовок' };
     assert.equal(withCurrentCarMetadata(original, null), original);

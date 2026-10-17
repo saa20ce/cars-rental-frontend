@@ -9,6 +9,16 @@ function plainText(value: string) {
     return load(`<span>${value}</span>`).text().replace(/\s+/g, ' ').trim();
 }
 
+function nameWithColor(name: string, colorName: string | undefined) {
+    const color = plainText(colorName || '').toLocaleLowerCase('ru-RU');
+    const normalize = (value: string) =>
+        value.toLocaleLowerCase('ru-RU').replace(/ё/g, 'е');
+
+    return color && !normalize(name).includes(normalize(color))
+        ? `${name} (${color})`
+        : name;
+}
+
 export function withCurrentCarMetadata(
     wordpressMetadata: Metadata,
     car: Car | null,
@@ -40,7 +50,7 @@ export function withCurrentCarMetadata(
     if (!replaceTitle && !replaceDescription) return wordpressMetadata;
 
     const title = `Аренда ${name} без водителя в Новосибирске | Рентасиб`;
-    const description = `Аренда ${name} без водителя в Новосибирске. Посмотрите фотографии, характеристики и тарифы по срокам. Наличие автомобиля и итоговую стоимость уточните на даты поездки.`;
+    const description = `Аренда ${nameWithColor(name, car.colorName)} без водителя в Новосибирске. Посмотрите фотографии, характеристики и тарифы по срокам. Наличие автомобиля и итоговую стоимость уточните на даты поездки.`;
 
     return {
         ...wordpressMetadata,

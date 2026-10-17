@@ -20,7 +20,7 @@ import { withEditorialMetadata } from '@/lib/seo/withEditorialMetadata';
 export async function generateMetadata() {
     return withEditorialMetadata(
         await fetchWPMetadata('/service/arenda-avto-bez-voditelya'),
-        'Аренда авто без водителя в Новосибирске | Рентасиб',
+        'Аренда авто без водителя: условия в Новосибирске | Рентасиб',
         'Выберите автомобиль для самостоятельной поездки по Новосибирску и за город. Сравните доступные модели, тарифы и условия аренды на нужные даты.',
     );
 }

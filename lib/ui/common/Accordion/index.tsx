@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { ArrowCollapseIcon } from '@/lib/ui/icons/ArrowCollapseIcon';
-import './index.css';
 
 export const Accordion = ({
     items,

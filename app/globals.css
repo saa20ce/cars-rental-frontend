@@ -23,6 +23,22 @@ body {
     font-family: var(--font-lato), Arial, Helvetica, sans-serif;
 }
 
+.faqCollapse {
+    font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+}
+
+.faqCollapse summary::-webkit-details-marker {
+    display: none;
+}
+
+.faqCollapse details[open] .faqCollapseArrow {
+    transform: rotate(0deg);
+}
+
+.faqCollapse details[open] .faqCollapseContent {
+    background-color: #f6f6f633;
+}
+
 html[data-cookie-consent='accepted'] .cookie-banner {
     display: none;
 }

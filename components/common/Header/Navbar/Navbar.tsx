@@ -1,6 +1,6 @@
 'use client';
 
-import { LogoFull } from '@/lib/ui/icons';
+import Image from 'next/image';
 import Link from 'next/link';
 import NavbarClient from './NavbarClient';
 import NavbarMobileClient from './NavbarMobileClient';
@@ -40,7 +40,15 @@ export const Navbar = () => {
             ref={navbarRef}
         >
             <Link href="/" prefetch={false}>
-                <LogoFull />
+                <Image
+                    src="/icons/logo-full.svg"
+                    alt="Рентасиб"
+                    width={160}
+                    height={22}
+                    unoptimized
+                    loading="eager"
+                    fetchPriority="low"
+                />
             </Link>
 
             <NavbarClient menuItems={mainMenu} />
